@@ -22,10 +22,7 @@ import * as authenticationActions from './store/actions/authentication'
 
 
 
-export const actions = Object.assign(
-  {},
-  authenticationActions,
-)
+export const actions = Object.assign({}, authenticationActions)
 
 
 

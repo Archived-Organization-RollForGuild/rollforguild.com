@@ -55,8 +55,6 @@ class Index extends Component {
     this._bindMethods(['_handleChange'])
 
     this.state = {
-      experience: 0,
-      name: '',
       background: '',
       charisma: '',
       constitution: '',

@@ -1,3 +1,4 @@
+/* eslint-env node */
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { ANALYZE } = process.env
 const path = require('path')

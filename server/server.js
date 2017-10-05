@@ -1,12 +1,21 @@
+/* eslint-env node */
 'use strict'
 
 /******************************************************************************\
   Module imports
 \******************************************************************************/
 
-const config = require('./config')
-const koa = new (require('koa'))
+const body = require('koa-body')
+const compress = require('koa-compress')
+const logger = require('koa-logger')
+const Koa = new (require('koa'))
 const path = require('path')
+
+const config = require('./config')
+const proxy = require('./config/proxy')
+const router = require('./config/router')
+
+const koa = new Koa
 
 const next = require('next')({
   dev: process.env.NODE_ENV !== 'production',
@@ -24,19 +33,19 @@ const next = require('next')({
 next.prepare()
 .then(() => {
   // Set up the logger
-  koa.use(require('koa-logger')())
+  koa.use(logger())
 
   // Configure proxies
-  require('./config/proxy')(koa, config)
+  proxy(koa, config)
 
   // Compress responses
-  koa.use(require('koa-compress')())
+  koa.use(compress())
 
   // Parse request bodies
-  koa.use(require('koa-body')())
+  koa.use(body())
 
   // Configure the router
-  require('./config/router')(next, koa, config)
+  router(next, koa, config)
 
   // Start the server
 //  console.log('Listening on port', process.env.PORT || 3000)

@@ -1,0 +1,9 @@
+"parserOptions": {
+  "ecmaVersion": 2017,
+  "ecmaFeatures": {
+    "comma-dangle": ["error", "always-multiline"],
+    "jsx": true,
+    "no-return-assign": false
+  },
+  "sourceType": "module"
+}
