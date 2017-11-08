@@ -26,18 +26,6 @@ class Register extends Component {
     Private Methods
   \***************************************************************************/
 
-  _handleChange (event) {
-    let {
-      name,
-      value,
-    } = event.target
-    let newState = {}
-
-    newState[name] = value
-
-    this.setState(newState)
-  }
-
   _onSubmit (event) {
     event.preventDefault()
 
