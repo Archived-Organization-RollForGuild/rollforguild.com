@@ -1,0 +1,13 @@
+.page {
+  align-content: stretch;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+//  overflow: hidden;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
