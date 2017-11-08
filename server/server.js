@@ -5,17 +5,11 @@
   Module imports
 \******************************************************************************/
 
-const body = require('koa-body')
-const compress = require('koa-compress')
-const logger = require('koa-logger')
-const Koa = new (require('koa'))
-const path = require('path')
-
 const config = require('./config')
-const proxy = require('./config/proxy')
-const router = require('./config/router')
-
-const koa = new Koa
+const conditional = require('koa-conditional-get')
+const etag = require('koa-etag')
+const koa = new (require('koa'))
+const path = require('path')
 
 const next = require('next')({
   dev: process.env.NODE_ENV !== 'production',
@@ -33,21 +27,24 @@ const next = require('next')({
 next.prepare()
 .then(() => {
   // Set up the logger
-  koa.use(logger())
+  koa.use(require('koa-logger')())
 
   // Configure proxies
-  proxy(koa, config)
+  require('./config/proxy')(koa, config)
 
   // Compress responses
-  koa.use(compress())
+  koa.use(require('koa-compress')())
 
   // Parse request bodies
-  koa.use(body())
+  koa.use(require('koa-body')())
 
   // Configure the router
-  router(next, koa, config)
+  require('./config/router')(next, koa, config)
+
+  // Leverage ETags to enable browser caching
+  koa.use(conditional())
+  koa.use(etag())
 
   // Start the server
-//  console.log('Listening on port', process.env.PORT || 3000)
   koa.listen(process.env.PORT || 3000)
 })
