@@ -14,7 +14,7 @@ import Page from '../components/Page'
 
 
 // Component constants
-const title = 'Home'
+const title = 'Login'
 
 
 

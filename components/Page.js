@@ -14,6 +14,7 @@ import {
   initStore,
 } from '../store'
 import Head from './Head'
+import Header from './Header'
 
 
 
@@ -58,6 +59,8 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
       return (
         <div role="application">
           <Head title={title} />
+
+          <Header />
 
           <main className={mainClasses}>
             <Component {...this.props} />
