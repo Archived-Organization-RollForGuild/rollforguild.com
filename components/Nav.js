@@ -19,13 +19,13 @@ const navItems = [
     title: 'Player Tools',
     subnav: [
       {
-        href: '/my/groups',
-        title: 'My Groups',
+        href: '/groups/manage',
+        title: 'Groups',
       },
 
       {
         href: '/my/characters',
-        title: 'My Characters',
+        title: 'Characters',
       },
     ]
   },
@@ -35,7 +35,7 @@ const navItems = [
     subnav: [
       {
         href: '/groups/manage',
-        title: 'Group Manager',
+        title: 'Groups',
       },
 
       {
@@ -59,7 +59,7 @@ const navItems = [
       },
 
       {
-        href: '/gm/treasures',
+        href: '/gm/treasure',
         title: 'Treasure',
       },
     ]
