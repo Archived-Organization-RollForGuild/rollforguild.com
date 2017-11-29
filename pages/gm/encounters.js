@@ -28,7 +28,7 @@ class GMEncounters extends Component {
 
   render () {
     return (
-      <div>GM Encounters!</div>
+      <h1>GM Encounters!</h1>
     )
   }
 }

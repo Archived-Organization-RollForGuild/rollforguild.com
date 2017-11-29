@@ -28,7 +28,7 @@ class CreateGroup extends Component {
 
   render () {
     return (
-      <div>Create Group!</div>
+      <h1>Create Group!</h1>
     )
   }
 }

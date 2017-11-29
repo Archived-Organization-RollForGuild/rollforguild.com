@@ -28,7 +28,7 @@ class MyProfile extends Component {
 
   render () {
     return (
-      <div>My Profile!</div>
+      <h1>My Profile!</h1>
     )
   }
 }

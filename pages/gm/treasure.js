@@ -28,7 +28,7 @@ class GMTreasure extends Component {
 
   render () {
     return (
-      <div>GM Treasure!</div>
+      <h1>GM Treasure!</h1>
     )
   }
 }

@@ -28,7 +28,7 @@ class FindGroups extends Component {
 
   render () {
     return (
-      <div>Find Groups!</div>
+      <h1>Find Groups!</h1>
     )
   }
 }

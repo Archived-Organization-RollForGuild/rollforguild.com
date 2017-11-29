@@ -28,7 +28,7 @@ class GMDungeons extends Component {
 
   render () {
     return (
-      <div>GM Dungeons!</div>
+      <h1>GM Dungeons!</h1>
     )
   }
 }

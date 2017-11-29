@@ -28,7 +28,7 @@ class GMNPCs extends Component {
 
   render () {
     return (
-      <div>GM NPCs!</div>
+      <h1>GM NPCs!</h1>
     )
   }
 }

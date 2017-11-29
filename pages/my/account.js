@@ -28,7 +28,7 @@ class MyAccount extends Component {
 
   render () {
     return (
-      <div>My Account!</div>
+      <h1>My Account!</h1>
     )
   }
 }

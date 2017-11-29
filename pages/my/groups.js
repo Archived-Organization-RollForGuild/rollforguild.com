@@ -28,7 +28,7 @@ class MyGroups extends Component {
 
   render () {
     return (
-      <div>My Groups!</div>
+      <h1>My Groups!</h1>
     )
   }
 }

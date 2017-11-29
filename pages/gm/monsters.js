@@ -28,7 +28,7 @@ class GMMonsters extends Component {
 
   render () {
     return (
-      <div>GM Monsters!</div>
+      <h1>GM Monsters!</h1>
     )
   }
 }

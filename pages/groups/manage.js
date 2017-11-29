@@ -28,7 +28,7 @@ class ManageGroups extends Component {
 
   render () {
     return (
-      <div>Manage Groups!</div>
+      <h1>Manage Groups!</h1>
     )
   }
 }
