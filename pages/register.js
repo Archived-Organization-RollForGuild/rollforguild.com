@@ -20,7 +20,7 @@ const title = 'Home'
 
 
 
-class Login extends Component {
+class Register extends Component {
 
   /***************************************************************************\
     Private Methods
@@ -29,7 +29,7 @@ class Login extends Component {
   _onSubmit (event) {
     event.preventDefault()
 
-    console.log('logging in:', this.state)
+    console.log('Registering:', this.state)
   }
 
 
@@ -50,6 +50,7 @@ class Login extends Component {
 
     this.state = {
       email: '',
+      name: '',
       password: '',
     }
   }
@@ -57,14 +58,24 @@ class Login extends Component {
   render () {
     let {
       email,
+      name,
       password,
     } = this.state
 
     return (
       <form onSubmit={this._onSubmit}>
         <header>
-          <h1>Login</h1>
+          <h1>Register</h1>
         </header>
+
+        <label htmlFor="name">Name</label>
+
+        <input
+          id="name"
+          name="name"
+          onChange={this._handleChange}
+          type="name"
+          value={name} />
 
         <label htmlFor="email">Email</label>
 
@@ -85,7 +96,7 @@ class Login extends Component {
           value={password} />
 
         <menu type="toolbar">
-          <button>Login</button>
+          <button>Register</button>
         </menu>
       </form>
     )
@@ -96,4 +107,4 @@ class Login extends Component {
 
 
 
-export default Page(Login, title)
+export default Page(Register, title)
