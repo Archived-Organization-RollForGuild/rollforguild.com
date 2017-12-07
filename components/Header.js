@@ -1,5 +1,4 @@
 // Module imports
-import Link from 'next/link'
 import React from 'react'
 
 
@@ -7,26 +6,16 @@ import React from 'react'
 
 
 // Module imports
-import Component from './Component'
 import Nav from './Nav'
 
 
 
 
 
-export default class extends Component {
+export default () => (
+  <header role="banner">
+    <div className="brand" />
 
-  /***************************************************************************\
-    Public Methods
-  \***************************************************************************/
-
-  render () {
-    return (
-      <header role="banner">
-        <div className="brand" />
-
-        <Nav />
-      </header>
-    )
-  }
-}
+    <Nav />
+  </header>
+)

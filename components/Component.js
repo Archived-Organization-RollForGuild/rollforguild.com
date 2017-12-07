@@ -7,7 +7,6 @@ import React from 'react'
 
 
 export default class Component extends React.Component {
-
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -21,11 +20,11 @@ export default class Component extends React.Component {
   }
 
   _handleChange (event) {
-    let {
+    const {
       name,
       value,
     } = event.target
-    let newState = {}
+    const newState = {}
 
     newState[name] = value
 

@@ -21,7 +21,6 @@ const title = 'Login'
 
 
 class Login extends Component {
-
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -55,7 +54,7 @@ class Login extends Component {
   }
 
   render () {
-    let {
+    const {
       email,
       password,
     } = this.state

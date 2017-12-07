@@ -36,17 +36,13 @@ const userId = faker.random.uuid()
 
 
 
-const generateCharacter = (id) => {
-  id = id || faker.random.uuid()
-
-  return {
-    class: classes[Math.ceil(Math.random() * classes.length)],
-    level: Math.ceil(Math.random() * 20),
-    name: faker.fake('{{name.firstName}} {{name.lastName}}'),
-    owner: id,
-    race: races[Math.ceil(Math.random() * races.length)],
-  }
-}
+const generateCharacter = (id = faker.random.uuid()) => ({
+  class: classes[Math.ceil(Math.random() * classes.length)],
+  level: Math.ceil(Math.random() * 20),
+  name: faker.fake('{{name.firstName}} {{name.lastName}}'),
+  owner: id,
+  race: races[Math.ceil(Math.random() * races.length)],
+})
 
 
 
@@ -71,7 +67,7 @@ export default {
   },
 
   characters: {
-    characters: characters,
+    characters,
     loaded: false,
     loading: false,
   },
@@ -81,5 +77,5 @@ export default {
     loaded: false,
     loading: false,
     name: faker.fake('{{name.firstName}} {{name.lastName}}'),
-  }
+  },
 }

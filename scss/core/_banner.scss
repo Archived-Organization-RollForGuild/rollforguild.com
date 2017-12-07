@@ -1,6 +1,7 @@
 [role=banner] {
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   overflow: hidden;
   width: 20rem;
 

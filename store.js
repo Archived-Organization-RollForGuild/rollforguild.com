@@ -1,8 +1,7 @@
 // Module imports
 import {
-  combineReducers,
   createStore,
-  applyMiddleware
+  applyMiddleware,
 } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
@@ -11,7 +10,6 @@ import thunkMiddleware from 'redux-thunk'
 
 
 // Component imports
-import actionTypes from './store/actionTypes'
 import initialState from './store/initialState'
 import reducer from './store/reducers/index'
 
@@ -28,6 +26,4 @@ export const actions = Object.assign({}, authenticationActions)
 
 
 
-export const initStore = (initialState = initialState) => {
-  return createStore(reducer, initialState, applyMiddleware(thunkMiddleware))
-}
+export const initStore = () => createStore(reducer, initialState, applyMiddleware(thunkMiddleware))

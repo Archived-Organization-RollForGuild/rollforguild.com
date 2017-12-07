@@ -1,12 +1,4 @@
-// Module imports
-import React from 'react'
-
-
-
-
-
 // Component imports
-import Component from '../../components/Component'
 import Page from '../../components/Page'
 
 
@@ -20,18 +12,9 @@ const title = 'Manage Groups'
 
 
 
-class ManageGroups extends Component {
-
-  /***************************************************************************\
-    Public Methods
-  \***************************************************************************/
-
-  render () {
-    return (
-      <h1>Manage Groups!</h1>
-    )
-  }
-}
+const ManageGroups = () => (
+  <h1>Manage Groups!</h1>
+)
 
 
 

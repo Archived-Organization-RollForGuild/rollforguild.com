@@ -27,7 +27,7 @@ const navItems = [
         href: '/my/characters',
         title: 'Characters',
       },
-    ]
+    ],
   },
 
   {
@@ -62,7 +62,7 @@ const navItems = [
         href: '/gm/treasure',
         title: 'Treasure',
       },
-    ]
+    ],
   },
 
   {
@@ -76,7 +76,6 @@ const navItems = [
 
 
 export default class extends Component {
-
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
@@ -95,19 +94,17 @@ export default class extends Component {
     )
   }
 
-  renderNavItem (item, index, navItems) {
-    let {
+  renderNavItem (item) {
+    const {
       subnav,
       title,
     } = item
 
-    let itemWithOnlyLinkProps
+    const itemWithOnlyLinkProps = {}
+    const sanitizedTitle = title.toLowerCase().replace(/\s/g, '-')
     let renderedItemTitle
     let renderedSubnav
     let renderedSubnavToggle
-    let sanitizedTitle = title.toLowerCase().replace(/\s/g, '-')
-
-    itemWithOnlyLinkProps = {}
 
     Object.keys(item).forEach(key => {
       if (/^href|as$/gi.test(key)) {
@@ -131,11 +128,10 @@ export default class extends Component {
       renderedSubnavToggle = (
         <input
           className="subnav-toggle"
-          hidden={true}
+          hidden
           id={sanitizedTitle}
           type="checkbox" />
       )
-
     } else {
       renderedItemTitle = (<Link {...itemWithOnlyLinkProps}><a>{renderedItemTitle}</a></Link>)
     }

@@ -1,6 +1,5 @@
 // Module imports
 import { bindActionCreators } from 'redux'
-import { Provider } from 'react-redux'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
 
@@ -21,7 +20,7 @@ import Header from './Header'
 
 
 // Component constants
-const store = initStore()
+initStore()
 
 
 
@@ -30,7 +29,7 @@ const store = initStore()
 export default (Component, title = 'Untitled', reduxOptions = {}) => {
   class Page extends React.Component {
     static async getInitialProps(ctx) {
-      let {
+      const {
         asPath,
         isServer,
         query,
@@ -45,16 +44,12 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
         asPath,
         isServer,
         query,
-        ...props
+        ...props,
       }
     }
 
-    render() {
-      let {
-        isServer,
-        path,
-      } = this.props
-      let mainClasses = ['fade-in', 'page', title.toLowerCase().replace(' ', '-')].join(' ')
+    render () {
+      const mainClasses = ['fade-in', 'page', title.toLowerCase().replace(' ', '-')].join(' ')
 
       return (
         <div role="application">
@@ -70,13 +65,13 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
     }
   }
 
-  let mapDispatchToProps = reduxOptions.mapDispatchToProps
+  let { mapDispatchToProps } = reduxOptions
 
   if (Array.isArray(reduxOptions.mapDispatchToProps)) {
     mapDispatchToProps = dispatch => {
-      let actionMap = {}
+      const actionMap = {}
 
-      for (let actionName of reduxOptions.mapDispatchToProps) {
+      for (const actionName of reduxOptions.mapDispatchToProps) {
         actionMap[actionName] = bindActionCreators(actions[actionName], dispatch)
       }
 

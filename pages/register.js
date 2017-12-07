@@ -21,7 +21,6 @@ const title = 'Register'
 
 
 class Register extends Component {
-
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -56,7 +55,7 @@ class Register extends Component {
   }
 
   render () {
-    let {
+    const {
       email,
       name,
       password,

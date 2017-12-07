@@ -1,4 +1,3 @@
-import actionTypes from '../actionTypes'
 import initialState from '../initialState'
 
 

@@ -1,12 +1,4 @@
-// Module imports
-import React from 'react'
-
-
-
-
-
 // Component imports
-import Component from '../../components/Component'
 import Page from '../../components/Page'
 
 
@@ -20,18 +12,9 @@ const title = 'GM NPCs'
 
 
 
-class GMNPCs extends Component {
-
-  /***************************************************************************\
-    Public Methods
-  \***************************************************************************/
-
-  render () {
-    return (
-      <h1>GM NPCs!</h1>
-    )
-  }
-}
+const GMNPCs = () => (
+  <h1>GM NPCs!</h1>
+)
 
 
 
