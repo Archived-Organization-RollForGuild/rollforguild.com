@@ -1,12 +1,69 @@
 ul.characters {
-  display: grid;
-  grid-gap: 2rem;
-  grid-template-columns: repeat(6, 1fr);
+  display: flex;
+  flex-wrap: wrap;
 
   li {
     border-color: black;
     border-style: solid;
     border-width: 1px;
-    padding: 2rem;
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin-bottom: 2rem;
+    margin-right: 2rem;
+
+    a {
+      align-items: center;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: center;
+      min-height: 20rem;
+      min-width: 20rem;
+      overflow: hidden;
+      padding-top: 20rem;
+      position: relative;
+      text-decoration: none;
+    }
+
+    .name,
+    .short-description {
+      background-color: black;
+      padding: 0 1rem;
+      position: absolute;
+    }
+
+    .name {
+      left: 0;
+      top: 0;
+    }
+
+    .short-description {
+      bottom: 0;
+      right: 0;
+      transform: translateY(100%);
+      transition-duration: 0.2s;
+      transition-property: transform;
+    }
+
+    &.create {
+      background-color: black;
+      a {
+        padding: 0;
+
+        i {
+          font-size: 5em;
+        }
+      }
+    }
+
+    &:hover {
+      .short-description {
+        transform: translateY(0);
+      }
+    }
   }
 }

@@ -36,11 +36,12 @@ const userId = faker.random.uuid()
 
 
 
-const generateCharacter = (id = faker.random.uuid()) => ({
+const generateCharacter = () => ({
   class: classes[Math.ceil(Math.random() * classes.length)],
+  id: faker.random.uuid(),
   level: Math.ceil(Math.random() * 20),
   name: faker.fake('{{name.firstName}} {{name.lastName}}'),
-  owner: id,
+  owner: userId || faker.random.uuid(),
   race: races[Math.ceil(Math.random() * races.length)],
 })
 

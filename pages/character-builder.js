@@ -22,20 +22,17 @@ const title = 'Character Builder'
 
 
 class CharacterBuilder extends Component {
-
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
   _handleChange (event) {
-    let {
+    const {
       name,
       value,
     } = event.target
-    let newState = {}
+    const newState = {}
 
-    console.log('name', name)
-    console.log('value', value)
     newState[name] = value
 
     this.setState(newState)
@@ -72,7 +69,7 @@ class CharacterBuilder extends Component {
   }
 
   render () {
-    let {
+    const {
       background,
       charisma,
       constitution,
@@ -87,8 +84,7 @@ class CharacterBuilder extends Component {
       strength,
       wisdom,
     } = this.state
-
-    let backgrounds = [
+    const backgrounds = [
       'acolyte',
       'pirate',
       'Chump',
@@ -96,8 +92,7 @@ class CharacterBuilder extends Component {
       'greg',
       'podcaster',
     ]
-
-    let classes = [
+    const classes = [
       'barb',
       'bard',
       'ranger',
@@ -105,20 +100,17 @@ class CharacterBuilder extends Component {
       'joe',
       'json',
     ]
-
-    let ethics = [
+    const ethics = [
       'chaotic',
       'neutral',
       'lawful',
     ]
-
-    let morals = [
+    const morals = [
       'good',
       'neutral',
       'evil',
     ]
-
-    let races = [
+    const races = [
       'dwarf',
       'other dwarf',
       'high elf',

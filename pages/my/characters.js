@@ -1,5 +1,6 @@
 // Module imports
 import { Fragment } from 'react'
+import Link from 'next/link'
 
 
 
@@ -19,42 +20,35 @@ const title = 'My Characters'
 
 
 
+// style={{ backgroundImage: `url(//via.placeholder.com/500x500?text=${encodeURIComponent(character.name)})` }}
 const MyCharacters = (props) => (
   <Fragment>
-    <h1>My Characters!</h1>
+    <header>
+      <h1>My Characters!</h1>
+
+      <menu type="toolbar" />
+    </header>
 
     <ul className="characters">
       {props.characters.map(character => (
         <li key={character.id}>
-          <table>
-            <tbody>
-              <tr>
-                <th>Name</th>
-
-                <td>{character.name}</td>
-              </tr>
-
-              <tr>
-                <th>Level</th>
-
-                <td>{character.level}</td>
-              </tr>
-
-              <tr>
-                <th>Race</th>
-
-                <td>{character.race}</td>
-              </tr>
-
-              <tr>
-                <th>Class</th>
-
-                <td>{character.class}</td>
-              </tr>
-            </tbody>
-          </table>
+          <Link href={`/character/${character.id}`}>
+            <a style={{ backgroundImage: `url(//api.adorable.io/avatars/500/${encodeURIComponent(character.name)})` }}>
+              <div className="name">{character.name}</div>
+              <div className="short-description">Lvl {character.level} {character.race} {character.class}</div>
+            </a>
+          </Link>
         </li>
       ))}
+
+      <li className="create">
+        <Link href="/character-builder">
+          <a>
+            <i className="fa fa-fw fa-plus" />
+            Add New
+          </a>
+        </Link>
+      </li>
     </ul>
   </Fragment>
 )
