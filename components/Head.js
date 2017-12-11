@@ -1,4 +1,6 @@
+import Cookies from 'js-cookie'
 import NextHead from 'next/head'
+import NProgress from 'nprogress'
 import React from 'react'
 import ReactGA from 'react-ga'
 import Router from 'next/router'
@@ -20,16 +22,31 @@ const gaTrackingId = 'UA-106962187-1'
 
 
 
+NProgress.configure({ showSpinner: false })
+
+Router.onRouteChangeStart = () => {
+  NProgress.start()
+}
+
+Router.onRouteChangeError = () => {
+  NProgress.done()
+}
+
 Router.onRouteChangeComplete = () => {
-  const userId = localStorage.getItem('userId')
+  const userId = Cookies.get('userId')
+  let preferences = Cookies.get('preferences')
+
+  preferences = preferences ? JSON.parse(preferences) : {}
 
   ReactGA.initialize(gaTrackingId)
 
-  if (userId) {
+  if (preferences.allowPersonalizedTracking) {
     ReactGA.set({ userId })
   }
 
   ReactGA.pageview(window.location.pathname)
+
+  NProgress.done()
 }
 
 
