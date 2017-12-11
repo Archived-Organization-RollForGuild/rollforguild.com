@@ -6,9 +6,7 @@ import React from 'react'
 
 
 // Component imports
-import Component from '../components/Component'
 import Page from '../components/Page'
-import SimpleDropdown from '../components/SimpleDropdown'
 
 
 
@@ -21,18 +19,9 @@ const title = 'Home'
 
 
 
-class Index extends Component {
-
-  /***************************************************************************\
-    Public Methods
-  \***************************************************************************/
-
-  render () {
-    return (
-      <div>Home!</div>
-    )
-  }
-}
+const Index = () => (
+  <div>Home!</div>
+)
 
 
 
