@@ -15,12 +15,13 @@ import reducer from './store/reducers/index'
 
 /* actions */
 import * as authenticationActions from './store/actions/authentication'
+import * as charactersActions from './store/actions/characters'
 
 
 
 
 
-export const actions = Object.assign({}, authenticationActions)
+export const actions = Object.assign({}, authenticationActions, charactersActions)
 
 
 

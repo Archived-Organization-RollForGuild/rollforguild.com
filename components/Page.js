@@ -1,5 +1,6 @@
 // Module imports
 import { bindActionCreators } from 'redux'
+import Cookies from 'next-cookies'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
 
@@ -34,6 +35,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
         isServer,
         query,
       } = ctx
+      const { userId } = Cookies(ctx)
       let props = {}
 
       if (typeof Component.getInitialProps === 'function') {
@@ -44,6 +46,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
         asPath,
         isServer,
         query,
+        userId,
         ...props,
       }
     }
@@ -65,6 +68,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
     }
   }
 
+  const { mapStateToProps } = reduxOptions
   let { mapDispatchToProps } = reduxOptions
 
   if (Array.isArray(reduxOptions.mapDispatchToProps)) {
@@ -79,5 +83,5 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
     }
   }
 
-  return withRedux(initStore, reduxOptions.mapStateToProps, mapDispatchToProps)(Page)
+  return withRedux(initStore, mapStateToProps, mapDispatchToProps)(Page)
 }
