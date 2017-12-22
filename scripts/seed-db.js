@@ -40,26 +40,30 @@ const users = []
 
 
 // Generators
+const generateAbilityScore = () => Math.ceil(Math.random() * 30)
+
 const generateCharacter = userId => ({
   // background: '',
-  // charisma: '',
-  // constitution: '',
-  // dexterity: '',
   // ethic: '',
   // experience: '',
-  // intelligence: '',
   // moral: '',
   // name: '',
   // oClass: '',
   // race: '',
-  // strength: '',
-  // wisdom: '',
   class: classes[Math.floor(Math.random() * classes.length)],
   id: faker.random.uuid(),
   level: Math.ceil(Math.random() * 20),
   name: faker.fake('{{name.firstName}} {{name.lastName}}'),
   owner: userId,
   race: races[Math.floor(Math.random() * races.length)],
+
+  // Ability scores
+  charisma: generateAbilityScore(),
+  constitution: generateAbilityScore(),
+  dexterity: generateAbilityScore(),
+  intelligence: generateAbilityScore(),
+  strength: generateAbilityScore(),
+  wisdom: generateAbilityScore(),
 })
 
 const generateUser = () => ({
