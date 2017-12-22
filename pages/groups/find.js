@@ -1,12 +1,4 @@
-// Module imports
-import React from 'react'
-
-
-
-
-
 // Component imports
-import Component from '../../components/Component'
 import Page from '../../components/Page'
 
 
@@ -14,27 +6,18 @@ import Page from '../../components/Page'
 
 
 // Component constants
-const title = 'Find Groups'
+const title = 'Find Group'
 
 
 
 
 
-class FindGroups extends Component {
-
-  /***************************************************************************\
-    Public Methods
-  \***************************************************************************/
-
-  render () {
-    return (
-      <h1>Find Groups!</h1>
-    )
-  }
-}
+const FindGroup = () => (
+  <h1>Find Group!</h1>
+)
 
 
 
 
 
-export default Page(FindGroups, title)
+export default Page(FindGroup, title)

@@ -1,12 +1,4 @@
-// Module imports
-import React from 'react'
-
-
-
-
-
 // Component imports
-import Component from '../../components/Component'
 import Page from '../../components/Page'
 
 
@@ -20,18 +12,9 @@ const title = 'My Profile'
 
 
 
-class MyProfile extends Component {
-
-  /***************************************************************************\
-    Public Methods
-  \***************************************************************************/
-
-  render () {
-    return (
-      <h1>My Profile!</h1>
-    )
-  }
-}
+const MyProfile = () => (
+  <h1>My Profile!</h1>
+)
 
 
 
