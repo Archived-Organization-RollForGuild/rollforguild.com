@@ -26,11 +26,20 @@ class Character extends Component {
   \***************************************************************************/
 
   async componentDidMount () {
+    this.setState({ loading: true })
     await this.props.getCharacter(this.props.query.id)
+    this.setState({ loading: false })
+  }
+
+  constructor (props) {
+    super(props)
+
+    this.state = { loading: false }
   }
 
   render () {
     const { character } = this.props
+    const { loading } = this.state
 
     return (
       <div>
@@ -38,16 +47,26 @@ class Character extends Component {
           <h2>General Shit</h2>
         </header>
 
-        <table>
-          <tbody>
-            {Object.keys(character).map(property => (
-              <tr>
-                <th>{property}</th>
-                <td>{character[property]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {loading && (
+          <span>Loading...</span>
+        )}
+
+        {(!loading && !character) && (
+          <span>No character found.</span>
+        )}
+
+        {(!loading && character) && (
+          <table>
+            <tbody>
+              {Object.keys(character).map(property => (
+                <tr key={property}>
+                  <th>{property}</th>
+                  <td>{character[property]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     )
   }
