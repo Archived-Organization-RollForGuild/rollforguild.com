@@ -24,10 +24,20 @@ const title = 'My Characters'
 // style={{ backgroundImage: `url(//via.placeholder.com/500x500?text=${encodeURIComponent(character.name)})` }}
 class MyCharacters extends Component {
   async componentDidMount () {
+    this.setState({ loading: true })
     await this.props.getCharactersForUser()
+    this.setState({ loading: false })
+  }
+
+  constructor (props) {
+    super(props)
+
+    this.state = { loading: true }
   }
 
   render () {
+    const { loading } = this.state
+
     return (
       <Fragment>
         <header>
@@ -36,27 +46,33 @@ class MyCharacters extends Component {
           <menu type="toolbar" />
         </header>
 
-        <ul className="characters">
-          {this.props.characters.map(character => (
-            <li key={character.id}>
-              <Link href={`/character/${character.id}`}>
-                <a style={{ backgroundImage: `url(//api.adorable.io/avatars/500/${encodeURIComponent(character.name)})` }}>
-                  <div className="name">{character.name}</div>
-                  <div className="short-description">Lvl {character.level} {character.race} {character.class}</div>
+        {loading && (
+          <span>Loading...</span>
+        )}
+
+        {!loading && (
+          <ul className="characters">
+            {this.props.characters.map(character => (
+              <li key={character.id}>
+                <Link href={`/character/${character.id}`}>
+                  <a style={{ backgroundImage: `url(//api.adorable.io/avatars/500/${encodeURIComponent(character.name)})` }}>
+                    <div className="name">{character.name}</div>
+                    <div className="short-description">Lvl {character.level} {character.race} {character.class}</div>
+                  </a>
+                </Link>
+              </li>
+            ))}
+
+            <li className="create">
+              <Link href="/character-builder">
+                <a>
+                  <i className="fa fa-fw fa-plus" />
+                  Add New
                 </a>
               </Link>
             </li>
-          ))}
-
-          <li className="create">
-            <Link href="/character-builder">
-              <a>
-                <i className="fa fa-fw fa-plus" />
-                Add New
-              </a>
-            </Link>
-          </li>
-        </ul>
+          </ul>
+        )}
       </Fragment>
     )
   }
