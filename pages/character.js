@@ -1,4 +1,5 @@
 // Module imports
+import Chart from 'echarts-for-react'
 import React from 'react'
 
 
@@ -56,19 +57,94 @@ class Character extends Component {
         )}
 
         {(!loading && character) && (
-          <table>
-            <tbody>
-              {Object.keys(character).map(property => (
-                <tr key={property}>
-                  <th>{property}</th>
-                  <td>{character[property]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <React.Fragment>
+            <table>
+              <tbody>
+                {Object.keys(character).map(property => (
+                  <tr key={property}>
+                    <th>{property}</th>
+                    <td>{character[property]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <Chart
+              lazyUpdate={false}
+              showLoading={loading}
+              notMerge={false}
+              option={this.options} />
+          </React.Fragment>
         )}
       </div>
     )
+  }
+
+
+
+
+
+  /***************************************************************************\
+    Public Methods
+  \***************************************************************************/
+
+  get options () {
+    const {
+      charisma,
+      constitution,
+      dexterity,
+      intelligence,
+      strength,
+      wisdom,
+    } = this.props.character
+
+    return {
+      title: {
+        text: 'Ability Scores',
+      },
+      tooltip: {},
+      radar: {
+        name: {
+          textStyle: {
+            color: '#fff',
+            backgroundColor: '#999',
+            borderRadius: 3,
+            padding: [3, 5],
+          },
+        },
+        indicator: [
+          { name: 'Strength', max: 30 },
+          { name: 'Dexterity', max: 30 },
+          { name: 'Intelligence', max: 30 },
+          { name: 'Wisdom', max: 30 },
+          { name: 'Charisma', max: 30 },
+          { name: 'Constitution', max: 30 },
+        ],
+      },
+      series: [{
+        areaStyle: {
+          normal: {
+            opacity: 0.5,
+          },
+        },
+        data: [{
+          value: [
+            strength,
+            dexterity,
+            intelligence,
+            wisdom,
+            charisma,
+            constitution,
+          ],
+        }],
+        itemStyle: {
+          normal: {
+            color: '#F9713C',
+          },
+        },
+        type: 'radar',
+      }],
+    }
   }
 }
 
