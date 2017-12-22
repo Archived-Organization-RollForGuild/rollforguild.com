@@ -41,6 +41,19 @@ const users = []
 
 // Generators
 const generateCharacter = userId => ({
+  // background: '',
+  // charisma: '',
+  // constitution: '',
+  // dexterity: '',
+  // ethic: '',
+  // experience: '',
+  // intelligence: '',
+  // moral: '',
+  // name: '',
+  // oClass: '',
+  // race: '',
+  // strength: '',
+  // wisdom: '',
   class: classes[Math.floor(Math.random() * classes.length)],
   id: faker.random.uuid(),
   level: Math.ceil(Math.random() * 20),

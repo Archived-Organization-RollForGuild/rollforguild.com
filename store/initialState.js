@@ -6,6 +6,12 @@ export default {
     registering: false,
   },
 
+  character: {
+    character: null,
+    loaded: false,
+    loading: false,
+  },
+
   characters: {
     characters: [],
     loaded: false,
