@@ -7,6 +7,7 @@ import Stepzilla from 'react-stepzilla'
 
 
 // Component imports
+import AbilityScoreEditor from '../components/AbilityScoreEditor'
 import Chooser from '../components/Chooser'
 import Component from '../components/Component'
 import Page from '../components/Page'
@@ -32,16 +33,21 @@ class CharacterBuilder extends Component {
 
     this._bindMethods(['_handleChange'])
 
+    const abilities = {}
+
+    for (const ability of Object.keys(props.ruleset['player-characters']['ability-scores'])) {
+      abilities[ability] = props.ruleset['player-characters']['ability-scores'][ability].base
+    }
+
     this.state = {
+      abilities,
       class: null,
       race: null,
     }
   }
 
   render () {
-    const {
-      ruleset,
-    } = this.props
+    const { ruleset } = this.props
 
     return (
       <Stepzilla
@@ -62,7 +68,10 @@ class CharacterBuilder extends Component {
           },
           {
             name: 'Determine your ability scores...',
-            component: <div />,
+            component: <AbilityScoreEditor
+              abilities={ruleset['player-characters']['ability-scores']}
+              onChange={(ability, score) => this.setState({ abilities: { ...this.state.abilities, [ability]: score } })}
+              scores={this.state.abilities} />,
           },
         ]} />
     )

@@ -21,9 +21,53 @@ export default {
   rulesets: {
     'dnd-5e': {
       'player-characters': {
+        'ability-scores': {
+          charisma: {
+            base: 8,
+            max: 30,
+            min: 1,
+            modifier: score => Math.floor((score - 10) / 2),
+            name: 'Charisma',
+          },
+          constitution: {
+            base: 8,
+            max: 30,
+            min: 1,
+            modifier: score => Math.floor((score - 10) / 2),
+            name: 'Constitution',
+          },
+          dexterity: {
+            base: 8,
+            max: 30,
+            min: 1,
+            modifier: score => Math.floor((score - 10) / 2),
+            name: 'Dexterity',
+          },
+          intelligence: {
+            base: 8,
+            max: 30,
+            min: 1,
+            modifier: score => Math.floor((score - 10) / 2),
+            name: 'Intelligence',
+          },
+          strength: {
+            base: 8,
+            max: 30,
+            min: 1,
+            modifier: score => Math.floor((score - 10) / 2),
+            name: 'Strength',
+          },
+          wisdom: {
+            base: 8,
+            max: 30,
+            min: 1,
+            modifier: score => Math.floor((score - 10) / 2),
+            name: 'Wisdom',
+          },
+        },
         classes: ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'],
         races: ['Dragonborn', 'Dwarf', 'Elf', 'Gnome', 'Half-Elf', 'Half-Orc', 'Halfling', 'Human', 'Tiefling'],
-        'wizard-flow': ['race', 'class'],
+        'wizard-flow': ['race', 'class', 'ability-scores'],
       },
     },
   },
