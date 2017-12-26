@@ -65,8 +65,115 @@ export default {
             name: 'Wisdom',
           },
         },
-        classes: ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'],
-        races: ['Dragonborn', 'Dwarf', 'Elf', 'Gnome', 'Half-Elf', 'Half-Orc', 'Halfling', 'Human', 'Tiefling'],
+        classes: {
+          barbarian: {
+            features: [],
+            name: 'Barbarian',
+            proficiencies: [],
+          },
+          bard: {
+            features: [],
+            name: 'Bard',
+            proficiencies: [],
+          },
+          cleric: {
+            features: [],
+            name: 'Cleric',
+            proficiencies: [],
+          },
+          druid: {
+            features: [],
+            name: 'Druid',
+            proficiencies: [],
+          },
+          fighter: {
+            features: [],
+            name: 'Fighter',
+            proficiencies: [],
+          },
+          monk: {
+            features: [],
+            name: 'Monk',
+            proficiencies: [],
+          },
+          paladin: {
+            features: [],
+            name: 'Paladin',
+            proficiencies: [],
+          },
+          ranger: {
+            features: [],
+            name: 'Ranger',
+            proficiencies: [],
+          },
+          rogue: {
+            features: [],
+            name: 'Rogue',
+            proficiencies: [],
+          },
+          sorcerer: {
+            features: [],
+            name: 'Sorcerer',
+            proficiencies: [],
+          },
+          warlock: {
+            features: [],
+            name: 'Warlock',
+            proficiencies: [],
+          },
+          wizard: {
+            features: [],
+            name: 'Wizard',
+            proficiencies: [],
+          },
+        },
+        races: {
+          dragonborn: {
+            modifiers: [],
+            name: 'Dragonborn',
+            subraces: [],
+          },
+          dwarf: {
+            modifiers: [],
+            name: 'Dwarf',
+            subraces: [],
+          },
+          elf: {
+            modifiers: [],
+            name: 'Elf',
+            subraces: [],
+          },
+          gnome: {
+            modifiers: [],
+            name: 'Gnome',
+            subraces: [],
+          },
+          'half-elf': {
+            modifiers: [],
+            name: 'Half-Elf',
+            subraces: [],
+          },
+          'half-orc': {
+            modifiers: [],
+            name: 'Half-Orc',
+            subraces: [],
+          },
+          halfling: {
+            modifiers: [],
+            name: 'Halfling',
+            subraces: [],
+          },
+          human: {
+            modifiers: [],
+            name: 'Human',
+            subraces: [],
+          },
+          tiefling: {
+            modifiers: [],
+            name: 'Tiefling',
+            subraces: [],
+          },
+        },
         'wizard-flow': ['race', 'class', 'ability-scores'],
       },
     },
