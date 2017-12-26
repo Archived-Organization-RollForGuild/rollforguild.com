@@ -1,7 +1,8 @@
 .DS_Store
 .next
 bower_components
-data
+data/characters
+data/users
 logs
 node_modules
 static/compiled

@@ -1,0 +1,8 @@
+{
+  "abbreviation": "CHA",
+  "base": 8,
+  "max": 30,
+  "min": 1,
+  "modifier": "score => Math.floor((score - 10) / 2)",
+  "name": "Charisma"
+}

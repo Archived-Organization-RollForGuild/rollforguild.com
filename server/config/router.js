@@ -10,6 +10,8 @@ const path = require('path')
 const router = require('koa-router')()
 const validate = require('uuid-validate')
 
+const recursivelyConvertDirectoryStructureIntoJSON = require('../helpers/recursivelyConvertDirectoryStructureIntoJSON')
+
 
 
 
@@ -73,6 +75,30 @@ module.exports = function foo (nextjs, koa) {
   /******************************************************************************\
     Temporary API
   \******************************************************************************/
+
+  // Get all rulesets
+  router.get(['/api/rulesets'], async ctx => {
+    const rulesetsPath = path.resolve('data', 'rulesets')
+
+    ctx.body = fs.readdirSync(rulesetsPath)
+
+    return ctx.status = 200
+  })
+
+  // Get a ruleset
+  router.get(['/api/rulesets/:ruleset'], async ctx => {
+    const rulesetsPath = path.resolve('data', 'rulesets')
+    const availableRulesets = fs.readdirSync(rulesetsPath)
+
+    if (availableRulesets.includes(ctx.params.ruleset)) {
+      const rulesetPath = path.resolve(rulesetsPath, ctx.params.ruleset)
+
+      ctx.body = recursivelyConvertDirectoryStructureIntoJSON(rulesetPath)
+      return ctx.status = 200
+    }
+
+    return ctx.status = 404
+  })
 
   // Create entity
   router.post(['/api/:entityType'], async ctx => {

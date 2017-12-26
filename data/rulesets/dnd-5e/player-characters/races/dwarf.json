@@ -1,0 +1,11 @@
+{
+  "modifiers": [
+    {
+      "modifier": "() => 2",
+      "target": "constitution",
+      "type": "ability-score"
+    }
+  ],
+  "name": "Dwarf",
+  "subraces": []
+}
