@@ -1,6 +1,5 @@
 // Module imports
 import Component from './Component'
-import IndividualAbilityScoreEditor from './IndividualAbilityScoreEditor'
 
 
 
@@ -12,10 +11,8 @@ export default class extends Component {
   \***************************************************************************/
 
   _handleChange (event) {
-    const { target } = event
-
     if (this.props.onChange) {
-      this.props.onChange(target.name, parseInt(target.value, 10))
+      this.props.onChange(event)
     }
   }
 
@@ -35,21 +32,35 @@ export default class extends Component {
 
   render () {
     const {
-      abilities,
-      scores,
+      max,
+      min,
+      modifier,
+      name,
+      safeName,
+      score,
     } = this.props
 
+    console.log('Rendering', name)
+
     return (
-      <ul>
-        {Object.keys(abilities).map(ability => (
-          <IndividualAbilityScoreEditor
-            {...abilities[ability]}
-            key={ability}
-            onChange={this._handleChange}
-            safeName={ability}
-            score={scores[ability]} />
-        ))}
-      </ul>
+      <div>
+        <label htmlFor={safeName}>{name}</label>
+
+        <input
+          id={safeName}
+          max={max}
+          min={min}
+          name={safeName}
+          onChange={this.props.onChange}
+          type="number"
+          value={score} />
+
+        {!!modifier && modifier(score)}
+      </div>
     )
+  }
+
+  shouldComponentUpdate (nextProps) {
+    return nextProps.score !== this.props.score
   }
 }
