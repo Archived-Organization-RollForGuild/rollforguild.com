@@ -24,10 +24,6 @@ export default class extends Component {
     Public Methods
   \***************************************************************************/
 
-  componentWillUnmount () {
-    console.log('componentWillUnmount')
-  }
-
   isValidated () {
     return !!this.props.value
   }

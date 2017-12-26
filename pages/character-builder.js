@@ -7,11 +7,9 @@ import Stepzilla from 'react-stepzilla'
 
 
 // Component imports
-// import ClassChooser from '../components/ClassChooser'
 import Chooser from '../components/Chooser'
 import Component from '../components/Component'
 import Page from '../components/Page'
-// import RaceChooser from '../components/RaceChooser'
 
 
 
@@ -26,46 +24,8 @@ const title = 'Character Builder'
 
 class CharacterBuilder extends Component {
   /***************************************************************************\
-    Private Methods
-  \***************************************************************************/
-
-  _handleChange (event) {
-    const {
-      name,
-      value,
-    } = event.target
-    const newState = {}
-
-    newState[name] = value
-
-    this.setState(newState)
-  }
-
-  _handleStepChange (step) {
-    console.log(step, this)
-  }
-
-  _handleSubmit () {
-    console.group('Creating new character')
-    console.log('Class:', this.state.class)
-    console.log('Race:', this.state.race)
-    console.groupEnd()
-  }
-
-
-
-
-
-  /***************************************************************************\
     Public Methods
   \***************************************************************************/
-
-  componentDidUpdate () {
-    console.group('Creating new character')
-    console.log('Class:', this.state.class)
-    console.log('Race:', this.state.race)
-    console.groupEnd()
-  }
 
   constructor (props) {
     super(props)
@@ -85,7 +45,6 @@ class CharacterBuilder extends Component {
 
     return (
       <Stepzilla
-        onStepChange={step => console.log('onStepChange', step)}
         steps={[
           {
             name: 'Choose your race...',
