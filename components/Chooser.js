@@ -31,19 +31,32 @@ export default class extends Component {
   render () {
     const {
       options,
+      renderOption,
       value,
     } = this.props
 
+    let renderedOptions = options
+
+    if (!Array.isArray(options) && (typeof options === 'object')) {
+      renderedOptions = Object.keys(options).map(key => options[key])
+    }
+
+    renderedOptions = renderedOptions.map(option => {
+      const renderedOption = renderOption ? renderOption(option) : option
+
+      return (
+        <button
+          className={(value === option) ? 'active' : null}
+          key={renderedOption}
+          onClick={() => this._handleClick(option)}>
+          {renderedOption}
+        </button>
+      )
+    })
+
     return (
       <div>
-        {options.map(option => (
-          <button
-            className={(value === option) ? 'active' : null}
-            key={option}
-            onClick={() => this._handleClick(option)}>
-            {option}
-          </button>
-        ))}
+        {renderedOptions}
       </div>
     )
   }
