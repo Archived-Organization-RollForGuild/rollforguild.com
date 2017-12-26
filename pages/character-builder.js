@@ -8,9 +8,10 @@ import Stepzilla from 'react-stepzilla'
 
 // Component imports
 import AbilityScoreEditor from '../components/AbilityScoreEditor'
-import Chooser from '../components/Chooser'
+import ClassChooser from '../components/ClassChooser'
 import Component from '../components/Component'
 import Page from '../components/Page'
+import RaceChooser from '../components/RaceChooser'
 
 
 
@@ -54,17 +55,15 @@ class CharacterBuilder extends Component {
         steps={[
           {
             name: 'Choose your race...',
-            component: <Chooser
+            component: <RaceChooser
               onChange={(value) => this.setState({ race: value })}
-              options={ruleset['player-characters'].races}
-              value={this.state.race} />,
+              race={this.state.race} />,
           },
           {
             name: 'Choose your class...',
-            component: <Chooser
+            component: <ClassChooser
               onChange={(value) => this.setState({ class: value })}
-              options={ruleset['player-characters'].classes}
-              value={this.state.class} />,
+              class={this.state.class} />,
           },
           {
             name: 'Determine your ability scores...',
