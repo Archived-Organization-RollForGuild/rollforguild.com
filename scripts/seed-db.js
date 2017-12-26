@@ -42,6 +42,23 @@ const users = []
 // Generators
 const generateAbilityScore = () => Math.ceil(Math.random() * 30)
 
+const generateSkills = () => {
+  const skillsByAbility = {
+    Charisma: ['Deception', 'Intimidation', 'Performance', 'Persuasion'],
+    Constitution: [],
+    Dexterity: ['Acrobatics', 'Sleight of Hand', 'Stealth'],
+    Intelligence: ['Arcana', 'History', 'Investigation', 'Nature', 'Religion'],
+    Strength: ['Athletics'],
+    Wisdom: ['Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival'],
+  }
+
+  return Object.keys(skillsByAbility).reduce((accumulator, ability) => accumulator.concat(skillsByAbility[ability].map(skill => ({
+    ability: ability.toLowerCase(),
+    name: skill,
+    proficient: Math.random() > 0.5,
+  }))), [])
+}
+
 const generateCharacter = userId => ({
   // background: '',
   // ethic: '',
@@ -58,12 +75,17 @@ const generateCharacter = userId => ({
   race: races[Math.floor(Math.random() * races.length)],
 
   // Ability scores
-  charisma: generateAbilityScore(),
-  constitution: generateAbilityScore(),
-  dexterity: generateAbilityScore(),
-  intelligence: generateAbilityScore(),
-  strength: generateAbilityScore(),
-  wisdom: generateAbilityScore(),
+  abilities: {
+    charisma: generateAbilityScore(),
+    constitution: generateAbilityScore(),
+    dexterity: generateAbilityScore(),
+    intelligence: generateAbilityScore(),
+    strength: generateAbilityScore(),
+    wisdom: generateAbilityScore(),
+  },
+
+  // Skill proficiencies
+  skills: generateSkills(),
 })
 
 const generateUser = () => ({
