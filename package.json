@@ -60,6 +60,7 @@
     "react-dom": "^16.2.0",
     "react-ga": "^2.2.0",
     "react-redux": "^5.0.5",
+    "react-stepzilla": "^4.6.3",
     "react-table": "^6.7.4",
     "redux": "^3.7.1",
     "redux-thunk": "^2.2.0",
