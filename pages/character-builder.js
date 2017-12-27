@@ -98,7 +98,8 @@ class CharacterBuilder extends Component {
             {
               name: 'Choose your race...',
               component: <RaceChooser
-                onChange={(value) => this.setState({ race: value })}
+                onRaceChange={(value) => this.setState({ race: value })}
+                onSubraceChange={(value) => this.setState({ subrace: value })}
                 race={this.state.race}
                 subrace={this.state.subrace} />,
             },
