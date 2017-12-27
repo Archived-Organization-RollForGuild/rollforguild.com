@@ -8,7 +8,7 @@
     text-align: center;
   }
 
-  input {
+  .score {
     -moz-appearance: textfield;
     background-color: transparent;
     border: none;
@@ -20,12 +20,13 @@
   .breakdown {
     display: grid;
     font-size: 0.75em;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     text-align: center;
 
     .base,
+    .other,
     .racial,
-    .other {
+    .total {
       display: flex;
       flex-direction: column;
 
@@ -34,16 +35,13 @@
       }
     }
 
-    .base:after {
-      content: "Base";
-    }
+    .base:after { content: "Base" }
+    .other:after { content: "Other" }
+    .racial:after { content: "Racial" }
+    .total:after { content: "Total" }
 
-    .racial:after {
-      content: "Racial";
-    }
-
-    .other:after {
-      content: "Other";
+    .total {
+      font-weight: bold;
     }
   }
 }

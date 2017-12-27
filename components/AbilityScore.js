@@ -12,7 +12,18 @@ export default class extends Component {
 
   _handleChange (event) {
     if (this.props.onChange) {
-      this.props.onChange(event)
+      const {
+        ability,
+        character,
+        // racialModifier,
+      } = this.props
+      const score = character['ability-scores'][ability]
+      const scoreCalculated = score || 0
+      const otherModifiersCalculated = 0
+      const racialModifierCalculated = 2 //racialModifier ? racialModifier(character) : 0
+      const value = scoreCalculated + (event.target.valueAsNumber - scoreCalculated - racialModifierCalculated - otherModifiersCalculated)
+
+      this.props.onChange(ability, value)
     }
   }
 
@@ -35,45 +46,60 @@ export default class extends Component {
       abbreviation,
       ability,
       character,
+      editable,
       max,
       min,
       // modifier,
       name,
-      racialModifier,
+      // racialModifier,
     } = this.props
     const score = character['ability-scores'][ability]
     // const calculatedNaturalModifier = modifier ? modifier(character) : 0
-    const calculatedOtherModifier = 0
-    const calculatedRacialModifier = racialModifier ? racialModifier(character) : 0
+    const otherModifiersCalculated = 0
+    const racialModifiersCalculated = 2 //racialModifier ? racialModifier(character) : 0
+    const allModifiersCalculated = racialModifiersCalculated + otherModifiersCalculated
 
     return (
       <div className="ability-score">
         <label htmlFor={ability}><abbr title={name}>{abbreviation}</abbr></label>
 
-        <input
-          id={ability}
-          max={max}
-          min={min}
-          name={ability}
-          onChange={this.props.onChange}
-          type="number"
-          value={score + calculatedOtherModifier + calculatedRacialModifier} />
+        {editable && (
+          <input
+            className="score"
+            id={ability}
+            max={max}
+            min={min + allModifiersCalculated}
+            name={ability}
+            onChange={this._handleChange}
+            type="number"
+            value={score ? (score + allModifiersCalculated) : ''} />
+        )}
+
+        {!editable && (
+          <span className="score">{score + allModifiersCalculated}</span>
+        )}
 
         <div className="breakdown">
           <span className="base">
-            {score}
+            {score || '-'}
           </span>
 
           <span className="delimiter">+</span>
 
           <span className="racial">
-            {calculatedRacialModifier}
+            {racialModifiersCalculated}
           </span>
 
           <span className="delimiter">+</span>
 
           <span className="other">
-            {calculatedOtherModifier}
+            {otherModifiersCalculated}
+          </span>
+
+          <span className="delimiter">=</span>
+
+          <span className="total">
+            {score ? (score + allModifiersCalculated) : '-'}
           </span>
         </div>
       </div>

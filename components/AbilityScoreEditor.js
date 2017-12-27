@@ -11,11 +11,9 @@ export default class extends Component {
     Public Methods
   \***************************************************************************/
 
-  _handleChange (event) {
-    const { target } = event
-
+  _handleChange () {
     if (this.props.onChange) {
-      this.props.onChange(target.name, target.value ? parseInt(target.value, 10) : 0)
+      this.props.onChange(...arguments)
     }
   }
 
@@ -45,6 +43,7 @@ export default class extends Component {
           <li key={ability}>
             <AbilityScore
               {...abilities[ability]}
+              editable
               onChange={this._handleChange}
               ability={ability}
               character={character} />
