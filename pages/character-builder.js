@@ -52,11 +52,11 @@ class CharacterBuilder extends Component {
     Public Methods
   \***************************************************************************/
 
-  // componentDidUpdate () {
-  //   console.group('Character updated:')
-  //   console.log(this.state)
-  //   console.groupEnd()
-  // }
+  componentDidUpdate () {
+    console.group('Character updated:')
+    console.log(this.state)
+    console.groupEnd()
+  }
 
   async componentDidMount () {
     if (!this.props.ruleset) {
@@ -67,8 +67,10 @@ class CharacterBuilder extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!this.state.abilities && nextProps.ruleset) {
-      this.setState({ abilities: CharacterBuilder._getBaseAbilityScores(nextProps.ruleset) })
+    if (nextProps.ruleset) {
+      if (!this.state['ability-scores']) {
+        this.setState({ 'ability-scores': CharacterBuilder._getBaseAbilityScores(nextProps.ruleset) })
+      }
     }
   }
 
@@ -78,7 +80,7 @@ class CharacterBuilder extends Component {
     this._bindMethods(['_handleChange'])
 
     this.state = {
-      abilities: CharacterBuilder._getBaseAbilityScores(props.ruleset),
+      'ability-scores': CharacterBuilder._getBaseAbilityScores(props.ruleset),
       class: null,
       loading: true,
       race: null,
@@ -110,8 +112,8 @@ class CharacterBuilder extends Component {
               name: 'Determine your ability scores...',
               component: <AbilityScoreEditor
                 abilities={ruleset['player-characters']['ability-scores']}
-                onChange={(ability, score) => this.setState({ abilities: { ...this.state.abilities, [ability]: score } })}
-                scores={this.state.abilities} />,
+                onChange={(ability, score) => this.setState({ 'ability-scores': { ...this.state['ability-scores'], [ability]: score } })}
+                character={this.state} />,
             },
           ]} />
       )

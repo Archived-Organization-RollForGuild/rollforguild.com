@@ -36,7 +36,7 @@ export default class extends Component {
   render () {
     const {
       abilities,
-      scores,
+      character,
     } = this.props
 
     return (
@@ -46,10 +46,28 @@ export default class extends Component {
             {...abilities[ability]}
             key={ability}
             onChange={this._handleChange}
-            safeName={ability}
-            score={scores[ability]} />
+            ability={ability}
+            character={character} />
         ))}
       </ul>
     )
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
+    const propsMatch = nextProps === this.props
+    const statesMatch = nextState === this.state
+    let abilityScoresMatch = true
+
+    for (const ability of Object.keys(nextProps.character['ability-scores'])) {
+      const newScore = nextProps.character['ability-scores'][ability]
+      const oldScore = this.props.character['ability-scores'][ability]
+
+      abilityScoresMatch = newScore === oldScore
+      if (!abilityScoresMatch) {
+        break
+      }
+    }
+
+    return !propsMatch || !statesMatch || !abilityScoresMatch
   }
 }

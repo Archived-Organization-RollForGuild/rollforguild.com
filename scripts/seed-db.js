@@ -44,19 +44,23 @@ const generateAbilityScore = () => Math.ceil(Math.random() * 30)
 
 const generateSkills = () => {
   const skillsByAbility = {
-    Charisma: ['Deception', 'Intimidation', 'Performance', 'Persuasion'],
-    Constitution: [],
-    Dexterity: ['Acrobatics', 'Sleight of Hand', 'Stealth'],
-    Intelligence: ['Arcana', 'History', 'Investigation', 'Nature', 'Religion'],
-    Strength: ['Athletics'],
-    Wisdom: ['Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival'],
+    charisma: ['deception', 'intimidation', 'performance', 'persuasion'],
+    constitution: [],
+    dexterity: ['acrobatics', 'sleight-of-hand', 'stealth'],
+    intelligence: ['arcana', 'history', 'investigation', 'nature', 'religion'],
+    strength: ['athletics'],
+    wisdom: ['animal-handling', 'insight', 'medicine', 'perception', 'survival'],
   }
 
-  return Object.keys(skillsByAbility).reduce((accumulator, ability) => accumulator.concat(skillsByAbility[ability].map(skill => ({
-    ability: ability.toLowerCase(),
-    name: skill,
-    proficient: Math.random() > 0.5,
-  }))), [])
+  return Object.keys(skillsByAbility).reduce((accumulator, ability) => {
+    /* eslint-disable no-param-reassign */
+    for (const skill of skillsByAbility[ability]) {
+      accumulator[skill] = { proficient: Math.random() >= 0.5 }
+    }
+    /* eslint-disable */
+
+    return accumulator
+  }, {})
 }
 
 const generateCharacter = userId => ({
@@ -75,7 +79,7 @@ const generateCharacter = userId => ({
   race: races[Math.floor(Math.random() * races.length)],
 
   // Ability scores
-  abilities: {
+  'ability-scores': {
     charisma: generateAbilityScore(),
     constitution: generateAbilityScore(),
     dexterity: generateAbilityScore(),
@@ -122,5 +126,5 @@ for (const user of users) {
 }
 
 for (const character of characters) {
-  fs.writeFileSync(path.resolve('data', 'characters', `${character.id}.json`), JSON.stringify(character), 'utf8')
+  fs.writeFileSync(path.resolve('data', 'characters', `${character.id}.json`), JSON.stringify(character, null, 2), 'utf8')
 }

@@ -32,35 +32,57 @@ export default class extends Component {
 
   render () {
     const {
+      abbreviation,
+      ability,
+      character,
       max,
       min,
       modifier,
       name,
-      safeName,
-      score,
+      racialModifier,
     } = this.props
 
-    console.log('Rendering', name)
+    const score = character['ability-scores'][ability]
 
     return (
-      <div>
-        <label htmlFor={safeName}>{name}</label>
-
+      <div className="individual-ability-score-editor">
         <input
-          id={safeName}
+          id={ability}
           max={max}
           min={min}
-          name={safeName}
+          name={ability}
           onChange={this.props.onChange}
           type="number"
           value={score} />
 
-        {!!modifier && modifier(score)}
+        <label htmlFor={ability}><abbr title={name}>{abbreviation}</abbr></label>
+
+        <div className="breakdown">
+          <span className="base">
+            {score}
+          </span>
+
+          <span className="racial-modifier">
+            {racialModifier ? racialModifier(character) : 0}
+          </span>
+
+          <span className="natural-modifier">
+            {modifier ? modifier(character) : 0}
+          </span>
+        </div>
       </div>
     )
   }
 
   shouldComponentUpdate (nextProps) {
-    return nextProps.score !== this.props.score
+    const {
+      ability,
+      character,
+    } = this.props
+
+    const newScore = nextProps.character['ability-scores'][ability]
+    const oldScore = character['ability-scores'][ability]
+
+    return newScore !== oldScore
   }
 }
