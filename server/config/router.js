@@ -80,7 +80,9 @@ module.exports = function foo (nextjs, koa) {
   router.get(['/api/rulesets'], async ctx => {
     const rulesetsPath = path.resolve('data', 'rulesets')
 
-    ctx.body = fs.readdirSync(rulesetsPath)
+    ctx.body = {
+      data: fs.readdirSync(rulesetsPath),
+    }
 
     return ctx.status = 200
   })
@@ -93,7 +95,12 @@ module.exports = function foo (nextjs, koa) {
     if (availableRulesets.includes(ctx.params.ruleset)) {
       const rulesetPath = path.resolve(rulesetsPath, ctx.params.ruleset)
 
-      ctx.body = recursivelyConvertDirectoryStructureIntoJSON(rulesetPath)
+      ctx.body = {
+        data: {
+          [ctx.params.ruleset]: recursivelyConvertDirectoryStructureIntoJSON(rulesetPath),
+        },
+      }
+
       return ctx.status = 200
     }
 
