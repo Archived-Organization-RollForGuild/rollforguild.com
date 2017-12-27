@@ -49,12 +49,12 @@ export default class extends Component {
       editable,
       max,
       min,
-      // modifier,
+      modifier,
       name,
       // racialModifier,
     } = this.props
     const score = character['ability-scores'][ability]
-    // const calculatedNaturalModifier = modifier ? modifier(character) : 0
+    const calculatedNaturalModifier = modifier ? modifier(character) : 0
     const otherModifiersCalculated = 0
     const racialModifiersCalculated = 2 //racialModifier ? racialModifier(character) : 0
     const allModifiersCalculated = racialModifiersCalculated + otherModifiersCalculated
@@ -63,21 +63,27 @@ export default class extends Component {
       <div className="ability-score">
         <label htmlFor={ability}><abbr title={name}>{abbreviation}</abbr></label>
 
-        {editable && (
-          <input
-            className="score"
-            id={ability}
-            max={max}
-            min={min + allModifiersCalculated}
-            name={ability}
-            onChange={this._handleChange}
-            type="number"
-            value={score ? (score + allModifiersCalculated) : ''} />
-        )}
+        <div className="score">
+          {editable && (
+            <input
+              id={ability}
+              max={max}
+              min={min + allModifiersCalculated}
+              name={ability}
+              onChange={this._handleChange}
+              type="number"
+              value={score ? (score + allModifiersCalculated) : ''} />
+          )}
 
-        {!editable && (
-          <span className="score">{score + allModifiersCalculated}</span>
-        )}
+          {!editable && (
+            <span>{score + allModifiersCalculated}</span>
+          )}
+
+          <div className="modifier">
+            <span>Mod</span>
+            <span>{calculatedNaturalModifier >= 0 ? '+' : null}{calculatedNaturalModifier}</span>
+          </div>
+        </div>
 
         <div className="breakdown">
           <span className="base">

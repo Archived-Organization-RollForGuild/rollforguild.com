@@ -1,4 +1,5 @@
 .ability-score {
+  align-items: center;
   background-color: rgba(grey, 0.2);
   display: flex;
   flex-direction: column;
@@ -9,12 +10,33 @@
   }
 
   .score {
-    -moz-appearance: textfield;
-    background-color: transparent;
-    border: none;
-    font-size: 2em;
-    text-align: center;
-    width: 100%;
+    flex-grow: 0;
+    flex-shrink: 1;
+    position: relative;
+
+    > {
+      input,
+      span {
+        -moz-appearance: textfield;
+        background-color: transparent;
+        border: none;
+        font-size: 2em;
+        text-align: center;
+        width: 2em;
+      }
+    }
+
+    .modifier {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.75em;
+      left: 100%;
+      line-height: 1;
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
 
   .breakdown {
