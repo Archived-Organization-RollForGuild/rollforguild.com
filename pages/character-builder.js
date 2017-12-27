@@ -44,6 +44,15 @@ class CharacterBuilder extends Component {
     return null
   }
 
+  _handleAbilityScoreChange (ability, score) {
+    this.setState({
+      'ability-scores': {
+        ...this.state['ability-scores'],
+        [ability]: score,
+      },
+    })
+  }
+
 
 
 
@@ -77,12 +86,15 @@ class CharacterBuilder extends Component {
   constructor (props) {
     super(props)
 
-    this._bindMethods(['_handleChange'])
+    this._bindMethods([
+      '_handleChange',
+      '_handleAbilityScoreChange',
+    ])
 
     this.state = {
       'ability-scores': CharacterBuilder._getBaseAbilityScores(props.ruleset),
       class: null,
-      loading: true,
+      loading: !props.ruleset,
       race: null,
       subrace: null,
     }
@@ -113,7 +125,7 @@ class CharacterBuilder extends Component {
               name: 'Determine your ability scores...',
               component: <AbilityScoreEditor
                 abilities={ruleset['player-characters']['ability-scores']}
-                onChange={(ability, score) => this.setState({ 'ability-scores': { ...this.state['ability-scores'], [ability]: score } })}
+                onChange={this._handleAbilityScoreChange}
                 character={this.state} />,
             },
           ]} />
