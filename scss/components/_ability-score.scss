@@ -1,0 +1,49 @@
+.ability-score {
+  background-color: rgba(grey, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+
+  label {
+    text-align: center;
+  }
+
+  input {
+    -moz-appearance: textfield;
+    background-color: transparent;
+    border: none;
+    font-size: 2em;
+    text-align: center;
+    width: 100%;
+  }
+
+  .breakdown {
+    display: grid;
+    font-size: 0.75em;
+    grid-template-columns: repeat(5, 1fr);
+    text-align: center;
+
+    .base,
+    .racial,
+    .other {
+      display: flex;
+      flex-direction: column;
+
+      &:after {
+        font-size: 0.75em;
+      }
+    }
+
+    .base:after {
+      content: "Base";
+    }
+
+    .racial:after {
+      content: "Racial";
+    }
+
+    .other:after {
+      content: "Other";
+    }
+  }
+}

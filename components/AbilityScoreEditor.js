@@ -1,6 +1,6 @@
 // Module imports
+import AbilityScore from './AbilityScore'
 import Component from './Component'
-import IndividualAbilityScoreEditor from './IndividualAbilityScoreEditor'
 
 
 
@@ -15,7 +15,7 @@ export default class extends Component {
     const { target } = event
 
     if (this.props.onChange) {
-      this.props.onChange(target.name, parseInt(target.value, 10))
+      this.props.onChange(target.name, target.value ? parseInt(target.value, 10) : 0)
     }
   }
 
@@ -40,14 +40,15 @@ export default class extends Component {
     } = this.props
 
     return (
-      <ul>
+      <ul className="ability-score-editor">
         {Object.keys(abilities).map(ability => (
-          <IndividualAbilityScoreEditor
-            {...abilities[ability]}
-            key={ability}
-            onChange={this._handleChange}
-            ability={ability}
-            character={character} />
+          <li key={ability}>
+            <AbilityScore
+              {...abilities[ability]}
+              onChange={this._handleChange}
+              ability={ability}
+              character={character} />
+          </li>
         ))}
       </ul>
     )

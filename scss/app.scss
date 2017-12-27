@@ -47,6 +47,7 @@
 
 @import 'core/banner';
 @import 'core/headings';
+@import 'core/input';
 
 
 
@@ -56,6 +57,8 @@
   components
 \*****************************************************************************/
 
+@import 'components/ability-score';
+@import 'components/ability-score-editor';
 @import 'components/brand';
 @import 'components/character-list';
 

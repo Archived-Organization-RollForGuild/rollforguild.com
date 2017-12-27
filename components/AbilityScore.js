@@ -37,15 +37,19 @@ export default class extends Component {
       character,
       max,
       min,
-      modifier,
+      // modifier,
       name,
       racialModifier,
     } = this.props
-
     const score = character['ability-scores'][ability]
+    // const calculatedNaturalModifier = modifier ? modifier(character) : 0
+    const calculatedOtherModifier = 0
+    const calculatedRacialModifier = racialModifier ? racialModifier(character) : 0
 
     return (
-      <div className="individual-ability-score-editor">
+      <div className="ability-score">
+        <label htmlFor={ability}><abbr title={name}>{abbreviation}</abbr></label>
+
         <input
           id={ability}
           max={max}
@@ -53,21 +57,23 @@ export default class extends Component {
           name={ability}
           onChange={this.props.onChange}
           type="number"
-          value={score} />
-
-        <label htmlFor={ability}><abbr title={name}>{abbreviation}</abbr></label>
+          value={score + calculatedOtherModifier + calculatedRacialModifier} />
 
         <div className="breakdown">
           <span className="base">
             {score}
           </span>
 
-          <span className="racial-modifier">
-            {racialModifier ? racialModifier(character) : 0}
+          <span className="delimiter">+</span>
+
+          <span className="racial">
+            {calculatedRacialModifier}
           </span>
 
-          <span className="natural-modifier">
-            {modifier ? modifier(character) : 0}
+          <span className="delimiter">+</span>
+
+          <span className="other">
+            {calculatedOtherModifier}
           </span>
         </div>
       </div>
