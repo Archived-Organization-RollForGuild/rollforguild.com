@@ -59,14 +59,16 @@ export default class extends Component {
     const statesMatch = nextState === this.state
     let abilityScoresMatch = true
 
-    for (const ability of Object.keys(nextProps.character['ability-scores'])) {
-      const newScore = nextProps.character['ability-scores'][ability]
-      const oldScore = this.props.character['ability-scores'][ability]
+    if (nextProps.character['ability-scores']) {
+      for (const ability of Object.keys(nextProps.character['ability-scores'])) {
+        const newScore = nextProps.character['ability-scores'][ability]
+        const oldScore = this.props.character['ability-scores'][ability]
 
-      abilityScoresMatch = newScore === oldScore
+        abilityScoresMatch = newScore === oldScore
 
-      if (!abilityScoresMatch) {
-        break
+        if (!abilityScoresMatch) {
+          break
+        }
       }
     }
 
