@@ -1,0 +1,48 @@
+{
+  "name": {
+    "name": "Name",
+    "type": "text"
+  },
+
+  "alignment": {
+    "name": "Alignment",
+    "options": [
+      "Lawful Good",
+      "Neutral Good",
+      "Chaotic Good",
+      "Lawful Neutral",
+      "True Neutral",
+      "Chaotic Neutral",
+      "Lawful Evil",
+      "Neutral Evil",
+      "Chaotic Evil"
+    ],
+    "type": "select"
+  },
+
+  "age": {
+    "name": "Age",
+    "type": "number"
+  },
+
+  "sex": {
+    "name": "Sex",
+    "type": "text"
+  },
+
+  "height": {
+    "name": "Height",
+    "type": "text"
+  },
+
+  "weight": {
+    "name": "Weight",
+    "type": "text"
+  },
+
+  "description": {
+    "name": "Description",
+    "placeholder": "What's your backstory?",
+    "type": "long-text"
+  }
+}
