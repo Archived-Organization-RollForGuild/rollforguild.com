@@ -34,9 +34,9 @@ class CharacterBuilder extends Component {
       const abilityScores = ruleset['player-characters']['ability-scores']
 
       /* eslint-disable no-param-reassign */
-      return Object.keys(abilityScores).reduce((accumulator, abilityScore) => ({
+      return Object.keys(abilityScores).reduce((accumulator, ability) => ({
         ...accumulator,
-        [abilityScore]: abilityScores[abilityScore].base,
+        [ability]: abilityScores[ability].base,
       }), {})
       /* eslint-enable */
     }
@@ -45,10 +45,15 @@ class CharacterBuilder extends Component {
   }
 
   _handleAbilityScoreChange (ability, score) {
+    const { character } = this.state
+
     this.setState({
-      'ability-scores': {
-        ...this.state['ability-scores'],
-        [ability]: score,
+      character: {
+        ...character,
+        'ability-scores': {
+          ...character['ability-scores'],
+          [ability]: score,
+        },
       },
     })
   }
@@ -76,9 +81,16 @@ class CharacterBuilder extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    const { character } = this.state
+
     if (nextProps.ruleset) {
-      if (!this.state['ability-scores']) {
-        this.setState({ 'ability-scores': CharacterBuilder._getBaseAbilityScores(nextProps.ruleset) })
+      if (!character['ability-scores']) {
+        this.setState({
+          character: {
+            ...character,
+            'ability-scores': CharacterBuilder._getBaseAbilityScores(nextProps.ruleset),
+          },
+        })
       }
     }
   }
@@ -92,41 +104,48 @@ class CharacterBuilder extends Component {
     ])
 
     this.state = {
-      'ability-scores': CharacterBuilder._getBaseAbilityScores(props.ruleset),
-      class: null,
+      character: {
+        'ability-scores': CharacterBuilder._getBaseAbilityScores(props.ruleset),
+        class: null,
+        race: null,
+        subrace: null,
+      },
       loading: !props.ruleset,
-      race: null,
-      subrace: null,
     }
   }
 
   render () {
     const { ruleset } = this.props
+    const {
+      character,
+      loading,
+    } = this.state
 
-    if (!this.state.loading) {
+    if (!loading && ruleset) {
       return (
         <Stepzilla
           steps={[
             {
               name: 'Choose your race...',
               component: <RaceChooser
-                onRaceChange={(value) => this.setState({ race: value })}
-                onSubraceChange={(value) => this.setState({ subrace: value })}
-                race={this.state.race}
-                subrace={this.state.subrace} />,
+                onRaceChange={(value) => this.setState({ character: { ...character, race: value } })}
+                onSubraceChange={(value) => this.setState({ character: { ...character, subrace: value } })}
+                race={character.race}
+                subrace={character.subrace} />,
             },
             {
               name: 'Choose your class...',
               component: <ClassChooser
-                onChange={(value) => this.setState({ class: value })}
-                class={this.state.class} />,
+                onChange={(value) => this.setState({ character: { ...character, class: value } })}
+                class={character.class} />,
             },
             {
               name: 'Determine your ability scores...',
               component: <AbilityScoreEditor
                 abilities={ruleset['player-characters']['ability-scores']}
+                character={character}
                 onChange={this._handleAbilityScoreChange}
-                character={this.state} />,
+                ruleset={ruleset} />,
             },
           ]} />
       )

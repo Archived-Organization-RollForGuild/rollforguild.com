@@ -35,6 +35,7 @@ export default class extends Component {
     const {
       abilities,
       character,
+      ruleset,
     } = this.props
 
     return (
@@ -42,11 +43,11 @@ export default class extends Component {
         {Object.keys(abilities).map(ability => (
           <li key={ability}>
             <AbilityScore
-              {...abilities[ability]}
+              ability={ability}
+              character={character}
               editable
               onChange={this._handleChange}
-              ability={ability}
-              character={character} />
+              ruleset={ruleset} />
           </li>
         ))}
       </ul>

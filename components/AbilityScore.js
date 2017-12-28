@@ -32,16 +32,19 @@ export default class extends Component {
 
   render () {
     const {
-      abbreviation,
       ability,
       character,
       editable,
+      // racialModifier,
+      ruleset,
+    } = this.props
+    const {
+      abbreviation,
       max,
       min,
       modifier,
       name,
-      // racialModifier,
-    } = this.props
+    } = ruleset['player-characters']['ability-scores'][ability]
     const score = character['ability-scores'][ability]
     const calculatedNaturalModifier = modifier ? modifier(character) : 0
     const otherModifiersCalculated = 0
