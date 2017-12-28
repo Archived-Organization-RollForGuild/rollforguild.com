@@ -8,6 +8,7 @@ import Stepzilla from 'react-stepzilla'
 
 // Component imports
 import AbilityScoreEditor from '../components/AbilityScoreEditor'
+import CharacterDescriptionEditor from '../components/CharacterDescriptionEditor'
 import ClassChooser from '../components/ClassChooser'
 import Component from '../components/Component'
 import Page from '../components/Page'
@@ -33,12 +34,23 @@ class CharacterBuilder extends Component {
     if (ruleset) {
       const abilityScores = ruleset['player-characters']['ability-scores']
 
-      /* eslint-disable no-param-reassign */
       return Object.keys(abilityScores).reduce((accumulator, ability) => ({
         ...accumulator,
         [ability]: abilityScores[ability].base,
       }), {})
-      /* eslint-enable */
+    }
+
+    return null
+  }
+
+  static _getBaseDescription (ruleset) {
+    if (ruleset) {
+      const { description } = ruleset['player-characters']
+
+      return Object.keys(description).reduce((accumulator, property) => ({
+        ...accumulator,
+        [property]: '',
+      }), {})
     }
 
     return null
@@ -58,6 +70,22 @@ class CharacterBuilder extends Component {
     })
   }
 
+  _handleDescriptionChange (property, value) {
+    const { character } = this.state
+
+    const description = {
+      ...character.description,
+      [property]: value,
+    }
+
+    this.setState({
+      character: {
+        ...character,
+        description,
+      },
+    })
+  }
+
 
 
 
@@ -68,7 +96,7 @@ class CharacterBuilder extends Component {
 
   componentDidUpdate () {
     console.group('Character updated:')
-    console.log(this.state)
+    console.log(JSON.stringify(this.state.character, null, 2))
     console.groupEnd()
   }
 
@@ -81,17 +109,18 @@ class CharacterBuilder extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { character } = this.state
+    const character = { ...this.state.character }
 
     if (nextProps.ruleset) {
       if (!character['ability-scores']) {
-        this.setState({
-          character: {
-            ...character,
-            'ability-scores': CharacterBuilder._getBaseAbilityScores(nextProps.ruleset),
-          },
-        })
+        character['ability-scores'] = CharacterBuilder._getBaseAbilityScores(nextProps.ruleset)
       }
+
+      if (!character.description) {
+        character.description = CharacterBuilder._getBaseDescription(nextProps.ruleset)
+      }
+
+      this.setState({ character })
     }
   }
 
@@ -99,14 +128,16 @@ class CharacterBuilder extends Component {
     super(props)
 
     this._bindMethods([
-      '_handleChange',
       '_handleAbilityScoreChange',
+      '_handleChange',
+      '_handleDescriptionChange',
     ])
 
     this.state = {
       character: {
         'ability-scores': CharacterBuilder._getBaseAbilityScores(props.ruleset),
         class: null,
+        description: CharacterBuilder._getBaseDescription(props.ruleset),
         race: null,
         subrace: null,
       },
@@ -144,6 +175,13 @@ class CharacterBuilder extends Component {
               component: <AbilityScoreEditor
                 character={character}
                 onChange={this._handleAbilityScoreChange}
+                ruleset={ruleset} />,
+            },
+            {
+              name: 'Describe yourself',
+              component: <CharacterDescriptionEditor
+                character={character}
+                onChange={this._handleDescriptionChange}
                 ruleset={ruleset} />,
             },
           ]} />
