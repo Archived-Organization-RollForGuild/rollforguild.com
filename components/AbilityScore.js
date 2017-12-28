@@ -68,9 +68,9 @@ export default class extends Component {
             <span>{score}</span>
           )}
 
-          <div className="modifier">
-            <span>Mod</span>
-            <span>{calculatedNaturalModifier >= 0 ? '+' : null}{calculatedNaturalModifier}</span>
+          <div className="modifier-container">
+            <label>Mod</label>
+            <span className="modifier">{calculatedNaturalModifier >= 0 ? '+' : null}{calculatedNaturalModifier}</span>
           </div>
         </div>
 
