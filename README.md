@@ -40,7 +40,7 @@ yarn run dev
 
 [code-of-conduct]: CODE_OF_CONDUCT.md
 [code-of-conduct-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
-[codeclimate]: https://codeclimate.com/github/RollForGuild/CharacterGenerator.com
+[codeclimate]: https://codeclimate.com/github/RollForGuild/CharacterGenerator
 [codeclimate-badge]: https://img.shields.io/codeclimate/github/RollForGuild/CharacterGenerator.svg?style=flat-square
 [coveralls]: https://coveralls.io/github/RollForGuild/CharacterGenerator
 [coveralls-badge]: https://img.shields.io/coveralls/RollForGuild/CharacterGenerator.svg?style=flat-square
