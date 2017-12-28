@@ -33,6 +33,7 @@ export default class extends Component {
   render () {
     const {
       ability,
+      breakdown,
       character,
       editable,
       // racialModifier,
@@ -77,29 +78,31 @@ export default class extends Component {
           </div>
         </div>
 
-        <div className="breakdown">
-          <span className="base">
-            {score || '-'}
-          </span>
+        {(breakdown !== 'none') && (
+          <div className="breakdown">
+            <span className="base">
+              {score || '-'}
+            </span>
 
-          <span className="delimiter">+</span>
+            <span className="delimiter">+</span>
 
-          <span className="racial">
-            {racialModifiersCalculated}
-          </span>
+            <span className="racial">
+              {racialModifiersCalculated}
+            </span>
 
-          <span className="delimiter">+</span>
+            <span className="delimiter">+</span>
 
-          <span className="other">
-            {otherModifiersCalculated}
-          </span>
+            <span className="other">
+              {otherModifiersCalculated}
+            </span>
 
-          <span className="delimiter">=</span>
+            <span className="delimiter">=</span>
 
-          <span className="total">
-            {score ? (score + allModifiersCalculated) : '-'}
-          </span>
-        </div>
+            <span className="total">
+              {score ? (score + allModifiersCalculated) : '-'}
+            </span>
+          </div>
+        )}
       </div>
     )
   }

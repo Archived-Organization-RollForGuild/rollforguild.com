@@ -64,6 +64,7 @@ export default class extends Component {
       const oldScore = this.props.character['ability-scores'][ability]
 
       abilityScoresMatch = newScore === oldScore
+
       if (!abilityScoresMatch) {
         break
       }
