@@ -126,7 +126,7 @@ class CharacterBuilder extends Component {
         <Stepzilla
           steps={[
             {
-              name: 'Choose your race...',
+              name: 'Choose your race',
               component: <RaceChooser
                 onRaceChange={(value) => this.setState({ character: { ...character, race: value } })}
                 onSubraceChange={(value) => this.setState({ character: { ...character, subrace: value } })}
@@ -134,13 +134,13 @@ class CharacterBuilder extends Component {
                 subrace={character.subrace} />,
             },
             {
-              name: 'Choose your class...',
+              name: 'Choose your class',
               component: <ClassChooser
                 onChange={(value) => this.setState({ character: { ...character, class: value } })}
                 class={character.class} />,
             },
             {
-              name: 'Determine your ability scores...',
+              name: 'Determine your ability scores',
               component: <AbilityScoreEditor
                 character={character}
                 onChange={this._handleAbilityScoreChange}
