@@ -1,11 +1,4 @@
-// Module imports
-import { connect } from 'react-redux'
-
-
-
-
-
-// Module imports
+// Component imports
 import Chooser from '../components/Chooser'
 
 
@@ -13,14 +6,22 @@ import Chooser from '../components/Chooser'
 
 
 const ClassChooser = (props) => {
-  const { ruleset } = props
+  const {
+    character,
+    ruleset,
+  } = props
+  const { classes } = ruleset['player-characters']
 
   return (
     <Chooser
       onChange={props.onChange}
-      options={ruleset['player-characters'].classes}
+      options={Object.keys(classes).map(item => ({
+        ...classes[item],
+        value: item,
+      }))}
       renderOption={option => option.name}
-      value={props.class} />
+      returnValue={option => option.value}
+      value={character.class} />
   )
 }
 
@@ -28,10 +29,4 @@ const ClassChooser = (props) => {
 
 
 
-const mapStateToProps = state => ({ ruleset: state.rulesets['dnd-5e'] })
-
-
-
-
-
-export default connect(mapStateToProps)(ClassChooser)
+export default ClassChooser

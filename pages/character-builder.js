@@ -1,4 +1,5 @@
 // Module imports
+import LocalForage from 'localforage'
 import React from 'react'
 import Stepzilla from 'react-stepzilla'
 
@@ -94,18 +95,31 @@ class CharacterBuilder extends Component {
     Public Methods
   \***************************************************************************/
 
-  componentDidUpdate () {
+  async componentDidUpdate () {
     console.group('Character updated:')
     console.log(JSON.stringify(this.state.character, null, 2))
     console.groupEnd()
+
+    await LocalForage.setItem('characterInProgress', this.state.character)
   }
 
   async componentDidMount () {
+    const promises = []
+
+    this.setState({ loading: true })
+
+    promises.push(await LocalForage.getItem('characterInProgress'))
+
     if (!this.props.ruleset) {
-      this.setState({ loading: true })
-      await this.props.getRuleset('dnd-5e')
-      this.setState({ loading: false })
+      promises.push(await this.props.getRuleset('dnd-5e'))
     }
+
+    const [character] = await Promise.all(promises)
+
+    this.setState({
+      loading: false,
+      character: character || this.state.character,
+    })
   }
 
   componentWillReceiveProps (nextProps) {
@@ -159,16 +173,18 @@ class CharacterBuilder extends Component {
             {
               name: 'Choose your race',
               component: <RaceChooser
-                onRaceChange={(value) => this.setState({ character: { ...character, race: value } })}
-                onSubraceChange={(value) => this.setState({ character: { ...character, subrace: value } })}
-                race={character.race}
-                subrace={character.subrace} />,
-            },
-            {
-              name: 'Choose your class',
-              component: <ClassChooser
-                onChange={(value) => this.setState({ character: { ...character, class: value } })}
-                class={character.class} />,
+                character={character}
+                onRaceChange={value => this.setState({ character: { ...character, race: value } })}
+                onSubraceChange={value => this.setState({ character: { ...character, subrace: value } })}
+                ruleset={ruleset} />,
+              },
+              {
+                name: 'Choose your class',
+                component: <ClassChooser
+                  character={character}
+                  onChange={value => this.setState({ character: { ...character, class: value } })}
+                  ruleset={ruleset}
+                  class={character.class} />,
             },
             {
               name: 'Determine your ability scores',

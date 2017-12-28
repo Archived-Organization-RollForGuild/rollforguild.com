@@ -11,8 +11,14 @@ export default class extends Component {
   \***************************************************************************/
 
   _handleClick (option) {
-    if (this.props.onChange && (this.props.value !== option)) {
-      this.props.onChange(option)
+    const {
+      onChange,
+      returnValue,
+      value,
+    } = this.props
+
+    if (onChange && (value !== option)) {
+      onChange(returnValue ? returnValue(option) : option)
     }
   }
 
@@ -42,11 +48,22 @@ export default class extends Component {
     }
 
     renderedOptions = renderedOptions.map(option => {
+      if (typeof option === 'string') {
+        return {
+          name: option,
+          value: option,
+        }
+      }
+
+      return option
+    })
+
+    renderedOptions = renderedOptions.map(option => {
       const renderedOption = renderOption ? renderOption(option) : option
 
       return (
         <button
-          className={(value === option) ? 'active' : null}
+          className={(value === option.value) ? 'active' : null}
           key={renderedOption}
           onClick={() => this._handleClick(option)}>
           {renderedOption}

@@ -1,6 +1,7 @@
 // Module imports
 import { bindActionCreators } from 'redux'
 import Cookies from 'next-cookies'
+import LocalForage from 'localforage'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
 
@@ -29,6 +30,15 @@ initStore()
 
 export default (Component, title = 'Untitled', reduxOptions = {}) => {
   class Page extends React.Component {
+    constructor (props) {
+      super(props)
+
+      LocalForage.config({
+        name: 'Roll for Guild',
+        storeName: 'webStore',
+      })
+    }
+
     static async getInitialProps(ctx) {
       const {
         asPath,
