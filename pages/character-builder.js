@@ -142,7 +142,6 @@ class CharacterBuilder extends Component {
             {
               name: 'Determine your ability scores...',
               component: <AbilityScoreEditor
-                abilities={ruleset['player-characters']['ability-scores']}
                 character={character}
                 onChange={this._handleAbilityScoreChange}
                 ruleset={ruleset} />,

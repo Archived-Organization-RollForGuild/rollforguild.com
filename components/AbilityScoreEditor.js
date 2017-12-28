@@ -33,10 +33,10 @@ export default class extends Component {
 
   render () {
     const {
-      abilities,
       character,
       ruleset,
     } = this.props
+    const abilities = ruleset['player-characters']['ability-scores']
 
     return (
       <ul className="ability-score-editor">
