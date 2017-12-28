@@ -12,18 +12,7 @@ export default class extends Component {
 
   _handleChange (event) {
     if (this.props.onChange) {
-      const {
-        ability,
-        character,
-        // racialModifier,
-      } = this.props
-      const score = character['ability-scores'][ability]
-      const scoreCalculated = score || 0
-      const otherModifiersCalculated = 0
-      const racialModifierCalculated = 2 //racialModifier ? racialModifier(character) : 0
-      const value = scoreCalculated + (event.target.valueAsNumber - scoreCalculated - racialModifierCalculated - otherModifiersCalculated)
-
-      this.props.onChange(ability, value)
+      this.props.onChange(this.props.ability, event.target.valueAsNumber)
     }
   }
 
@@ -68,15 +57,15 @@ export default class extends Component {
             <input
               id={ability}
               max={max}
-              min={min + allModifiersCalculated}
+              min={min}
               name={ability}
               onChange={this._handleChange}
               type="number"
-              value={score ? (score + allModifiersCalculated) : ''} />
+              value={score || ''} />
           )}
 
           {!editable && (
-            <span>{score + allModifiersCalculated}</span>
+            <span>{score}</span>
           )}
 
           <div className="modifier">
