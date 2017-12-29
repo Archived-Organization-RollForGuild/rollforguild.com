@@ -14,10 +14,6 @@ export default class Wizard extends Component {
     this.setState({ currentStep: this.state.currentStep - 1 })
   }
 
-  componentWillMount () {
-    console.log('Blep')
-  }
-
   constructor (props) {
     super(props)
 

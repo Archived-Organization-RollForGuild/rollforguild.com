@@ -1,8 +1,33 @@
-input {
+input,
+select,
+textarea {
+  appearance: none;
+  background-color: transparent;
+  border-color: $white;
+  border-style: solid;
+  border-width: 0;
+  border-radius: 0;
+  border-bottom-width: 1px;
   color: inherit;
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
+  outline: none;
   padding: 0;
+  resize: vertical;
+  transition-duration: 0.2s;
+  transition-property: background-color;
+
+  &[type=number] {
+    width: auto;
+  }
+
+  &:hover:not(:focus) {
+    background-color: rgba($white, 0.1);
+  }
+}
+
+select {
+  cursor: pointer;
 }

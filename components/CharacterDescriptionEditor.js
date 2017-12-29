@@ -1,4 +1,11 @@
 // Module imports
+import React from 'react'
+
+
+
+
+
+// Module imports
 import Component from './Component'
 
 
@@ -51,9 +58,7 @@ export default class extends Component {
           const value = character.description[property]
 
           return (
-            <fieldset
-              data-name={property}
-              key={property}>
+            <React.Fragment key={property}>
               <label htmlFor={property}>{name}</label>
 
               {['number', 'text'].includes(type) && (
@@ -82,11 +87,15 @@ export default class extends Component {
                   onChange={this._handleChange}
                   value={value}>
                   {options.map(option => (
-                    <option value={option}>{option}</option>
+                    <option
+                      key={option}
+                      value={option}>
+                      {option}
+                    </option>
                   ))}
                 </select>
               )}
-            </fieldset>
+            </React.Fragment>
           )
         })}
       </form>
