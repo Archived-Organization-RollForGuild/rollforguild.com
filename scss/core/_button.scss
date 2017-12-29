@@ -44,12 +44,6 @@ button,
     &.inactive {
       opacity: 0.6;
 
-      &:active,
-      &:focus,
-      &:hover,
-      &.active {
-      }
-
       &:after,
       &:before {
         width: 0;
