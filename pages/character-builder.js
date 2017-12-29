@@ -204,12 +204,14 @@ class CharacterBuilder extends Component {
             <AbilityScoreEditor
               character={character}
               onChange={this._handleAbilityScoreChange}
-              ruleset={ruleset} />
+              ruleset={ruleset}
+              title="Set your ability scores" />
 
             <CharacterDescriptionEditor
               character={character}
               onChange={this._handleDescriptionChange}
-              ruleset={ruleset} />
+              ruleset={ruleset}
+              title="Describe yourself" />
           </Wizard>
         </React.Fragment>
       )
