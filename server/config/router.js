@@ -8,7 +8,7 @@ const cookie = require('koa-cookie')
 const fs = require('fs')
 const path = require('path')
 const router = require('koa-router')()
-const validate = require('uuid-validate')
+const uuid = require('uuid/v4')
 
 const recursivelyConvertDirectoryStructureIntoJSON = require('../helpers/recursivelyConvertDirectoryStructureIntoJSON')
 
@@ -111,12 +111,11 @@ module.exports = function foo (nextjs, koa) {
   router.post(['/api/:entityType'], async ctx => {
     const { body } = ctx.request
 
-    if (!body.id || !validate(body.id)) {
-      return ctx.status = 400
-    }
+    body.id = uuid()
 
-    fs.writeFileSync(path.resolve('data', ctx.params.entityType, `${body.id}.json`), JSON.stringify(body), 'utf8')
+    fs.writeFileSync(path.resolve('data', ctx.params.entityType, `${body.id}.json`), JSON.stringify(body))
 
+    ctx.body = { data: body }
     return ctx.status = 201
   })
 
