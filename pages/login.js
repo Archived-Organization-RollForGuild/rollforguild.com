@@ -60,33 +60,41 @@ class Login extends Component {
     } = this.state
 
     return (
-      <form onSubmit={this._onSubmit}>
+      <React.Fragment>
         <header>
           <h1>Login</h1>
         </header>
 
-        <label htmlFor="email">Email</label>
+        <form onSubmit={this._onSubmit}>
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
 
-        <input
-          id="email"
-          name="email"
-          onChange={this._handleChange}
-          type="email"
-          value={email} />
+            <input
+              id="email"
+              name="email"
+              onChange={this._handleChange}
+              placeholder="john.doe@example.com"
+              type="email"
+              value={email} />
+          </div>
 
-        <label htmlFor="password">Password</label>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
 
-        <input
-          id="password"
-          name="password"
-          onChange={this._handleChange}
-          type="password"
-          value={password} />
+            <input
+              id="password"
+              name="password"
+              onChange={this._handleChange}
+              placeholder="We recommend using a password manager like 1Password"
+              type="password"
+              value={password} />
+          </div>
 
-        <menu type="toolbar">
-          <button>Login</button>
-        </menu>
-      </form>
+          <menu type="toolbar">
+            <button type="submit">Login</button>
+          </menu>
+        </form>
+      </React.Fragment>
     )
   }
 }
