@@ -1,7 +1,6 @@
 // Module imports
 import LocalForage from 'localforage'
 import React from 'react'
-import Stepzilla from 'react-stepzilla'
 
 
 
@@ -14,6 +13,7 @@ import ClassChooser from '../components/ClassChooser'
 import Component from '../components/Component'
 import Page from '../components/Page'
 import RaceChooser from '../components/RaceChooser'
+import Wizard from '../components/Wizard'
 
 
 
@@ -87,6 +87,20 @@ class CharacterBuilder extends Component {
     })
   }
 
+  _validateClassChooser () {
+    const { character } = this.state
+
+    return character.class
+  }
+
+  _validateRaceChooser () {
+    const { ruleset } = this.props
+    const { character } = this.state
+    const { races } = ruleset['player-characters']
+
+    return character.race && (races[character.race].subraces.length ? character.subrace : false)
+  }
+
 
 
 
@@ -96,9 +110,9 @@ class CharacterBuilder extends Component {
   \***************************************************************************/
 
   async componentDidUpdate () {
-    console.group('Character updated:')
-    console.log(JSON.stringify(this.state.character, null, 2))
-    console.groupEnd()
+    // console.group('Character updated:')
+    // console.log(JSON.stringify(this.state.character, null, 2))
+    // console.groupEnd()
 
     await LocalForage.setItem('characterInProgress', this.state.character)
   }
@@ -145,6 +159,8 @@ class CharacterBuilder extends Component {
       '_handleAbilityScoreChange',
       '_handleChange',
       '_handleDescriptionChange',
+      '_validateClassChooser',
+      '_validateRaceChooser',
     ])
 
     this.state = {
@@ -168,39 +184,34 @@ class CharacterBuilder extends Component {
 
     if (!loading && ruleset) {
       return (
-        <Stepzilla
-          steps={[
-            {
-              name: 'Choose your race',
-              component: <RaceChooser
-                character={character}
-                onRaceChange={value => this.setState({ character: { ...character, race: value } })}
-                onSubraceChange={value => this.setState({ character: { ...character, subrace: value } })}
-                ruleset={ruleset} />,
-              },
-              {
-                name: 'Choose your class',
-                component: <ClassChooser
-                  character={character}
-                  onChange={value => this.setState({ character: { ...character, class: value } })}
-                  ruleset={ruleset}
-                  class={character.class} />,
-            },
-            {
-              name: 'Determine your ability scores',
-              component: <AbilityScoreEditor
-                character={character}
-                onChange={this._handleAbilityScoreChange}
-                ruleset={ruleset} />,
-            },
-            {
-              name: 'Describe yourself',
-              component: <CharacterDescriptionEditor
-                character={character}
-                onChange={this._handleDescriptionChange}
-                ruleset={ruleset} />,
-            },
-          ]} />
+        <React.Fragment>
+          <Wizard>
+            <RaceChooser
+              character={character}
+              isValidated={this._validateRaceChooser}
+              onRaceChange={value => this.setState({ character: { ...character, race: value } })}
+              onSubraceChange={value => this.setState({ character: { ...character, subrace: value } })}
+              ruleset={ruleset}
+              title="Choose your race" />
+
+            <ClassChooser
+              character={character}
+              isValidated={this._validateClassChooser}
+              onChange={value => this.setState({ character: { ...character, class: value } })}
+              ruleset={ruleset}
+              title="Choose your class" />
+
+            <AbilityScoreEditor
+              character={character}
+              onChange={this._handleAbilityScoreChange}
+              ruleset={ruleset} />
+
+            <CharacterDescriptionEditor
+              character={character}
+              onChange={this._handleDescriptionChange}
+              ruleset={ruleset} />
+          </Wizard>
+        </React.Fragment>
       )
     }
 

@@ -16,9 +16,14 @@ export default class extends Component {
       returnValue,
       value,
     } = this.props
+    const optionValue = returnValue ? returnValue(option) : option
 
-    if (onChange && (value !== option)) {
-      onChange(returnValue ? returnValue(option) : option)
+    if (onChange) {
+      if (value !== optionValue) {
+        onChange(optionValue)
+      } else {
+        onChange(null)
+      }
     }
   }
 
@@ -30,12 +35,9 @@ export default class extends Component {
     Public Methods
   \***************************************************************************/
 
-  isValidated () {
-    return !!this.props.value
-  }
-
   render () {
     const {
+      className,
       options,
       renderOption,
       value,
@@ -60,21 +62,31 @@ export default class extends Component {
 
     renderedOptions = renderedOptions.map(option => {
       const renderedOption = renderOption ? renderOption(option) : option
+      const classes = []
+
+      if (value) {
+        if (value === option.value) {
+          classes.push('active')
+        } else {
+          classes.push('inactive')
+        }
+      }
 
       return (
-        <button
-          className={(value === option.value) ? 'active' : null}
-          key={renderedOption}
-          onClick={() => this._handleClick(option)}>
-          {renderedOption}
-        </button>
+        <li key={renderedOption}>
+          <button
+            className={classes.join(' ')}
+            onClick={() => this._handleClick(option)}>
+            {renderedOption}
+          </button>
+        </li>
       )
     })
 
     return (
-      <div>
+      <ul className={['chooser', className || null].join(' ')}>
         {renderedOptions}
-      </div>
+      </ul>
     )
   }
 }

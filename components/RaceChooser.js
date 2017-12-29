@@ -33,15 +33,21 @@ const RaceChooser = (props) => {
         value={character.race} />
 
       {!!subraces && (
-        <Chooser
-          onChange={props.onSubraceChange}
-          options={Object.keys(subraces).map(subrace => ({
-            ...subraces[subrace],
-            value: subrace,
-          }))}
-          renderOption={option => option.name}
-          returnValue={option => option.value}
-          value={character.subrace} />
+        <React.Fragment>
+          <header>
+            <h2>Select Your Subrace</h2>
+          </header>
+
+          <Chooser
+            onChange={props.onSubraceChange}
+            options={Object.keys(subraces).map(subrace => ({
+              ...subraces[subrace],
+              value: subrace,
+            }))}
+            renderOption={option => option.name}
+            returnValue={option => option.value}
+            value={character.subrace} />
+        </React.Fragment>
       )}
     </React.Fragment>
   )

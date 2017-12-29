@@ -23,6 +23,8 @@ html {
 [role=application] {
   align-content: stretch;
   align-items: stretch;
+  background-color: $black;
+  color: $white;
   display: flex;
   font-family: Lora, serif;
   font-size: 16px;
