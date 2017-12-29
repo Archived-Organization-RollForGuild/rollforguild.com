@@ -112,8 +112,8 @@ class CharacterBuilder extends Component {
     const { character } = this.state
 
     this.setState({ saving: true })
-    await createCharacter(character)
-    Router.push(`/my/characters/${encodeURIComponent(character.description.name)}`)
+    const id = await createCharacter(character)
+    Router.push(`/my/character?id=${id}`, `/my/characters/${id}`)
   }
 
   _validateClassChooser () {

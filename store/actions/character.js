@@ -17,6 +17,8 @@ import actionTypes from '../actionTypes'
 export const createCharacter = character => async dispatch => {
   dispatch({ type: actionTypes.CREATE_CHARACTER })
 
+  let id = null
+
   try {
     // const response = await fetch('/api/characters', {
     //   body: JSON.stringify(character),
@@ -24,7 +26,7 @@ export const createCharacter = character => async dispatch => {
     //   method: 'post',
     // })
     // const payload = await response.json()
-    const id = uuid()
+    id = uuid()
 
     const characters = await LocalForage.getItem('characters')
     Promise.all([
@@ -45,6 +47,8 @@ export const createCharacter = character => async dispatch => {
       type: actionTypes.CREATE_CHARACTER,
     })
   }
+
+  return id
 }
 
 
@@ -62,7 +66,7 @@ export const getCharacter = characterId => async dispatch => {
 
     dispatch({
       payload: {
-        data: characters.find(character => character.description.name === decodeURIComponent(characterId)),
+        data: characters.find(character => character.id === characterId),
       },
       status: 'success',
       type: actionTypes.GET_CHARACTER,
