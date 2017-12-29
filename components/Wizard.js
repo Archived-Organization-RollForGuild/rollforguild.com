@@ -41,14 +41,15 @@ export default class Wizard extends Component {
 
     return (
       <div className="wizard">
-        <div className="progress-tracker">
+        <ol className="progress-tracker">
           {children && children.map((child, index) => (
-            <div key={child.props.title}>
-              <span>{index + 1}</span>
+            <li
+              className={['step-title', (index < currentStep) ? 'done' : null].join(' ')}
+              key={child.props.title}>
               <span>{child.props.title || null}</span>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
 
         <section className="step">
           {children[currentStep]}
@@ -63,7 +64,7 @@ export default class Wizard extends Component {
             </button>
           )}
 
-          {(this.state.currentStep < (children.length - 1)) && (
+          {(currentStep < (children.length - 1)) && (
             <button
               className="next"
               disabled={children[currentStep].props.isValidated ? !children[currentStep].props.isValidated() : false}

@@ -1,0 +1,85 @@
+.wizard {
+  align-content: stretch;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+
+  > {
+    .progress-tracker {
+      align-content: stretch;
+      display: flex;
+      margin-bottom: 2rem;
+
+      .step-title {
+        display: flex;
+        flex-basis: 0;
+        flex-direction: column;
+        flex-grow: 1;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        position: relative;
+        white-space: nowrap;
+
+        em {
+          display: none;
+        }
+
+        &:after {
+          background-color: $white;
+          border-color: $white;
+          border-style: solid;
+          border-width: 0.2rem;
+          border-radius: 100%;
+          bottom: -0.5rem;
+          content: '';
+          height: 0.8rem;
+          left: 0;
+          position: absolute;
+          transition-duration: 0.5s;
+          transition-property: background-color;
+          width: 0.8rem;
+        }
+
+        &:before {
+          background-color: $white;
+          bottom: 0;
+          content: '';
+          height: 0.2rem;
+          left: 0;
+          position: absolute;
+          transition-duration: 0.5s;
+          transition-property: width;
+          width: 0;
+        }
+
+        &.done {
+          &:after {
+            background-color: $green;
+          }
+
+          &:before {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .step {
+      flex-grow: 1;
+      overflow: auto;
+    }
+
+    menu {
+      margin-top: 2rem;
+
+      .next {
+        margin-left: auto;
+      }
+
+      .previous {
+        margin-right: auto;
+      }
+    }
+  }
+}
