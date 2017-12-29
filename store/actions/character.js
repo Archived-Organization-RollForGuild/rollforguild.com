@@ -25,8 +25,10 @@ export const createCharacter = character => async dispatch => {
     // const payload = await response.json()
 
     const characters = await LocalForage.getItem('characters')
-    console.log('Got characters from local store:', characters)
-    await LocalForage.setItem('characters', (characters || []).concat(character))
+    Promise.all([
+      await LocalForage.setItem('characters', (characters || []).concat(character)),
+      await LocalForage.removeItem('characterInProgress'),
+    ])
 
     dispatch({
       payload: {
