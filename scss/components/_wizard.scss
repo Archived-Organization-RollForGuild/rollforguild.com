@@ -8,8 +8,10 @@
   > {
     .progress-tracker {
       align-content: stretch;
+      background-color: $grey;
       display: flex;
       margin-bottom: 2rem;
+      padding: 2rem;
 
       .step-title {
         display: flex;
@@ -76,10 +78,12 @@
     .step {
       flex-grow: 1;
       overflow: auto;
+      padding: 2rem;
     }
 
     menu {
       margin-top: 2rem;
+      padding: 2rem;
 
       .next {
         margin-left: auto;
