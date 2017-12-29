@@ -21,10 +21,6 @@
         position: relative;
         white-space: nowrap;
 
-        em {
-          display: none;
-        }
-
         &:after {
           background-color: $white;
           border-color: $white;
@@ -34,8 +30,9 @@
           bottom: -0.5rem;
           content: '';
           height: 0.8rem;
-          left: 0;
+          left: 50%;
           position: absolute;
+          transform: translateX(-50%);
           transition-duration: 0.5s;
           transition-property: background-color;
           width: 0.8rem;
@@ -48,9 +45,15 @@
           height: 0.2rem;
           left: 0;
           position: absolute;
-          transition-duration: 0.5s;
-          transition-property: width;
+          transform: translateX(50%);
+          transition-duration: 0.2s;
+          transition-property: transform width;
           width: 0;
+        }
+
+        &:first-child:before {
+          transform: translateX(0);
+          width: 50%;
         }
 
         &.done {
@@ -60,6 +63,10 @@
 
           &:before {
             width: 100%;
+          }
+
+          &:first-child:before {
+            width: 150%;
           }
         }
       }
