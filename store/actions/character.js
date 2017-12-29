@@ -51,11 +51,15 @@ export const getCharacter = characterId => async dispatch => {
   dispatch({ type: actionTypes.GET_CHARACTER })
 
   try {
-    const response = await fetch(`/api/characters/${characterId}`)
-    const payload = await response.json()
+    // const response = await fetch(`/api/characters/${characterId}`)
+    // const payload = await response.json()
+
+    const characters = await LocalForage.getItem('characters')
 
     dispatch({
-      payload,
+      payload: {
+        data: characters.find(character => character.description.name === decodeURIComponent(characterId)),
+      },
       status: 'success',
       type: actionTypes.GET_CHARACTER,
     })

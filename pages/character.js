@@ -6,7 +6,8 @@ import React from 'react'
 
 
 // Component imports
-import AbilityScoreChart from '../components/AbilityScoreChart'
+// import AbilityScoreChart from '../components/AbilityScoreChart'
+import CharacterReview from '../components/CharacterReview'
 import Component from '../components/Component'
 import Page from '../components/Page'
 
@@ -27,8 +28,24 @@ class Character extends Component {
   \***************************************************************************/
 
   async componentDidMount () {
+    const {
+      getCharacter,
+      getRuleset,
+      query,
+      ruleset,
+    } = this.props
+    const promises = []
+
     this.setState({ loading: true })
-    await this.props.getCharacter(this.props.query.id)
+
+    promises.push(await getCharacter(query.id))
+
+    if (!ruleset) {
+      promises.push(await getRuleset('dnd-5e'))
+    }
+
+    await Promise.all(promises)
+
     this.setState({ loading: false })
   }
 
@@ -39,43 +56,35 @@ class Character extends Component {
   }
 
   render () {
-    const { character } = this.props
+    const {
+      character,
+      ruleset,
+    } = this.props
     const { loading } = this.state
 
     return (
-      <div>
-        <header>
-          <h2>General Shit</h2>
-        </header>
-
+      <React.Fragment>
         {loading && (
           <span>Loading...</span>
         )}
 
         {(!loading && !character) && (
-          <span>No character found.</span>
+          <span>Character not found. <span aria-label="Sad face emoji" role="img">😞</span></span>
         )}
 
         {(!loading && character) && (
           <React.Fragment>
-            <table>
-              <tbody>
-                {Object.keys(character).map(property => (
-                  <tr key={property}>
-                    <th>{property}</th>
+            <CharacterReview
+              character={character}
+              ruleset={ruleset} />
 
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <AbilityScoreChart
+            {/* <AbilityScoreChart
               baseScores={character.abilities}
               loading={loading}
-              modifiedScores={character.abilities} />
+              modifiedScores={character.abilities} /> */}
           </React.Fragment>
         )}
-      </div>
+      </React.Fragment>
     )
   }
 }
@@ -84,9 +93,12 @@ class Character extends Component {
 
 
 
-const mapDispatchToProps = ['getCharacter']
+const mapDispatchToProps = ['getCharacter', 'getRuleset']
 
-const mapStateToProps = state => ({ ...state.character })
+const mapStateToProps = state => ({
+  ...state.character,
+  ruleset: state.rulesets['dnd-5e'],
+})
 
 
 

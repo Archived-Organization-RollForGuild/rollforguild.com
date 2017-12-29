@@ -17,7 +17,7 @@ export default function (state = initialState.character, action) {
     case actionTypes.GET_CHARACTER:
       switch (status) {
         case 'success':
-          newState.character = payload
+          newState.character = payload.data
           return newState
 
         default:
