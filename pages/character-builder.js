@@ -1,6 +1,7 @@
 // Module imports
 import LocalForage from 'localforage'
 import React from 'react'
+import Router from 'next/router'
 
 
 
@@ -110,7 +111,9 @@ class CharacterBuilder extends Component {
     const { createCharacter } = this.props
     const { character } = this.state
 
+    this.setState({ saving: true })
     await createCharacter(character)
+    Router.push(`/my/characters/${encodeURIComponent(character.description.name)}`)
   }
 
   _validateClassChooser () {
@@ -201,6 +204,7 @@ class CharacterBuilder extends Component {
         subrace: null,
       },
       loading: !props.ruleset,
+      saving: false,
     }
   }
 
@@ -209,9 +213,10 @@ class CharacterBuilder extends Component {
     const {
       character,
       loading,
+      saving,
     } = this.state
 
-    if (!loading && ruleset) {
+    if (!loading && !saving && ruleset) {
       return (
         <React.Fragment>
           <Wizard onComplete={this._onComplete}>
@@ -248,6 +253,12 @@ class CharacterBuilder extends Component {
               title="Review your character" />
           </Wizard>
         </React.Fragment>
+      )
+    }
+
+    if (saving) {
+      return (
+        <div>Saving...</div>
       )
     }
 

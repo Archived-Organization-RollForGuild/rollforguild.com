@@ -64,8 +64,8 @@ module.exports = function foo (nextjs, koa) {
     Parameterized routes
   \******************************************************************************/
 
-  router.get(['/character/:id'], async ctx => {
-    await nextjs.render(ctx.request, ctx.res, '/character', Object.assign({}, ctx.query, ctx.params))
+  router.get(['/my/characters/:id'], async ctx => {
+    await nextjs.render(ctx.request, ctx.res, '/my/character', Object.assign({}, ctx.query, ctx.params))
   })
 
 

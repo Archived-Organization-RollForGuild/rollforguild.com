@@ -54,7 +54,7 @@ class MyCharacters extends Component {
           <ul className="characters">
             {this.props.characters.map(character => (
               <li key={Math.random()}>
-                <Link href={`/character/${encodeURIComponent(character.description.name)}`}>
+                <Link href={`/my/characters/${encodeURIComponent(character.description.name)}`}>
                   <a style={{ backgroundImage: `url(//api.adorable.io/avatars/500/${encodeURIComponent(character.description.name)})` }}>
                     <div className="name">{character.description.name}</div>
                     <div className="short-description">Lvl {character.level} {character.race} {character.class}</div>
