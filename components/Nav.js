@@ -18,10 +18,10 @@ const navItems = [
   {
     title: 'Player Tools',
     subnav: [
-      {
-        href: '/groups/manage',
-        title: 'Groups',
-      },
+      // {
+      //   href: '/groups/manage',
+      //   title: 'Groups',
+      // },
 
       {
         href: '/my/characters',
@@ -30,45 +30,45 @@ const navItems = [
     ],
   },
 
-  {
-    title: 'GM Tools',
-    subnav: [
-      {
-        href: '/groups/manage',
-        title: 'Groups',
-      },
+  // {
+  //   title: 'GM Tools',
+  //   subnav: [
+  //     {
+  //       href: '/groups/manage',
+  //       title: 'Groups',
+  //     },
 
-      {
-        href: '/gm/dungeons',
-        title: 'Dungeons',
-      },
+  //     {
+  //       href: '/gm/dungeons',
+  //       title: 'Dungeons',
+  //     },
 
-      {
-        href: '/gm/encounters',
-        title: 'Encounters',
-      },
+  //     {
+  //       href: '/gm/encounters',
+  //       title: 'Encounters',
+  //     },
 
-      {
-        href: '/gm/monsters',
-        title: 'Monsters',
-      },
+  //     {
+  //       href: '/gm/monsters',
+  //       title: 'Monsters',
+  //     },
 
-      {
-        href: '/gm/npcs',
-        title: 'NPCs',
-      },
+  //     {
+  //       href: '/gm/npcs',
+  //       title: 'NPCs',
+  //     },
 
-      {
-        href: '/gm/treasure',
-        title: 'Treasure',
-      },
-    ],
-  },
+  //     {
+  //       href: '/gm/treasure',
+  //       title: 'Treasure',
+  //     },
+  //   ],
+  // },
 
-  {
-    href: '/login',
-    title: 'Login/Register',
-  },
+  // {
+  //   href: '/login',
+  //   title: 'Login/Register',
+  // },
 ]
 
 
