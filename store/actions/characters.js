@@ -1,5 +1,6 @@
 // Module imports
-import fetch from 'isomorphic-fetch'
+// import fetch from 'isomorphic-fetch'
+import LocalForage from 'localforage'
 
 
 
@@ -16,11 +17,12 @@ export const getCharactersForUser = () => async dispatch => {
   dispatch({ type: actionTypes.GET_CHARACTERS })
 
   try {
-    const response = await fetch('/api/characters')
-    const payload = await response.json()
+    // const response = await fetch('/api/characters')
+    // const payload = await response.json()
+    const characters = await LocalForage.getItem('characters') || []
 
     dispatch({
-      payload,
+      payload: { data: characters },
       status: 'success',
       type: actionTypes.GET_CHARACTERS,
     })

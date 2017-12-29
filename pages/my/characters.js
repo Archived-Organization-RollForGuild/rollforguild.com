@@ -53,10 +53,10 @@ class MyCharacters extends Component {
         {!loading && (
           <ul className="characters">
             {this.props.characters.map(character => (
-              <li key={character.id}>
-                <Link href={`/character/${character.id}`}>
-                  <a style={{ backgroundImage: `url(//api.adorable.io/avatars/500/${encodeURIComponent(character.name)})` }}>
-                    <div className="name">{character.name}</div>
+              <li key={Math.random()}>
+                <Link href={`/character/${encodeURIComponent(character.description.name)}`}>
+                  <a style={{ backgroundImage: `url(//api.adorable.io/avatars/500/${encodeURIComponent(character.description.name)})` }}>
+                    <div className="name">{character.description.name}</div>
                     <div className="short-description">Lvl {character.level} {character.race} {character.class}</div>
                   </a>
                 </Link>
@@ -86,7 +86,7 @@ const mapDispatchToProps = ['getCharactersForUser']
 
 const mapStateToProps = state => ({
   ...state.characters,
-  characters: state.characters.characters.filter(character => character.owner === state.user.id),
+  characters: state.characters.characters, //.filter(character => character.owner === state.user.id),
 })
 
 

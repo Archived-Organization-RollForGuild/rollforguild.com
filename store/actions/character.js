@@ -1,5 +1,6 @@
 // Module imports
-import fetch from 'isomorphic-fetch'
+// import fetch from 'isomorphic-fetch'
+import LocalForage from 'localforage'
 
 
 
@@ -16,15 +17,21 @@ export const createCharacter = character => async dispatch => {
   dispatch({ type: actionTypes.CREATE_CHARACTER })
 
   try {
-    const response = await fetch('/api/characters', {
-      body: JSON.stringify(character),
-      headers: { 'Content-Type': 'application/json' },
-      method: 'post',
-    })
-    const payload = await response.json()
+    // const response = await fetch('/api/characters', {
+    //   body: JSON.stringify(character),
+    //   headers: { 'Content-Type': 'application/json' },
+    //   method: 'post',
+    // })
+    // const payload = await response.json()
+
+    const characters = await LocalForage.getItem('characters')
+    console.log('Got characters from local store:', characters)
+    await LocalForage.setItem('characters', (characters || []).concat(character))
 
     dispatch({
-      payload,
+      payload: {
+        data: character,
+      },
       status: 'success',
       type: actionTypes.CREATE_CHARACTER,
     })

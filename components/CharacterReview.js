@@ -50,6 +50,7 @@ const CharacterReview = (props) => {
             ability={ability}
             breakdown="none"
             character={character}
+            key={ability}
             ruleset={ruleset} />
         ))}
       </div>

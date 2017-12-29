@@ -1,15 +1,18 @@
 ul.characters {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: repeat(auto-fill, 20rem);
+  grid-template-rows: repeat(auto-fill, 20rem);
 
   li {
+    align-content: stretch;
+    align-items: stretch;
     border-color: black;
     border-style: solid;
     border-width: 1px;
-    flex-grow: 1;
-    flex-shrink: 1;
-    margin-bottom: 2rem;
-    margin-right: 2rem;
+    display: flex;
+    height: 20rem;
+    width: 20rem;
 
     a {
       align-items: center;
@@ -21,8 +24,6 @@ ul.characters {
       flex-direction: column;
       flex-grow: 1;
       justify-content: center;
-      min-height: 20rem;
-      min-width: 20rem;
       overflow: hidden;
       padding-top: 20rem;
       position: relative;
