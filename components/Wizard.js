@@ -6,6 +6,10 @@ import Component from './Component'
 
 
 export default class Wizard extends Component {
+  _handleFinalClick () {
+    this.props.onComplete()
+  }
+
   _handleNextClick () {
     this.setState({ currentStep: this.state.currentStep + 1 })
   }
@@ -18,18 +22,19 @@ export default class Wizard extends Component {
     super(props)
 
     this._bindMethods([
+      '_handleFinalClick',
       '_handleNextClick',
       '_handlePreviousClick',
     ])
 
-    this.state = {
-      currentStep: 0,
-    }
+    this.state = { currentStep: 0 }
   }
 
   render () {
     let { children } = this.props
     const { currentStep } = this.state
+    const isFirstStep = this.state.currentStep === 0
+    const isLastStep = currentStep === (children.length - 1)
 
     if (!Array.isArray(children)) {
       children = [children]
@@ -52,7 +57,7 @@ export default class Wizard extends Component {
         </section>
 
         <menu type="toolbar">
-          {(this.state.currentStep > 0) && (
+          {!isFirstStep && (
             <button
               className="previous"
               onClick={this._handlePreviousClick}>
@@ -60,14 +65,12 @@ export default class Wizard extends Component {
             </button>
           )}
 
-          {(currentStep < (children.length - 1)) && (
-            <button
-              className="next"
-              disabled={children[currentStep].props.isValidated ? !children[currentStep].props.isValidated() : false}
-              onClick={this._handleNextClick}>
-              Next
-            </button>
-          )}
+          <button
+            className="next"
+            disabled={children[currentStep].props.isValidated ? !children[currentStep].props.isValidated() : false}
+            onClick={isLastStep ? this._handleFinalClick : this._handleNextClick}>
+            Next
+          </button>
         </menu>
       </div>
     )
