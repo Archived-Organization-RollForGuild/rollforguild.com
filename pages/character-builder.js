@@ -106,6 +106,13 @@ class CharacterBuilder extends Component {
     this.setState({ character: { ...character, subrace: value } })
   }
 
+  async _onComplete () {
+    const { createCharacter } = this.props
+    const { character } = this.state
+
+    await createCharacter(character)
+  }
+
   _validateClassChooser () {
     const { character } = this.state
 
@@ -180,6 +187,7 @@ class CharacterBuilder extends Component {
       '_handleDescriptionChange',
       '_handleRaceChange',
       '_handleSubraceChange',
+      '_onComplete',
       '_validateClassChooser',
       '_validateRaceChooser',
     ])
@@ -206,7 +214,7 @@ class CharacterBuilder extends Component {
     if (!loading && ruleset) {
       return (
         <React.Fragment>
-          <Wizard>
+          <Wizard onComplete={this._onComplete}>
             <RaceChooser
               character={character}
               isValidated={this._validateRaceChooser}
