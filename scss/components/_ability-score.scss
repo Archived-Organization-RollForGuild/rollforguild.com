@@ -15,11 +15,11 @@
     position: relative;
 
     > {
-      input,
-      span {
+      .value {
         -moz-appearance: textfield;
         background-color: transparent;
         border: none;
+        display: block;
         font-size: 2em;
         text-align: center;
         width: 2em;

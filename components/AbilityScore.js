@@ -59,6 +59,7 @@ export default class extends Component {
         <div className="score">
           {editable && (
             <input
+              className="value"
               id={ability}
               max={max}
               min={min}
@@ -69,7 +70,7 @@ export default class extends Component {
           )}
 
           {!editable && (
-            <span>{score}</span>
+            <span className="value">{score}</span>
           )}
 
           <div className="modifier-container">
