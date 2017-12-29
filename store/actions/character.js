@@ -1,6 +1,7 @@
 // Module imports
 // import fetch from 'isomorphic-fetch'
 import LocalForage from 'localforage'
+import uuid from 'uuid/v4'
 
 
 
@@ -23,16 +24,17 @@ export const createCharacter = character => async dispatch => {
     //   method: 'post',
     // })
     // const payload = await response.json()
+    const id = uuid()
 
     const characters = await LocalForage.getItem('characters')
     Promise.all([
-      await LocalForage.setItem('characters', (characters || []).concat(character)),
+      await LocalForage.setItem('characters', (characters || []).concat({ ...character, id })),
       await LocalForage.removeItem('characterInProgress'),
     ])
 
     dispatch({
       payload: {
-        data: character,
+        data: { ...character, id },
       },
       status: 'success',
       type: actionTypes.CREATE_CHARACTER,
