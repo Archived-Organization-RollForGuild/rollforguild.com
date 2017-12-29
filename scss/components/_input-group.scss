@@ -1,0 +1,12 @@
+.input-group {
+  align-content: stretch;
+  display: flex;
+
+  label {
+    width: 20%;
+
+    + * {
+      flex-grow: 1;
+    }
+  }
+}

@@ -23,8 +23,14 @@ textarea {
     width: auto;
   }
 
-  &:hover:not(:focus) {
+  &:hover:not(:focus):not([readonly]) {
     background-color: rgba($white, 0.1);
+  }
+
+  &[readonly] {
+    background-color: transparent;
+    border-color: transparent;
+    cursor: pointer;
   }
 }
 

@@ -9,6 +9,7 @@ import React from 'react'
 // Component imports
 import AbilityScoreEditor from '../components/AbilityScoreEditor'
 import CharacterDescriptionEditor from '../components/CharacterDescriptionEditor'
+import CharacterReview from '../components/CharacterReview'
 import ClassChooser from '../components/ClassChooser'
 import Component from '../components/Component'
 import Page from '../components/Page'
@@ -87,6 +88,24 @@ class CharacterBuilder extends Component {
     })
   }
 
+  _handleRaceChange (value) {
+    const { character } = this.state
+
+    this.setState({
+      character: {
+        ...character,
+        race: value,
+        subrace: null,
+      },
+    })
+  }
+
+  _handleSubraceChange (value) {
+    const { character } = this.state
+
+    this.setState({ character: { ...character, subrace: value } })
+  }
+
   _validateClassChooser () {
     const { character } = this.state
 
@@ -98,7 +117,7 @@ class CharacterBuilder extends Component {
     const { character } = this.state
     const { races } = ruleset['player-characters']
 
-    return character.race && (races[character.race].subraces.length ? character.subrace : false)
+    return character.race && (races[character.race].subraces ? character.subrace : true)
   }
 
 
@@ -159,6 +178,8 @@ class CharacterBuilder extends Component {
       '_handleAbilityScoreChange',
       '_handleChange',
       '_handleDescriptionChange',
+      '_handleRaceChange',
+      '_handleSubraceChange',
       '_validateClassChooser',
       '_validateRaceChooser',
     ])
@@ -189,8 +210,8 @@ class CharacterBuilder extends Component {
             <RaceChooser
               character={character}
               isValidated={this._validateRaceChooser}
-              onRaceChange={value => this.setState({ character: { ...character, race: value } })}
-              onSubraceChange={value => this.setState({ character: { ...character, subrace: value } })}
+              onRaceChange={this._handleRaceChange}
+              onSubraceChange={this._handleSubraceChange}
               ruleset={ruleset}
               title="Choose your race" />
 
@@ -212,6 +233,11 @@ class CharacterBuilder extends Component {
               onChange={this._handleDescriptionChange}
               ruleset={ruleset}
               title="Describe yourself" />
+
+            <CharacterReview
+              character={character}
+              ruleset={ruleset}
+              title="Review your character" />
           </Wizard>
         </React.Fragment>
       )

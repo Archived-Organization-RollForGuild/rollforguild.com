@@ -9,8 +9,8 @@
     }
   ],
   "name": "Dwarf",
-  "subraces": [
-    {
+  "subraces": {
+    "hill-dwarf": {
       "modifiers": [
         {
           "description": "Your Wisdom score increases by 1.",
@@ -28,5 +28,5 @@
       ],
       "name": "Hill Dwarf"
     }
-  ]
+  }
 }

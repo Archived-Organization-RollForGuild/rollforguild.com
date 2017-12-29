@@ -52,6 +52,7 @@
 @import 'core/banner';
 @import 'core/button';
 @import 'core/form';
+@import 'core/header';
 @import 'core/headings';
 @import 'core/input';
 @import 'core/menu';
@@ -61,14 +62,16 @@
 
 
 /*****************************************************************************\
-  components
+components
 \*****************************************************************************/
 
 @import 'components/ability-score';
 @import 'components/ability-score-editor';
 @import 'components/brand';
 @import 'components/character-list';
+@import 'components/character-review';
 @import 'components/chooser';
+@import 'components/input-group';
 @import 'components/wizard';
 
 

@@ -1,7 +1,8 @@
 [role=banner] {
-  display: flex;
+  align-items: initial;
   flex-direction: column;
   flex-shrink: 0;
+  justify-content: initial;
   overflow: hidden;
   width: 20rem;
 
@@ -9,7 +10,8 @@
     overflow: auto;
   }
 
-  a, label {
+  a,
+  label {
     display: block;
     padding: 2rem;
     width: 100%;

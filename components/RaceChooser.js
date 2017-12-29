@@ -18,7 +18,7 @@ const RaceChooser = (props) => {
     ruleset,
   } = props
   const { races } = ruleset['player-characters']
-  const subraces = character.race ? races[character.race].subraces : null
+  const subraces = (character.race && races[character.race].subraces) ? races[character.race].subraces : null
 
   return (
     <React.Fragment>
@@ -32,7 +32,7 @@ const RaceChooser = (props) => {
         returnValue={option => option.value}
         value={character.race} />
 
-      {!!subraces && (
+      {subraces && (
         <React.Fragment>
           <header>
             <h2>Select Your Subrace</h2>
@@ -40,9 +40,9 @@ const RaceChooser = (props) => {
 
           <Chooser
             onChange={props.onSubraceChange}
-            options={Object.keys(subraces).map(subrace => ({
-              ...subraces[subrace],
-              value: subrace,
+            options={Object.keys(subraces).map(item => ({
+              ...subraces[item],
+              value: item,
             }))}
             renderOption={option => option.name}
             returnValue={option => option.value}

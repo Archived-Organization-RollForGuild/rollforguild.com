@@ -47,7 +47,7 @@ export default class extends Component {
     const { description } = ruleset['player-characters']
 
     return (
-      <form>
+      <form className="vertical">
         {Object.keys(description).map(property => {
           const {
             name,
@@ -58,7 +58,9 @@ export default class extends Component {
           const value = character.description[property]
 
           return (
-            <React.Fragment key={property}>
+            <div
+              className="input-group"
+              key={property}>
               <label htmlFor={property}>{name}</label>
 
               {['number', 'text'].includes(type) && (
@@ -95,7 +97,7 @@ export default class extends Component {
                   ))}
                 </select>
               )}
-            </React.Fragment>
+            </div>
           )
         })}
       </form>
