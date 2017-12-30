@@ -68,7 +68,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
         <div role="application">
           <Head title={title} />
 
-          <Header />
+          <Header path={this.props.asPath} />
 
           <main className={mainClasses}>
             <Component {...this.props} />

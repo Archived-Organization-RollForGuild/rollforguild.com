@@ -13,13 +13,12 @@ import Nav from './Nav'
 
 
 
-export default () => (
+export default (props) => (
   <header role="banner">
     <Link href="/">
       <a><div className="brand" /></a>
     </Link>
-    {/* <div className="brand" /> */}
 
-    <Nav />
+    <Nav path={props.path} />
   </header>
 )
