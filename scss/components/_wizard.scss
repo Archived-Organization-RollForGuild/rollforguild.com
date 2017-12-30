@@ -61,6 +61,12 @@
           width: 50%;
         }
 
+        &.current {
+          &:after {
+            box-shadow: 0 0 1rem 0 $green;
+          }
+        }
+
         &.done {
           &:after {
             background-color: $green;

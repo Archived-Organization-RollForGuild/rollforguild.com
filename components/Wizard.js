@@ -45,7 +45,7 @@ export default class Wizard extends Component {
         <ol className="progress-tracker">
           {children && children.map((child, index) => (
             <li
-              className={['step-title', (index < currentStep) ? 'done' : null].join(' ')}
+              className={['step-title', (index < currentStep) ? 'done' : null, (index === currentStep) ? 'current' : null].join(' ')}
               key={child.props.title}>
               <span>{child.props.title || null}</span>
             </li>
