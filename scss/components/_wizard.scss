@@ -8,7 +8,10 @@
   > {
     .progress-tracker {
       align-content: stretch;
-      background-color: $grey;
+      background-color: $black;
+      border-color: $light-grey;
+      border-style: solid;
+      border-bottom-width: 1px;
       display: flex;
       padding: 2rem;
 
@@ -49,7 +52,7 @@
           position: absolute;
           transform: translateX(50%);
           transition-duration: 0.2s;
-          transition-property: transform width;
+          transition-property: box-shadow transform width;
           width: 0;
         }
 

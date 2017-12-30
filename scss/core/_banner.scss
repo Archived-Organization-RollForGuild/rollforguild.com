@@ -1,6 +1,9 @@
 [role=banner] {
   align-items: initial;
   background-color: $black;
+  border-color: $light-grey;
+  border-style: solid;
+  border-right-width: 1px;
   flex-direction: column;
   flex-shrink: 0;
   justify-content: initial;
