@@ -1,3 +1,10 @@
+// Module imports
+import React from 'react'
+
+
+
+
+
 // Component imports
 import Page from '../../components/Page'
 
@@ -13,7 +20,13 @@ const title = 'GM Encounters'
 
 
 const GMEncounters = () => (
-  <h1>GM Encounters!</h1>
+  <React.Fragment>
+    <header>
+      <h1>Encounter Generator!</h1>
+    </header>
+
+    <p>Bleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeep</p>
+  </React.Fragment>
 )
 
 
