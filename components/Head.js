@@ -1,8 +1,6 @@
-import Cookies from 'js-cookie'
 import NextHead from 'next/head'
 import NProgress from 'nprogress'
 import React from 'react'
-import ReactGA from 'react-ga'
 import Router from 'next/router'
 
 
@@ -11,12 +9,6 @@ import Router from 'next/router'
 
 import appStylesheet from '../scss/app.scss'
 import libStylesheet from '../scss/lib.scss'
-
-
-
-
-
-const gaTrackingId = 'UA-106962187-1'
 
 
 
@@ -33,19 +25,6 @@ Router.onRouteChangeError = () => {
 }
 
 Router.onRouteChangeComplete = () => {
-  const userId = Cookies.get('userId')
-  let preferences = Cookies.get('preferences')
-
-  preferences = preferences ? JSON.parse(preferences) : {}
-
-  ReactGA.initialize(gaTrackingId)
-
-  if (preferences.allowPersonalizedTracking) {
-    ReactGA.set({ userId })
-  }
-
-  ReactGA.pageview(window.location.pathname)
-
   NProgress.done()
 }
 
@@ -63,17 +42,5 @@ export default (props) => (
 
     <style dangerouslySetInnerHTML={{ __html: libStylesheet }} />
     <style dangerouslySetInnerHTML={{ __html: appStylesheet }} />
-
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`} />
-    <script dangerouslySetInnerHTML={{
-      __html: `
-        window.dataLayer = window.dataLayer || []
-        function gtag(){
-          dataLayer.push(arguments)
-        }
-        gtag('js', new Date())
-        gtag('config', '${gaTrackingId}')
-      `,
-    }} />
   </NextHead>
 )
