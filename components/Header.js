@@ -1,4 +1,5 @@
 // Module imports
+import Link from 'next/link'
 import React from 'react'
 
 
@@ -14,7 +15,10 @@ import Nav from './Nav'
 
 export default () => (
   <header role="banner">
-    <div className="brand" />
+    <Link href="/">
+      <a><div className="brand" /></a>
+    </Link>
+    {/* <div className="brand" /> */}
 
     <Nav />
   </header>
