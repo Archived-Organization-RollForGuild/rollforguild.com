@@ -30,7 +30,9 @@ deploy:
 
 notifications:
   slack:
-    secure: NW1iAR6c25g0xuhUGU/j8j3gC9AyW9T8V7mWQRQ5l6OiiaHOWjQ3CVaaFCuwk7DP9fgxbfteyG0rc4QmsT7gkgtsOI0ApzraXz8k2GOXFxr+7vV5uM+cAcVWV2qxB34/s9fFX6Ic7Cx1mdXLqCY/Mi/YHTdDUJpVcKeMhvEarRhEg0Symq/C5ssel6nUKNJKfGWaX79mSlapkZuy5uKA5/C0Z8HWGbJLRvl0HNttlRM5PEuPRrIC6MIkS9UVFvsys0RaSCT8dIr3cml4z7ZuR7076r/08D0d31S/byecf7VCcPH7q5e71OQdLMR0h9A+S1vwOjbw/nl1YJq2r9dQ4Vgnfg8URrTKNoSi6wprNIjU2Yu5YQEAT0K/teBiWJjAl+v7q0a1wPTXHofvWLT1zG9Vuaq+JXnGf98krCf6Y/9fWUalQulKQZ79E+xSvc9xYSb9k8o5M4XMNdbCGoWpjYlTQUftzCzHkTgcznGOHpzclnKkIvw1Ry4WaAJCwbD+UhZC3SefK3qHt4+qhN1gx7ya9wCzC2Bz910R7xizmCPbxI9/p0LrNlWWVWHqzs1oOBNrXahRxOiXi0vK4ui7YBrACChgQhdzb7/olBmw/Gp6SKJY3Xk8gtIG9ZGABS+l+PI/Lkb6I+P81dPQqL6Xftlx5zF3z6NPghIlC6YjW4M=
+    rooms:
+      secure: NW1iAR6c25g0xuhUGU/j8j3gC9AyW9T8V7mWQRQ5l6OiiaHOWjQ3CVaaFCuwk7DP9fgxbfteyG0rc4QmsT7gkgtsOI0ApzraXz8k2GOXFxr+7vV5uM+cAcVWV2qxB34/s9fFX6Ic7Cx1mdXLqCY/Mi/YHTdDUJpVcKeMhvEarRhEg0Symq/C5ssel6nUKNJKfGWaX79mSlapkZuy5uKA5/C0Z8HWGbJLRvl0HNttlRM5PEuPRrIC6MIkS9UVFvsys0RaSCT8dIr3cml4z7ZuR7076r/08D0d31S/byecf7VCcPH7q5e71OQdLMR0h9A+S1vwOjbw/nl1YJq2r9dQ4Vgnfg8URrTKNoSi6wprNIjU2Yu5YQEAT0K/teBiWJjAl+v7q0a1wPTXHofvWLT1zG9Vuaq+JXnGf98krCf6Y/9fWUalQulKQZ79E+xSvc9xYSb9k8o5M4XMNdbCGoWpjYlTQUftzCzHkTgcznGOHpzclnKkIvw1Ry4WaAJCwbD+UhZC3SefK3qHt4+qhN1gx7ya9wCzC2Bz910R7xizmCPbxI9/p0LrNlWWVWHqzs1oOBNrXahRxOiXi0vK4ui7YBrACChgQhdzb7/olBmw/Gp6SKJY3Xk8gtIG9ZGABS+l+PI/Lkb6I+P81dPQqL6Xftlx5zF3z6NPghIlC6YjW4M=
     template:
-      - "%{repository_slug} (%{commit}): '%{message}' by %{author}'"
-      - "Build details: %{build_url}"
+      - "Build <%{build_url}|#%{build_number}> of %{repository_slug}@%{branch} %{result} in %{duration}"
+      - "%{message}"
+      - "(<%{compare_url}|%{commit}>) by %{author}'"
