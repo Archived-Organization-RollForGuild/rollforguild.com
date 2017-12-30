@@ -18,7 +18,7 @@ before_deploy:
 deploy:
 - provider: script
   skip_cleanup: true
-  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/ travis-deployment@trezy.com:/var/www/rollforguild.com/
+  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/ travis-deployment@trezy.com:/var/www/dev.rollforguild.com/
   on:
     branch: develop
 
