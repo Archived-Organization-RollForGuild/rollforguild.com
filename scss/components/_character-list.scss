@@ -3,6 +3,7 @@ ul.characters {
   grid-gap: 2rem;
   grid-template-columns: repeat(auto-fill, 20rem);
   grid-template-rows: repeat(auto-fill, 20rem);
+  padding: 2rem;
 
   li {
     align-content: stretch;
