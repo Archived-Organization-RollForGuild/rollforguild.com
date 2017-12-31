@@ -65,10 +65,10 @@ const navItems = [
     ],
   },
 
-  {
-    href: '/login',
-    title: 'Login/Register',
-  },
+  // {
+  //   href: '/login',
+  //   title: 'Login/Register',
+  // },
 ]
 
 
