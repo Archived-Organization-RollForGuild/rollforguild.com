@@ -4,7 +4,7 @@
   grid-template-areas:
     'header header'
     'description ability-scores';
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat(2, 1fr);
 
   header {
     grid-area: header;
