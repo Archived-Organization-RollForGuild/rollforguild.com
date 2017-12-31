@@ -1,7 +1,7 @@
 .chooser {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, auto));
   grid-gap: 2rem;
-  grid-template-columns: repeat(5, 1fr);
 
   &:not(:last-child) {
     margin-bottom: 2rem;

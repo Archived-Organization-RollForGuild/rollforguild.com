@@ -20,11 +20,11 @@
         flex-basis: 0;
         flex-direction: column;
         flex-grow: 1;
+        font-size: 0.75em;
         margin-bottom: 1rem;
-        padding-bottom: 1rem;
+        padding: 0 1rem 1rem;
         position: relative;
         text-align: center;
-        white-space: nowrap;
 
         &:after {
           background-color: $white;
