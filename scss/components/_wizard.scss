@@ -38,8 +38,7 @@
           left: 50%;
           position: absolute;
           transform: translateX(-50%);
-          transition-duration: 0.5s;
-          transition-property: background-color;
+          transition: background-color 0.5s;
           width: 0.8rem;
         }
 
@@ -51,8 +50,10 @@
           left: 0;
           position: absolute;
           transform: translateX(50%);
-          transition-duration: 0.2s;
-          transition-property: box-shadow transform width;
+          transition:
+            box-shadow 0.2s,
+            transform 0.2s,
+            width 0.2s;
           width: 0;
         }
 

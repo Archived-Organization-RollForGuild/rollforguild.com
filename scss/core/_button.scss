@@ -18,8 +18,10 @@ button,
   padding: 1rem 2rem;
   position: relative;
   text-decoration: none;
-  transition-duration: 0.2s;
-  transition-property: background-color border-color color;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
 
   &:after,
   &:before {
@@ -27,8 +29,7 @@ button,
     content: '';
     height: 1px;
     position: absolute;
-    transition-duration: 0.2s;
-    transition-property: width;
+    transition: width 0.2s;
     width: 100%;
   }
 

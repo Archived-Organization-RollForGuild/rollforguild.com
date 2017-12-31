@@ -47,8 +47,7 @@ ul.characters {
       bottom: 0;
       right: 0;
       transform: translateY(100%);
-      transition-duration: 0.2s;
-      transition-property: transform;
+      transition: transform 0.2s;
     }
 
     &.create {

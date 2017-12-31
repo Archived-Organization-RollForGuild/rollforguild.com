@@ -16,8 +16,7 @@ textarea {
   outline: none;
   padding: 0;
   resize: vertical;
-  transition-duration: 0.2s;
-  transition-property: background-color;
+  transition: background-color 0.2s;
 
   &[type=number] {
     width: auto;
