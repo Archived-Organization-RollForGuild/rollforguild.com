@@ -132,7 +132,8 @@ export default class extends Component {
           defaultChecked={subnav.find(({ href }) => href === path)}
           hidden
           id={sanitizedTitle}
-          type="checkbox" />
+          name="subnav"
+          type="radio" />
       )
     } else {
       renderedItemTitle = (<Link {...itemWithOnlyLinkProps}><a>{renderedItemTitle}</a></Link>)
