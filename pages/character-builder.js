@@ -15,6 +15,7 @@ import ClassChooser from '../components/ClassChooser'
 import Component from '../components/Component'
 import Page from '../components/Page'
 import RaceChooser from '../components/RaceChooser'
+import SkillEditor from '../components/SkillEditor'
 import Wizard from '../components/Wizard'
 
 
@@ -59,6 +60,19 @@ class CharacterBuilder extends Component {
     return null
   }
 
+  static _getBaseSkills (ruleset) {
+    if (ruleset) {
+      const { skills } = ruleset['player-characters']
+
+      return Object.keys(skills).reduce((accumulator, property) => ({
+        ...accumulator,
+        [property]: false,
+      }), {})
+    }
+
+    return null
+  }
+
   _handleAbilityScoreChange (ability, score) {
     const { character } = this.state
 
@@ -97,6 +111,22 @@ class CharacterBuilder extends Component {
         ...character,
         race: value,
         subrace: null,
+      },
+    })
+  }
+
+  _handleSkillChange (skill, isProficient) {
+    const { character } = this.state
+
+    console.log('_handleSkillChange', skill, isProficient)
+
+    this.setState({
+      character: {
+        ...character,
+        skills: {
+          ...character.skills,
+          [skill]: isProficient,
+        },
       },
     })
   }
@@ -177,6 +207,10 @@ class CharacterBuilder extends Component {
         character.description = CharacterBuilder._getBaseDescription(nextProps.ruleset)
       }
 
+      if (!character.skills) {
+        character.skills = CharacterBuilder._getBaseSkills(nextProps.ruleset)
+      }
+
       this.setState({ character })
     }
   }
@@ -189,6 +223,7 @@ class CharacterBuilder extends Component {
       '_handleChange',
       '_handleDescriptionChange',
       '_handleRaceChange',
+      '_handleSkillChange',
       '_handleSubraceChange',
       '_onComplete',
       '_validateClassChooser',
@@ -201,6 +236,7 @@ class CharacterBuilder extends Component {
         class: null,
         description: CharacterBuilder._getBaseDescription(props.ruleset),
         race: null,
+        skills: CharacterBuilder._getBaseSkills(props.ruleset),
         subrace: null,
       },
       loading: !props.ruleset,
@@ -215,6 +251,8 @@ class CharacterBuilder extends Component {
       loading,
       saving,
     } = this.state
+
+    console.log('CharacterBuilder::character', character)
 
     if (!loading && !saving && ruleset) {
       return (
@@ -240,6 +278,12 @@ class CharacterBuilder extends Component {
               onChange={this._handleAbilityScoreChange}
               ruleset={ruleset}
               title="Set your ability scores" />
+
+            <SkillEditor
+              character={character}
+              onChange={this._handleSkillChange}
+              ruleset={ruleset}
+              title="Edit your skills" />
 
             <CharacterDescriptionEditor
               character={character}
