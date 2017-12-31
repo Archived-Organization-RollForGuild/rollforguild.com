@@ -1,0 +1,5 @@
+{
+  "base": 0,
+  "value": "((character, ruleset) => ruleset['player-characters']['ability-scores'].intelligence.modifier(character) + (character.skills.religion.proficient ? character['proficiency-bonus'] : 0))",
+  "name": "Religion"
+}

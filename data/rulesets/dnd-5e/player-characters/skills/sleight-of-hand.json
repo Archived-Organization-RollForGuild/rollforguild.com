@@ -1,0 +1,5 @@
+{
+  "base": 0,
+  "value": "((character, ruleset) => ruleset['player-characters']['ability-scores'].dexterity.modifier(character) + (character.skills['sleight-of-hand'].proficient ? character['proficiency-bonus'] : 0))",
+  "name": "Sleight of Hand"
+}

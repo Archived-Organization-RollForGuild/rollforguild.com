@@ -1,0 +1,5 @@
+{
+  "base": 0,
+  "value": "((character, ruleset) => ruleset['player-characters']['ability-scores'].strength.modifier(character) + (character.skills.athletics.proficient ? character['proficiency-bonus'] : 0))",
+  "name": "Athletics"
+}
