@@ -2,7 +2,7 @@ defaults: &defaults
   docker:
     - image: circleci/node:9.2
 
-  working_directory: /tmp/rollforguild.com
+  working_directory: ~/repo
 
 version: 2
 
@@ -27,11 +27,6 @@ jobs:
 
       - run: yarn run build
 
-  dev-deploy:
-    <<: *defaults
-
-
-    steps:
       - add_ssh_keys
 
       - run:
@@ -44,16 +39,27 @@ jobs:
 
       - run:
           name: Deploy to dev.rollforguild.com
-          command: rsync -r --delete-after --quiet /tmp/rollforguild.com/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
+          command: rsync -r --delete-after --quiet ~/repo $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
 
 workflows:
   version: 2
-  build-deploy:
+
+  dev-deploy:
     jobs:
       - build
-      - dev-deploy:
-          requires:
-            - build
           filters:
             branches:
               only: develop
+
+  prod-deploy:
+    jobs:
+      - build
+          filters:
+            branches:
+              only: master
+      # - dev-deploy:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only: develop
