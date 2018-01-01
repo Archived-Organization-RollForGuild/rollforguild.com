@@ -30,8 +30,13 @@ jobs:
   dev-deploy:
     <<: *defaults
 
+
     steps:
       - add_ssh_keys
+
+      - run:
+          name: Keyscan (HACK)
+          command: ssh-keyscan -H dev.rollforguild.com >> ~/.ssh/known_hosts
 
       - run:
           name: Install rsync
