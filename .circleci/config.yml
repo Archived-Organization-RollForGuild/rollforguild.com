@@ -46,7 +46,7 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - deploy:
+      - dev-deploy:
           requires:
             - build
           filters:
