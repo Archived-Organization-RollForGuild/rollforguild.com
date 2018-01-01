@@ -46,14 +46,14 @@ workflows:
 
   dev-deploy:
     jobs:
-      - build
+      - build:
           filters:
             branches:
               only: develop
 
   prod-deploy:
     jobs:
-      - build
+      - build:
           filters:
             branches:
               only: master
