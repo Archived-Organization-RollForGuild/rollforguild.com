@@ -38,7 +38,7 @@ jobs:
       - run:
           name: Deploy to dev.rollforguild.com
           command: |
-            ssh-keyscan -H $APP_HOST >> ~/.ssh/known_hosts;
+            ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts;
             rsync -r --delete-after --quiet /tmp/rollforguild.com/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER;
 
 workflows:
