@@ -65,14 +65,14 @@ jobs:
 
       - run:
           name: Keyscan (HACK)
-          command: ssh-keyscan -H rollforguild.com >> ~/.ssh/known_hosts
+          command: ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
 
       - run:
           name: Install rsync
           command: sudo apt-get update -qq && sudo apt-get install -y rsync
 
       - run:
-          name: Deploy to dev.rollforguild.com
+          name: Deploy to rollforguild.com
           command: rsync -r --delete-after --quiet ~/repo/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_FOLDER
 
 workflows:
