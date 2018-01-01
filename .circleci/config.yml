@@ -39,7 +39,7 @@ jobs:
 
       - run:
           name: Deploy to dev.rollforguild.com
-          command: rsync -r --delete-after --quiet ~/repo $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
+          command: rsync -r --delete-after --quiet ~/repo/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
 
 workflows:
   version: 2
