@@ -31,9 +31,9 @@ jobs:
     <<: *defaults
 
     steps:
-      # - run:
-      #     name: Install some System dependencies
-      #     command: sudo apt-get update -qq && sudo apt-get install -y ssh rsync
+      - run:
+          name: Install rsync
+          command: sudo apt-get update -qq && sudo apt-get install -y rsync
 
       - run:
           name: Deploy to dev.rollforguild.com
