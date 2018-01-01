@@ -12,7 +12,7 @@ import Component from './Component'
 
 
 
-export default class SkillEditor extends Component {
+export default class BinaryFeatureEditor extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
@@ -46,6 +46,14 @@ export default class SkillEditor extends Component {
 
     return (
       <table className="skill-editor">
+        <thead>
+          <tr>
+            <th>Proficient</th>
+            <th>Skill</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+
         <tbody>
           {Object.keys(skills).map(skill => {
             const {
@@ -55,13 +63,13 @@ export default class SkillEditor extends Component {
 
             return (
               <tr key={name}>
-                <td>{name}</td>
-                <td>{value(character, ruleset)}</td>
                 <td>
                   <Switch
                     checked={character.skills[skill]}
                     onChange={isProficient => this._handleChange(skill, isProficient)} />
                 </td>
+                <td>{name}</td>
+                <td>{value(character, ruleset)}</td>
               </tr>
             )
           })}

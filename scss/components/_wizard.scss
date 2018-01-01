@@ -13,7 +13,9 @@
       border-style: solid;
       border-bottom-width: 1px;
       display: flex;
+      flex-shrink: 0;
       padding: 2rem;
+      overflow-x: auto;
 
       .step-title {
         display: flex;
@@ -25,6 +27,7 @@
         padding: 0 1rem 1rem;
         position: relative;
         text-align: center;
+        white-space: nowrap;
 
         &:after {
           background-color: $white;
