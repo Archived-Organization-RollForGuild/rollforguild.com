@@ -68,10 +68,10 @@ const navItems = [
   {
     title: 'About',
     subnav: [
-      {
-        href: '/mission-statement',
-        title: 'Our Mission',
-      },
+      // {
+      //   href: '/mission-statement',
+      //   title: 'Our Mission',
+      // },
 
       {
         href: '/roadmap',
