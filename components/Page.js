@@ -1,6 +1,7 @@
 // Module imports
 import { bindActionCreators } from 'redux'
-import { Provider } from 'react-redux'
+import Cookies from 'next-cookies'
+import LocalForage from 'localforage'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
 
@@ -14,13 +15,14 @@ import {
   initStore,
 } from '../store'
 import Head from './Head'
+import Header from './Header'
 
 
 
 
 
 // Component constants
-const store = initStore()
+initStore()
 
 
 
@@ -28,12 +30,22 @@ const store = initStore()
 
 export default (Component, title = 'Untitled', reduxOptions = {}) => {
   class Page extends React.Component {
+    constructor (props) {
+      super(props)
+
+      LocalForage.config({
+        name: 'Roll for Guild',
+        storeName: 'webStore',
+      })
+    }
+
     static async getInitialProps(ctx) {
-      let {
+      const {
         asPath,
         isServer,
         query,
       } = ctx
+      const { userId } = Cookies(ctx)
       let props = {}
 
       if (typeof Component.getInitialProps === 'function') {
@@ -44,20 +56,19 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
         asPath,
         isServer,
         query,
-        ...props
+        userId,
+        ...props,
       }
     }
 
-    render() {
-      let {
-        isServer,
-        path,
-      } = this.props
-      let mainClasses = ['fade-in', 'page', title.toLowerCase().replace(' ', '-')].join(' ')
+    render () {
+      const mainClasses = ['fade-in', 'page', title.toLowerCase().replace(' ', '-')].join(' ')
 
       return (
         <div role="application">
           <Head title={title} />
+
+          <Header path={this.props.asPath} />
 
           <main className={mainClasses}>
             <Component {...this.props} />
@@ -67,13 +78,14 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
     }
   }
 
-  let mapDispatchToProps = reduxOptions.mapDispatchToProps
+  const { mapStateToProps } = reduxOptions
+  let { mapDispatchToProps } = reduxOptions
 
   if (Array.isArray(reduxOptions.mapDispatchToProps)) {
     mapDispatchToProps = dispatch => {
-      let actionMap = {}
+      const actionMap = {}
 
-      for (let actionName of reduxOptions.mapDispatchToProps) {
+      for (const actionName of reduxOptions.mapDispatchToProps) {
         actionMap[actionName] = bindActionCreators(actions[actionName], dispatch)
       }
 
@@ -81,5 +93,5 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
     }
   }
 
-  return withRedux(initStore, reduxOptions.mapStateToProps, mapDispatchToProps)(Page)
+  return withRedux(initStore, mapStateToProps, mapDispatchToProps)(Page)
 }

@@ -6,9 +6,7 @@ import React from 'react'
 
 
 // Component imports
-import Component from '../components/Component'
 import Page from '../components/Page'
-import SimpleDropdown from '../components/SimpleDropdown'
 
 
 
@@ -21,222 +19,20 @@ const title = 'Home'
 
 
 
-class Index extends Component {
+const Index = () => (
+  <React.Fragment>
+    <div className="hero" />
 
-  /***************************************************************************\
-    Private Methods
-  \***************************************************************************/
+    <header>
+      <h1>Welcome</h1>
+    </header>
 
-  _handleChange (event) {
-    let {
-      name,
-      value,
-    } = event.target
-    let newState = {}
-
-    console.log('name', name)
-    console.log('value', value)
-    newState[name] = value
-
-    this.setState(newState)
-  }
-
-
-
-
-
-  /***************************************************************************\
-    Public Methods
-  \***************************************************************************/
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods(['_handleChange'])
-
-    this.state = {
-      background: '',
-      charisma: '',
-      constitution: '',
-      dexterity: '',
-      ethic: '',
-      experience: '',
-      intelligence: '',
-      moral: '',
-      name: '',
-      oClass: '',
-      race: '',
-      strength: '',
-      wisdom: '',
-    }
-  }
-
-  render () {
-    let {
-      background,
-      charisma,
-      constitution,
-      dexterity,
-      ethic,
-      experience,
-      intelligence,
-      moral,
-      name,
-      oClass,
-      race,
-      strength,
-      wisdom,
-    } = this.state
-
-    let backgrounds = [
-      'acolyte',
-      'pirate',
-      'Chump',
-      'shmoe',
-      'greg',
-      'podcaster',
-    ]
-
-    let classes = [
-      'barb',
-      'bard',
-      'ranger',
-      'quigley',
-      'joe',
-      'json',
-    ]
-
-    let ethics = [
-      'chaotic',
-      'neutral',
-      'lawful',
-    ]
-
-    let morals = [
-      'good',
-      'neutral',
-      'evil',
-    ]
-
-    let races = [
-      'dwarf',
-      'other dwarf',
-      'high elf',
-      'wood elf',
-      'dark elf',
-    ]
-
-    return (
-      <form>
-        <header>
-          <h2>General Shit</h2>
-        </header>
-
-        <input
-          name="name"
-          onChange={this._handleChange}
-          placeholder="Character Name"
-          type="text"
-          value={name} />
-
-        <SimpleDropdown
-          name="race"
-          onChange={this._handleChange}
-          options={races}
-          value={race} />
-
-        <SimpleDropdown
-          name="oClass"
-          onChange={this._handleChange}
-          options={classes}
-          value={oClass} />
-
-        <SimpleDropdown
-          name="background"
-          onChange={this._handleChange}
-          options={backgrounds}
-          value={background} />
-
-        <SimpleDropdown
-          name="ethic"
-          onChange={this._handleChange}
-          options={ethics}
-          value={ethic} />
-
-        <SimpleDropdown
-          name="moral"
-          onChange={this._handleChange}
-          options={morals}
-          value={moral} />
-
-        <input
-          name="experience"
-          onChange={this._handleChange}
-          placeholder="XP"
-          type="number"
-          value={experience} />
-
-        <header>
-          <h2>Ability Scores</h2>
-        </header>
-
-        <input
-          name="strength"
-          onChange={this._handleChange}
-          placeholder="Strength"
-          type="number" />
-
-        <input
-          name="constitution"
-          onChange={this._handleChange}
-          placeholder="Constitution"
-          type="number" />
-
-        <input
-          name="dexterity"
-          onChange={this._handleChange}
-          placeholder="Dexterity"
-          type="number" />
-
-        <input
-          name="intelligence"
-          onChange={this._handleChange}
-          placeholder="Intelligence"
-          type="number" />
-
-        <input
-          name="wisdom"
-          onChange={this._handleChange}
-          placeholder="Wisdom"
-          type="number" />
-
-        <input
-          name="charisma"
-          onChange={this._handleChange}
-          placeholder="Charisma"
-          type="number" />
-
-        <br />
-
-        name: {name}<br />
-        experience: {experience}<br />
-        background: {background}<br />
-        charisma: {charisma}<br />
-        constitution: {constitution}<br />
-        dexterity: {dexterity}<br />
-        ethic: {ethic}<br />
-        experience: {experience}<br />
-        intelligence: {intelligence}<br />
-        moral: {moral}<br />
-        name: {name}<br />
-        oClass: {oClass}<br />
-        race: {race}<br />
-        strength: {strength}<br />
-        wisdom: {wisdom}<br />
-      </form>
-    )
-  }
-}
+    <p>Roll For Guild wants to bring people to the RPG table. We aim to build tools to make running campaigns and one shots easier as well as enable people to form, find, and join groups in their local area.</p>
+    <p>We're building some simple tools such as campaign and character trackers, session notes, and spell books. However, what we are really excited about are the tools we can't mention yet. Tools that make your GM's life easier and sessions run smoother.</p>
+    <p>In addition we want to address the largest barrier to entry and continual play... Finding people to play with. We are building a platform of not only tools, but a way that groups can search for nearby players and players for nearby groups. Gone forever will be the days and weeks of tracking a new group to join or a player to fill an open seat.</p>
+    <p>We are Roll For Guild, and we just want to make your RPG experiences the best possible.</p>
+  </React.Fragment>
+)
 
 
 

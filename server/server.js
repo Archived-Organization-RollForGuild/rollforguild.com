@@ -1,5 +1,4 @@
 /* eslint-env node */
-'use strict'
 
 /******************************************************************************\
   Module imports
@@ -7,20 +6,22 @@
 
 const body = require('koa-body')
 const compress = require('koa-compress')
+const config = require('./config')
+const conditional = require('koa-conditional-get')
+const etag = require('koa-etag')
+const Koa = require('koa')
 const logger = require('koa-logger')
-const Koa = new (require('koa'))
 const path = require('path')
 
-const config = require('./config')
+const next = require('next')({
+  dev: process.env.NODE_ENV !== 'production',
+  dir: path.resolve('.'),
+})
+
 const proxy = require('./config/proxy')
 const router = require('./config/router')
 
 const koa = new Koa
-
-const next = require('next')({
-  dev: process.env.NODE_ENV !== 'production',
-  dir: path.resolve('.')
-})
 
 
 
@@ -30,8 +31,7 @@ const next = require('next')({
   Initialize the app
 \******************************************************************************/
 
-next.prepare()
-.then(() => {
+next.prepare().then(() => {
   // Set up the logger
   koa.use(logger())
 
@@ -47,7 +47,10 @@ next.prepare()
   // Configure the router
   router(next, koa, config)
 
+  // Leverage ETags to enable browser caching
+  koa.use(conditional())
+  koa.use(etag())
+
   // Start the server
-//  console.log('Listening on port', process.env.PORT || 3000)
   koa.listen(process.env.PORT || 3000)
 })

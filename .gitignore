@@ -1,7 +1,9 @@
 .DS_Store
 .next
 bower_components
+data/characters
+data/users
+logs
 node_modules
 static/compiled
 static/fonts/font-awesome
-logs/

@@ -1,0 +1,21 @@
+.chooser {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, auto));
+  grid-gap: 2rem;
+
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  li {
+    align-content: stretch;
+    align-items: stretch;
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
+
+    button {
+      flex-grow: 1;
+    }
+  }
+}

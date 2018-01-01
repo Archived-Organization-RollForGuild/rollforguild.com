@@ -1,0 +1,84 @@
+$border-color: $green;
+
+button,
+.button {
+  background-color: $black;
+  border-color: $border-color;
+  border-style: solid;
+  border-width: 0;
+  border-radius: 0;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  color: $white;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  padding: 1rem 2rem;
+  position: relative;
+  text-decoration: none;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+
+  &:after,
+  &:before {
+    background-color: $border-color;
+    content: '';
+    height: 1px;
+    position: absolute;
+    transition: width 0.2s;
+    width: 100%;
+  }
+
+  &:after {
+    bottom: 0;
+    right: 0;
+  }
+
+  &:before {
+    left: 0;
+    top: 0;
+  }
+
+  &:not([disabled]):not(.disabled) {
+    &.inactive {
+      opacity: 0.6;
+
+      &:after,
+      &:before {
+        width: 0;
+      }
+    }
+
+    &:active,
+    &:focus,
+    &:hover,
+    &.active {
+      background-color: rgba($green, 0.1);
+
+      &:after,
+      &:before {
+        width: 100%;
+      }
+    }
+
+    &.active {
+      background-color: $green;
+      color: $black;
+    }
+  }
+
+  &[disabled],
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+
+    &:after,
+    &:before {
+      width: 0;
+    }
+  }
+}

@@ -3,7 +3,13 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-//  overflow: hidden;
+  overflow: auto;
+
+  > header {
+    flex-shrink: 0;
+    font-size: 2em;
+    padding: 2rem;
+  }
 }
 
 .page-wrapper {

@@ -1,0 +1,23 @@
+.page.roadmap {
+  li {
+    background-color: $black;
+    padding: 2rem;
+    position: relative;
+
+    header,
+    p {
+      margin: 0 2rem;
+    }
+
+    progress {
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      right: 0;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "base": 0,
+  "value": "((character, ruleset) => ruleset['player-characters']['ability-scores'].charisma.modifier(character) + (character.skills.performance.proficient ? character['proficiency-bonus'] : 0))",
+  "name": "Performance"
+}

@@ -1,0 +1,108 @@
+.wizard {
+  align-content: stretch;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+
+  > {
+    .progress-tracker {
+      align-content: stretch;
+      background-color: $black;
+      border-color: $light-grey;
+      border-style: solid;
+      border-bottom-width: 1px;
+      display: flex;
+      flex-shrink: 0;
+      padding: 2rem;
+      overflow-x: auto;
+
+      .step-title {
+        display: flex;
+        flex-basis: 0;
+        flex-direction: column;
+        flex-grow: 1;
+        font-size: 0.75em;
+        margin-bottom: 1rem;
+        padding: 0 1rem 1rem;
+        position: relative;
+        text-align: center;
+        white-space: nowrap;
+
+        &:after {
+          background-color: $white;
+          border-color: $white;
+          border-style: solid;
+          border-width: 0.2rem;
+          border-radius: 100%;
+          bottom: -0.5rem;
+          content: '';
+          height: 0.8rem;
+          left: 50%;
+          position: absolute;
+          transform: translateX(-50%);
+          transition: background-color 0.5s;
+          width: 0.8rem;
+        }
+
+        &:before {
+          background-color: $white;
+          bottom: 0;
+          content: '';
+          height: 0.2rem;
+          left: 0;
+          position: absolute;
+          transform: translateX(50%);
+          transition:
+            box-shadow 0.2s,
+            transform 0.2s,
+            width 0.2s;
+          width: 0;
+        }
+
+        &:first-child:before {
+          transform: translateX(0);
+          width: 50%;
+        }
+
+        &.current {
+          &:after {
+            box-shadow: 0 0 1rem 0 $green;
+          }
+        }
+
+        &.done {
+          &:after {
+            background-color: $green;
+          }
+
+          &:before {
+            width: 100%;
+          }
+
+          &:first-child:before {
+            width: 150%;
+          }
+        }
+      }
+    }
+
+    .step {
+      flex-grow: 1;
+      overflow: auto;
+      padding: 2rem;
+    }
+
+    menu {
+      margin-top: 2rem;
+
+      .next {
+        margin-left: auto;
+      }
+
+      .previous {
+        margin-right: auto;
+      }
+    }
+  }
+}

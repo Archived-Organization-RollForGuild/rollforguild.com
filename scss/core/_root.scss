@@ -23,7 +23,11 @@ html {
 [role=application] {
   align-content: stretch;
   align-items: stretch;
+  background-color: $dark-grey;
+  color: $white;
   display: flex;
-  font-size: 12px;
+  font-family: Lora, serif;
+  font-size: 20px;
+  letter-spacing: 1px;
   line-height: 2;
 }
