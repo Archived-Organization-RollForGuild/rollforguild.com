@@ -21,6 +21,8 @@ const title = 'Home'
 
 const Index = () => (
   <React.Fragment>
+    <div className="hero" />
+
     <header>
       <h1>Welcome</h1>
     </header>
