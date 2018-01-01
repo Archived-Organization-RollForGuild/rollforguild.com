@@ -87,6 +87,10 @@ class Roadmap extends Component {
           <h1>Roadmap</h1>
         </header>
 
+        <p>Entering the tavern, an unusually alluring odor draws you to the bar. Before you can question the barkeep about the scent, you notice there's something... off. He's missing some limbs. And mugs. And now that you mention it, there's no bar, just a bunch of stools and most of a barkeep. Everything just seems... unfinished.</p>
+
+        <p>That's because this is our pre-alpha, meaning literally everything is still in flux. We wanted to launch early so we could get as much feedback as possible! Take a peek at what we have in store, and help hold us accountable on social media for all of our feature launch dates!</p>
+
         {loading && (
           <div>Loading...</div>
         )}
