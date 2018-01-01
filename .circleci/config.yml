@@ -80,14 +80,14 @@ workflows:
 
   dev-deploy:
     jobs:
-      - build:
+      - dev:
           filters:
             branches:
               only: develop
 
   prod-deploy:
     jobs:
-      - build:
+      - prod:
           filters:
             branches:
               only: master
