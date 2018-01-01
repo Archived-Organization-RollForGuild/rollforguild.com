@@ -31,7 +31,7 @@ jobs:
 
       - run:
           name: Keyscan (HACK)
-          command: ssh-keyscan -H dev.rollforguild.com >> ~/.ssh/known_hosts
+          command: ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts
 
       - run:
           name: Install rsync

@@ -24,7 +24,7 @@ const navItems = [
       },
 
       {
-        href: '/groups/manage',
+        href: '/roadmap', // '/groups/manage',
         title: 'My Groups',
       },
     ],
@@ -34,32 +34,32 @@ const navItems = [
     title: 'GM Tools',
     subnav: [
       {
-        href: '/groups/manage',
+        href: '/roadmap', // '/groups/manage',
         title: 'Groups',
       },
 
       {
-        href: '/gm/dungeons',
+        href: '/roadmap', // '/gm/dungeons',
         title: 'Dungeons',
       },
 
       {
-        href: '/gm/encounters',
+        href: '/roadmap', // '/gm/encounters',
         title: 'Encounters',
       },
 
       {
-        href: '/gm/monsters',
+        href: '/roadmap', // '/gm/monsters',
         title: 'Monsters',
       },
 
       {
-        href: '/gm/npcs',
+        href: '/roadmap', // '/gm/npcs',
         title: 'NPCs',
       },
 
       {
-        href: '/gm/treasure',
+        href: '/roadmap', // '/gm/treasure',
         title: 'Treasure',
       },
     ],
@@ -68,6 +68,11 @@ const navItems = [
   {
     title: 'About',
     subnav: [
+      {
+        href: '/mission-statement',
+        title: 'Our Mission',
+      },
+
       {
         href: '/roadmap',
         title: 'Roadmap',
