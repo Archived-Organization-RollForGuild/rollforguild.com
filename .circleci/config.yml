@@ -31,12 +31,15 @@ jobs:
     <<: *defaults
 
     steps:
-      - run:
-          name: Install some System dependencies
-          command: sudo apt-get update -qq && sudo apt-get install -y ssh rsync
+      # - run:
+      #     name: Install some System dependencies
+      #     command: sudo apt-get update -qq && sudo apt-get install -y ssh rsync
+
       - run:
           name: Deploy to dev.rollforguild.com
-          command: rsync -r --delete-after --quiet /tmp/rollforguild.com/ deploy@trezy.com:/var/www/dev.rollforguild.com/
+          command: |
+            ssh-keyscan -H $APP_HOST >> ~/.ssh/known_hosts;
+            rsync -r --delete-after --quiet /tmp/rollforguild.com/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER;
 
 workflows:
   version: 2
