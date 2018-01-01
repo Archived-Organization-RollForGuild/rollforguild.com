@@ -6,6 +6,7 @@
   overflow: auto;
 
   > header {
+    flex-shrink: 0;
     font-size: 2em;
     padding: 2rem;
   }

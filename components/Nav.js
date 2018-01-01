@@ -65,6 +65,16 @@ const navItems = [
     ],
   },
 
+  {
+    title: 'About',
+    subnav: [
+      {
+        href: '/roadmap',
+        title: 'Roadmap',
+      },
+    ],
+  },
+
   // {
   //   href: '/login',
   //   title: 'Login/Register',
