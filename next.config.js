@@ -14,6 +14,15 @@ module.exports = {
       }))
     }
 
+    config.module.rules.unshift(
+      {
+        enforce: 'pre',
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        test: /\.js$/,
+      },
+    )
+
     config.module.rules.push(
       {
         test: /\.(css|scss)/,

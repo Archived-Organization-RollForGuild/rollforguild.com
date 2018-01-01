@@ -1,0 +1,8 @@
+{
+  "abbreviation": "WIS",
+  "base": 8,
+  "max": 30,
+  "min": 1,
+  "modifier": "(character => Math.floor((character['ability-scores'].wisdom - 10) / 2))",
+  "name": "Wisdom"
+}

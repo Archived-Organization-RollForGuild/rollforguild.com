@@ -1,0 +1,5 @@
+{
+  "base": 0,
+  "value": "((character, ruleset) => ruleset['player-characters']['ability-scores'].wisdom.modifier(character) + (character.skills.medicine.proficient ? character['proficiency-bonus'] : 0))",
+  "name": "Medicine"
+}

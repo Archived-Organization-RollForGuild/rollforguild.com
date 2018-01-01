@@ -1,0 +1,8 @@
+{
+  "abbreviation": "DEX",
+  "base": 8,
+  "max": 30,
+  "min": 1,
+  "modifier": "(character => Math.floor((character['ability-scores'].dexterity - 10) / 2))",
+  "name": "Dexterity"
+}

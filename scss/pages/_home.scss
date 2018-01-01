@@ -1,1 +1,17 @@
-.page.home {}
+.page.home {
+  .hero {
+    background-image:
+      url(/static/images/logo.white.png),
+      url(/static/images/dice.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 75%, cover;
+    flex-shrink: 0;
+    height: 100vh;
+  }
+
+  p {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+}

@@ -1,0 +1,65 @@
+defaults: &defaults
+  docker:
+    - image: circleci/node:9.2
+
+  working_directory: ~/repo
+
+version: 2
+
+jobs:
+  build:
+    <<: *defaults
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: yarn run build
+
+      - add_ssh_keys
+
+      - run:
+          name: Keyscan (HACK)
+          command: ssh-keyscan -H dev.rollforguild.com >> ~/.ssh/known_hosts
+
+      - run:
+          name: Install rsync
+          command: sudo apt-get update -qq && sudo apt-get install -y rsync
+
+      - run:
+          name: Deploy to dev.rollforguild.com
+          command: rsync -r --delete-after --quiet ~/repo/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
+
+workflows:
+  version: 2
+
+  dev-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: develop
+
+  prod-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+      # - dev-deploy:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only: develop

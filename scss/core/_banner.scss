@@ -1,0 +1,112 @@
+[role=banner] {
+  align-items: initial;
+  background-color: $black;
+  border-color: $light-grey;
+  border-style: solid;
+  border-right-width: 1px;
+  flex-direction: column;
+  flex-shrink: 0;
+  font-size: 0.75em;
+  justify-content: initial;
+  overflow: hidden;
+  width: 20rem;
+
+  nav {
+    overflow: auto;
+
+    a,
+    label {
+      display: block;
+      padding: 2rem;
+      width: 100%;
+    }
+
+    label {
+      cursor: pointer;
+      position: relative;
+
+      &:after {
+        border-color: transparent;
+        border-style: solid;
+        border-width: 0.5rem;
+        border-right-color: $white;
+        border-left-width: 0;
+        content: '';
+        display: block;
+        height: 0;
+        position: absolute;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%) rotate(-90deg);
+        transition:
+          box-shadow 0.2s 0s,
+          transform 0.2s 0.3s;
+        width: 0;
+      }
+
+      &:hover:after{
+        box-shadow: 0 0 1rem $green;
+      }
+    }
+
+    a {
+      position: relative;
+      text-decoration: none;
+      transition: background-color 0.2s;
+
+      &:after,
+      &:before {
+        background-color: $green;
+        content: '';
+        height: 0.2rem;
+        position: absolute;
+        transition: width 0.2s;
+        width: 0;
+      }
+
+      &:after {
+        left: 0;
+        top: 0;
+      }
+
+      &:before {
+        bottom: 0;
+        right: 0;
+      }
+
+      &:active,
+      &:focus,
+      &:hover,
+      &.active {
+        background-color: rgba($green, 0.1);
+
+        &:after,
+        &:before {
+          width: 100%;
+        }
+      }
+    }
+
+    .subnav {
+      background-color: rgba($white, 0.1);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s;
+    }
+
+    .subnav-toggle:checked ~ {
+      label:after {
+        transform: translateY(-50%) rotate(90deg);
+      }
+      .subnav {
+        transition-duration: 0.5s;
+        max-height: 100vh;
+      }
+    }
+  }
+
+  .brand {
+    flex-shrink: 0;
+  }
+
+}

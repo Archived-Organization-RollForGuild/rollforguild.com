@@ -1,9 +1,9 @@
 // Module imports
 import {
-  combineReducers,
   createStore,
-  applyMiddleware
+  applyMiddleware,
 } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 
 
@@ -11,23 +11,28 @@ import thunkMiddleware from 'redux-thunk'
 
 
 // Component imports
-import actionTypes from './store/actionTypes'
 import initialState from './store/initialState'
 import reducer from './store/reducers/index'
 
 /* actions */
 import * as authenticationActions from './store/actions/authentication'
+import * as characterActions from './store/actions/character'
+import * as charactersActions from './store/actions/characters'
+import * as rulesetsActions from './store/actions/rulesets'
 
 
 
 
 
-export const actions = Object.assign({}, authenticationActions)
-
-
-
-
-
-export const initStore = (initialState = initialState) => {
-  return createStore(reducer, initialState, applyMiddleware(thunkMiddleware))
+export const actions = {
+  ...authenticationActions,
+  ...characterActions,
+  ...charactersActions,
+  ...rulesetsActions,
 }
+
+
+
+
+
+export const initStore = () => createStore(reducer, initialState, composeWithDevTools(applyMiddleware(thunkMiddleware)))

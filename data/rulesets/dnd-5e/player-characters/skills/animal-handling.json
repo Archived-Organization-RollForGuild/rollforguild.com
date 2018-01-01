@@ -1,0 +1,5 @@
+{
+  "base": 0,
+  "value": "((character, ruleset) => ruleset['player-characters']['ability-scores'].strength.modifier(character) + (character.skills['animal-handling'].proficient ? character['proficiency-bonus'] : 0))",
+  "name": "Animal Handling"
+}

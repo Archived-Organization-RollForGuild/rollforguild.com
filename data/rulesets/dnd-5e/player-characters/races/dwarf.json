@@ -1,0 +1,32 @@
+{
+  "modifiers": [
+    {
+      "description": "Your Constitution score increases by 2.",
+      "modifier": "(() => 2)",
+      "name": "Ability Score Increase",
+      "target": "constitution",
+      "type": "ability-scores"
+    }
+  ],
+  "name": "Dwarf",
+  "subraces": {
+    "hill-dwarf": {
+      "modifiers": [
+        {
+          "description": "Your Wisdom score increases by 1.",
+          "modifier": "(() => 1)",
+          "name": "Ability Score Increase",
+          "target": "wisdom",
+          "type": "ability-scores"
+        },
+        {
+          "description": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",
+          "modifier": "(character => character.level)",
+          "name": "Dwarven Toughness",
+          "type": "hit-points"
+        }
+      ],
+      "name": "Hill Dwarf"
+    }
+  }
+}

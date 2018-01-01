@@ -7,7 +7,6 @@ import React from 'react'
 
 
 export default class Component extends React.Component {
-
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -18,5 +17,17 @@ export default class Component extends React.Component {
 
   _debounceMethods (methods) {
     methods.forEach(method => this[method] = debounce(this[method], this.props.debounceLength || 500))
+  }
+
+  _handleChange (event) {
+    const {
+      name,
+      value,
+    } = event.target
+    const newState = {}
+
+    newState[name] = value
+
+    this.setState(newState)
   }
 }

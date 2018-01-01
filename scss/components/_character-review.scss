@@ -1,0 +1,23 @@
+.character-review {
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-areas:
+    'header header'
+    'description ability-scores';
+  grid-template-columns: repeat(2, 1fr);
+
+  header {
+    grid-area: header;
+  }
+
+  .ability-scores {
+    display: grid;
+    grid-area: ability-scores;
+    grid-gap: 2rem;
+    grid-template-columns: auto auto auto;
+  }
+
+  .description {
+    grid-area: description;
+  }
+}

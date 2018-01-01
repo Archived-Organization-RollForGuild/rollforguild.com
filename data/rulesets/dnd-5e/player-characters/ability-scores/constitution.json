@@ -1,0 +1,8 @@
+{
+  "abbreviation": "CON",
+  "base": 8,
+  "max": 30,
+  "min": 1,
+  "modifier": "(character => Math.floor((character['ability-scores'].constitution - 10) / 2))",
+  "name": "Constitution"
+}
