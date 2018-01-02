@@ -2,7 +2,7 @@
   "modifiers": [
     {
       "description": "Your ability scores each increases by 1.",
-      "modifier": "(character => character['ability-scores'].reduce((accumulator, ability) => accumulator[ability] = character['ability-scores'][ability] + 1, {})",
+      "modifier": "(character => character['ability-scores'].reduce((accumulator, ability) => { accumulator[ability] = character['ability-scores'][ability] + 1; return accumulator; }, {}))",
       "name": "Ability Score Increase",
       "type": "ability-scores"
     }

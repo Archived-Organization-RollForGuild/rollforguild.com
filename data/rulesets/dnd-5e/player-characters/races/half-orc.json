@@ -2,7 +2,7 @@
   "modifiers": [
     {
       "description": "Your Strength score increases by 2, and your Constitution score increases by 1.",
-      "modifier": "(character => { strength: character['ability-scores'].strength + 2, constitution: character['ability-scores'].constitution + 1 })",
+      "modifier": "(character => ({ strength: character['ability-scores'].strength + 2, constitution: character['ability-scores'].constitution + 1 }))",
       "name": "Ability Score Increase",
       "type": "ability-scores"
     }
