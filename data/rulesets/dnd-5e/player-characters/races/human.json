@@ -1,4 +1,11 @@
 {
-  "modifiers": [],
+  "modifiers": [
+    {
+      "description": "Your ability scores each increases by 1.",
+      "modifier": "(character => character['ability-scores'].reduce((accumulator, ability) => accumulator[ability] = character['ability-scores'][ability] + 1, {})",
+      "name": "Ability Score Increase",
+      "type": "ability-scores"
+    }
+  ],
   "name": "Human"
 }

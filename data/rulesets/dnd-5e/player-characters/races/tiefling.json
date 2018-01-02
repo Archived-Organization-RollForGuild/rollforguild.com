@@ -1,4 +1,11 @@
 {
-  "modifiers": [],
+  "modifiers": [
+    {
+      "description": "Your Intelligence score increases by 1, and your Charisma score increases by 2.",
+      "modifier": "(character => { intelligence: character['ability-scores'].intelligence + 1, charisma: character['ability-scores'].charisma + 2 })",
+      "name": "Ability Score Increase",
+      "type": "ability-scores"
+    }
+  ],
   "name": "Tiefling"
 }

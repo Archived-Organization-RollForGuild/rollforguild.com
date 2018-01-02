@@ -1,4 +1,11 @@
 {
-  "modifiers": [],
+  "modifiers": [
+    {
+      "description": "Your Dexterity score increases by 2.",
+      "modifier": "(character => { dexterity: character['ability-scores'].dexterity + 2 })",
+      "name": "Ability Score Increase",
+      "type": "ability-scores"
+    }
+  ],
   "name": "Halfling"
 }

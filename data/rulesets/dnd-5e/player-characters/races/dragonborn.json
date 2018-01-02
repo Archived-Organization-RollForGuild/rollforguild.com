@@ -1,4 +1,11 @@
 {
-  "modifiers": [],
+  "modifiers": [
+    {
+      "description": "Your Strength score increases by 2, and your Charisma score inscreases by 1.",
+      "modifier": "(character => { strength: character['ability-scores'].strength + 2, charisma: character['ability-scores'].charisma + 1 })",
+      "name": "Ability Score Increase",
+      "type": "ability-scores"
+    }
+  ],
   "name": "Dragonborn"
 }

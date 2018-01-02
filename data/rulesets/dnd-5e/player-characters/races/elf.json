@@ -1,4 +1,24 @@
 {
-  "modifiers": [],
-  "name": "Elf"
+  "modifiers": [
+    {
+      "description": "Your Dexterity score increases by 2.",
+      "modifier": "(character => { dexterity: character['ability-scores'].dexterity + 2 })",
+      "name": "Ability Score Increase",
+      "type": "ability-scores"
+    }
+  ],
+  "name": "Elf",
+  "subraces": {
+    "high-elf": {
+      "modifiers": [
+        {
+          "description": "Your Intelligence score increases by 1.",
+          "modifier": "(character => { intelligence: character['ability-scores'].intelligence + 1 })",
+          "name": "Ability Score Increase",
+          "type": "ability-scores"
+        }
+      ],
+      "name": "High Elf"
+    }
+  }
 }
