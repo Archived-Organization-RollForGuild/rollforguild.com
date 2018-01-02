@@ -79,8 +79,6 @@ class Roadmap extends Component {
       loading,
     } = this.state
 
-    console.log('data', data)
-
     return (
       <React.Fragment>
         <header>

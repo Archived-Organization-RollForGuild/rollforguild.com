@@ -118,8 +118,6 @@ class CharacterBuilder extends Component {
   _handleSkillChange (skill, isProficient) {
     const { character } = this.state
 
-    console.log('_handleSkillChange', skill, isProficient)
-
     this.setState({
       character: {
         ...character,
@@ -251,8 +249,6 @@ class CharacterBuilder extends Component {
       loading,
       saving,
     } = this.state
-
-    console.log('CharacterBuilder::character', character)
 
     if (!loading && !saving && ruleset) {
       return (
