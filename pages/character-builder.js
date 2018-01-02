@@ -11,10 +11,11 @@ import Router from 'next/router'
 import AbilityScoreEditor from '../components/AbilityScoreEditor'
 import CharacterDescriptionEditor from '../components/CharacterDescriptionEditor'
 import CharacterReview from '../components/CharacterReview'
-import ClassChooser from '../components/ClassChooser'
+import RaceAndClassChooser from '../components/RaceAndClassChooser'
+// import ClassChooser from '../components/ClassChooser'
 import Component from '../components/Component'
 import Page from '../components/Page'
-import RaceChooser from '../components/RaceChooser'
+// import RaceChooser from '../components/RaceChooser'
 import SkillEditor from '../components/SkillEditor'
 import Wizard from '../components/Wizard'
 
@@ -83,6 +84,17 @@ class CharacterBuilder extends Component {
           ...character['ability-scores'],
           [ability]: score,
         },
+      },
+    })
+  }
+
+  _handleClassChange (value) {
+    const { character } = this.state
+
+    this.setState({
+      character: {
+        ...character,
+        class: value,
       },
     })
   }
@@ -219,6 +231,7 @@ class CharacterBuilder extends Component {
     this._bindMethods([
       '_handleAbilityScoreChange',
       '_handleChange',
+      '_handleClassChange',
       '_handleDescriptionChange',
       '_handleRaceChange',
       '_handleSkillChange',
@@ -254,7 +267,16 @@ class CharacterBuilder extends Component {
       return (
         <React.Fragment>
           <Wizard onComplete={this._onComplete}>
-            <RaceChooser
+            <RaceAndClassChooser
+              character={character}
+              isValidated={this._validateRaceChooser}
+              onClassChange={this._handleClassChange}
+              onRaceChange={this._handleRaceChange}
+              onSubraceChange={this._handleSubraceChange}
+              ruleset={ruleset}
+              title="Choose your race &amp; class" />
+
+            {/* <RaceChooser
               character={character}
               isValidated={this._validateRaceChooser}
               onRaceChange={this._handleRaceChange}
@@ -267,7 +289,7 @@ class CharacterBuilder extends Component {
               isValidated={this._validateClassChooser}
               onChange={value => this.setState({ character: { ...character, class: value } })}
               ruleset={ruleset}
-              title="Choose your class" />
+              title="Choose your class" /> */}
 
             <AbilityScoreEditor
               character={character}
