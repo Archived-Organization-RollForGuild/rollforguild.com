@@ -12,16 +12,23 @@
     padding: 2rem;
     position: relative;
 
-    header,
-    p {
-      margin: 0 2rem;
-    }
+    .progress-container {
+      align-items: center;
+      display: flex;
+      margin-bottom: 2rem;
+      margin-top: 2rem;
+      position: relative;
 
-    progress {
-      bottom: 0;
-      left: 0;
-      position: absolute;
-      right: 0;
+      .completion-percentage {
+        background-color: $green;
+        font-family: Montserrat, sans-serif;
+        font-size: 0.5em;
+        font-weight: bold;
+        padding: 0 1rem;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
 
     &:not(:last-child) {

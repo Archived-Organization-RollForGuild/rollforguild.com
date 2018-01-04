@@ -106,11 +106,19 @@ class Roadmap extends Component {
                   </h3>
                 </header>
 
-                <p>{datum.description}</p>
+                <div className="progress-container">
+                  <progress
+                    max={datum.open_issues + datum.closed_issues}
+                    value={datum.closed_issues || 0} />
 
-                <progress
-                  max={datum.open_issues + datum.closed_issues}
-                  value={datum.closed_issues} />
+                  <div
+                    className="completion-percentage"
+                    style={{ left: `${((datum.closed_issues / (datum.open_issues + datum.closed_issues)) * 100) || 0}%` }}>
+                    {((datum.closed_issues / (datum.open_issues + datum.closed_issues)) * 100) || 0}%
+                  </div>
+                </div>
+
+                <p>{datum.description}</p>
               </li>
             ))}
           </ol>

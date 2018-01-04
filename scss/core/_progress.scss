@@ -8,6 +8,7 @@ progress {
 
   &::-moz-progress-bar {
     background-color: $green;
+    box-shadow: 0 0 2rem 0 rgba($green, 0.7);
   }
 
   &::-webkit-progress-bar {
@@ -16,5 +17,6 @@ progress {
 
   &::-webkit-progress-value {
     background-color: $green;
+    box-shadow: 0 0 2rem 0 $green;
   }
 }
