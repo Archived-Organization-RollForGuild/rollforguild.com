@@ -1,0 +1,20 @@
+.rc-slider-handle {
+  border-color: $green;
+}
+
+.rc-slider-dot-active {
+  border-color: $green;
+}
+
+.rc-slider-track {
+  background-color: $green;
+}
+
+.rc-slider-tooltip {
+  .rc-slider-tooltip-inner {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    padding: 0 2rem;
+  }
+}

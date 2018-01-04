@@ -2,6 +2,7 @@
 import LocalForage from 'localforage'
 import React from 'react'
 import Router from 'next/router'
+import Slider, { createSliderWithTooltip } from 'rc-slider'
 
 
 
@@ -12,10 +13,8 @@ import AbilityScoreEditor from '../components/AbilityScoreEditor'
 import CharacterDescriptionEditor from '../components/CharacterDescriptionEditor'
 import CharacterReview from '../components/CharacterReview'
 import RaceAndClassChooser from '../components/RaceAndClassChooser'
-// import ClassChooser from '../components/ClassChooser'
 import Component from '../components/Component'
 import Page from '../components/Page'
-// import RaceChooser from '../components/RaceChooser'
 import SkillEditor from '../components/SkillEditor'
 import Wizard from '../components/Wizard'
 
@@ -25,6 +24,7 @@ import Wizard from '../components/Wizard'
 
 // Component constants
 const title = 'Character Builder'
+const SliderWithTooltip = createSliderWithTooltip(Slider)
 
 
 
@@ -74,6 +74,45 @@ class CharacterBuilder extends Component {
     return null
   }
 
+  static getExperienceFromLevel (level) {
+    const levelByExperience = [0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000, 85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000]
+
+    return levelByExperience[level - 1]
+  }
+
+  static getLevelFromExperience (experience) {
+    const experienceByLevel = {
+      1: 0,
+      2: 300,
+      3: 900,
+      4: 2700,
+      5: 6500,
+      6: 14000,
+      7: 23000,
+      8: 34000,
+      9: 48000,
+      10: 64000,
+      11: 85000,
+      12: 100000,
+      13: 120000,
+      14: 140000,
+      15: 165000,
+      16: 195000,
+      17: 225000,
+      18: 265000,
+      19: 305000,
+      20: 355000,
+    }
+
+    for (const level of Object.keys(experienceByLevel)) {
+      if (experience >= experienceByLevel[level]) {
+        return level
+      }
+    }
+
+    return false
+  }
+
   _handleAbilityScoreChange (ability, score) {
     const { character } = this.state
 
@@ -111,6 +150,18 @@ class CharacterBuilder extends Component {
       character: {
         ...character,
         description,
+      },
+    })
+  }
+
+  _handleExperienceChange (value) {
+    const { character } = this.state
+
+    this.setState({
+      character: {
+        ...character,
+        experience: value,
+        level: CharacterBuilder.getLevelFromExperience(value),
       },
     })
   }
@@ -233,6 +284,7 @@ class CharacterBuilder extends Component {
       '_handleChange',
       '_handleClassChange',
       '_handleDescriptionChange',
+      '_handleExperienceChange',
       '_handleRaceChange',
       '_handleSkillChange',
       '_handleSubraceChange',
@@ -246,6 +298,8 @@ class CharacterBuilder extends Component {
         'ability-scores': CharacterBuilder._getBaseAbilityScores(props.ruleset),
         class: null,
         description: CharacterBuilder._getBaseDescription(props.ruleset),
+        experience: 0,
+        level: 1,
         race: null,
         skills: CharacterBuilder._getBaseSkills(props.ruleset),
         subrace: null,
@@ -267,6 +321,45 @@ class CharacterBuilder extends Component {
       return (
         <React.Fragment>
           <Wizard onComplete={this._onComplete}>
+            <div className="starting-level" title="Starting level">
+              <header>
+                <h2>What's your starting level?</h2>
+              </header>
+
+              <div className="details">
+                <SliderWithTooltip
+                  defaultValue={0}
+                  // marks={ruleset['player-characters'].stats.level.levels.reduce((accumulator, level) => accumulator[level.level] => , {})}
+                  marks={{
+                    0: 1,
+                    300: 2,
+                    900: 3,
+                    2700: 4,
+                    6500: 5,
+                    14000: 6,
+                    23000: 7,
+                    34000: 8,
+                    48000: 9,
+                    64000: 10,
+                    85000: 11,
+                    100000: 12,
+                    120000: 13,
+                    140000: 14,
+                    165000: 15,
+                    195000: 16,
+                    225000: 17,
+                    265000: 18,
+                    305000: 19,
+                    355000: 20,
+                  }}
+                  max={355000}
+                  min={0}
+                  onAfterChange={this._handleExperienceChange}
+                  step={null}
+                  tipFormatter={value => `${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} xp`} />
+              </div>
+            </div>
+
             <RaceAndClassChooser
               character={character}
               isValidated={this._validateRaceChooser}

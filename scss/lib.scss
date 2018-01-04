@@ -1,3 +1,17 @@
+// Variables
+@import 'colors/black';
+@import 'colors/dark-grey';
+@import 'colors/green';
+@import 'colors/grey';
+@import 'colors/light-grey';
+@import 'colors/red';
+@import 'colors/transparent';
+@import 'colors/white';
+
+
+
+
+
 /******************************************************************************\
   dialog-polyfill
 \******************************************************************************/
@@ -12,6 +26,16 @@
 \******************************************************************************/
 @import '../node_modules/nprogress/nprogress';
 @import './lib/nprogress';
+
+
+
+
+
+/******************************************************************************\
+React Slider
+\******************************************************************************/
+@import '../node_modules/rc-slider/assets/index';
+@import './lib/rc-slider';
 
 
 

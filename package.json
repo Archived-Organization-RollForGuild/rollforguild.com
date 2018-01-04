@@ -59,6 +59,7 @@
     "postcss-loader": "^2.0.9",
     "prop-types": "^15.6.0",
     "raw-loader": "^0.5.1",
+    "rc-slider": "^8.5.0",
     "rc-switch": "^1.6.0",
     "react": "^16.2.0",
     "react-async-script": "^0.9.1",
