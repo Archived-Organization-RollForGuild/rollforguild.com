@@ -95,32 +95,37 @@ class Roadmap extends Component {
 
         {(!loading && data) && (
           <ol>
-            {data.map(datum => (
-              <li id={datum.id} key={datum.id}>
-                <header>
-                  <h2>{datum.title}</h2>
-                  <h3>
-                    <div>
-                      Launching by <time dateTime={datum.due_on}>{moment(datum.due_on).format('DD MMMM')}</time>
+            {data.map(datum => {
+              const percentComplete = `${Math.round((datum.closed_issues / (datum.open_issues + datum.closed_issues)) * 100 || 0)}%`
+
+              return (
+                <li id={datum.id} key={datum.id}>
+                  <header>
+                    <h2>{datum.title}</h2>
+                    <h3>
+                      <div className={moment().isAfter(datum.due_on) ? 'late' : ''}>
+                        Launching by <time dateTime={datum.due_on}>{moment(datum.due_on).format('DD MMMM')}</time>
+                        {moment().isAfter(datum.due_on) ? '(late)' : null}
+                      </div>
+                    </h3>
+                  </header>
+
+                  <div className="progress-container">
+                    <progress
+                      max={datum.open_issues + datum.closed_issues}
+                      value={datum.closed_issues || 0} />
+
+                    <div
+                      className="completion-percentage"
+                      style={{ left: percentComplete }}>
+                      {percentComplete}
                     </div>
-                  </h3>
-                </header>
-
-                <div className="progress-container">
-                  <progress
-                    max={datum.open_issues + datum.closed_issues}
-                    value={datum.closed_issues || 0} />
-
-                  <div
-                    className="completion-percentage"
-                    style={{ left: `${((datum.closed_issues / (datum.open_issues + datum.closed_issues)) * 100) || 0}%` }}>
-                    {((datum.closed_issues / (datum.open_issues + datum.closed_issues)) * 100) || 0}%
                   </div>
-                </div>
 
-                <p>{datum.description}</p>
-              </li>
-            ))}
+                  <p>{datum.description}</p>
+                </li>
+              )
+            })}
           </ol>
         )}
       </React.Fragment>
