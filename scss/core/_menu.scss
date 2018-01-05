@@ -1,4 +1,5 @@
 menu[type=toolbar] {
   display: flex;
+  flex-shrink: 0;
   padding: 2rem;
 }

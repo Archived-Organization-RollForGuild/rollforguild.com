@@ -3,7 +3,8 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   > header {
     flex-shrink: 0;

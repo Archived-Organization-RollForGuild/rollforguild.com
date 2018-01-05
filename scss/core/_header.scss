@@ -1,5 +1,15 @@
 header {
   align-items: baseline;
   display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
   justify-content: space-between;
+
+  menu[type=toolbar] {
+    padding: 0;
+
+    button {
+      padding: 0 2rem;
+    }
+  }
 }
