@@ -353,7 +353,7 @@ class CharacterBuilder extends Component {
 
             <RaceAndClassChooser
               character={character}
-              isValidated={this._validateRaceChooser}
+              isValidated={this._validateRaceChooser && this._validateClassChooser}
               onClassChange={this._handleClassChange}
               onRaceChange={this._handleRaceChange}
               onSubraceChange={this._handleSubraceChange}
