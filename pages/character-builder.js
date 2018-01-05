@@ -23,8 +23,31 @@ import Wizard from '../components/Wizard'
 
 
 // Component constants
-const title = 'Character Builder'
+const experienceByLevel = {
+  0: 1,
+  300: 2,
+  900: 3,
+  2700: 4,
+  6500: 5,
+  14000: 6,
+  23000: 7,
+  34000: 8,
+  48000: 9,
+  64000: 10,
+  85000: 11,
+  100000: 12,
+  120000: 13,
+  140000: 14,
+  165000: 15,
+  195000: 16,
+  225000: 17,
+  265000: 18,
+  305000: 19,
+  355000: 20,
+}
+const levelByExperience = [0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000, 85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000]
 const SliderWithTooltip = createSliderWithTooltip(Slider)
+const title = 'Character Builder'
 
 
 
@@ -75,35 +98,10 @@ class CharacterBuilder extends Component {
   }
 
   static getExperienceFromLevel (level) {
-    const levelByExperience = [0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000, 85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000]
-
     return levelByExperience[level - 1]
   }
 
   static getLevelFromExperience (experience) {
-    const experienceByLevel = {
-      1: 0,
-      2: 300,
-      3: 900,
-      4: 2700,
-      5: 6500,
-      6: 14000,
-      7: 23000,
-      8: 34000,
-      9: 48000,
-      10: 64000,
-      11: 85000,
-      12: 100000,
-      13: 120000,
-      14: 140000,
-      15: 165000,
-      16: 195000,
-      17: 225000,
-      18: 265000,
-      19: 305000,
-      20: 355000,
-    }
-
     for (const level of Object.keys(experienceByLevel)) {
       if (experience >= experienceByLevel[level]) {
         return level
@@ -329,29 +327,7 @@ class CharacterBuilder extends Component {
               <div className="details">
                 <SliderWithTooltip
                   defaultValue={0}
-                  // marks={ruleset['player-characters'].stats.level.levels.reduce((accumulator, level) => accumulator[level.level] => , {})}
-                  marks={{
-                    0: 1,
-                    300: 2,
-                    900: 3,
-                    2700: 4,
-                    6500: 5,
-                    14000: 6,
-                    23000: 7,
-                    34000: 8,
-                    48000: 9,
-                    64000: 10,
-                    85000: 11,
-                    100000: 12,
-                    120000: 13,
-                    140000: 14,
-                    165000: 15,
-                    195000: 16,
-                    225000: 17,
-                    265000: 18,
-                    305000: 19,
-                    355000: 20,
-                  }}
+                  marks={experienceByLevel}
                   max={355000}
                   min={0}
                   onAfterChange={this._handleExperienceChange}
@@ -368,21 +344,6 @@ class CharacterBuilder extends Component {
               onSubraceChange={this._handleSubraceChange}
               ruleset={ruleset}
               title="Choose your race &amp; class" />
-
-            {/* <RaceChooser
-              character={character}
-              isValidated={this._validateRaceChooser}
-              onRaceChange={this._handleRaceChange}
-              onSubraceChange={this._handleSubraceChange}
-              ruleset={ruleset}
-              title="Choose your race" />
-
-            <ClassChooser
-              character={character}
-              isValidated={this._validateClassChooser}
-              onChange={value => this.setState({ character: { ...character, class: value } })}
-              ruleset={ruleset}
-              title="Choose your class" /> */}
 
             <AbilityScoreEditor
               character={character}
