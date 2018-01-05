@@ -10,6 +10,7 @@ import Slider, { createSliderWithTooltip } from 'rc-slider'
 
 // Component imports
 import AbilityScoreEditor from '../components/AbilityScoreEditor'
+import BackgroundChooser from '../components/BackgroundChooser'
 import CharacterDescriptionEditor from '../components/CharacterDescriptionEditor'
 import CharacterReview from '../components/CharacterReview'
 import RaceAndClassChooser from '../components/RaceAndClassChooser'
@@ -125,6 +126,12 @@ class CharacterBuilder extends Component {
     })
   }
 
+  _handleBackgroundChange (value) {
+    const { character } = this.state
+
+    this.setState({ character: { ...character, background: value } })
+  }
+
   _handleClassChange (value) {
     const { character } = this.state
 
@@ -205,10 +212,16 @@ class CharacterBuilder extends Component {
     Router.push(`/my/character?id=${id}`, `/my/characters/${id}`)
   }
 
+  _validateBackgroundChooser () {
+    const { character } = this.state
+
+    return !!character.background
+  }
+
   _validateClassChooser () {
     const { character } = this.state
 
-    return character.class
+    return !!character.class
   }
 
   _validateRaceChooser () {
@@ -279,7 +292,7 @@ class CharacterBuilder extends Component {
 
     this._bindMethods([
       '_handleAbilityScoreChange',
-      '_handleChange',
+      '_handleBackgroundChange',
       '_handleClassChange',
       '_handleDescriptionChange',
       '_handleExperienceChange',
@@ -287,6 +300,7 @@ class CharacterBuilder extends Component {
       '_handleSkillChange',
       '_handleSubraceChange',
       '_onComplete',
+      '_validateBackgroundChooser',
       '_validateClassChooser',
       '_validateRaceChooser',
     ])
@@ -294,6 +308,7 @@ class CharacterBuilder extends Component {
     this.state = {
       character: {
         'ability-scores': CharacterBuilder._getBaseAbilityScores(props.ruleset),
+        background: null,
         class: null,
         description: CharacterBuilder._getBaseDescription(props.ruleset),
         experience: 0,
@@ -344,6 +359,13 @@ class CharacterBuilder extends Component {
               onSubraceChange={this._handleSubraceChange}
               ruleset={ruleset}
               title="Choose your race &amp; class" />
+
+            <BackgroundChooser
+              character={character}
+              isValidated={this._validateBackgroundChooser}
+              onBackgroundChange={this._handleBackgroundChange}
+              ruleset={ruleset}
+              title="Choose your background" />
 
             <AbilityScoreEditor
               character={character}
