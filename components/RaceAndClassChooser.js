@@ -6,7 +6,7 @@ import React from 'react'
 
 
 // Module imports
-import Chooser from '../components/Chooser'
+import Chooser from '../components/Chooser/Chooser'
 
 
 
