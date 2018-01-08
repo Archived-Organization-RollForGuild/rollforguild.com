@@ -10,7 +10,7 @@ import Slider, { createSliderWithTooltip } from 'rc-slider'
 
 // Component imports
 import AbilityScoreEditor from '../components/AbilityScoreEditor'
-import BackgroundChooser from '../components/BackgroundChooser'
+import BackgroundChooser from '../components/BackgroundChooser/BackgroundChooser'
 import CharacterDescriptionEditor from '../components/CharacterDescriptionEditor'
 import CharacterReview from '../components/CharacterReview'
 import RaceAndClassChooser from '../components/RaceAndClassChooser'
@@ -171,6 +171,17 @@ class CharacterBuilder extends Component {
     })
   }
 
+  _handleFlawChange (value) {
+    const { character } = this.state
+
+    this.setState({
+      character: {
+        ...character,
+        flaw: value,
+      },
+    })
+  }
+
   _handleRaceChange (value) {
     const { character } = this.state
 
@@ -296,6 +307,7 @@ class CharacterBuilder extends Component {
       '_handleClassChange',
       '_handleDescriptionChange',
       '_handleExperienceChange',
+      '_handleFlawChange',
       '_handleRaceChange',
       '_handleSkillChange',
       '_handleSubraceChange',
@@ -312,6 +324,7 @@ class CharacterBuilder extends Component {
         class: null,
         description: CharacterBuilder._getBaseDescription(props.ruleset),
         experience: 0,
+        flaw: null,
         level: 1,
         race: null,
         skills: CharacterBuilder._getBaseSkills(props.ruleset),
@@ -364,6 +377,7 @@ class CharacterBuilder extends Component {
               character={character}
               isValidated={this._validateBackgroundChooser}
               onBackgroundChange={this._handleBackgroundChange}
+              onFlawChange={this._handleFlawChange}
               ruleset={ruleset}
               title="Choose your background" />
 
