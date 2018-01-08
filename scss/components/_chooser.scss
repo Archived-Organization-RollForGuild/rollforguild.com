@@ -11,11 +11,28 @@
     align-content: stretch;
     align-items: stretch;
     display: flex;
-    flex-basis: 0;
     flex-grow: 1;
 
     button {
       flex-grow: 1;
+    }
+  }
+
+  &.list {
+    display: flex;
+    flex-direction: column;
+
+    li {
+      background-color: $black;
+      border-left-color: $black;
+      border-left-style: solid;
+      border-left-width: 0.1rem;
+      padding: 2rem;
+      transition: border-left-color 0.2s;
+
+      &.active {
+        border-left-color: $green;
+      }
     }
   }
 }
