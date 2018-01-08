@@ -87,17 +87,6 @@ class Chooser extends Component {
       renderedOptions = Object.keys(options).map(key => options[key])
     }
 
-    renderedOptions = renderedOptions.map(option => {
-      if (typeof option === 'string') {
-        return {
-          name: option,
-          value: option,
-        }
-      }
-
-      return option
-    })
-
     renderedOptions = renderedOptions.map(this._renderOption)
 
     return (
