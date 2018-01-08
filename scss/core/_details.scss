@@ -9,6 +9,10 @@ details {
     flex-direction: row;
     justify-content: center;
 
+    > header {
+      flex-grow: 1;
+    }
+
     &::-webkit-details-marker {
       display: none;
     }
