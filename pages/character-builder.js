@@ -132,6 +132,17 @@ class CharacterBuilder extends Component {
     this.setState({ character: { ...character, background: value } })
   }
 
+  _handleBondChange (value) {
+    const { character } = this.state
+
+    this.setState({
+      character: {
+        ...character,
+        bond: value,
+      },
+    })
+  }
+
   _handleClassChange (value) {
     const { character } = this.state
 
@@ -178,6 +189,28 @@ class CharacterBuilder extends Component {
       character: {
         ...character,
         flaw: value,
+      },
+    })
+  }
+
+  _handleIdealChange (value) {
+    const { character } = this.state
+
+    this.setState({
+      character: {
+        ...character,
+        ideal: value,
+      },
+    })
+  }
+
+  _handlePersonalityTraitChange (value) {
+    const { character } = this.state
+
+    this.setState({
+      character: {
+        ...character,
+        'personality-trait': value,
       },
     })
   }
@@ -304,10 +337,13 @@ class CharacterBuilder extends Component {
     this._bindMethods([
       '_handleAbilityScoreChange',
       '_handleBackgroundChange',
+      '_handleBondChange',
       '_handleClassChange',
       '_handleDescriptionChange',
       '_handleExperienceChange',
       '_handleFlawChange',
+      '_handleIdealChange',
+      '_handlePersonalityTraitChange',
       '_handleRaceChange',
       '_handleSkillChange',
       '_handleSubraceChange',
@@ -377,7 +413,10 @@ class CharacterBuilder extends Component {
               character={character}
               isValidated={this._validateBackgroundChooser}
               onBackgroundChange={this._handleBackgroundChange}
+              onBondChange={this._handleBondChange}
               onFlawChange={this._handleFlawChange}
+              onIdealChange={this._handleIdealChange}
+              onPersonalityTraitChange={this._handlePersonalityTraitChange}
               ruleset={ruleset}
               title="Choose your background" />
 

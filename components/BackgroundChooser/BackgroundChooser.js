@@ -7,9 +7,12 @@ import React from 'react'
 
 
 // Module imports
+import BondChooser from './BondChooser'
 import Chooser from '../Chooser/Chooser'
 import Component from '../Component'
 import FlawChooser from './FlawChooser'
+import IdealChooser from './IdealChooser'
+import PersonalityTraitChooser from './PersonalityTraitChooser'
 import Option from './Option'
 
 
@@ -27,11 +30,17 @@ class BackgroundChooser extends Component {
     const {
       character,
       onBackgroundChange,
+      onBondChange,
       onFlawChange,
+      onIdealChange,
+      onPersonalityTraitChange,
       ruleset,
     } = this.props
     const { backgrounds } = ruleset['player-characters']
+    const bonds = character.background ? backgrounds[character.background].bonds : null
     const flaws = character.background ? backgrounds[character.background].flaws : null
+    const ideals = character.background ? backgrounds[character.background].ideals : null
+    const personalityTraits = character.background ? backgrounds[character.background]['personality-traits'] : null
 
     return (
       <React.Fragment>
@@ -53,6 +62,27 @@ class BackgroundChooser extends Component {
           )}
           returnValue={option => option.value}
           value={character.background} />
+
+        {personalityTraits && (
+          <PersonalityTraitChooser
+            character={character}
+            personalityTraits={personalityTraits}
+            onChange={onPersonalityTraitChange} />
+        )}
+
+        {ideals && (
+          <IdealChooser
+            character={character}
+            ideals={ideals}
+            onChange={onIdealChange} />
+        )}
+
+        {bonds && (
+          <BondChooser
+            character={character}
+            bonds={bonds}
+            onChange={onBondChange} />
+        )}
 
         {flaws && (
           <FlawChooser
