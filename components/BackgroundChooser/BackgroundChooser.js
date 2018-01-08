@@ -1,5 +1,5 @@
 // Module imports
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import React from 'react'
 
 
@@ -9,6 +9,7 @@ import React from 'react'
 // Module imports
 import Chooser from '../Chooser/Chooser'
 import Component from '../Component'
+import FlawChooser from './FlawChooser'
 import Option from './Option'
 
 
@@ -54,17 +55,10 @@ class BackgroundChooser extends Component {
           value={character.background} />
 
         {flaws && (
-          <React.Fragment>
-            <header>
-              <h4>Flaws</h4>
-            </header>
-
-            <Chooser
-              className="list"
-              onChange={onFlawChange}
-              options={flaws}
-              value={character.flaw} />
-          </React.Fragment>
+          <FlawChooser
+            character={character}
+            flaws={flaws}
+            onChange={onFlawChange} />
         )}
       </React.Fragment>
     )
@@ -72,9 +66,10 @@ class BackgroundChooser extends Component {
 }
 
 BackgroundChooser.propTypes = {
-  // character: PropTypes.object.isRequired,
-  // onBackgroundChange: PropTypes.func.isRequired,
-  // ruleset: PropTypes.object.isRequired,
+  character: PropTypes.object.isRequired,
+  onBackgroundChange: PropTypes.func.isRequired,
+  onFlawChange: PropTypes.func.isRequired,
+  ruleset: PropTypes.object.isRequired,
 }
 
 
