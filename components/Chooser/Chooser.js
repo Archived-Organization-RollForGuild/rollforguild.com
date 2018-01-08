@@ -5,7 +5,9 @@ import PropTypes from 'prop-types'
 
 
 // Module imports
-import Component from './Component'
+import Component from '../Component'
+import Option from './Option'
+import OptionAsButton from './OptionAsButton'
 
 
 
@@ -16,59 +18,46 @@ class Chooser extends Component {
     Private Methods
   \***************************************************************************/
 
-  _handleClick (option) {
+  _renderOption (option) {
     const {
       onChange,
       renderButton,
+      renderOption,
       returnValue,
       value,
     } = this.props
-    const optionValue = returnValue(option)
-
-    if (renderButton && onChange) {
-      if (value !== optionValue) {
-        onChange(optionValue)
-      } else {
-        onChange(null)
-      }
-    }
-  }
-
-  _renderOption (option) {
-    const {
-      renderButton,
-      renderOption,
-      value,
-    } = this.props
     const renderedOption = renderOption(option)
-    const classes = []
+    const optionValue = returnValue(option)
+    let classes = []
 
     if (value) {
-      if (value === option.value) {
+      if (value === optionValue) {
         classes.push('active')
       } else {
         classes.push('inactive')
       }
     }
 
+    classes = classes.join(' ')
+
     if (renderButton) {
       return (
-        <li key={renderedOption}>
-          <button
-            className={classes.join(' ')}
-            onClick={() => this._handleClick(option)}>
-            {renderedOption}
-          </button>
-        </li>
+        <OptionAsButton
+          className={classes}
+          key={optionValue}
+          onClick={onChange}
+          value={optionValue}>
+          {renderedOption}
+        </OptionAsButton>
       )
     }
 
     return (
-      <li
-        className={classes.join(' ')}
-        key={renderedOption}>
+      <Option
+        className={classes}
+        key={optionValue}>
         {renderedOption}
-      </li>
+      </Option>
     )
   }
 
