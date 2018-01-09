@@ -7,12 +7,9 @@ import React from 'react'
 
 
 // Module imports
-import BondChooser from './BondChooser'
+import BackgroundPropChooser from './BackgroundPropChooser'
 import Chooser from '../Chooser/Chooser'
 import Component from '../Component'
-import FlawChooser from './FlawChooser'
-import IdealChooser from './IdealChooser'
-import PersonalityTraitChooser from './PersonalityTraitChooser'
 import Option from './Option'
 
 
@@ -63,32 +60,32 @@ class BackgroundChooser extends Component {
           returnValue={option => option.value}
           value={character.background} />
 
-        {personalityTraits && (
-          <PersonalityTraitChooser
-            character={character}
-            personalityTraits={personalityTraits}
-            onChange={onPersonalityTraitChange} />
-        )}
+        {character.background && (
+          <React.Fragment>
+            <BackgroundPropChooser
+              options={personalityTraits}
+              onChange={onPersonalityTraitChange}
+              title="Personality Traits"
+              value={character['personality-trait']} />
 
-        {ideals && (
-          <IdealChooser
-            character={character}
-            ideals={ideals}
-            onChange={onIdealChange} />
-        )}
+            <BackgroundPropChooser
+              options={ideals}
+              onChange={onIdealChange}
+              title="Ideals"
+              value={character.ideal} />
 
-        {bonds && (
-          <BondChooser
-            character={character}
-            bonds={bonds}
-            onChange={onBondChange} />
-        )}
+            <BackgroundPropChooser
+              options={bonds}
+              onChange={onBondChange}
+              title="Bonds"
+              value={character.bond} />
 
-        {flaws && (
-          <FlawChooser
-            character={character}
-            flaws={flaws}
-            onChange={onFlawChange} />
+            <BackgroundPropChooser
+              options={flaws}
+              onChange={onFlawChange}
+              title="Flaws"
+              value={character.flaw} />
+          </React.Fragment>
         )}
       </React.Fragment>
     )

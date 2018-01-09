@@ -13,36 +13,38 @@ import Chooser from '../Chooser/Chooser'
 
 
 
-const BondChooser = (props) => {
+const BackgroundPropChooser = (props) => {
   const {
-    character,
-    bonds,
+    options,
     onChange,
+    title,
+    value,
   } = props
 
   return (
     <React.Fragment>
       <header>
-        <h4>Bonds</h4>
+        <h4>{title}</h4>
       </header>
 
       <Chooser
         className="list"
         onChange={onChange}
-        options={bonds}
-        value={character.bond} />
+        options={options}
+        value={value} />
     </React.Fragment>
   )
 }
 
-BondChooser.propTypes = {
-  character: PropTypes.object.isRequired,
-  bonds: PropTypes.array.isRequired,
+BackgroundPropChooser.propTypes = {
+  options: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  value: PropTypes.any.isRequired,
 }
 
 
 
 
 
-export default BondChooser
+export default BackgroundPropChooser
