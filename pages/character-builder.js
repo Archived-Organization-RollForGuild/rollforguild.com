@@ -98,14 +98,14 @@ class CharacterBuilder extends Component {
     return null
   }
 
-  static getExperienceFromLevel (level) {
+  static _getExperienceFromLevel (level) {
     return levelByExperience[level - 1]
   }
 
-  static getLevelFromExperience (experience) {
-    for (const level of Object.keys(experienceByLevel)) {
-      if (experience >= experienceByLevel[level]) {
-        return level
+  static _getLevelFromExperience (experience) {
+    for (const minimumExperience of Object.keys(experienceByLevel).reverse()) {
+      if (experience >= parseInt(minimumExperience, 10)) {
+        return experienceByLevel[minimumExperience]
       }
     }
 
@@ -177,7 +177,7 @@ class CharacterBuilder extends Component {
       character: {
         ...character,
         experience: value,
-        level: CharacterBuilder.getLevelFromExperience(value),
+        level: CharacterBuilder._getLevelFromExperience(value),
       },
     })
   }
@@ -390,7 +390,7 @@ class CharacterBuilder extends Component {
 
               <div className="details">
                 <SliderWithTooltip
-                  defaultValue={0}
+                  defaultValue={CharacterBuilder._getExperienceFromLevel(character.level)}
                   marks={experienceByLevel}
                   max={355000}
                   min={0}
