@@ -29,14 +29,27 @@
       border-left-width: 0.1rem;
       cursor: pointer;
       padding: 2rem;
-      transition: border-left-color 0.2s;
+      transition:
+        border-left-color 0.2s,
+        opacity 0.2s;
+      width: 100%;
 
       label {
         cursor: pointer;
       }
 
-      &.active {
+      &.active,
+      &:hover {
         border-left-color: $green;
+      }
+
+      &.inactive {
+        border-left-color: $black;
+        opacity: 0.6;
+
+        &:hover {
+          opacity: 1;
+        }
       }
     }
   }
