@@ -35,9 +35,14 @@ export default class Wizard extends Component {
     const { currentStep } = this.state
     const isFirstStep = this.state.currentStep === 0
     const isLastStep = currentStep === (children.length - 1)
+    const classes = ['step']
 
     if (!Array.isArray(children)) {
       children = [children]
+    }
+
+    if (children[currentStep].props.className) {
+      classes.push(children[currentStep].props.className)
     }
 
     return (
@@ -52,7 +57,7 @@ export default class Wizard extends Component {
           ))}
         </ol>
 
-        <section className="step">
+        <section className={classes.join(' ')}>
           {children[currentStep]}
         </section>
 

@@ -411,6 +411,7 @@ class CharacterBuilder extends Component {
 
             <BackgroundChooser
               character={character}
+              className="background-chooser"
               isValidated={this._validateBackgroundChooser}
               onBackgroundChange={this._handleBackgroundChange}
               onBondChange={this._handleBondChange}

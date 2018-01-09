@@ -61,31 +61,39 @@ class BackgroundChooser extends Component {
           value={character.background} />
 
         {character.background && (
-          <React.Fragment>
-            <BackgroundPropChooser
-              options={personalityTraits}
-              onChange={onPersonalityTraitChange}
-              title="Personality Traits"
-              value={character['personality-trait']} />
+          <div className="background-props">
+            <div className="personality-traits">
+              <BackgroundPropChooser
+                options={personalityTraits}
+                onChange={onPersonalityTraitChange}
+                title="Personality Traits"
+                value={character['personality-trait']} />
+            </div>
 
-            <BackgroundPropChooser
-              options={ideals}
-              onChange={onIdealChange}
-              title="Ideals"
-              value={character.ideal} />
+            <div className="ideals">
+              <BackgroundPropChooser
+                options={ideals}
+                onChange={onIdealChange}
+                title="Ideals"
+                value={character.ideal} />
+            </div>
 
-            <BackgroundPropChooser
-              options={bonds}
-              onChange={onBondChange}
-              title="Bonds"
-              value={character.bond} />
+            <div className="bonds">
+              <BackgroundPropChooser
+                options={bonds}
+                onChange={onBondChange}
+                title="Bonds"
+                value={character.bond} />
+            </div>
 
-            <BackgroundPropChooser
-              options={flaws}
-              onChange={onFlawChange}
-              title="Flaws"
-              value={character.flaw} />
-          </React.Fragment>
+            <div className="flaws">
+              <BackgroundPropChooser
+                options={flaws}
+                onChange={onFlawChange}
+                title="Flaws"
+                value={character.flaw} />
+            </div>
+          </div>
         )}
       </React.Fragment>
     )
