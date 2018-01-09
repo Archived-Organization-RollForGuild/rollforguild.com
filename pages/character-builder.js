@@ -132,13 +132,13 @@ class CharacterBuilder extends Component {
     this.setState({ character: { ...character, background: value } })
   }
 
-  _handleBondChange (value) {
+  _handleBondChange ({ target }) {
     const { character } = this.state
 
     this.setState({
       character: {
         ...character,
-        bond: value,
+        bond: target.value,
       },
     })
   }
@@ -182,35 +182,35 @@ class CharacterBuilder extends Component {
     })
   }
 
-  _handleFlawChange (value) {
+  _handleFlawChange ({ target }) {
     const { character } = this.state
 
     this.setState({
       character: {
         ...character,
-        flaw: value,
+        flaw: target.value,
       },
     })
   }
 
-  _handleIdealChange (value) {
+  _handleIdealChange ({ target }) {
     const { character } = this.state
 
     this.setState({
       character: {
         ...character,
-        ideal: value,
+        ideal: target.value,
       },
     })
   }
 
-  _handlePersonalityTraitChange (value) {
+  _handlePersonalityTraitChange ({ target }) {
     const { character } = this.state
 
     this.setState({
       character: {
         ...character,
-        'personality-trait': value,
+        'personality-trait': target.value,
       },
     })
   }

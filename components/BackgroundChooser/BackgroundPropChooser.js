@@ -20,6 +20,7 @@ const BackgroundPropChooser = (props) => {
     title,
     value,
   } = props
+  const safeTitle = title.toLowerCase().replace(/\s/g, '-')
 
   return (
     <React.Fragment>
@@ -29,8 +30,28 @@ const BackgroundPropChooser = (props) => {
 
       <Chooser
         className="list"
-        onChange={onChange}
         options={options}
+        renderButton={false}
+        renderOption={(option, index, active) => {
+          const id = `${safeTitle}-${index}`
+
+          return (
+            <React.Fragment>
+              <input
+                checked={active}
+                hidden
+                id={id}
+                name={safeTitle}
+                onChange={onChange}
+                type="radio"
+                value={option} />
+
+              <label htmlFor={id}>
+                {option}
+              </label>
+            </React.Fragment>
+          )
+        }}
         value={value} />
     </React.Fragment>
   )

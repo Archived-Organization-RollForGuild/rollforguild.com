@@ -18,7 +18,7 @@ class Chooser extends Component {
     Private Methods
   \***************************************************************************/
 
-  _renderOption (option) {
+  _renderOption (option, index) {
     const {
       onChange,
       renderButton,
@@ -26,16 +26,28 @@ class Chooser extends Component {
       returnValue,
       value,
     } = this.props
-    const renderedOption = renderOption(option)
     const optionValue = returnValue(option)
-    let classes = []
+    let active = false
+    let inactive = false
 
     if (value) {
       if (value === optionValue) {
-        classes.push('active')
+        active = true
       } else {
-        classes.push('inactive')
+        inactive = true
       }
+    }
+
+    const renderedOption = renderOption(option, index, active)
+
+    let classes = []
+
+    if (active) {
+      classes.push('active')
+    }
+
+    if (inactive) {
+      classes.push('inactive')
     }
 
     classes = classes.join(' ')

@@ -27,8 +27,13 @@
       border-left-color: $black;
       border-left-style: solid;
       border-left-width: 0.1rem;
+      cursor: pointer;
       padding: 2rem;
       transition: border-left-color 0.2s;
+
+      label {
+        cursor: pointer;
+      }
 
       &.active {
         border-left-color: $green;
