@@ -15,19 +15,19 @@
       display: flex;
       flex-shrink: 0;
       padding: 2rem;
+      position: relative;
       overflow-x: auto;
 
       .step-title {
         display: flex;
         flex-basis: 0;
-        flex-direction: column;
         flex-grow: 1;
-        font-size: 0.75em;
-        margin-bottom: 1rem;
-        padding: 0 1rem 1rem;
+        justify-content: center;
         position: relative;
-        text-align: center;
-        white-space: nowrap;
+
+        span {
+          display: none;
+        }
 
         &:after {
           background-color: $white;
@@ -35,24 +35,22 @@
           border-style: solid;
           border-width: 0.2rem;
           border-radius: 100%;
-          bottom: -0.5rem;
           content: '';
           height: 0.8rem;
           left: 50%;
-          position: absolute;
-          transform: translateX(-50%);
           transition: background-color 0.5s;
           width: 0.8rem;
+          z-index: 1;
         }
 
         &:before {
           background-color: $white;
-          bottom: 0;
           content: '';
           height: 0.2rem;
           left: 0;
           position: absolute;
-          transform: translateX(50%);
+          top: 50%;
+          transform: translate(50%, -50%);
           transition:
             box-shadow 0.2s,
             transform 0.2s,
@@ -61,7 +59,7 @@
         }
 
         &:first-child:before {
-          transform: translateX(0);
+          transform: translate(0, -50%);
           width: 50%;
         }
 
@@ -84,6 +82,17 @@
             width: 150%;
           }
         }
+      }
+
+      &:before {
+        background-color: $dark-grey;
+        content: '';
+        height: 0.2rem;
+        left: 2rem;
+        position: absolute;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
 
