@@ -5,4 +5,5 @@ export default {
   GET_RULESET: 'GET_RULESET',
   GET_RULESETS: 'GET_RULESETS',
   LOGIN: 'LOGIN',
+  REGISTER: 'REGISTER',
 }

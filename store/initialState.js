@@ -3,7 +3,6 @@ import Cookies from 'js-cookie'
 export default {
   authentication: {
     loggedIn: !!Cookies.get('accessToken'),
-    registering: false,
   },
 
   character: {

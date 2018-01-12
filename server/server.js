@@ -52,5 +52,5 @@ next.prepare().then(() => {
   koa.use(etag())
 
   // Start the server
-  koa.listen(process.env.PORT || 3000)
+  koa.listen(process.env.RFG_APP_PORT || 3000)
 })

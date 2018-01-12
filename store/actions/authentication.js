@@ -67,3 +67,50 @@ export const login = (email, password) => async dispatch => {
     })
   }
 }
+
+
+
+
+
+export const register = (username, email, password) => async dispatch => {
+  let response = null
+
+  dispatch({ type: actionTypes.REGISTER })
+
+  try {
+    response = await fetch('/api/register', {
+      body: JSON.stringify({
+        data: {
+          type: 'user',
+          attributes: {
+            email,
+            password,
+            username,
+          },
+        },
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'post',
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to register')
+    }
+
+    dispatch({
+      status: 'success',
+      type: actionTypes.REGISTER,
+    })
+
+    return true
+  } catch (error) {
+    dispatch({
+      status: 'error',
+      type: actionTypes.REGISTER,
+    })
+
+    return error
+  }
+}
