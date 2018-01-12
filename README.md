@@ -37,7 +37,8 @@ yarn run dev
 
 | Name                      | Purpose |
 |---------------------------|---------|
-| `PORT`                    | This is the port to run the application at |
+| `RFG_API_URL`             | This is the URL the application will proxy API requests to |
+| `RFG_APP_PORT`            | This is the port to run the application on |
 
 [code-of-conduct]: CODE_OF_CONDUCT.md
 [code-of-conduct-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
