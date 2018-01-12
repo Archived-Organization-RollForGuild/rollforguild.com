@@ -112,9 +112,14 @@ export default class extends Component {
   renderNavItem (item) {
     const { path } = this.props
     const {
+      condition,
       subnav,
       title,
     } = item
+
+    if (condition && !condition(this.props)) {
+      return null
+    }
 
     const itemWithOnlyLinkProps = {}
     const sanitizedTitle = title.toLowerCase().replace(/\s/g, '-')
