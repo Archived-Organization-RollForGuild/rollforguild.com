@@ -1,4 +1,5 @@
 // Module imports
+import Link from 'next/link'
 import React from 'react'
 import Router from 'next/router'
 
@@ -103,6 +104,11 @@ class Login extends Component {
 
           <menu type="toolbar">
             <button type="submit">Login</button>
+            <Link href="/register">
+              <a className="button link">
+                Sign Up
+              </a>
+            </Link>
           </menu>
         </form>
       </React.Fragment>

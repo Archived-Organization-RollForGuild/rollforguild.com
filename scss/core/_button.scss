@@ -81,4 +81,14 @@ button,
       width: 0;
     }
   }
+
+  &.link {
+    background-color: transparent;
+    border-color: transparent;
+
+    &:after,
+    &:before {
+      width: 0;
+    }
+  }
 }
