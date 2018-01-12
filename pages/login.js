@@ -1,5 +1,6 @@
 // Module imports
 import React from 'react'
+import Router from 'next/router'
 
 
 
@@ -25,10 +26,14 @@ class Login extends Component {
     Private Methods
   \***************************************************************************/
 
-  _onSubmit (event) {
+  async _onSubmit (event) {
+    const { password, email } = this.state
+
     event.preventDefault()
 
-    console.log('logging in:', this.state)
+    this.setState({ loggingIn: true })
+    await this.props.login(email, password)
+    this.setState({ loggingIn: false })
   }
 
 
@@ -38,6 +43,12 @@ class Login extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
+
+  componentWillMount () {
+    if (this.props.loggedIn) {
+      Router.push('/')
+    }
+  }
 
   constructor (props) {
     super(props)
@@ -49,6 +60,7 @@ class Login extends Component {
 
     this.state = {
       email: '',
+      loggingIn: false,
       password: '',
     }
   }
@@ -56,6 +68,7 @@ class Login extends Component {
   render () {
     const {
       email,
+      loggingIn,
       password,
     } = this.state
 
@@ -67,25 +80,23 @@ class Login extends Component {
 
         <form onSubmit={this._onSubmit}>
           <div className="input-group">
-            <label htmlFor="email">Email</label>
-
             <input
+              disabled={loggingIn}
               id="email"
               name="email"
               onChange={this._handleChange}
-              placeholder="john.doe@example.com"
+              placeholder="Email"
               type="email"
               value={email} />
           </div>
 
           <div className="input-group">
-            <label htmlFor="password">Password</label>
-
             <input
+              disabled={loggingIn}
               id="password"
               name="password"
               onChange={this._handleChange}
-              placeholder="We recommend using a password manager like 1Password"
+              placeholder="Password"
               type="password"
               value={password} />
           </div>
@@ -103,4 +114,15 @@ class Login extends Component {
 
 
 
-export default Page(Login, title)
+const mapDispatchToProps = ['login']
+
+const mapStateToProps = state => ({ ...state.authentication })
+
+
+
+
+
+export default Page(Login, title, {
+  mapStateToProps,
+  mapDispatchToProps,
+})

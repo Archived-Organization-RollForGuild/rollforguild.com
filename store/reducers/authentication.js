@@ -1,3 +1,4 @@
+import actionTypes from '../actionTypes'
 import initialState from '../initialState'
 
 
@@ -5,7 +6,21 @@ import initialState from '../initialState'
 
 
 export default function (state = initialState.authentication, action) {
-  switch (action.type) {
+  const {
+    // payload,
+    status,
+    type,
+  } = action
+
+  switch (type) {
+    case actionTypes.LOGIN:
+      if (status === 'success') {
+        return {
+          ...state,
+          loggedIn: true,
+        }
+      }
+
     default:
       return { ...state }
   }

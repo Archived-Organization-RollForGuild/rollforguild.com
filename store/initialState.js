@@ -1,8 +1,8 @@
+import Cookies from 'js-cookie'
+
 export default {
   authentication: {
-    loggedIn: false,
-    loggingIn: false,
-    loggingOut: false,
+    loggedIn: !!Cookies.get('accessToken'),
     registering: false,
   },
 
@@ -21,9 +21,10 @@ export default {
   rulesets: {},
 
   user: {
-    id: (typeof localStorage !== 'undefined') ? localStorage.getItem('userId') : null,
+    email: null,
+    id: null,
     loaded: false,
     loading: false,
-    name: null,
+    username: null,
   },
 }

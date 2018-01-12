@@ -1,5 +1,7 @@
 // Module imports
-import fetch from 'isomorphic-fetch'
+import 'isomorphic-fetch'
+import Cookies from 'js-cookie'
+import Router from 'next/router'
 
 
 
@@ -16,27 +18,28 @@ export const login = (email, password) => async dispatch => {
   dispatch({ type: actionTypes.LOGIN })
 
   try {
-    let token = localStorage.getItem('access_token')
+    const token = Cookies.get('accessToken')
 
     if (!token) {
-      const data = JSON.stringify({
-        grant_type: 'password',
-        password,
-        username: email,
-      })
-
-      let response = await fetch('/token', {
-        body: data,
+      const response = await fetch('/api/login', {
+        body: JSON.stringify({
+          data: {
+            type: 'auth',
+            attributes: {
+              email,
+              password,
+            },
+          },
+        }),
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'post',
       })
 
-      response = await response.json()
+      const { data } = await response.json()
 
-      token = response.access_token
-      localStorage.setItem('access_token', token)
+      await Cookies.set('accessToken', data.attributes.token, { expires: 365 })
     }
 
     dispatch({
@@ -44,21 +47,19 @@ export const login = (email, password) => async dispatch => {
       type: actionTypes.LOGIN,
     })
 
-    /* eslint-disable no-restricted-globals */
-    if (location && location.search) {
-      const searchParams = {}
+    const searchParams = {}
 
+    /* eslint-disable no-restricted-globals */
+    if (location) {
       location.search.replace(/^\?/, '').split('&').forEach(searchParam => {
         const [key, value] = searchParam.split('=')
 
         searchParams[key] = value
       })
-
-      /* eslint-disable no-global-assign */
-      location = searchParams.destination ? searchParams.destination : '/profile'
-      /* eslint-enable  no-global-assign */
     }
     /* eslint-enable */
+
+    Router.push(searchParams.destination ? searchParams.destination : '/')
   } catch (error) {
     dispatch({
       status: 'error',

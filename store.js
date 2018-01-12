@@ -19,6 +19,7 @@ import * as authenticationActions from './store/actions/authentication'
 import * as characterActions from './store/actions/character'
 import * as charactersActions from './store/actions/characters'
 import * as rulesetsActions from './store/actions/rulesets'
+// import * as userActions from './store/actions/user'
 
 
 
@@ -29,6 +30,7 @@ export const actions = {
   ...characterActions,
   ...charactersActions,
   ...rulesetsActions,
+  // ...userActions,
 }
 
 

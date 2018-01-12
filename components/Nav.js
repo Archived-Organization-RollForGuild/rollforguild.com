@@ -1,4 +1,5 @@
 // Module imports
+import { connect } from 'react-redux'
 import Link from 'next/link'
 import React from 'react'
 
@@ -80,17 +81,18 @@ const navItems = [
     ],
   },
 
-  // {
-  //   href: '/login',
-  //   title: 'Login/Register',
-  // },
+  {
+    condition: props => !props.loggedIn,
+    href: '/login',
+    title: 'Login/Register',
+  },
 ]
 
 
 
 
 
-export default class extends Component {
+class Nav extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
@@ -170,3 +172,16 @@ export default class extends Component {
     )
   }
 }
+
+
+
+
+
+const mapStateToProps = state => ({ ...state.authentication })
+
+
+
+
+
+export default connect(mapStateToProps)(Nav)
+
