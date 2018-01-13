@@ -14,6 +14,34 @@ import actionTypes from '../actionTypes'
 
 
 
+export const confirmAccount = token => async dispatch => {
+  dispatch({ type: actionTypes.CONFIRM_ACCOUNT })
+
+  try {
+    const response = await fetch(`/api/confirmation/${token}`, { method: 'post' })
+
+    const { data } = await response.json()
+
+    await Cookies.set('accessToken', data.attributes.token, { expires: 365 })
+
+    dispatch({
+      status: 'success',
+      type: actionTypes.CONFIRM_ACCOUNT,
+    })
+
+    Router.push('/')
+  } catch (error) {
+    dispatch({
+      status: 'error',
+      type: actionTypes.CONFIRM_ACCOUNT,
+    })
+  }
+}
+
+
+
+
+
 export const login = (email, password) => async dispatch => {
   dispatch({ type: actionTypes.LOGIN })
 

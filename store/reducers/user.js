@@ -1,4 +1,4 @@
-// import actionTypes from '../actionTypes'
+import actionTypes from '../actionTypes'
 import initialState from '../initialState'
 
 
@@ -7,21 +7,21 @@ import initialState from '../initialState'
 
 export default function (state = initialState.user, action) {
   const {
-    // payload,
-    // status,
+    payload,
+    status,
     type,
   } = action
 
   switch (type) {
-    // case actionTypes.GET_USER:
-    //   if (status === 'success') {
-    //     return {
-    //       ...state,
-    //       ...payload.data,
-    //     }
-    //   }
+    case actionTypes.CONFIRM_ACCOUNT:
+    case actionTypes.LOGIN:
+      if (status === 'success') {
+        return {
+          ...state,
+          id: payload.data.id,
+        }
+      }
 
-    //   return { ...state }
     default:
       return { ...state }
   }

@@ -13,6 +13,7 @@ export default function (state = initialState.authentication, action) {
   } = action
 
   switch (type) {
+    case actionTypes.CONFIRM_ACCOUNT:
     case actionTypes.LOGIN:
       if (status === 'success') {
         return {

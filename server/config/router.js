@@ -68,6 +68,10 @@ module.exports = function foo (nextjs, koa) {
     await nextjs.render(ctx.request, ctx.res, '/my/character', Object.assign({}, ctx.query, ctx.params))
   })
 
+  router.get(['/confirmation/:token'], async ctx => {
+    await nextjs.render(ctx.request, ctx.res, '/confirmation', Object.assign({}, ctx.query, ctx.params))
+  })
+
 
 
 
