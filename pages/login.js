@@ -45,8 +45,10 @@ class Login extends Component {
     Public Methods
   \***************************************************************************/
 
-  componentWillMount () {
-    if (this.props.loggedIn) {
+  componentDidUpdate () {
+    const { loggedIn } = this.props
+
+    if (loggedIn) {
       Router.push('/')
     }
   }
@@ -80,27 +82,23 @@ class Login extends Component {
         </header>
 
         <form onSubmit={this._onSubmit}>
-          <div className="input-group">
-            <input
-              disabled={loggingIn}
-              id="email"
-              name="email"
-              onChange={this._handleChange}
-              placeholder="Email"
-              type="email"
-              value={email} />
-          </div>
+          <input
+            disabled={loggingIn}
+            id="email"
+            name="email"
+            onChange={this._handleChange}
+            placeholder="Email"
+            type="email"
+            value={email} />
 
-          <div className="input-group">
-            <input
-              disabled={loggingIn}
-              id="password"
-              name="password"
-              onChange={this._handleChange}
-              placeholder="Password"
-              type="password"
-              value={password} />
-          </div>
+          <input
+            disabled={loggingIn}
+            id="password"
+            name="password"
+            onChange={this._handleChange}
+            placeholder="Password"
+            type="password"
+            value={password} />
 
           <menu type="toolbar">
             <button type="submit">Login</button>

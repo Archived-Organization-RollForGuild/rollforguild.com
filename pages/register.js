@@ -87,38 +87,32 @@ class Register extends Component {
 
         {(!registered || (registered === 'error')) && (
           <form onSubmit={this._onSubmit}>
-            <div className="input-group">
-              <input
-                disabled={registering}
-                id="email"
-                name="email"
-                onChange={this._handleChange}
-                placeholder="Email"
-                type="email"
-                value={email} />
-            </div>
+            <input
+              disabled={registering}
+              id="email"
+              name="email"
+              onChange={this._handleChange}
+              placeholder="Email"
+              type="email"
+              value={email} />
 
-            <div className="input-group">
-              <input
-                disabled={registering}
-                id="username"
-                name="username"
-                onChange={this._handleChange}
-                placeholder="Username"
-                type="username"
-                value={username} />
-            </div>
+            <input
+              disabled={registering}
+              id="username"
+              name="username"
+              onChange={this._handleChange}
+              placeholder="Username"
+              type="username"
+              value={username} />
 
-            <div className="input-group">
-              <input
-                disabled={registering}
-                id="password"
-                name="password"
-                onChange={this._handleChange}
-                placeholder="Password"
-                type="password"
-                value={password} />
-            </div>
+            <input
+              disabled={registering}
+              id="password"
+              name="password"
+              onChange={this._handleChange}
+              placeholder="Password"
+              type="password"
+              value={password} />
 
             <menu type="toolbar">
               <button type="submit">Register</button>

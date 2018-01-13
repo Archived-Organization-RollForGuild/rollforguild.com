@@ -1,5 +1,9 @@
 form {
-  > *:not(:last-child) {
-    margin-bottom: 2rem;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+
+  > input {
+    margin: 2rem;
   }
 }
