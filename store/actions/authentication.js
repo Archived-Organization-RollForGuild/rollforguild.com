@@ -102,6 +102,7 @@ export const login = (email, password) => async dispatch => {
 
 export const register = (username, email, password) => async dispatch => {
   let response = null
+  let success = false
 
   dispatch({ type: actionTypes.REGISTER })
 
@@ -123,22 +124,14 @@ export const register = (username, email, password) => async dispatch => {
       method: 'post',
     })
 
-    if (!response.ok) {
-      throw new Error('Failed to register')
-    }
-
-    dispatch({
-      status: 'success',
-      type: actionTypes.REGISTER,
-    })
-
-    return true
+    success = response.ok
   } catch (error) {
-    dispatch({
-      status: 'error',
-      type: actionTypes.REGISTER,
-    })
-
-    return error
+    console.error(error)
+    success = false
   }
+
+  dispatch({
+    status: success ? 'success' : 'error',
+    type: actionTypes.REGISTER,
+  })
 }

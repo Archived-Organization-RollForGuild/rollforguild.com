@@ -37,10 +37,7 @@ class Register extends Component {
 
     this.setState({ registering: true })
     await this.props.register(username, email, password)
-    this.setState({
-      registered: true,
-      registering: false,
-    })
+    this.setState({ registering: false })
   }
 
 
@@ -67,7 +64,6 @@ class Register extends Component {
 
     this.state = {
       email: '',
-      registered: false,
       registering: false,
       password: '',
       username: '',
@@ -77,11 +73,11 @@ class Register extends Component {
   render () {
     const {
       email,
-      registered,
       registering,
       password,
       username,
     } = this.state
+    const { registered } = this.props
 
     return (
       <React.Fragment>
@@ -89,7 +85,7 @@ class Register extends Component {
           <h1>Register</h1>
         </header>
 
-        {!registered && (
+        {(!registered || (registered === 'error')) && (
           <form onSubmit={this._onSubmit}>
             <div className="input-group">
               <input
@@ -127,13 +123,17 @@ class Register extends Component {
             <menu type="toolbar">
               <button type="submit">Register</button>
             </menu>
+
+            {(registered === 'error') && (
+              <React.Fragment>
+                <p>There seems to have been an error registering your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
+              </React.Fragment>
+            )}
           </form>
         )}
 
-        {registered && (
+        {(registered === 'success') && (
           <React.Fragment>
-            <h2>Success!</h2>
-
             <p>Now that you've given the password to the towering hulk of a creature at the entrance to The Guild's headquarters, it lumbers towards a strange, magical box. It points to the box, then grunts at you. You can only assume it intends for you to come closer. The creature steps out of your way and you lean in for a closer look. The box is clearly some strange product of gnomish tinkering. On iots front you read the words...</p>
 
             <blockquote>Check your email for a confirmation code.</blockquote>

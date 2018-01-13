@@ -15,10 +15,18 @@ export default function (state = initialState.authentication, action) {
   switch (type) {
     case actionTypes.CONFIRM_ACCOUNT:
     case actionTypes.LOGIN:
-      if (status === 'success') {
+      if (typeof status !== 'undefined') {
         return {
           ...state,
-          loggedIn: true,
+          loggedIn: status,
+        }
+      }
+
+    case actionTypes.REGISTER:
+      if (typeof status !== 'undefined') {
+        return {
+          ...state,
+          registered: status,
         }
       }
 
