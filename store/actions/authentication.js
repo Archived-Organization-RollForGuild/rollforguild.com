@@ -89,6 +89,16 @@ export const login = (email, password) => async dispatch => {
 
 
 
+export const logout = () => async dispatch => {
+  Cookies.remove('accessToken')
+
+  dispatch({ type: actionTypes.LOGOUT })
+}
+
+
+
+
+
 export const register = (username, email, password) => async dispatch => {
   let response = null
   let success = false

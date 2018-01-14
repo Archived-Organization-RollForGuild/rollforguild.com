@@ -22,6 +22,12 @@ export default function (state = initialState.authentication, action) {
         }
       }
 
+    case actionTypes.LOGOUT:
+      return {
+        ...state,
+        loggedIn: false,
+      }
+
     case actionTypes.REGISTER:
       if (typeof status !== 'undefined') {
         return {

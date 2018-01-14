@@ -22,6 +22,12 @@ export default function (state = initialState.user, action) {
         }
       }
 
+    case actionTypes.LOGOUT:
+      return {
+        ...state,
+        id: null,
+      }
+
     default:
       return { ...state }
   }

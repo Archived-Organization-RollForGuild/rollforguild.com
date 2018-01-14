@@ -84,7 +84,13 @@ const navItems = [
   {
     condition: props => !props.loggedIn || (props.loggedIn === 'error'),
     href: '/login',
-    title: 'Login/Register',
+    title: 'Login/Sign Up',
+  },
+
+  {
+    condition: props => props.loggedIn && (props.loggedIn !== 'error'),
+    href: '/logout',
+    title: 'Logout',
   },
 ]
 
