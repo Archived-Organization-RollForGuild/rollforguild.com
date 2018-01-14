@@ -18,7 +18,7 @@ export default function (state = initialState.user, action) {
       if (status === 'success') {
         return {
           ...state,
-          id: payload.data.id,
+          id: payload.data.attributes.user_id,
         }
       }
 

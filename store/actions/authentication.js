@@ -1,7 +1,6 @@
 // Module imports
 import 'isomorphic-fetch'
 import Cookies from 'js-cookie'
-import Router from 'next/router'
 
 
 
@@ -15,27 +14,28 @@ import actionTypes from '../actionTypes'
 
 
 export const confirmAccount = token => async dispatch => {
+  let response = null
+  let success = false
+
   dispatch({ type: actionTypes.CONFIRM_ACCOUNT })
 
   try {
-    const response = await fetch(`/api/confirmation/${token}`, { method: 'post' })
+    response = await fetch(`/api/confirmation/${token}`, { method: 'post' })
 
-    const { data } = await response.json()
+    success = response.ok
 
-    await Cookies.set('accessToken', data.attributes.token, { expires: 365 })
+    response = await response.json()
 
-    dispatch({
-      status: 'success',
-      type: actionTypes.CONFIRM_ACCOUNT,
-    })
-
-    Router.push('/')
+    await Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
   } catch (error) {
-    dispatch({
-      status: 'error',
-      type: actionTypes.CONFIRM_ACCOUNT,
-    })
+    success = false
   }
+
+  dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.LOGIN,
+  })
 }
 
 
@@ -43,13 +43,16 @@ export const confirmAccount = token => async dispatch => {
 
 
 export const login = (email, password) => async dispatch => {
+  let response = null
+  let success = false
+
   dispatch({ type: actionTypes.LOGIN })
 
   try {
     const token = Cookies.get('accessToken')
 
     if (!token) {
-      const response = await fetch('/api/login', {
+      response = await fetch('/api/login', {
         body: JSON.stringify({
           data: {
             type: 'auth',
@@ -65,35 +68,21 @@ export const login = (email, password) => async dispatch => {
         method: 'post',
       })
 
-      const { data } = await response.json()
+      success = response.ok
 
-      await Cookies.set('accessToken', data.attributes.token, { expires: 365 })
+      response = await response.json()
+
+      await Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
     }
-
-    dispatch({
-      status: 'success',
-      type: actionTypes.LOGIN,
-    })
-
-    const searchParams = {}
-
-    /* eslint-disable no-restricted-globals */
-    if (location) {
-      location.search.replace(/^\?/, '').split('&').forEach(searchParam => {
-        const [key, value] = searchParam.split('=')
-
-        searchParams[key] = value
-      })
-    }
-    /* eslint-enable */
-
-    Router.push(searchParams.destination ? searchParams.destination : '/')
   } catch (error) {
-    dispatch({
-      status: 'error',
-      type: actionTypes.LOGIN,
-    })
+    success = false
   }
+
+  dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.LOGIN,
+  })
 }
 
 

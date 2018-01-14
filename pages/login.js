@@ -48,8 +48,20 @@ class Login extends Component {
   componentDidUpdate () {
     const { loggedIn } = this.props
 
-    if (loggedIn) {
-      Router.push('/')
+    if (loggedIn && (loggedIn !== 'error')) {
+      const searchParams = {}
+
+      /* eslint-disable no-restricted-globals */
+      if (location) {
+        location.search.replace(/^\?/, '').split('&').forEach(searchParam => {
+          const [key, value] = searchParam.split('=')
+
+          searchParams[key] = value
+        })
+      }
+      /* eslint-enable */
+
+      Router.push(searchParams.destination ? searchParams.destination : '/')
     }
   }
 
@@ -74,6 +86,7 @@ class Login extends Component {
       loggingIn,
       password,
     } = this.state
+    const { loggedIn } = this.props
 
     return (
       <React.Fragment>
@@ -108,6 +121,12 @@ class Login extends Component {
               </a>
             </Link>
           </menu>
+
+          {(loggedIn === 'error') && (
+            <React.Fragment>
+              <p>There seems to have been an error when trying to log in to your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
+            </React.Fragment>
+          )}
         </form>
       </React.Fragment>
     )
