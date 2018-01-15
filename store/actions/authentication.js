@@ -26,7 +26,8 @@ export const confirmAccount = token => async dispatch => {
 
     response = await response.json()
 
-    await Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
+    Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
+    Cookies.set('userId', response.data.attributes.user_id, { expires: 365 })
   } catch (error) {
     success = false
   }
@@ -72,7 +73,8 @@ export const login = (email, password) => async dispatch => {
 
       response = await response.json()
 
-      await Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
+      Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
+      Cookies.set('userId', response.data.attributes.user_id, { expires: 365 })
     }
   } catch (error) {
     success = false
@@ -91,6 +93,7 @@ export const login = (email, password) => async dispatch => {
 
 export const logout = () => async dispatch => {
   Cookies.remove('accessToken')
+  Cookies.remove('userId')
 
   dispatch({ type: actionTypes.LOGOUT })
 }
