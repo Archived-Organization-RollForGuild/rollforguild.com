@@ -1,5 +1,5 @@
 // Module imports
-// import fetch from 'isomorphic-fetch'
+// import 'isomorphic-fetch'
 import LocalForage from 'localforage'
 
 
