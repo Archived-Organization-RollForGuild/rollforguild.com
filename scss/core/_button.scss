@@ -43,36 +43,35 @@ button,
     top: 0;
   }
 
-  &:not([disabled]):not(.disabled) {
-    &.inactive {
-      opacity: 0.6;
+  &.inactive {
+    opacity: 0.6;
 
-      &:after,
-      &:before {
-        width: 0;
-      }
+    &:after,
+    &:before {
+      width: 0;
     }
+  }
 
-    &:active,
-    &:focus,
-    &:hover,
-    &.active {
-      background-color: rgba($green, 0.1);
+  &:active,
+  &:focus,
+  &:hover,
+  &.active {
+    background-color: rgba($green, 0.1);
 
-      &:after,
-      &:before {
-        width: 100%;
-      }
+    &:after,
+    &:before {
+      width: 100%;
     }
+  }
 
-    &.active {
-      background-color: $green;
-      color: $black;
-    }
+  &.active {
+    background-color: $green;
+    color: $black;
   }
 
   &[disabled],
   &.disabled {
+    background-color: $black;
     cursor: not-allowed;
     opacity: 0.6;
 

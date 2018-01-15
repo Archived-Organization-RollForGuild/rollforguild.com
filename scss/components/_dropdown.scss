@@ -1,0 +1,42 @@
+.dropdown {
+  position: relative;
+
+  input,
+  ul {
+    width: 100%;
+  }
+
+  ul {
+    background-color: $black;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 100%;
+  }
+
+  button {
+    border: none;
+    border-left-color: $black;
+    border-left-style: solid;
+    border-left-width: 0.1rem;
+    text-align: left;
+    width: 100%;
+
+    &:after,
+    &:before {
+      display: none;
+    }
+
+    &:hover {
+      background-color: rgba($green, 0.1);
+      border-left-color: $green;
+    }
+  }
+
+  &:not(.focus) {
+    ul {
+      display: none;
+      overflow: auto;
+    }
+  }
+}
