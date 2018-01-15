@@ -88,6 +88,7 @@ class Register extends Component {
         {(!registered || (registered === 'error')) && (
           <form onSubmit={this._onSubmit}>
             <input
+              aria-label="Email"
               disabled={registering}
               id="email"
               name="email"
@@ -97,6 +98,7 @@ class Register extends Component {
               value={email} />
 
             <input
+              aria-label="Username"
               disabled={registering}
               id="username"
               name="username"
@@ -106,6 +108,7 @@ class Register extends Component {
               value={username} />
 
             <input
+              aria-label="Password"
               disabled={registering}
               id="password"
               name="password"

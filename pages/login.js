@@ -96,6 +96,7 @@ class Login extends Component {
 
         <form onSubmit={this._onSubmit}>
           <input
+            aria-label="Email"
             disabled={loggingIn}
             id="email"
             name="email"
@@ -105,6 +106,7 @@ class Login extends Component {
             value={email} />
 
           <input
+            aria-label="Password"
             disabled={loggingIn}
             id="password"
             name="password"

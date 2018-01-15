@@ -1,9 +1,16 @@
 form {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: 20% auto;
+  padding: 2rem;
 
-  > input {
-    margin: 2rem;
+  input[aria-label],
+  menu {
+    grid-column-end: -1;
+    grid-column-start: 1;
+  }
+
+  menu {
+    padding: 0;
   }
 }
