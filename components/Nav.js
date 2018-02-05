@@ -25,7 +25,7 @@ const navItems = [
       },
 
       {
-        href: '/roadmap#3005240', // '/groups/manage',
+        href: '/groups/manage',
         title: 'My Groups',
       },
     ],

@@ -9,6 +9,7 @@ const fs = require('fs')
 const path = require('path')
 const router = require('koa-router')()
 const uuid = require('uuid/v4')
+const validateUUID = require('uuid-validate')
 
 const recursivelyConvertDirectoryStructureIntoJSON = require('../helpers/recursivelyConvertDirectoryStructureIntoJSON')
 
@@ -64,12 +65,20 @@ module.exports = function foo (nextjs, koa) {
     Parameterized routes
   \******************************************************************************/
 
-  router.get(['/my/characters/:id'], async ctx => {
-    await nextjs.render(ctx.request, ctx.res, '/my/character', Object.assign({}, ctx.query, ctx.params))
-  })
-
   router.get(['/confirmation/:token'], async ctx => {
     await nextjs.render(ctx.request, ctx.res, '/confirmation', Object.assign({}, ctx.query, ctx.params))
+  })
+
+  router.get(['/groups/:id'], async (ctx, next) => {
+    if (validateUUID(ctx.params.id)) {
+      await nextjs.render(ctx.request, ctx.res, '/groups/group', Object.assign({}, ctx.query, ctx.params))
+    }
+
+    await next()
+  })
+
+  router.get(['/my/characters/:id'], async ctx => {
+    await nextjs.render(ctx.request, ctx.res, '/my/character', Object.assign({}, ctx.query, ctx.params))
   })
 
 

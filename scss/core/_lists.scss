@@ -1,0 +1,18 @@
+ol,
+ul {
+  margin-bottom: 2rem;
+
+  &.inline {
+    li {
+      display: inline;
+    }
+  }
+
+  &.comma-separated {
+    li:not(:last-child) {
+      &:after {
+        content: ', ';
+      }
+    }
+  }
+}

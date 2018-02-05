@@ -1,5 +1,25 @@
 .input-group {
-  display: grid;
-  grid-gap: 2rem;
-  grid-template-columns: 20% auto;
+  align-items: center;
+  background-color: $white;
+  color: $light-grey;
+  display: flex;
+  padding: 0.5rem 1rem;
+  transition: color 0.2s;
+
+  input {
+    border-left-color: $light-grey;
+    border-left-style: solid;
+    border-left-width: 0.1rem;
+    margin-left: 1rem;
+    transition: border-left-color 0.2s;
+  }
+
+  &:focus,
+  &:hover {
+    color: $black;
+
+    input {
+      border-left-color: $black;
+    }
+  }
 }

@@ -1,7 +1,5 @@
 form {
-  display: grid;
-  grid-gap: 2rem;
-  grid-template-columns: 20% auto;
+  max-width: 80rem;
   padding: 2rem;
 
   input[aria-label],

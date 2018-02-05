@@ -62,20 +62,24 @@ export default class Wizard extends Component {
         </section>
 
         <menu type="toolbar">
-          {!isFirstStep && (
+          <div className="primary">
             <button
-              className="previous"
-              onClick={this._handlePreviousClick}>
-              Previous
+              className="next success"
+              disabled={children[currentStep].props.isValidated ? !children[currentStep].props.isValidated() : false}
+              onClick={isLastStep ? this._handleFinalClick : this._handleNextClick}>
+              Next
             </button>
-          )}
+          </div>
 
-          <button
-            className="next"
-            disabled={children[currentStep].props.isValidated ? !children[currentStep].props.isValidated() : false}
-            onClick={isLastStep ? this._handleFinalClick : this._handleNextClick}>
-            Next
-          </button>
+          <div className="secondary">
+            {!isFirstStep && (
+              <button
+                className="previous secondary"
+                onClick={this._handlePreviousClick}>
+                Previous
+              </button>
+            )}
+          </div>
         </menu>
       </div>
     )

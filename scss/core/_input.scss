@@ -2,29 +2,27 @@ input,
 select,
 textarea {
   appearance: none;
-  background-color: transparent;
-  border-color: $white;
-  border-style: solid;
-  border-width: 0;
+  background-color: $white;
+  border: none;
   border-radius: 0;
-  border-bottom-width: 1px;
-  color: inherit;
+  color: $black;
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
   outline: none;
-  padding: 0;
+  padding: 0.5rem 1rem;
   resize: vertical;
   transition: background-color 0.2s;
+  width: 100%;
 
   &[type=number] {
     width: auto;
   }
 
-  &:hover:not(:focus):not([readonly]) {
-    background-color: rgba($white, 0.1);
-  }
+  // &:hover:not(:focus):not([readonly]) {
+  //   background-color: rgba($white, 0.1);
+  // }
 
   &[readonly] {
     background-color: transparent;

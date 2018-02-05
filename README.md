@@ -35,11 +35,11 @@ yarn run dev
 
 #### Environment Variables
 
-| Name                      | Purpose |
-|---------------------------|---------|
-| `RFG_API_URL`             | This is the URL the application will proxy API requests to |
-| `RFG_APP_PORT`            | This is the port to run the application on |
-| `RFG_GA_TAG_MANAGER_ID`   | This is the ID for Google Tag Manager |
+| Name                             | Purpose |
+|----------------------------------|---------|
+| `RFG_API_URL`                    | This is the URL the application will proxy API requests to |
+| `RFG_APP_PORT`                   | This is the port to run the application on |
+| `RFG_GOOGLE_TAG_MANAGER_API_KEY` | This is the ID for Google Tag Manager |
 
 [code-of-conduct]: CODE_OF_CONDUCT.md
 [code-of-conduct-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square

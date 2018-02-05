@@ -13,7 +13,7 @@ const title = 'Find Group'
 
 
 const FindGroup = () => (
-  <h1>Find Group!</h1>
+  <h1>Find a Group</h1>
 )
 
 

@@ -16,8 +16,14 @@ import Dropdown from './Dropdown'
 
 export default class extends Component {
   /***************************************************************************\
-    Public Methods
+    Private Methods
   \***************************************************************************/
+
+  static _filterDropdownOptions (options, value) {
+    const regex = new RegExp(`${value}.*`, 'gi')
+
+    return options.filter(option => regex.test(option))
+  }
 
   _handleAlignmentChange (alignment) {
     if (this.props.onChange) {
@@ -27,8 +33,6 @@ export default class extends Component {
 
   _handleChange (event) {
     const { target } = event
-
-    console.log(event)
 
     if (this.props.onChange) {
       this.props.onChange(target.name, target.value)
@@ -71,7 +75,7 @@ export default class extends Component {
           const value = character.description[property]
 
           return (
-            <React.Fragment key={property}>
+            <fieldset key={property}>
               <label htmlFor={property}>{name}</label>
 
               {['number', 'text'].includes(type) && (
@@ -95,10 +99,11 @@ export default class extends Component {
 
               {type === 'select' && (
                 <Dropdown
+                  filter={Dropdown._filterDropdownOptions}
                   name={property}
                   options={options} />
               )}
-            </React.Fragment>
+            </fieldset>
           )
         })}
       </form>

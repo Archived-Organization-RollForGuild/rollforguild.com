@@ -1,3 +1,10 @@
+// Module imports
+import PropTypes from 'prop-types'
+
+
+
+
+
 // Component imports
 import Component from './Component'
 
@@ -5,7 +12,7 @@ import Component from './Component'
 
 
 
-export default class Dropdown extends Component {
+class Dropdown extends Component {
   _handleBlur () {
     this.setState({ focused: false })
   }
@@ -25,15 +32,23 @@ export default class Dropdown extends Component {
     this.setState({ focused: true })
   }
 
-  _handleOptionSelect (event) {
-    const { target } = event
+  _handleOptionSelect (option) {
+    const { onChange } = this.props
 
     this.setState({
       focused: false,
-      value: target.value,
+      value: option,
     })
 
-    this._input.focus()
+    if (onChange) {
+      onChange(option)
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.value !== nextProps.value) {
+      this.setState({ value: nextProps.value })
+    }
   }
 
   constructor (props) {
@@ -48,50 +63,86 @@ export default class Dropdown extends Component {
 
     this.state = {
       focused: false,
-      value: '',
+      value: props.defaultValue || '',
     }
   }
 
   render () {
     const {
       className,
+      filter,
+      id,
       name,
+      options,
+      placeholder,
+      renderOption,
+      renderValue,
     } = this.props
     const {
       focused,
       value,
     } = this.state
-    let { options } = this.props
 
-    if (value) {
-      const regex = new RegExp(`${value}.*`, 'gi')
-
-      options = options.filter(option => regex.test(option))
-    }
+    const filteredOptions = filter(options, value) || []
 
     return (
       <div
         className={['dropdown', (focused ? 'focus' : null), (className || null)].join(' ')}>
         <input
+          id={id}
           name={name}
-          onInput={this._handleChange}
+          onChange={this._handleChange}
           onBlur={this._handleBlur}
           onFocus={this._handleFocus}
+          placeholder={placeholder}
           ref={_input => this._input = _input}
-          value={value} />
+          value={renderValue(value)} />
 
         <ul className="options">
-          {options.map(option => (
-            <li key={option}>
-              <button
-                onMouseDown={this._handleOptionSelect}
-                value={option}>
-                {option}
-              </button>
-            </li>
-          ))}
+          {filteredOptions.map(option => {
+            const renderedOption = renderOption(option)
+
+            return (
+              <li key={renderedOption}>
+                <button
+                  onMouseDown={() => this._handleOptionSelect(renderValue(option))}
+                  value={renderValue(option)}>
+                  {renderOption(option)}
+                </button>
+              </li>
+            )
+          })}
         </ul>
       </div>
     )
   }
 }
+
+
+
+
+
+Dropdown.defaultProps = {
+  defaultValue: null,
+  filter: items => items,
+  onChange: null,
+  renderOption: option => option,
+  renderValue: value => value,
+  value: null,
+}
+
+Dropdown.propTypes = {
+  defaultValue: PropTypes.any,
+  filter: PropTypes.func,
+  onChange: PropTypes.func,
+  options: PropTypes.array.isRequired,
+  renderOption: PropTypes.func,
+  renderValue: PropTypes.func,
+  value: PropTypes.any,
+}
+
+
+
+
+
+export default Dropdown

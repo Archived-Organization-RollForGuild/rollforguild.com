@@ -1,0 +1,9 @@
+fieldset {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+
+  &.horizontal {
+    flex-direction: row;
+  }
+}

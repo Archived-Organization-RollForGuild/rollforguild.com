@@ -87,38 +87,68 @@ class Register extends Component {
 
         {(!registered || (registered === 'error')) && (
           <form onSubmit={this._onSubmit}>
-            <input
-              aria-label="Email"
-              disabled={registering}
-              id="email"
-              name="email"
-              onChange={this._handleChange}
-              placeholder="Email"
-              type="email"
-              value={email} />
+            <fieldset>
+              <div className="input-group">
+                <label htmlFor="email">
+                  <i className="fas fa-fw fa-envelope" />
+                </label>
 
-            <input
-              aria-label="Username"
-              disabled={registering}
-              id="username"
-              name="username"
-              onChange={this._handleChange}
-              placeholder="Username"
-              type="username"
-              value={username} />
+                <input
+                  aria-label="Email"
+                  disabled={registering}
+                  id="email"
+                  name="email"
+                  onChange={this._handleChange}
+                  placeholder="Email"
+                  type="email"
+                  value={email} />
+              </div>
+            </fieldset>
 
-            <input
-              aria-label="Password"
-              disabled={registering}
-              id="password"
-              name="password"
-              onChange={this._handleChange}
-              placeholder="Password"
-              type="password"
-              value={password} />
+            <fieldset>
+              <div className="input-group">
+                <label htmlFor="username">
+                  <i className="fas fa-fw fa-user" />
+                </label>
+
+                <input
+                  aria-label="Username"
+                  disabled={registering}
+                  id="username"
+                  name="username"
+                  onChange={this._handleChange}
+                  placeholder="Username"
+                  type="username"
+                  value={username} />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <div className="input-group">
+                <label htmlFor="password">
+                  <i className="fas fa-fw fa-lock" />
+                </label>
+
+                <input
+                  aria-label="Password"
+                  disabled={registering}
+                  id="password"
+                  name="password"
+                  onChange={this._handleChange}
+                  placeholder="Password"
+                  type="password"
+                  value={password} />
+              </div>
+            </fieldset>
 
             <menu type="toolbar">
-              <button type="submit">Register</button>
+              <div className="primary">
+                <button
+                  className="success"
+                  type="submit">
+                  Register
+                </button>
+              </div>
             </menu>
 
             {(registered === 'error') && (

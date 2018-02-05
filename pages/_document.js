@@ -5,7 +5,7 @@ import Document, { Head, Main, NextScript } from 'next/document'
 
 
 const fonts = ['Lora', 'Montserrat:400,700']
-const gatmId = process.env.RFG_GA_TAG_MANAGER_ID
+const gatmId = process.env.RFG_GOOGLE_TAG_MANAGER_API_KEY
 
 
 
@@ -40,6 +40,8 @@ export default class extends Document {
           <link rel="icon" type="image/png" href="/static/favicon/favicon-16x16.png" sizes="16x16" />
           <link rel="icon" type="image/png" href="/static/favicon/favicon-128.png" sizes="128x128" />
 
+          <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js" />
+
           <script src="//cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js" />
           <script dangerouslySetInnerHTML={
             {
@@ -57,9 +59,9 @@ export default class extends Document {
                   j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
                   f.parentNode.insertBefore(j,f)
                 })(window, document, 'script', 'dataLayer', '${gatmId}');
-                `,
-              }
-            } />
+              `,
+            }
+          } />
         </Head>
 
         <body>

@@ -95,33 +95,59 @@ class Login extends Component {
         </header>
 
         <form onSubmit={this._onSubmit}>
-          <input
-            aria-label="Email"
-            disabled={loggingIn}
-            id="email"
-            name="email"
-            onChange={this._handleChange}
-            placeholder="Email"
-            type="email"
-            value={email} />
+          <fieldset>
+            <div className="input-group">
+              <label htmlFor="email">
+                <i className="fas fa-fw fa-user" />
+              </label>
 
-          <input
-            aria-label="Password"
-            disabled={loggingIn}
-            id="password"
-            name="password"
-            onChange={this._handleChange}
-            placeholder="Password"
-            type="password"
-            value={password} />
+              <input
+                aria-label="Email"
+                disabled={loggingIn}
+                id="email"
+                name="email"
+                onChange={this._handleChange}
+                placeholder="Email"
+                type="email"
+                value={email} />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <div className="input-group">
+              <label htmlFor="password">
+                <i className="fas fa-fw fa-lock" />
+              </label>
+
+              <input
+                aria-label="Password"
+                disabled={loggingIn}
+                id="password"
+                name="password"
+                onChange={this._handleChange}
+                placeholder="Password"
+                type="password"
+                value={password} />
+            </div>
+          </fieldset>
 
           <menu type="toolbar">
-            <button type="submit">Login</button>
-            <Link href="/register">
-              <a className="button link">
-                Sign Up
-              </a>
-            </Link>
+            <div className="primary">
+              <button
+                className="success"
+                type="submit">
+                Login
+              </button>
+            </div>
+
+            <div className="secondary">
+              <Link href="/register">
+                <a
+                  className="button link">
+                  Sign Up
+                </a>
+              </Link>
+            </div>
           </menu>
 
           {(loggedIn === 'error') && (

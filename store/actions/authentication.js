@@ -23,19 +23,21 @@ export const confirmAccount = token => async dispatch => {
     response = await fetch(`/api/confirmation/${token}`, { method: 'post' })
 
     success = response.ok
+  } catch (error) {
+    success = false
+  }
 
+  if (success) {
     response = await response.json()
 
     Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
     Cookies.set('userId', response.data.attributes.user_id, { expires: 365 })
-  } catch (error) {
-    success = false
   }
 
   dispatch({
     payload: response || null,
     status: success ? 'success' : 'error',
-    type: actionTypes.LOGIN,
+    type: actionTypes.CONFIRM_ACCOUNT,
   })
 }
 
@@ -70,14 +72,16 @@ export const login = (email, password) => async dispatch => {
       })
 
       success = response.ok
-
-      response = await response.json()
-
-      Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
-      Cookies.set('userId', response.data.attributes.user_id, { expires: 365 })
     }
   } catch (error) {
     success = false
+  }
+
+  if (success) {
+    response = await response.json()
+
+    Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
+    Cookies.set('userId', response.data.attributes.user_id, { expires: 365 })
   }
 
   dispatch({

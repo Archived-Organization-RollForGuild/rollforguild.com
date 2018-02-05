@@ -18,6 +18,8 @@ export default {
     loading: false,
   },
 
+  groups: {},
+
   rulesets: {},
 
   user: {

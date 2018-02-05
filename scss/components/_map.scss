@@ -1,0 +1,29 @@
+.map {
+  input {
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+
+  .leaflet-container {
+    &:after {
+      align-items: center;
+      background-color: $black;
+      bottom: 0;
+      content: 'Loading...';
+      display: flex;
+      justify-content: center;
+      left: 0;
+      opacity: 1;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transition: opacity 0.2s;
+      z-index: 1001;
+    }
+  }
+
+  &:not(.loading) .leaflet-container:after {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
