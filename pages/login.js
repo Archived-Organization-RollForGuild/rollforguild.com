@@ -33,8 +33,13 @@ class Login extends Component {
     event.preventDefault()
 
     this.setState({ loggingIn: true })
-    await this.props.login(email, password)
-    this.setState({ loggingIn: false })
+
+    const result = await this.props.login(email, password)
+
+    this.setState({
+      loggingIn: false,
+      status: result.status,
+    })
   }
 
 
@@ -77,6 +82,7 @@ class Login extends Component {
       email: '',
       loggingIn: false,
       password: '',
+      status: null,
     }
   }
 
@@ -85,8 +91,8 @@ class Login extends Component {
       email,
       loggingIn,
       password,
+      status,
     } = this.state
-    const { loggedIn } = this.props
 
     return (
       <React.Fragment>
@@ -142,15 +148,14 @@ class Login extends Component {
 
             <div className="secondary">
               <Link href="/register">
-                <a
-                  className="button link">
+                <a className="button link">
                   Sign Up
                 </a>
               </Link>
             </div>
           </menu>
 
-          {(loggedIn === 'error') && (
+          {(status === 'error') && (
             <React.Fragment>
               <p>There seems to have been an error when trying to log in to your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
             </React.Fragment>

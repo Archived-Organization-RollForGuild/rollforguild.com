@@ -18,7 +18,7 @@ export default function (state = initialState.authentication, action) {
       if (typeof status !== 'undefined') {
         return {
           ...state,
-          loggedIn: status,
+          loggedIn: status === 'success',
         }
       }
 
@@ -28,13 +28,8 @@ export default function (state = initialState.authentication, action) {
         loggedIn: false,
       }
 
-    case actionTypes.REGISTER:
-      if (typeof status !== 'undefined') {
-        return {
-          ...state,
-          registered: status,
-        }
-      }
+    case actionTypes.RESET_AUTHENTICATION_STATE:
+      return { ...initialState.authentication }
 
     default:
       return { ...state }

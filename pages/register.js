@@ -36,8 +36,13 @@ class Register extends Component {
     event.preventDefault()
 
     this.setState({ registering: true })
-    await this.props.register(username, email, password)
-    this.setState({ registering: false })
+
+    const result = await this.props.register(username, email, password)
+
+    this.setState({
+      registering: false,
+      status: result.status,
+    })
   }
 
 
@@ -66,6 +71,7 @@ class Register extends Component {
       email: '',
       registering: false,
       password: '',
+      status: null,
       username: '',
     }
   }
@@ -75,9 +81,9 @@ class Register extends Component {
       email,
       registering,
       password,
+      status,
       username,
     } = this.state
-    const { registered } = this.props
 
     return (
       <React.Fragment>
@@ -85,7 +91,7 @@ class Register extends Component {
           <h1>Register</h1>
         </header>
 
-        {(!registered || (registered === 'error')) && (
+        {(!status && status !== 'error') && (
           <form onSubmit={this._onSubmit}>
             <fieldset>
               <div className="input-group">
@@ -151,7 +157,7 @@ class Register extends Component {
               </div>
             </menu>
 
-            {(registered === 'error') && (
+            {(status === 'error') && (
               <React.Fragment>
                 <p>There seems to have been an error registering your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
               </React.Fragment>
@@ -159,9 +165,9 @@ class Register extends Component {
           </form>
         )}
 
-        {(registered === 'success') && (
+        {(status === 'success') && (
           <React.Fragment>
-            <p>Now that you've given the password to the towering hulk of a creature at the entrance to The Guild's headquarters, it lumbers towards a strange, magical box. It points to the box, then grunts at you. You can only assume it intends for you to come closer. The creature steps out of your way and you lean in for a closer look. The box is clearly some strange product of gnomish tinkering. On iots front you read the words...</p>
+            <p>Now that you've given the password to the towering hulk of a creature at the entrance to The Guild's headquarters, it lumbers towards a strange, magical box. It points to the box, then grunts at you. You can only assume it intends for you to come closer. The creature steps out of your way and you lean in for a closer look. The box is clearly some strange product of gnomish tinkering. On the front of it you read the words...</p>
 
             <blockquote>Check your email for a confirmation code.</blockquote>
 

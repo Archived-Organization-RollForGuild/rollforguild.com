@@ -84,7 +84,7 @@ export const login = (email, password) => async dispatch => {
     Cookies.set('userId', response.data.attributes.user_id, { expires: 365 })
   }
 
-  dispatch({
+  return dispatch({
     payload: response || null,
     status: success ? 'success' : 'error',
     type: actionTypes.LOGIN,
@@ -136,8 +136,16 @@ export const register = (username, email, password) => async dispatch => {
     success = false
   }
 
-  dispatch({
+  return dispatch({
     status: success ? 'success' : 'error',
     type: actionTypes.REGISTER,
   })
+}
+
+
+
+
+
+export const resetAuthenticationState = () => dispatch => {
+  dispatch({ type: actionTypes.RESET_AUTHENTICATION_STATE })
 }
