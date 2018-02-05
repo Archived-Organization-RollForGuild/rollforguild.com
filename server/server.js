@@ -12,6 +12,7 @@ const etag = require('koa-etag')
 const Koa = require('koa')
 const logger = require('koa-logger')
 const path = require('path')
+const robotsTxt = require('koa-robots.txt')
 
 const next = require('next')({
   dev: process.env.NODE_ENV !== 'production',
@@ -43,6 +44,9 @@ next.prepare().then(() => {
 
   // Parse request bodies
   koa.use(body())
+
+  // Serve up the robots.txt
+  koa.use(robotsTxt(['rollforguild.com']))
 
   // Configure the router
   router(next, koa, config)
