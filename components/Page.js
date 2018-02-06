@@ -62,7 +62,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
     }
 
     render () {
-      const mainClasses = ['fade-in', 'page', title.toLowerCase().replace(' ', '-')].join(' ')
+      const mainClasses = ['fade-in', 'page', title.toLowerCase().replace(/\s/g, '-')].join(' ')
 
       return (
         <div role="application">
