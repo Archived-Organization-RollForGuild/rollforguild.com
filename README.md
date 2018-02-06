@@ -50,6 +50,16 @@ yarn run dev
 1. Set all of your environment variables in a `.env` file at the root of the project
 1. Open the Debug tab and run the `RFG: Full` program
 
+### Code Style
+
+#### ESLint
+
+We have ESLint setup to error if our code styles aren't adhered to. Feel free to PR changes to the ESLint file, but make sure the do so as an individual PR. Changes to ESLint that are included with other changes will not be approved.
+
+#### Commits
+
+Commits to this project should use the [Angule commit conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153). We'll be adding a listing of allowed scopes in the future.
+
 
 
 
