@@ -8,8 +8,9 @@ import React from 'react'
 
 // Component imports
 import Component from '../../components/Component'
-import Map from '../../components/Map'
+// import Map from '../../components/Map'
 import Page from '../../components/Page'
+import StaticMap from '../../components/StaticMap'
 
 
 
@@ -33,7 +34,9 @@ class ManageGroup extends Component {
     let { group } = this.props
 
     if (!group) {
-      group = await getGroup(id)
+      const { payload } = await getGroup(id)
+
+      group = payload.data
     }
 
     this.setState({
@@ -56,6 +59,8 @@ class ManageGroup extends Component {
       loaded,
       group,
     } = this.state
+
+    console.log('group', group)
 
     return (
       <React.Fragment>
@@ -89,35 +94,36 @@ class ManageGroup extends Component {
 
             <div className="location">
               <h2>Location</h2>
-              <Map
+
+              <StaticMap
                 location={group.attributes.geo}
-                markers={[{
-                  ...group.attributes.geo,
-                  label: group.attributes.address,
-                }]}
-                searchable={false} />
+                markers={[
+                  { ...group.attributes.geo },
+                ]} />
             </div>
 
             <div className="players">
               <ul>
-                {[{ id: 1 }, { id: 2 }, { id: 3 }].map(({ id }) => (
+                {group.relationships.group_members.map(({ attributes, id }) => (
                   <li key={id}>
                     <img
-                      alt="Avatar for player"
+                      alt={`Avatar for ${attributes.username}`}
                       className="avatar"
-                      src={`//api.adorable.io/avatars/50/${Math.random()}`} />
+                      src={`//api.adorable.io/avatars/50/${id}`} />
 
                     <header>
-                      Member
+                      {attributes.username}
                     </header>
 
                     <menu
                       className="compact"
                       type="toolbar">
                       <div className="primary">
-                        {/* <button className="small success">
+                        <a
+                          className="button small success"
+                          href={`mailto:${attributes.email}`}>
                           Message
-                        </button> */}
+                        </a>
 
                         <button className="danger small">
                           Remove

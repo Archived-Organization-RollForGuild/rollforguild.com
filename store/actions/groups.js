@@ -42,13 +42,11 @@ export const createGroup = group => async dispatch => {
     success = false
   }
 
-  dispatch({
+  return dispatch({
     payload: response || null,
     status: success ? 'success' : 'error',
     type: actionTypes.CREATE_GROUP,
   })
-
-  return success ? response.data.id : false
 }
 
 
@@ -76,11 +74,9 @@ export const getGroup = groupId => async dispatch => {
     success = false
   }
 
-  dispatch({
+  return dispatch({
     payload: response || null,
     status: success ? 'success' : 'error',
     type: actionTypes.GET_GROUP,
   })
-
-  return success ? response.data : false
 }

@@ -49,13 +49,14 @@ class CreateGroup extends Component {
 
     games = games.split(',').map(game => game.trim())
 
-    const groupId = await createGroup({
+    const { payload } = await createGroup({
       address,
       description,
       discoverable,
       games,
       name,
     })
+    const groupId = payload.data.id
 
     if (groupId) {
       return Router.push(`/groups/?id=${groupId}`, `/groups/${groupId}`)
