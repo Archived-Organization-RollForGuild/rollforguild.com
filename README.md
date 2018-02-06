@@ -57,3 +57,11 @@ yarn run dev
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [circleci]: https://circleci.com/gh/RollForGuild/rollforguild.com
 [circleci-badge]: https://img.shields.io/circleci/project/github/RollForGuild/rollforguild.com.svg?style=flat-square
+
+## Debugging
+
+### VS Code
+
+1. Install the [Debugger for Chrome](https://github.com/Microsoft/vscode-chrome-debug) extension for VS Code
+1. Set all of your environment variables in a `.env` file at the root of the project
+1. Open the Debug tab and run the `RFG: Full` program

@@ -1,4 +1,5 @@
 .DS_Store
+.env
 .next
 bower_components
 data/characters

@@ -1,0 +1,30 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "RFG: Client",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceRoot}"
+    },
+    {
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "name": "RFG: Server",
+      "program": "${workspaceFolder}/server/server.js",
+      "protocol": "inspector",
+      "request": "launch",
+      "type": "node"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "RFG: Full",
+      "configurations": ["RFG: Server", "RFG: Client"]
+    }
+  ]
+}
