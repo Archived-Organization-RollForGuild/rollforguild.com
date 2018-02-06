@@ -58,7 +58,7 @@ We have ESLint setup to error if our code styles aren't adhered to. Feel free to
 
 #### Commits
 
-Commits to this project should use the [Angule commit conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153). We'll be adding a listing of allowed scopes in the future.
+Commits to this project should use the [Angular commit conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153). We'll be adding a listing of allowed scopes in the future.
 
 
 
