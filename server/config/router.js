@@ -8,6 +8,7 @@ const cookie = require('koa-cookie')
 const fs = require('fs')
 const path = require('path')
 const router = require('koa-router')()
+const send = require('koa-send')
 const uuid = require('uuid/v4')
 const validateUUID = require('uuid-validate')
 
@@ -56,6 +57,10 @@ module.exports = function foo (nextjs, koa) {
   //   ctx.status = 301
   //   await ctx.redirect(`[ROUTE_TO_REDIRECT_THE_USER_TO]`)
   // })
+
+  router.get('/sitemap.xml', async ctx => {
+    await send(ctx, '/static/sitemap.xml')
+  })
 
 
 

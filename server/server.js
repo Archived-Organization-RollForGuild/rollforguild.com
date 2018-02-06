@@ -13,6 +13,7 @@ const Koa = require('koa')
 const logger = require('koa-logger')
 const path = require('path')
 const robotsTxt = require('koa-robots.txt')
+const SitemapGenerator = require('sitemap-generator')
 
 const next = require('next')({
   dev: process.env.NODE_ENV !== 'production',
@@ -54,6 +55,10 @@ next.prepare().then(() => {
   // Leverage ETags to enable browser caching
   koa.use(conditional())
   koa.use(etag())
+
+  if (process.env.NODE_ENV === 'production') {
+    SitemapGenerator('http://rollforguild.com', { filepath: './static/sitemap.xml' }).start()
+  }
 
   // Start the server
   koa.listen(process.env.RFG_APP_PORT || 3000)
