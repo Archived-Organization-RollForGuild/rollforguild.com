@@ -8,10 +8,7 @@ import Switch from 'rc-switch'
 
 
 // Component imports
-import AddressInput from '../../components/AddressInput'
 import Component from '../../components/Component'
-// import Dropdown from '../../components/Dropdown'
-// import Map from '../../components/Map'
 import Page from '../../components/Page'
 
 
@@ -36,12 +33,6 @@ class CreateGroup extends Component {
     return options.filter(option => regex.test(option))
   }
 
-  _handleAddressChange (newAddress) {
-    this.setState({
-      address: { ...newAddress },
-    })
-  }
-
   async _handleSubmit (event) {
     const { createGroup } = this.props
     const {
@@ -59,7 +50,7 @@ class CreateGroup extends Component {
     games = games.split(',').map(game => game.trim())
 
     const groupId = await createGroup({
-      ...address,
+      address,
       description,
       discoverable,
       games,
@@ -75,21 +66,11 @@ class CreateGroup extends Component {
 
   _isValid () {
     const {
+      address,
       name,
     } = this.state
-    const {
-      city,
-      country,
-      state,
-      street1,
-      zip,
-    } = this.state.address
 
-    if (!city || !country || !state || !street1 || !zip) {
-      return false
-    }
-
-    if (!name) {
+    if (!address || !name) {
       return false
     }
 
@@ -107,20 +88,10 @@ class CreateGroup extends Component {
   constructor (props) {
     super(props)
 
-    this._bindMethods([
-      '_handleAddressChange',
-      '_handleSubmit',
-    ])
+    this._bindMethods(['_handleSubmit'])
 
     this.state = {
-      address: {
-        city: '',
-        country: 'USA',
-        state: '',
-        street1: '',
-        street2: '',
-        zip: '',
-      },
+      address: '',
       description: '',
       discoverable: true,
       games: '',
@@ -249,23 +220,16 @@ class CreateGroup extends Component {
           </fieldset>
 
           <fieldset>
-            <label
-              htmlFor="address"
-              onChange={this._handleAddressChange}>
+            <label htmlFor="address">
               Where will you be playing?
             </label>
 
-            <AddressInput
+            <input
               disabled={submitting}
               id="address"
-              onChange={this._handleAddressChange}
+              onChange={({ target }) => this.setState({ address: target.value })}
+              placeholder="e.g. 316 W Washington Ave, Madison, WI 53703"
               value={address} />
-
-            {/* <label htmlFor="location">
-              Where will you be playing?
-            </label>
-
-            <Map /> */}
           </fieldset>
 
           <fieldset className="horizontal">
