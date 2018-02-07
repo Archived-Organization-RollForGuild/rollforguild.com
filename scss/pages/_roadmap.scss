@@ -24,10 +24,12 @@
         font-family: Montserrat, sans-serif;
         font-size: 0.5em;
         font-weight: bold;
+        left: 0%;
         padding: 0 1rem;
         position: absolute;
         top: 50%;
         transform: translate(-50%, -50%);
+        transition: left 2s;
       }
     }
 
