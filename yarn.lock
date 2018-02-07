@@ -1642,6 +1642,10 @@ cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
     parse-json "^2.2.0"
     require-from-string "^1.1.0"
 
+countup.js@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-1.9.3.tgz#ce3e50cd7160441e478f07da31895edcc0f1c9dd"
+
 cp-file@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/cp-file/-/cp-file-4.2.0.tgz#715361663b71ede0b6dddbc3c80e2ba02e725ec3"
@@ -5499,6 +5503,12 @@ react-async-script@^0.9.1:
   resolved "https://registry.yarnpkg.com/react-async-script/-/react-async-script-0.9.1.tgz#d4a496c726fab0c6ef05998ab16e50c742820b60"
   dependencies:
     prop-types ">=15.5.0"
+
+react-countup@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-countup/-/react-countup-3.0.2.tgz#26b7e27a91cdefc8ec744704ec93b1cbd9e638f0"
+  dependencies:
+    countup.js "^1.9.3"
 
 react-dom@^16.2.0:
   version "16.2.0"
