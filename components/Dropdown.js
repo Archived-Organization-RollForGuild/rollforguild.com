@@ -13,6 +13,10 @@ import Component from './Component'
 
 
 class Dropdown extends Component {
+  /***************************************************************************\
+    Private Methods
+  \***************************************************************************/
+
   _handleBlur () {
     this.setState({ focused: false })
   }
@@ -33,17 +37,30 @@ class Dropdown extends Component {
   }
 
   _handleOptionSelect (option) {
-    const { onChange } = this.props
+    const {
+      onChange,
+      onSelect,
+    } = this.props
 
     this.setState({
       focused: false,
       value: option,
     })
 
-    if (onChange) {
+    if (onSelect) {
+      onSelect(option)
+    } else if (onChange) {
       onChange(option)
     }
   }
+
+
+
+
+
+  /***************************************************************************\
+    Public Methods
+  \***************************************************************************/
 
   componentWillReceiveProps (nextProps) {
     if (this.props.value !== nextProps.value) {
@@ -126,6 +143,7 @@ Dropdown.defaultProps = {
   defaultValue: null,
   filter: items => items,
   onChange: null,
+  onSelect: null,
   renderOption: option => option,
   renderValue: value => value,
   value: null,
@@ -135,6 +153,7 @@ Dropdown.propTypes = {
   defaultValue: PropTypes.any,
   filter: PropTypes.func,
   onChange: PropTypes.func,
+  onSelect: PropTypes.func,
   options: PropTypes.array.isRequired,
   renderOption: PropTypes.func,
   renderValue: PropTypes.func,
