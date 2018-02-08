@@ -8,6 +8,7 @@ import Switch from 'rc-switch'
 
 
 // Component imports
+import AddressInput from '../../components/AddressInput'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
 
@@ -225,11 +226,10 @@ class CreateGroup extends Component {
               Where will you be playing?
             </label>
 
-            <input
+            <AddressInput
               disabled={submitting}
               id="address"
-              onChange={({ target }) => this.setState({ address: target.value })}
-              placeholder="e.g. 316 W Washington Ave, Madison, WI 53703"
+              onChange={value => this.setState({ address: value })}
               value={address} />
           </fieldset>
 
