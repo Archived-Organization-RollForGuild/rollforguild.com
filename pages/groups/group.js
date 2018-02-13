@@ -102,38 +102,42 @@ class ManageGroup extends Component {
                 ]} />
             </div>
 
-            <div className="players">
-              <ul>
-                {group.relationships.group_members.map(({ attributes, id }) => (
-                  <li key={id}>
-                    <img
-                      alt={`Avatar for ${attributes.username}`}
-                      className="avatar"
-                      src={`//api.adorable.io/avatars/50/${id}`} />
+            {group.relationships && (
+              <div className="players">
+                <header>Members:</header>
 
-                    <header>
-                      {attributes.username}
-                    </header>
+                <ul>
+                  {group.relationships.group_members.map(({ attributes, id }) => (
+                    <li key={id}>
+                      <img
+                        alt={`Avatar for ${attributes.username}`}
+                        className="avatar"
+                        src={`//api.adorable.io/avatars/50/${id}`} />
 
-                    <menu
-                      className="compact"
-                      type="toolbar">
-                      <div className="primary">
-                        <a
-                          className="button small success"
-                          href={`mailto:${attributes.email}`}>
-                          Message
-                        </a>
+                      <header>
+                        {attributes.username}
+                      </header>
 
-                        <button className="danger small">
-                          Remove
-                        </button>
-                      </div>
-                    </menu>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                      <menu
+                        className="compact"
+                        type="toolbar">
+                        <div className="primary">
+                          <a
+                            className="button small success"
+                            href={`mailto:${attributes.email}`}>
+                            Message
+                          </a>
+
+                          <button className="danger small">
+                            Remove
+                          </button>
+                        </div>
+                      </menu>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </React.Fragment>
         )}
       </React.Fragment>
