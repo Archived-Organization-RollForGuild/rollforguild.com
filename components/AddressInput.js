@@ -49,7 +49,7 @@ class AddressInput extends Component {
     onChange(value)
   }
 
-  static _renderValue (value) {
+  static _renderOption (value) {
     if (typeof value === 'string') {
       return value
     }
@@ -82,7 +82,10 @@ class AddressInput extends Component {
   }
 
   render () {
-    const { options } = this.state
+    const {
+      options,
+      value,
+    } = this.state
 
     console.log(this.state.valid)
 
@@ -95,9 +98,8 @@ class AddressInput extends Component {
         onSelect={this._handleSelect}
         options={options}
         placeholder="e.g. 316 W Washington Ave, Madison, WI 53703"
-        renderOption={AddressInput._renderValue}
-        renderValue={AddressInput._renderValue}
-        value={this.state.value} />
+        renderOption={AddressInput._renderOption}
+        value={value.formatted_address || value} />
     )
   }
 }
@@ -113,7 +115,7 @@ AddressInput.defaultProps = {
 
 AddressInput.propTypes = {
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.any,
 }
 
 

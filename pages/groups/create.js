@@ -51,7 +51,7 @@ class CreateGroup extends Component {
     games = games.split(',').map(game => game.trim())
 
     const { payload } = await createGroup({
-      address,
+      address: address.formatted_address,
       description,
       discoverable,
       games,
