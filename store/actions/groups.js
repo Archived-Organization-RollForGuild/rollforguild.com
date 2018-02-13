@@ -85,6 +85,38 @@ export const getGroup = groupId => async dispatch => {
 
 
 
+export const requestToJoinGroup = groupId => async dispatch => {
+  const accessToken = Cookies.get('accessToken')
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.SEARCH_FOR_GROUPS })
+
+  try {
+    response = await fetch(`/api/groups/${groupId}/join-requests`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      method: 'post',
+    })
+
+    success = response.ok
+
+    response = await response.json()
+  } catch (error) {
+    success = false
+  }
+
+  return dispatch({
+    status: success ? 'success' : 'error',
+    type: actionTypes.SEARCH_FOR_GROUPS,
+  })
+}
+
+
+
+
+
 export const searchForGroups = ({ lat, lng }) => async dispatch => {
   const accessToken = Cookies.get('accessToken')
   let response = null

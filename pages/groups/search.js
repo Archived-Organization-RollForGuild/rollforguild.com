@@ -1,6 +1,4 @@
 // Module imports
-import 'isomorphic-fetch'
-import Link from 'next/link'
 import React from 'react'
 
 
@@ -10,6 +8,7 @@ import React from 'react'
 // Component imports
 import AddressInput from '../../components/AddressInput'
 import Component from '../../components/Component'
+import GroupCard from '../../components/GroupCard'
 import Page from '../../components/Page'
 
 
@@ -36,62 +35,10 @@ class SearchGroups extends Component {
 
   static _renderGroup (group) {
     const { id } = group
-    const {
-      description,
-      games,
-      members,
-      name,
-    } = group.attributes
 
     return (
-      <li
-        className="card"
-        key={id}>
-        <header>
-          <h2 title={name}>{name}</h2>
-
-          <small>{members} members</small>
-        </header>
-
-        {games && (
-          <aside>
-            <header>
-              <h3>Games:</h3>
-            </header>
-
-            <ul className="comma-separated inline">
-              {games.map(game => (
-                <li>{game}</li>
-              ))}
-            </ul>
-          </aside>
-        )}
-
-        <div className="description">
-          {!!description && (
-            <p>{description}</p>
-          )}
-
-          {!description && (
-            <p><em>No description</em></p>
-          )}
-        </div>
-
-        <menu type="toolbar">
-          <div className="primary">
-            <Link href={`/groups/?id=${id}`} as={`/groups/${id}`}>
-              <a className="button info">
-                Learn more
-              </a>
-            </Link>
-          </div>
-
-          <div className="secondary">
-            <button className="secondary">
-              Join
-            </button>
-          </div>
-        </menu>
+      <li key={id}>
+        <GroupCard group={group} />
       </li>
     )
   }
@@ -153,7 +100,10 @@ class SearchGroups extends Component {
 
 
 
-const mapDispatchToProps = ['searchForGroups']
+const mapDispatchToProps = [
+  'requestToJoinGroup',
+  'searchForGroups',
+]
 
 const mapStateToProps = (/*state*/) => ({})
 
