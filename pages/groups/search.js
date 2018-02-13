@@ -26,11 +26,15 @@ const SearchGroups = () => (
       <h1>Search Groups</h1>
     </header>
 
-    <div className="input-group">
-      <i className="fas fa-fw fa-search" />
+    <fieldset>
+      <div className="input-group">
+        <i className="fas fa-fw fa-search" />
 
-      <AddressInput />
-    </div>
+        <AddressInput />
+      </div>
+
+      <small>Use your location to search for nearby groups</small>
+    </fieldset>
   </React.Fragment>
 )
 
