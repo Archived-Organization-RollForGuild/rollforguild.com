@@ -56,9 +56,27 @@ button,
     }
   }
 
+  &.info {
+    background-color: #3498db;
+    border-color: #3498db;
+    color: $white;
+
+    &:hover {
+      background-color: #2384c6;
+      border-color: #217dbb;
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: $red;
+      border-color: $red;
+    }
+  }
+
   &.link {
     background-color: transparent;
     border-color: transparent;
+    color: $light-blue;
     text-decoration: underline;
     text-decoration-color: transparent;
     transition: text-decoration-color 0.2s;

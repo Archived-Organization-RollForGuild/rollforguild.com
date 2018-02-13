@@ -1,0 +1,12 @@
+.games-list {
+  display: flex;
+
+  header {
+    font-weight: bold;
+    margin-right: 1rem;
+
+    .games-list {
+      margin-left: auto;
+    }
+  }
+}

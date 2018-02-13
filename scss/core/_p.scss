@@ -1,3 +1,5 @@
 p {
-  margin-bottom: 2rem;
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
 }
