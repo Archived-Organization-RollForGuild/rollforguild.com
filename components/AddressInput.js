@@ -49,7 +49,7 @@ class AddressInput extends Component {
     onChange(value)
   }
 
-  static _renderOption (value) {
+  static _renderValue (value) {
     if (typeof value === 'string') {
       return value
     }
@@ -98,8 +98,9 @@ class AddressInput extends Component {
         onSelect={this._handleSelect}
         options={options}
         placeholder="e.g. 316 W Washington Ave, Madison, WI 53703"
-        renderOption={AddressInput._renderOption}
-        value={value.formatted_address || value} />
+        renderOption={AddressInput._renderValue}
+        renderValue={AddressInput._renderValue}
+        value={value} />
     )
   }
 }

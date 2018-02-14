@@ -122,9 +122,9 @@ class Dropdown extends Component {
             return (
               <li key={renderedOption}>
                 <button
-                  onMouseDown={() => this._handleOptionSelect(renderValue(option))}
-                  value={renderValue(option)}>
-                  {renderOption(option)}
+                  onMouseDown={() => this._handleOptionSelect(option)}
+                  value={option}>
+                  {renderedOption}
                 </button>
               </li>
             )
