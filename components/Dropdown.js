@@ -80,7 +80,7 @@ class Dropdown extends Component {
 
     this.state = {
       focused: false,
-      value: props.defaultValue || '',
+      value: props.value || props.defaultValue || '',
     }
   }
 
