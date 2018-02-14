@@ -28,9 +28,15 @@ class SearchGroups extends Component {
   \***************************************************************************/
 
   async _handleQuery ({ geometry }) {
+    this.setState({ searching: true })
+
     const { payload } = await this.props.searchForGroups(geometry.location)
 
-    this.setState({ groups: payload.data })
+    this.setState({
+      firstSearchInitiated: true,
+      groups: payload.data,
+      searching: false,
+    })
   }
 
   static _renderGroup (group) {
@@ -45,12 +51,6 @@ class SearchGroups extends Component {
 
   _renderGroups () {
     const { groups } = this.state
-
-    if (!groups.length) {
-      return (
-        <div>No groups found.</div>
-      )
-    }
 
     return (
       <ol>{groups.map(SearchGroups._renderGroup)}</ol>
@@ -70,10 +70,20 @@ class SearchGroups extends Component {
 
     this._bindMethods(['_handleQuery'])
 
-    this.state = { groups: [] }
+    this.state = {
+      firstSearchInitiated: false,
+      groups: [],
+      searching: false,
+    }
   }
 
   render () {
+    const {
+      firstSearchInitiated,
+      groups,
+      searching,
+    } = this.state
+
     return (
       <React.Fragment>
         <header>
@@ -90,7 +100,15 @@ class SearchGroups extends Component {
           <small>Use your location to search for nearby groups</small>
         </fieldset>
 
-        {this._renderGroups()}
+        {(!searching && !!groups.length) && this._renderGroups()}
+
+        {(!searching && firstSearchInitiated && !groups.length) && (
+          <div>No groups found.</div>
+        )}
+
+        {searching && (
+          <div><i className="fas fa-pulse fa-spinner" /> Searching...</div>
+        )}
       </React.Fragment>
     )
   }
