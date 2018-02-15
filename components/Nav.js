@@ -77,6 +77,11 @@ const navItems = [
         href: '/roadmap',
         title: 'Roadmap',
       },
+
+      {
+        href: '/contact',
+        title: 'Contact Us',
+      },
     ],
   },
 
