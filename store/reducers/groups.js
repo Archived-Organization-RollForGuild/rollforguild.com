@@ -1,6 +1,6 @@
 import actionTypes from '../actionTypes'
 import initialState from '../initialState'
-
+import parseJSONAPIResponseForEntityType from '../../helpers/parseJSONAPIResponseForEntityType'
 
 
 
@@ -16,17 +16,12 @@ export default function (state = initialState.groups, action) {
     case actionTypes.CREATE_GROUP:
     case actionTypes.GET_GROUP:
       if (status === 'success') {
-        if (payload.data.relationships) {
-          const members = payload.data.relationships.group_members.data
-
-          payload.data.relationships.group_members = members.map(member => payload.included.find(inclusion => inclusion.id === member.id))
-        }
-
         return {
           ...state,
-          [payload.data.id]: { ...payload.data },
+          ...parseJSONAPIResponseForEntityType(payload, 'groups', true),
         }
       }
+      return { ...state }
 
     default:
       return { ...state }
