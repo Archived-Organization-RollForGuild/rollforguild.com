@@ -5,6 +5,7 @@ import characters from './characters'
 import groups from './groups'
 import rulesets from './rulesets'
 import user from './user'
+import users from './users'
 
 
 
@@ -17,4 +18,5 @@ export default combineReducers({
   groups,
   rulesets,
   user,
+  users,
 })

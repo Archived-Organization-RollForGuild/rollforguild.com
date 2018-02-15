@@ -21,11 +21,6 @@ export default {
 
   rulesets: {},
 
-  user: {
-    email: null,
-    id: null,
-    loaded: false,
-    loading: false,
-    username: null,
-  },
+  users: {},
 }
+
