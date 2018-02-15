@@ -17,36 +17,30 @@ export default function (state = initialState.rulesets, action) {
     status,
     type,
   } = action
-  const newState = { ...state }
 
   switch (type) {
     case actionTypes.GET_RULESET:
-      switch (status) {
-        case 'success':
-          findAndEvaluateModifiers(payload.data)
-          return {
-            ...newState,
-            ...payload.data,
-          }
-
-        default:
-          return newState
+      if (status === 'success') {
+        findAndEvaluateModifiers(payload.data)
+        return {
+          ...state,
+          ...payload.data,
+        }
       }
+      return { ...state }
 
     case actionTypes.GET_RULESETS:
-      switch (status) {
-        case 'success':
-          for (const ruleset of payload.data) {
-            newState[ruleset] = null
-          }
+      if (status === 'success') {
+        const rulesets = payload.data.reduce((accumulator, ruleset) => ({ ...accumulator, [ruleset]: null }), {})
 
-          return newState
-
-        default:
-          return newState
+        return {
+          ...state,
+          ...rulesets,
+        }
       }
+      return { ...state }
 
     default:
-      return newState
+      return { ...state }
   }
 }
