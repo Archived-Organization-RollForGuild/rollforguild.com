@@ -5,17 +5,7 @@ export default {
     loggedIn: !!Cookies.get('accessToken'),
   },
 
-  character: {
-    character: null,
-    loaded: false,
-    loading: false,
-  },
-
-  characters: {
-    characters: [],
-    loaded: false,
-    loading: false,
-  },
+  characters: {},
 
   groups: {},
 
