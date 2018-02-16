@@ -8,6 +8,12 @@
     width: 100%;
   }
 
+  div {
+    cursor: pointer;
+    outline: none;
+    padding: 0.5rem 1rem;
+  }
+
   ul {
     background-color: $black;
     left: 0;
@@ -29,7 +35,11 @@
       display: none;
     }
 
-    &:hover {
+    &:focus {
+      outline: none;
+    }
+
+    &.active {
       background-color: rgba($green, 0.1);
       border-left-color: $green;
     }

@@ -100,6 +100,7 @@ class AddressInput extends Component {
         placeholder="e.g. 316 W Washington Ave, Madison, WI 53703"
         renderOption={AddressInput._renderValue}
         renderValue={AddressInput._renderValue}
+        searchable
         value={value} />
     )
   }

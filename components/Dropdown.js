@@ -17,6 +17,40 @@ class Dropdown extends Component {
     Private Methods
   \***************************************************************************/
 
+  _goToNextOption () {
+    const { getOptionId } = this.props
+    const { activeOption } = this.state
+
+    const { filteredOptions } = this
+    const newState = { focused: true }
+
+    if (!activeOption || (activeOption === getOptionId(filteredOptions[filteredOptions.length - 1]))) {
+      newState.activeOption = getOptionId(filteredOptions[0])
+    } else {
+      const currentOptionIndex = filteredOptions.findIndex(option => getOptionId(option) === activeOption)
+      newState.activeOption = getOptionId(filteredOptions[currentOptionIndex + 1])
+    }
+
+    this.setState(newState)
+  }
+
+  _goToPreviousOption () {
+    const { getOptionId } = this.props
+    const { activeOption } = this.state
+
+    const { filteredOptions } = this
+    const newState = { focused: true }
+
+    if (!activeOption || (activeOption === getOptionId(filteredOptions[0]))) {
+      newState.activeOption = getOptionId(filteredOptions[filteredOptions.length - 1])
+    } else {
+      const currentOptionIndex = filteredOptions.findIndex(option => getOptionId(option) === activeOption)
+      newState.activeOption = getOptionId(filteredOptions[currentOptionIndex - 1])
+    }
+
+    this.setState(newState)
+  }
+
   _handleBlur () {
     this.setState({ focused: false })
   }
@@ -34,6 +68,44 @@ class Dropdown extends Component {
 
   _handleFocus () {
     this.setState({ focused: true })
+  }
+
+  _handleKeyDown (event) {
+    const { getOptionId } = this.props
+    const { activeOption } = this.state
+    const { key } = event
+
+    switch (key.toLowerCase()) {
+      case 'arrowdown':
+        this._goToNextOption()
+        break
+
+      case 'arrowup':
+        this._goToPreviousOption()
+        break
+
+      case 'enter':
+        this._handleOptionSelect(this.filteredOptions.find(option => getOptionId(option) === activeOption))
+        break
+
+      default:
+        break
+    }
+  }
+
+  _toggleFocus () {
+    this.setState({ focused: !this.state.focused })
+  }
+
+  _handleOptionMouseOver (option) {
+    const { getOptionId } = this.props
+    const { activeOption } = this.state
+
+    const optionId = getOptionId(option)
+
+    if (activeOption !== optionId) {
+      this.setState({ activeOption: optionId })
+    }
   }
 
   _handleOptionSelect (option) {
@@ -75,10 +147,14 @@ class Dropdown extends Component {
       '_handleBlur',
       '_handleChange',
       '_handleFocus',
+      '_handleKeyDown',
+      '_handleOptionMouseOver',
       '_handleOptionSelect',
+      '_toggleFocus',
     ])
 
     this.state = {
+      activeOption: null,
       focused: false,
       value: props.value || props.defaultValue || '',
     }
@@ -87,33 +163,47 @@ class Dropdown extends Component {
   render () {
     const {
       className,
-      filter,
       id,
       name,
-      options,
+      getOptionId,
       placeholder,
       renderOption,
       renderValue,
+      searchable,
     } = this.props
     const {
+      activeOption,
       focused,
       value,
     } = this.state
 
-    const filteredOptions = filter(options, value) || []
+    const { filteredOptions } = this
 
     return (
-      <div
-        className={['dropdown', (focused ? 'focus' : null), (className || null)].join(' ')}>
-        <input
-          id={id}
-          name={name}
-          onChange={this._handleChange}
-          onBlur={this._handleBlur}
-          onFocus={this._handleFocus}
-          placeholder={placeholder}
-          ref={_input => this._input = _input}
-          value={renderValue(value)} />
+      <div className={['dropdown', (focused ? 'focus' : null), (className || null)].join(' ')}>
+        {!searchable && (
+          <div
+            onBlur={this._handleBlur}
+            onFocus={this._handleFocus}
+            onClick={this._handleFocus}
+            onKeyDown={this._handleKeyDown}
+            role="button"
+            tabIndex={0}>
+            {renderValue(value)}
+          </div>
+        )}
+
+        {searchable && (
+          <input
+            id={id}
+            name={name}
+            onChange={this._handleChange}
+            onBlur={this._handleBlur}
+            onFocus={this._handleFocus}
+            placeholder={placeholder}
+            ref={_input => this._input = _input}
+            value={renderValue(value)} />
+        )}
 
         <ul className="options">
           {filteredOptions.map(option => {
@@ -122,7 +212,10 @@ class Dropdown extends Component {
             return (
               <li key={renderedOption}>
                 <button
+                  className={activeOption === getOptionId(option) ? 'active' : null}
+                  onFocus={this._handleOptionMouseOver}
                   onMouseDown={() => this._handleOptionSelect(option)}
+                  onMouseOver={() => this._handleOptionMouseOver(option)}
                   value={option}>
                   {renderedOption}
                 </button>
@@ -132,6 +225,24 @@ class Dropdown extends Component {
         </ul>
       </div>
     )
+  }
+
+
+
+
+
+  /***************************************************************************\
+    Getters
+  \***************************************************************************/
+
+  get filteredOptions () {
+    const {
+      filter,
+      options,
+    } = this.props
+    const { value } = this.state
+
+    return filter(options, value) || []
   }
 }
 
@@ -144,8 +255,10 @@ Dropdown.defaultProps = {
   filter: items => items,
   onChange: null,
   onSelect: null,
+  getOptionId: option => JSON.stringify(option),
   renderOption: option => option,
   renderValue: value => value,
+  searchable: false,
   value: null,
 }
 
@@ -154,9 +267,11 @@ Dropdown.propTypes = {
   filter: PropTypes.func,
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
+  getOptionId: PropTypes.func,
   options: PropTypes.array.isRequired,
   renderOption: PropTypes.func,
   renderValue: PropTypes.func,
+  searchable: PropTypes.bool,
   value: PropTypes.any,
 }
 
