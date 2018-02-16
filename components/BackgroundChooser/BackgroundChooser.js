@@ -19,8 +19,6 @@ import Option from './Option'
 class BackgroundChooser extends Component {
   constructor (props) {
     super(props)
-
-    console.log('BackgroundChooser', props)
   }
 
   render () {

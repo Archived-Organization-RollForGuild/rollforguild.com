@@ -60,8 +60,6 @@ class ManageGroup extends Component {
       group,
     } = this.state
 
-    console.log('group', group)
-
     return (
       <React.Fragment>
         <header>

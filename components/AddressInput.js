@@ -84,8 +84,6 @@ class AddressInput extends Component {
   render () {
     const { options } = this.state
 
-    console.log(this.state.valid)
-
     return (
       <Dropdown
         {...this.props}
