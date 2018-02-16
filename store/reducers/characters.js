@@ -1,6 +1,5 @@
 import initialState from '../initialState'
 import actionTypes from '../actionTypes'
-import parseJSONAPIResponseForEntityType from '../../helpers/parseJSONAPIResponseForEntityType'
 
 
 
@@ -19,7 +18,7 @@ export default function (state = initialState.characters, action) {
       if (status === 'success') {
         return {
           ...state,
-          ...parseJSONAPIResponseForEntityType(payload, 'characters', true),
+          ...payload.data.reduce((accumulator, character) => ({ ...accumulator, [character.id]: character }), {}),
         }
       }
       return { ...state }
