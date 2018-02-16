@@ -14,6 +14,14 @@ export default function (state = initialState.characters, action) {
   switch (type) {
     case actionTypes.CREATE_CHARACTER:
     case actionTypes.GET_CHARACTER:
+      if (status === 'success') {
+        return {
+          ...state,
+          [payload.data.id]: { ...payload.data },
+        }
+      }
+      return { ...state }
+
     case actionTypes.GET_CHARACTERS:
       if (status === 'success') {
         return {
