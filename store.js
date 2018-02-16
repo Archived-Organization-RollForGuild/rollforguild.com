@@ -16,11 +16,10 @@ import reducer from './store/reducers/index'
 
 /* actions */
 import * as authenticationActions from './store/actions/authentication'
-import * as characterActions from './store/actions/character'
 import * as charactersActions from './store/actions/characters'
 import * as groupsActions from './store/actions/groups'
 import * as rulesetsActions from './store/actions/rulesets'
-// import * as userActions from './store/actions/user'
+import * as usersActions from './store/actions/users'
 
 
 
@@ -28,11 +27,10 @@ import * as rulesetsActions from './store/actions/rulesets'
 
 export const actions = {
   ...authenticationActions,
-  ...characterActions,
   ...charactersActions,
   ...groupsActions,
   ...rulesetsActions,
-  // ...userActions,
+  ...usersActions,
 }
 
 

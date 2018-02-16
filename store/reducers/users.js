@@ -1,3 +1,4 @@
+// Component imports
 import actionTypes from '../actionTypes'
 import initialState from '../initialState'
 import parseJSONAPIResponseForEntityType from '../../helpers/parseJSONAPIResponseForEntityType'
@@ -5,7 +6,7 @@ import parseJSONAPIResponseForEntityType from '../../helpers/parseJSONAPIRespons
 
 
 
-export default function (state = initialState.groups, action) {
+export default function (state = initialState.users, action) {
   const {
     payload,
     status,
@@ -13,12 +14,13 @@ export default function (state = initialState.groups, action) {
   } = action
 
   switch (type) {
-    case actionTypes.CREATE_GROUP:
     case actionTypes.GET_GROUP:
+    case actionTypes.GET_USER:
+    case actionTypes.GET_USERS:
       if (status === 'success') {
         return {
           ...state,
-          ...parseJSONAPIResponseForEntityType(payload, 'groups', true),
+          ...parseJSONAPIResponseForEntityType(payload, 'user', true),
         }
       }
       return { ...state }
