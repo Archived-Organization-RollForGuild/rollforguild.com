@@ -132,7 +132,6 @@ export const register = (username, email, password) => async dispatch => {
 
     success = response.ok
   } catch (error) {
-    console.error(error)
     success = false
   }
 
