@@ -87,7 +87,6 @@ class MyCharacters extends Component {
 const mapDispatchToProps = ['getCharactersForUser']
 
 const mapStateToProps = state => ({
-  ...state.characters,
   characters: state.characters.characters, //.filter(character => character.owner === state.user.id),
 })
 
