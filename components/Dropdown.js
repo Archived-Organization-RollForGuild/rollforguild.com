@@ -74,18 +74,25 @@ class Dropdown extends Component {
     const { getOptionId } = this.props
     const { activeOption } = this.state
     const { key } = event
+    let selectedOption = null
 
     switch (key.toLowerCase()) {
       case 'arrowdown':
+        event.preventDefault()
         this._goToNextOption()
         break
 
       case 'arrowup':
+        event.preventDefault()
         this._goToPreviousOption()
         break
 
       case 'enter':
-        this._handleOptionSelect(this.filteredOptions.find(option => getOptionId(option) === activeOption))
+        event.preventDefault()
+        selectedOption = this.filteredOptions.find(option => getOptionId(option) === activeOption)
+        if (selectedOption) {
+          this._handleOptionSelect(selectedOption)
+        }
         break
 
       default:
@@ -200,6 +207,7 @@ class Dropdown extends Component {
             onChange={this._handleChange}
             onBlur={this._handleBlur}
             onFocus={this._handleFocus}
+            onKeyDown={this._handleKeyDown}
             placeholder={placeholder}
             ref={_input => this._input = _input}
             value={renderValue(value)} />
