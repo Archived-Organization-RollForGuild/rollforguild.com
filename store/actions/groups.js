@@ -117,7 +117,7 @@ export const requestToJoinGroup = groupId => async dispatch => {
 
 
 
-export const searchForGroups = ({ lat, lng }) => async dispatch => {
+export const searchForGroups = ({ lat, lng }, distance = 5 * 1609.34) => async dispatch => {
   const accessToken = Cookies.get('accessToken')
   let response = null
   let success = false
@@ -125,7 +125,7 @@ export const searchForGroups = ({ lat, lng }) => async dispatch => {
   dispatch({ type: actionTypes.SEARCH_FOR_GROUPS })
 
   try {
-    response = await fetch(`/api/groups/?lat=${lat}&lon=${lng}`, {
+    response = await fetch(`/api/groups/?lat=${lat}&lon=${lng}&meters=${distance}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
