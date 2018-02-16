@@ -13,27 +13,6 @@ import actionTypes from '../actionTypes'
 
 
 
-// Temporary conversion function to convert old character objects into JSONAPI compliant data objects.
-// Remove once characters are on API.
-function convertCharObjToJSONAPIObj(character) {
-  return {
-    id: character.id,
-    type: 'characters',
-    attributes: {
-      ...character.description,
-      abilityScores: character['ability-scores'],
-      className: character.class,
-      race: character.race,
-      skills: character.skills,
-      subrace: character.subrace,
-    },
-  }
-}
-
-
-
-
-
 export const createCharacter = character => async dispatch => {
   dispatch({ type: actionTypes.CREATE_CHARACTER })
 
@@ -48,22 +27,15 @@ export const createCharacter = character => async dispatch => {
     // const payload = await response.json()
     id = uuid()
 
-    let compliantChar = character
-
-    // Old character object to JSONAPI compliant object migration.
-    if (!compliantChar.id || !compliantChar.type || !compliantChar.attributes) {
-      compliantChar = convertCharObjToJSONAPIObj({ ...character, id })
-    }
-
     const characters = await LocalForage.getItem('characters')
     Promise.all([
-      await LocalForage.setItem('characters', (characters || []).concat(compliantChar)),
+      await LocalForage.setItem('characters', (characters || []).concat({ ...character, id })),
       await LocalForage.removeItem('characterInProgress'),
     ])
 
     dispatch({
       payload: {
-        data: compliantChar,
+        data: { ...character, id },
       },
       status: 'success',
       type: actionTypes.CREATE_CHARACTER,
@@ -89,13 +61,7 @@ export const getCharacter = characterId => async dispatch => {
     // const response = await fetch(`/api/characters/${characterId}`)
     // const payload = await response.json()
 
-    let characters = await LocalForage.getItem('characters')
-
-    // Old character object to JSONAPI compliant object migration.
-    if (characters.length && (!characters[0].type || !characters.attributes)) {
-      characters = characters.map(convertCharObjToJSONAPIObj)
-      await LocalForage.setItem('characters', characters)
-    }
+    const characters = await LocalForage.getItem('characters')
 
     dispatch({
       payload: {
@@ -122,13 +88,7 @@ export const getCharactersForUser = () => async dispatch => {
   try {
     // const response = await fetch('/api/characters')
     // const payload = await response.json()
-    let characters = await LocalForage.getItem('characters') || []
-
-    // Old character object to JSONAPI compliant object migration.
-    if (characters.length && (!characters[0].type || !characters.attributes)) {
-      characters = characters.map(convertCharObjToJSONAPIObj)
-      await LocalForage.setItem('characters', characters)
-    }
+    const characters = await LocalForage.getItem('characters') || []
 
     dispatch({
       payload: { data: characters },
