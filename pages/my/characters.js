@@ -38,6 +38,10 @@ class MyCharacters extends Component {
   render () {
     const { loading } = this.state
 
+    const {
+      characters,
+    } = this.props
+
     return (
       <Fragment>
         <header>
@@ -52,7 +56,7 @@ class MyCharacters extends Component {
 
         {!loading && (
           <ul className="characters">
-            {this.props.characters.map(character => (
+            {Object.values(characters || {}).map(character => (
               <li key={character.id}>
                 <Link
                   as={`/my/characters/${encodeURIComponent(character.id)}`}
