@@ -1,8 +1,6 @@
 // Module imp
 import Cookies from 'js-cookie'
 import 'isomorphic-fetch'
-import LocalForage from 'localforage'
-import Router from 'next/router'
 
 
 
@@ -10,11 +8,6 @@ import Router from 'next/router'
 
 // Component imports
 import actionTypes from '../actionTypes'
-
-
-
-
-const dev = preval`module.exports = process.env.NODE_ENV !== 'production'`
 
 
 
