@@ -42,7 +42,7 @@ export default class extends Document {
           <link rel="icon" type="image/png" href="/static/favicon/favicon-128.png" sizes="128x128" />
           <link rel="manifest" href="/static/manifest.json" />
 
-          <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js" />
+          <script defer src="//use.fontawesome.com/releases/v5.0.6/js/all.js" />
 
           <script src="//cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js" />
           <script dangerouslySetInnerHTML={
