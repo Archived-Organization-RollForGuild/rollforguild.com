@@ -1,39 +1,57 @@
 /* eslint-env node */
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const { ANALYZE } = process.env
-const path = require('path')
 const glob = require('glob')
+const path = require('path')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+
+const { ANALYZE } = process.env
 
 module.exports = {
-  webpack: (config, { dev }) => {
+  webpack: config => {
     if (ANALYZE) {
       config.plugins.push(new BundleAnalyzerPlugin({
         analyzerMode: 'server',
         analyzerPort: 8888,
-        openAnalyzer: true
+        openAnalyzer: true,
       }))
     }
 
-    config.module.rules.unshift(
-      {
-        enforce: 'pre',
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        test: /\.js$/,
-      },
-    )
+    config.plugins.push(new SWPrecacheWebpackPlugin({
+      cacheId: 'test-lighthouse',
+      filepath: path.resolve('./static/sw.js'),
+      staticFileGlobs: ['static/**/*'],
+      minify: true,
+      staticFileGlobsIgnorePatterns: [/\.next\//],
+      runtimeCaching: [
+        {
+          handler: 'fastest',
+          urlPattern: /[.](svg|png|jpg|css)/,
+        },
+        {
+          handler: 'networkFirst',
+          urlPattern: /^http.*/,
+        },
+      ],
+    }))
+
+    config.module.rules.unshift({
+      enforce: 'pre',
+      exclude: /node_modules/,
+      loader: 'eslint-loader',
+      test: /\.js$/,
+    })
 
     config.module.rules.push(
       {
         test: /\.(css|scss)/,
         loader: 'emit-file-loader',
         options: {
-          name: 'dist/[path][name].[ext]'
-        }
+          name: 'dist/[path][name].[ext]',
+        },
       },
       {
         test: /\.css$/,
-        use: ['babel-loader', 'raw-loader', 'postcss-loader']
+        use: ['babel-loader', 'raw-loader', 'postcss-loader'],
       },
       {
         test: /\.s(a|c)ss$/,
@@ -44,13 +62,13 @@ module.exports = {
               includePaths: ['styles', 'node_modules']
                 .map((d) => path.join(__dirname, d))
                 .map((g) => glob.sync(g))
-                .reduce((a, c) => a.concat(c), [])
-            }
-          }
-        ]
+                .reduce((a, c) => a.concat(c), []),
+            },
+          },
+        ],
       }
     )
 
     return config
-  }
+  },
 }

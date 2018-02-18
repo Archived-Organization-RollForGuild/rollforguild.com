@@ -9,3 +9,4 @@ node_modules
 static/compiled
 static/fonts/font-awesome
 static/sitemap.xml
+static/sw.js
