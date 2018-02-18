@@ -19,6 +19,7 @@ export default class extends Document {
         <Head>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
           <meta name="application-name" content="Fuelrats.com" />
+          <meta name="theme-color" content="#ffffff" />
           <meta name="msapplication-TileColor" content="#FFFFFF" />
           <meta name="msapplication-TileImage" content="/static/favicon/mstile-144x144.png" />
           <meta name="msapplication-square70x70logo" content="/static/favicon/mstile-70x70.png" />
@@ -39,6 +40,7 @@ export default class extends Document {
           <link rel="icon" type="image/png" href="/static/favicon/favicon-32x32.png" sizes="32x32" />
           <link rel="icon" type="image/png" href="/static/favicon/favicon-16x16.png" sizes="16x16" />
           <link rel="icon" type="image/png" href="/static/favicon/favicon-128.png" sizes="128x128" />
+          <link rel="manifest" href="/static/manifest.json" />
 
           <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js" />
 
