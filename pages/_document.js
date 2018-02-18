@@ -18,7 +18,7 @@ export default class extends Document {
       <html lang="en">
         <Head>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-          <meta name="application-name" content="Fuelrats.com" />
+          <meta name="application-name" content="Roll For Guild" />
           <meta name="theme-color" content="#ffffff" />
           <meta name="msapplication-TileColor" content="#FFFFFF" />
           <meta name="msapplication-TileImage" content="/static/favicon/mstile-144x144.png" />
