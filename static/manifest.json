@@ -1,6 +1,6 @@
 {
     "name": "Roll For Guild",
-    "short_name": "Roll For Guild",
+    "short_name": "RFG",
     "icons": [{
             "src": "/static/favicon/android-chrome-192x192.png?v=lkdp3RgwlB",
             "sizes": "192x192",
