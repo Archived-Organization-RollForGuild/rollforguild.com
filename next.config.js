@@ -3,6 +3,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const glob = require('glob')
 const path = require('path')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const webpack = require('webpack')
 
 const { ANALYZE } = process.env
 
@@ -33,6 +34,8 @@ module.exports = {
         },
       ],
     }))
+
+    config.plugins.push(new webpack.optimize.UglifyJsPlugin())
 
     config.module.rules.unshift({
       enforce: 'pre',
