@@ -4,6 +4,7 @@ import Cookies from 'next-cookies'
 import LocalForage from 'localforage'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
+import '../helpers/offline'
 
 
 

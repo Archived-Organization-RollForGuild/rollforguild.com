@@ -18,29 +18,22 @@ export default class extends Document {
       <html lang="en">
         <Head>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-          <meta name="application-name" content="Fuelrats.com" />
-          <meta name="msapplication-TileColor" content="#FFFFFF" />
-          <meta name="msapplication-TileImage" content="/static/favicon/mstile-144x144.png" />
-          <meta name="msapplication-square70x70logo" content="/static/favicon/mstile-70x70.png" />
-          <meta name="msapplication-square150x150logo" content="/static/favicon/mstile-150x150.png" />
-          <meta name="msapplication-wide310x150logo" content="/static/favicon/mstile-310x150.png" />
-          <meta name="msapplication-square310x310logo" content="/static/favicon/mstile-310x310.png" />
 
-          <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/static/favicon/apple-touch-icon-57x57.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/favicon/apple-touch-icon-114x114.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/favicon/apple-touch-icon-72x72.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/favicon/apple-touch-icon-144x144.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/static/favicon/apple-touch-icon-60x60.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/static/favicon/apple-touch-icon-120x120.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/static/favicon/apple-touch-icon-76x76.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/static/favicon/apple-touch-icon-152x152.png" />
-          <link rel="icon" type="image/png" href="/static/favicon/favicon-196x196.png" sizes="196x196" />
-          <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
-          <link rel="icon" type="image/png" href="/static/favicon/favicon-32x32.png" sizes="32x32" />
-          <link rel="icon" type="image/png" href="/static/favicon/favicon-16x16.png" sizes="16x16" />
-          <link rel="icon" type="image/png" href="/static/favicon/favicon-128.png" sizes="128x128" />
+          <meta name="application-name" content="Roll For Guild" />
+          <meta name="apple-mobile-web-app-title" content="Roll For Guild" />
+          <meta name="msapplication-TileColor" content="#42dca3" />
+          <meta name="msapplication-config" content="/static/browserconfig.xml" />
+          <meta name="theme-color" content="#ffffff" />
 
-          <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
+          <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png" />
+          <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png" />
+          <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg" color="#42dca3" />
+          <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+
+          <link rel="manifest" href="/static/manifest.json" />
+
+          <script defer src="//use.fontawesome.com/releases/v5.0.6/js/all.js" />
 
           <script src="//cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js" />
           <script dangerouslySetInnerHTML={
@@ -66,6 +59,8 @@ export default class extends Document {
 
         <body>
           <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gatmId}X" height="0" width="0" style="display:none; visibility:hidden;" />` }} />
+
+          <noscript>Javascript is required to view this site.</noscript>
 
           <div id="alert-container" />
 
