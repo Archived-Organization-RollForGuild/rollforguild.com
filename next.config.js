@@ -8,7 +8,7 @@ const webpack = require('webpack')
 const { ANALYZE } = process.env
 
 module.exports = {
-  webpack: config => {
+  webpack: (config, { dev }) => {
     if (ANALYZE) {
       config.plugins.push(new BundleAnalyzerPlugin({
         analyzerMode: 'server',
@@ -17,25 +17,27 @@ module.exports = {
       }))
     }
 
-    config.plugins.push(new SWPrecacheWebpackPlugin({
-      cacheId: 'test-lighthouse',
-      filepath: path.resolve('./static/sw.js'),
-      staticFileGlobs: ['static/**/*'],
-      minify: true,
-      staticFileGlobsIgnorePatterns: [/\.next\//],
-      runtimeCaching: [
-        {
-          handler: 'fastest',
-          urlPattern: /[.](svg|png|jpg|css)/,
-        },
-        {
-          handler: 'networkFirst',
-          urlPattern: /^http.*/,
-        },
-      ],
-    }))
+    if (!dev) {
+      config.plugins.push(new SWPrecacheWebpackPlugin({
+        cacheId: 'test-lighthouse',
+        filepath: path.resolve('./static/sw.js'),
+        staticFileGlobs: ['static/**/*'],
+        minify: true,
+        staticFileGlobsIgnorePatterns: [/\.next\//],
+        runtimeCaching: [
+          {
+            handler: 'fastest',
+            urlPattern: /[.](svg|png|jpg|css)/,
+          },
+          {
+            handler: 'networkFirst',
+            urlPattern: /^http.*/,
+          },
+        ],
+      }))
 
-    config.plugins.push(new webpack.optimize.UglifyJsPlugin())
+      config.plugins.push(new webpack.optimize.UglifyJsPlugin())
+    }
 
     config.module.rules.unshift({
       enforce: 'pre',
