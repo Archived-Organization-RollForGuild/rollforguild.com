@@ -98,6 +98,18 @@ class AddressInput extends Component {
         value={this.state.value} />
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Public Methods
+  \***************************************************************************/
+
+  get valid () {
+    return this.state.valid
+  }
 }
 
 
