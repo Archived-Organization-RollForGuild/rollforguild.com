@@ -58,6 +58,10 @@ module.exports = function foo (nextjs, koa) {
   //   await ctx.redirect(`[ROUTE_TO_REDIRECT_THE_USER_TO]`)
   // })
 
+  router.get('/browserconfig.xml', async ctx => {
+    await send(ctx, '/static/browserconfig.xml')
+  })
+
   router.get('/sitemap.xml', async ctx => {
     await send(ctx, '/static/sitemap.xml')
   })
