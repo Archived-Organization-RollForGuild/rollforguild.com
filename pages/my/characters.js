@@ -38,6 +38,10 @@ class MyCharacters extends Component {
   render () {
     const { loading } = this.state
 
+    const {
+      characters,
+    } = this.props
+
     return (
       <Fragment>
         <header>
@@ -52,7 +56,7 @@ class MyCharacters extends Component {
 
         {!loading && (
           <ul className="characters">
-            {this.props.characters.map(character => (
+            {Object.values(characters || {}).map(character => (
               <li key={character.id}>
                 <Link
                   as={`/my/characters/${encodeURIComponent(character.id)}`}
@@ -87,7 +91,6 @@ class MyCharacters extends Component {
 const mapDispatchToProps = ['getCharactersForUser']
 
 const mapStateToProps = state => ({
-  ...state.characters,
   characters: state.characters.characters, //.filter(character => character.owner === state.user.id),
 })
 
