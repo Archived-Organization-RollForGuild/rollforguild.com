@@ -8,6 +8,7 @@ import 'isomorphic-fetch'
 
 // Component imports
 import actionTypes from '../actionTypes'
+import convertObjectToQueryParams from '../../helpers/convertObjectToQueryParams'
 
 
 
@@ -117,15 +118,23 @@ export const requestToJoinGroup = groupId => async dispatch => {
 
 
 
-export const searchForGroups = ({ lat, lng }, distance = 5 * 1609.34) => async dispatch => {
+export const searchForGroups = ({ lat, lng }, { distance, itemsPerPage, page }) => async dispatch => {
   const accessToken = Cookies.get('accessToken')
   let response = null
   let success = false
 
+  const queryParams = {
+    lat,
+    lng,
+    limit: itemsPerPage || 5,
+    meters: (distance || 5) * 1609.34, // Convert distance to meters
+    page: page || 1,
+  }
+
   dispatch({ type: actionTypes.SEARCH_FOR_GROUPS })
 
   try {
-    response = await fetch(`/api/groups/?lat=${lat}&lon=${lng}&meters=${distance}`, {
+    response = await fetch(`/api/groups/${convertObjectToQueryParams(queryParams)}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
