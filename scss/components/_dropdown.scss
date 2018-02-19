@@ -22,6 +22,13 @@
     top: 100%;
   }
 
+  button,
+  div[role=button] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   button {
     border: none;
     border-left-color: $black;
@@ -45,10 +52,36 @@
     }
   }
 
+  div[role=button] {
+    color: $black;
+  }
+
   &:not(.focus) {
     ul {
       display: none;
       overflow: auto;
+    }
+  }
+
+  &:not(.searchable) {
+    button,
+    div[role=button] {
+      padding-right: 3rem;
+    }
+
+    &:after {
+      border-color: transparent;
+      border-style: solid;
+      border-width: 0.5rem;
+      border-bottom-width: 0;
+      border-top-color: $black;
+      content: '';
+      height: 0;
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
     }
   }
 }

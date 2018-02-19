@@ -186,8 +186,22 @@ class Dropdown extends Component {
 
     const { filteredOptions } = this
 
+    const classes = ['dropdown']
+
+    if (focused) {
+      classes.push('focus')
+    }
+
+    if (searchable) {
+      classes.push('searchable')
+    }
+
+    if (className) {
+      classes.push(className)
+    }
+
     return (
-      <div className={['dropdown', (focused ? 'focus' : null), (className || null)].join(' ')}>
+      <div className={classes.join(' ')}>
         {!searchable && (
           <div
             onBlur={this._handleBlur}
