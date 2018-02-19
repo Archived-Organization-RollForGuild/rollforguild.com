@@ -4,7 +4,6 @@ import Cookies from 'next-cookies'
 import LocalForage from 'localforage'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
-import '../helpers/offline'
 
 
 
@@ -17,6 +16,10 @@ import {
 } from '../store'
 import Head from './Head'
 import Header from './Header'
+
+/* eslint-disable no-unused-expressions */
+preval`if (process.env.NODE_ENV === 'production') require('../helpers/offline')`
+/* eslint-enable */
 
 
 
