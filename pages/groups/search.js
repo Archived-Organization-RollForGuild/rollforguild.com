@@ -8,8 +8,10 @@ import React from 'react'
 // Component imports
 import AddressInput from '../../components/AddressInput'
 import Component from '../../components/Component'
+import Dropdown from '../../components/Dropdown'
 import GroupCard from '../../components/GroupCard'
 import Page from '../../components/Page'
+import Pagination from '../../components/Pagination'
 
 
 
@@ -27,16 +29,12 @@ class SearchGroups extends Component {
     Private Methods
   \***************************************************************************/
 
-  async _handleQuery ({ geometry }) {
-    this.setState({ searching: true })
+  _handleAddressChange ({ geometry }) {
+    this.setState({ location: geometry.location }, () => this._search())
+  }
 
-    const { payload } = await this.props.searchForGroups(geometry.location)
-
-    this.setState({
-      firstSearchInitiated: true,
-      groups: payload.data,
-      searching: false,
-    })
+  _handleSearchDistanceChange (distance) {
+    this.setState({ searchDistance: distance })
   }
 
   static _renderGroup (group) {
@@ -57,6 +55,49 @@ class SearchGroups extends Component {
     )
   }
 
+  async _search (page = 1) {
+    const {
+      location,
+      pagination,
+    } = this.state
+
+    this.setState({ searching: true })
+
+    const newState = {
+      firstSearchInitiated: true,
+      groups: [],
+      searching: false,
+    }
+
+    const options = {
+      ...this.queryOptions,
+      page,
+    }
+
+    const {
+      payload,
+      status,
+    } = await this.props.searchForGroups(location, options)
+
+    if (status) {
+      const {
+        count,
+        limit,
+        offset,
+        total,
+      } = payload.meta
+
+      newState.groups = payload.data || []
+      newState.pagination = {
+        ...pagination,
+        currentPage: Math.ceil((offset + count) / limit),
+        totalPageCount: Math.ceil(total / limit),
+      }
+    }
+
+    this.setState(newState)
+  }
+
 
 
 
@@ -68,11 +109,20 @@ class SearchGroups extends Component {
   constructor (props) {
     super(props)
 
-    this._bindMethods(['_handleQuery'])
+    this._bindMethods([
+      '_handleAddressChange',
+      '_handleSearchDistanceChange',
+      '_search',
+    ])
 
     this.state = {
       firstSearchInitiated: false,
       groups: [],
+      pagination: {
+        currentPage: 1,
+        totalPageCount: 1,
+      },
+      searchDistance: 5,
       searching: false,
     }
   }
@@ -81,6 +131,8 @@ class SearchGroups extends Component {
     const {
       firstSearchInitiated,
       groups,
+      pagination,
+      searchDistance,
       searching,
     } = this.state
 
@@ -94,7 +146,12 @@ class SearchGroups extends Component {
           <div className="input-group">
             <i className="fas fa-fw fa-search" />
 
-            <AddressInput onChange={this._handleQuery} />
+            <AddressInput onChange={this._handleAddressChange} />
+
+            <Dropdown
+              onChange={this._handleSearchDistanceChange}
+              options={[5, 10, 25, 50]}
+              value={searchDistance} />
           </div>
 
           <small>Use your location to search for nearby groups</small>
@@ -107,10 +164,39 @@ class SearchGroups extends Component {
         )}
 
         {searching && (
-          <div><i className="fas fa-pulse fa-spinner" /> Searching...</div>
+          <div>
+            <i className="fas fa-pulse fa-spinner" /> Searching...
+          </div>
+        )}
+
+        {!!groups.length && (
+          <Pagination
+            currentPage={pagination.currentPage}
+            onPageChange={this._search}
+            totalPageCount={pagination.totalPageCount} />
         )}
       </React.Fragment>
     )
+  }
+
+
+
+
+
+  /***************************************************************************\
+    Getters
+  \***************************************************************************/
+
+  get queryOptions () {
+    const {
+      pagination,
+      searchDistance,
+    } = this.state
+
+    return {
+      distance: searchDistance,
+      itemsPerPage: pagination.itemsPerPage,
+    }
   }
 }
 
