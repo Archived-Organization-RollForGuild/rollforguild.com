@@ -216,6 +216,7 @@ class Dropdown extends Component {
 
         {searchable && (
           <input
+            autoComplete="off"
             id={id}
             name={name}
             onChange={this._handleChange}
