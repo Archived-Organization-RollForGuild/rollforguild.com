@@ -10,8 +10,8 @@ const path = require('path')
 const router = require('koa-router')()
 const send = require('koa-send')
 const uuid = require('uuid/v4')
-const validateUUID = require('uuid-validate')
 
+const routes = require('../../routes')
 const recursivelyConvertDirectoryStructureIntoJSON = require('../helpers/recursivelyConvertDirectoryStructureIntoJSON')
 
 
@@ -23,7 +23,7 @@ module.exports = function foo (nextjs, koa) {
     Router setup
   \******************************************************************************/
 
-  const handle = nextjs.getRequestHandler()
+  const handle = routes.getRequestHandler(nextjs)
 
   router.use(cookie.default())
 
@@ -68,30 +68,6 @@ module.exports = function foo (nextjs, koa) {
 
   router.get('/sw.js', async ctx => {
     await send(ctx, '/static/sw.js')
-  })
-
-
-
-
-
-  /******************************************************************************\
-    Parameterized routes
-  \******************************************************************************/
-
-  router.get(['/confirmation/:token'], async ctx => {
-    await nextjs.render(ctx.request, ctx.res, '/confirmation', Object.assign({}, ctx.query, ctx.params))
-  })
-
-  router.get(['/groups/:id'], async (ctx, next) => {
-    if (validateUUID(ctx.params.id)) {
-      await nextjs.render(ctx.request, ctx.res, '/groups/group', Object.assign({}, ctx.query, ctx.params))
-    }
-
-    await next()
-  })
-
-  router.get(['/my/characters/:id'], async ctx => {
-    await nextjs.render(ctx.request, ctx.res, '/my/character', Object.assign({}, ctx.query, ctx.params))
   })
 
 
