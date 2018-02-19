@@ -24,7 +24,7 @@ export const createGroup = group => async dispatch => {
     response = await fetch('/api/groups', {
       body: JSON.stringify({
         data: {
-          type: 'group',
+          type: 'groups',
           attributes: group,
         },
       }),
