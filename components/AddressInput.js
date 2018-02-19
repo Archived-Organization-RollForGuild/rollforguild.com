@@ -101,7 +101,6 @@ class AddressInput extends Component {
         onChange={this._handleChange}
         onSelect={this._handleSelect}
         options={options}
-        placeholder="Enter an address..."
         renderOption={AddressInput._renderValue}
         renderValue={AddressInput._renderValue}
         searchable
@@ -129,12 +128,14 @@ class AddressInput extends Component {
 AddressInput.defaultProps = {
   defaultValue: '',
   onChange: null,
+  placeholder: 'Enter an address...',
   value: '',
 }
 
 AddressInput.propTypes = {
   defaultValue: PropTypes.any,
   onChange: PropTypes.func,
+  placeholder: PropTypes.string,
   value: PropTypes.any,
 }
 
