@@ -24,7 +24,7 @@ const title = 'Search Groups'
 
 
 
-class SearchGroups extends Component {
+class GroupSearch extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -41,6 +41,12 @@ class SearchGroups extends Component {
     })
   }
 
+  _incrementSearchDistance () {
+    const currentSearchDistanceIndex = GroupSearch.searchDistances.findIndex(searchDistance => searchDistance === this.state.searchDistance)
+
+    this._handleSearchDistanceChange(GroupSearch.searchDistances[currentSearchDistanceIndex + 1])
+  }
+
   static _renderGroup (group) {
     const { id } = group
 
@@ -55,7 +61,7 @@ class SearchGroups extends Component {
     const { groups } = this.state
 
     return (
-      <ol>{groups.map(SearchGroups._renderGroup)}</ol>
+      <ol>{groups.map(GroupSearch._renderGroup)}</ol>
     )
   }
 
@@ -116,6 +122,7 @@ class SearchGroups extends Component {
     this._bindMethods([
       '_handleAddressChange',
       '_handleSearchDistanceChange',
+      '_incrementSearchDistance',
       '_search',
     ])
 
@@ -158,7 +165,7 @@ class SearchGroups extends Component {
             <Dropdown
               className="squishable"
               onChange={this._handleSearchDistanceChange}
-              options={[5, 10, 25, 50]}
+              options={GroupSearch.searchDistances}
               renderValue={value => `Search within ${value} miles`}
               value={searchDistance} />
           </div>
@@ -169,7 +176,19 @@ class SearchGroups extends Component {
         {(!searching && !!groups.length) && this._renderGroups()}
 
         {(!searching && firstSearchInitiated && !groups.length) && (
-          <div>No groups found.</div>
+          <p>
+            No groups found.
+            {searchDistance !== GroupSearch.searchDistances[GroupSearch.searchDistances.length - 1] && (
+              <React.Fragment>
+                &nbsp;Perhaps you should try&nbsp;
+                <button
+                  className="inline link"
+                  onClick={this._incrementSearchDistance}>
+                  expanding your search
+                </button>.
+              </React.Fragment>
+            )}
+          </p>
         )}
 
         {searching && (
@@ -207,6 +226,10 @@ class SearchGroups extends Component {
       itemsPerPage: pagination.itemsPerPage,
     }
   }
+
+  static get searchDistances () {
+    return [5, 10, 25, 50]
+  }
 }
 
 
@@ -224,7 +247,7 @@ const mapStateToProps = (/*state*/) => ({})
 
 
 
-export default Page(SearchGroups, title, {
+export default Page(GroupSearch, title, {
   mapDispatchToProps,
   mapStateToProps,
 })
