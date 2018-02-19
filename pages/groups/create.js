@@ -1,6 +1,5 @@
 // Module imports
 import React from 'react'
-import Router from 'next/router'
 import Switch from 'rc-switch'
 
 
@@ -8,6 +7,7 @@ import Switch from 'rc-switch'
 
 
 // Component imports
+import { Router } from '../../routes'
 import AddressInput from '../../components/AddressInput'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
@@ -40,22 +40,22 @@ class CreateGroup extends Component {
       address,
       description,
       discoverable,
+      games,
       name,
+      slug,
     } = this.state
-    let { games } = this.state
 
     event.preventDefault()
 
     this.setState({ submitting: true })
 
-    games = games.split(',').map(game => game.trim())
-
     const { payload } = await createGroup({
       address,
       description,
       discoverable,
-      games,
+      games: games.split(',').map(game => game.trim()),
       name,
+      slug: slug || CreateGroup._sanitizeName(name),
     })
     const groupId = payload.data.id
 
@@ -79,6 +79,10 @@ class CreateGroup extends Component {
     return true
   }
 
+  static _sanitizeName (name) {
+    return encodeURIComponent(name.toLowerCase().replace(/[^\w\s-]/gi, '').replace(/\s|_/gi, '-').replace(/-+/gi, '-'))
+  }
+
 
 
 
@@ -98,6 +102,7 @@ class CreateGroup extends Component {
       discoverable: true,
       games: '',
       name: '',
+      slug: '',
       submitting: false,
     }
   }
@@ -109,6 +114,7 @@ class CreateGroup extends Component {
       discoverable,
       games,
       name,
+      slug,
       submitting,
     } = this.state
 
@@ -128,9 +134,34 @@ class CreateGroup extends Component {
               disabled={submitting}
               id="group-name"
               onChange={({ target }) => this.setState({ name: target.value })}
+              pattern="(\w|\s)+"
               placeholder="e.g. Quigley's Tavern"
+              required
               type="text"
               value={name} />
+          </fieldset>
+
+          <fieldset>
+            <label htmlFor="slug">
+              Slug
+            </label>
+
+            <div className="input-group">
+              <label htmlFor="slug">
+                rollforguild.com/groups/
+              </label>
+
+              <input
+                disabled={submitting}
+                id="slug"
+                onChange={({ target }) => this.setState({ slug: target.value })}
+                pattern="(\w|-)*"
+                placeholder={CreateGroup._sanitizeName(name)}
+                type="text"
+                value={slug} />
+            </div>
+
+            <small>Tell your members what you'll be playing, or maybe a bit about your GM style.</small>
           </fieldset>
 
           <fieldset>
@@ -142,13 +173,12 @@ class CreateGroup extends Component {
               aria-describedby="group-description"
               disabled={submitting}
               id="group-description"
+              maxLength={1000}
               onChange={({ target }) => this.setState({ description: target.value })}
               placeholder="Tell your members what you'll be playing, or maybe a bit about your GM style."
               value={description} />
 
-            <small id="group-description">
-              Tell your members what you'll be playing, or maybe a bit about your GM style.
-            </small>
+            <small>Tell your members what you'll be playing, or maybe a bit about your GM style.</small>
           </fieldset>
 
           <fieldset>
@@ -230,6 +260,7 @@ class CreateGroup extends Component {
               disabled={submitting}
               id="address"
               onChange={value => this.setState({ address: value })}
+              required
               value={address} />
           </fieldset>
 

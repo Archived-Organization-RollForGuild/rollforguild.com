@@ -1,13 +1,15 @@
 // Module imports
-import Link from 'next/link'
 import React from 'react'
-import Router from 'next/router'
 
 
 
 
 
 // Component imports
+import {
+  Link,
+  Router,
+} from '../routes'
 import Component from '../components/Component'
 import Page from '../components/Page'
 

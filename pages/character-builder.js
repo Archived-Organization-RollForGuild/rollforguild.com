@@ -1,7 +1,6 @@
 // Module imports
 import LocalForage from 'localforage'
 import React from 'react'
-import Router from 'next/router'
 import Slider, { createSliderWithTooltip } from 'rc-slider'
 
 
@@ -9,6 +8,7 @@ import Slider, { createSliderWithTooltip } from 'rc-slider'
 
 
 // Component imports
+import { Router } from '../routes'
 import AbilityScoreEditor from '../components/AbilityScoreEditor'
 import BackgroundChooser from '../components/BackgroundChooser/BackgroundChooser'
 import CharacterDescriptionEditor from '../components/CharacterDescriptionEditor'
