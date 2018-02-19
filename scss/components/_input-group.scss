@@ -1,15 +1,10 @@
 .input-group {
   align-content: stretch;
-  align-items: center;
+  align-items: stretch;
   background-color: $white;
   color: $light-grey;
   display: flex;
   transition: color 0.2s;
-
-  > [data-icon],
-  label >[data-icon] {
-    margin: 0 1rem;
-  }
 
   > :not(:first-child) {
     border-left-color: $light-grey;
@@ -18,12 +13,17 @@
     flex-grow: 1;
   }
 
-  label {
+  > label {
     padding: 0.5rem 1rem;
   }
 
-  input {
+  > input {
     flex-shrink: 1;
+  }
+
+  > button {
+    padding-bottom: 0;
+    padding-top: 0;
   }
 
   .squishable {
