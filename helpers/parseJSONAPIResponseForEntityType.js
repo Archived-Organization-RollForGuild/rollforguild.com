@@ -18,7 +18,8 @@ export default function parseJSONAPIResponseForEntityType (response, _types, asC
   }
 
   if (asCollection) {
-    return entities.reduce((collection, datum) => ({ ...collection, [datum.key]: datum }), {})
+    return entities.reduce((collection, datum) => ({ ...collection, [datum.id]: datum }), {})
   }
+
   return entities
 }
