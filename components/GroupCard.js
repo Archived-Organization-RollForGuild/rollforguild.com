@@ -31,10 +31,12 @@ class GroupCard extends Component {
 
     const { status } = await requestToJoinGroup(group.id)
 
-    this.setState({
-      joinRequestSent: status,
-      requestingToJoin: false,
-    })
+    setTimeout(() => {
+      this.setState({
+        joinRequestSent: status,
+        requestingToJoin: false,
+      })
+    }, 500)
   }
 
 

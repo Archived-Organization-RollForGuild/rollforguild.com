@@ -95,7 +95,7 @@ class AddressInput extends Component {
         onChange={this._handleChange}
         onSelect={this._handleSelect}
         options={options}
-        placeholder="e.g. 316 W Washington Ave, Madison, WI 53703"
+        placeholder="Enter an address..."
         renderOption={AddressInput._renderValue}
         renderValue={AddressInput._renderValue}
         searchable
