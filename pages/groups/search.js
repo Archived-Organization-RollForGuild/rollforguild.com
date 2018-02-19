@@ -156,8 +156,10 @@ class SearchGroups extends Component {
             <AddressInput onChange={this._handleAddressChange} />
 
             <Dropdown
+              className="squishable"
               onChange={this._handleSearchDistanceChange}
               options={[5, 10, 25, 50]}
+              renderValue={value => `Search within ${value} miles`}
               value={searchDistance} />
           </div>
 
