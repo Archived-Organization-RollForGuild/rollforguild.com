@@ -170,10 +170,12 @@ class Dropdown extends Component {
   render () {
     const {
       className,
+      disabled,
       id,
       name,
       getOptionId,
       placeholder,
+      readOnly,
       renderOption,
       renderValue,
       searchable,
@@ -204,6 +206,7 @@ class Dropdown extends Component {
       <div className={classes.join(' ')}>
         {!searchable && (
           <div
+            disabled={disabled}
             onBlur={this._handleBlur}
             onFocus={this._handleFocus}
             onClick={this._handleFocus}
@@ -217,6 +220,7 @@ class Dropdown extends Component {
         {searchable && (
           <input
             autoComplete="off"
+            disabled={disabled}
             id={id}
             name={name}
             onChange={this._handleChange}
@@ -224,6 +228,7 @@ class Dropdown extends Component {
             onFocus={this._handleFocus}
             onKeyDown={this._handleKeyDown}
             placeholder={placeholder}
+            readOnly={readOnly}
             ref={_input => this._input = _input}
             value={renderValue(value)} />
         )}
@@ -275,10 +280,12 @@ class Dropdown extends Component {
 
 Dropdown.defaultProps = {
   defaultValue: null,
+  disabled: false,
   filter: items => items,
   onChange: null,
   onSelect: null,
   getOptionId: option => JSON.stringify(option),
+  readOnly: false,
   renderOption: option => option,
   renderValue: value => value,
   searchable: false,
@@ -287,10 +294,12 @@ Dropdown.defaultProps = {
 
 Dropdown.propTypes = {
   defaultValue: PropTypes.any,
+  disabled: PropTypes.bool,
   filter: PropTypes.func,
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
   getOptionId: PropTypes.func,
+  readOnly: PropTypes.bool,
   options: PropTypes.array.isRequired,
   renderOption: PropTypes.func,
   renderValue: PropTypes.func,
