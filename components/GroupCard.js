@@ -72,6 +72,7 @@ class GroupCard extends Component {
       members,
       name,
     } = group.attributes
+    const memberStatus = group.attributes.mamber_status
 
     return (
       <div className="card">
@@ -119,9 +120,9 @@ class GroupCard extends Component {
               className="secondary"
               disabled={requestingToJoin || joinRequestSent}
               onClick={this._requestToJoinGroup}>
-              {(!requestingToJoin && !joinRequestSent) && 'Join'}
+              {(!requestingToJoin && !joinRequestSent && !(memberStatus === 'pending')) && 'Join'}
 
-              {(!requestingToJoin && joinRequestSent) && (
+              {((!requestingToJoin && joinRequestSent) || (memberStatus === 'pending')) && (
                 <span><i className="fas fa-check" /> Request Sent</span>
               )}
 
