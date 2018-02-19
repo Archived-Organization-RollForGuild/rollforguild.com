@@ -116,7 +116,7 @@ export const register = (username, email, password) => async dispatch => {
     response = await fetch('/api/register', {
       body: JSON.stringify({
         data: {
-          type: 'user',
+          type: 'users',
           attributes: {
             email,
             password,
