@@ -12,3 +12,5 @@ routes
   .add('manage group', '/groups/manage', '/groups/manage')
   .add('group search', '/groups/search', '/groups/search')
   .add('group profile', '/groups/:id', '/groups/group')
+  .add('user profile', '/users/:id', '/users/user')
+  .add('user profile currentUser', '/:id(my)/profile', '/users/user')
