@@ -1,12 +1,12 @@
 // Module imports
 import React from 'react'
-import Router from 'next/router'
 
 
 
 
 
 // Component imports
+import { Router } from '../routes'
 import Component from '../components/Component'
 import Page from '../components/Page'
 

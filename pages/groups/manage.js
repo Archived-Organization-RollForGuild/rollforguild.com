@@ -1,5 +1,4 @@
 // Component imports
-import Link from 'next/link'
 import React from 'react'
 
 
@@ -7,6 +6,7 @@ import React from 'react'
 
 
 // Component imports
+import { Link } from '../../routes'
 import Page from '../../components/Page'
 
 

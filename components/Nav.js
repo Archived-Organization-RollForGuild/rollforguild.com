@@ -1,6 +1,5 @@
 // Module imports
 import { connect } from 'react-redux'
-import Link from 'next/link'
 import React from 'react'
 
 
@@ -8,6 +7,7 @@ import React from 'react'
 
 
 // Module imports
+import { Link } from '../routes'
 import Component from './Component'
 
 
