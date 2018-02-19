@@ -6,24 +6,28 @@
   display: flex;
   transition: color 0.2s;
 
-  > :first-child {
+  > [data-icon],
+  label >[data-icon] {
     margin: 0 1rem;
   }
 
-  input {
+  > :not(:first-child) {
     border-left-color: $light-grey;
     border-left-style: solid;
     border-left-width: 0.1rem;
-    flex-shrink: 1;
-    transition: border-left-color 0.2s;
+    flex-grow: 1;
   }
 
-  &:focus,
-  &:hover {
-    color: $black;
+  label {
+    padding: 0.5rem 1rem;
+  }
 
-    input {
-      border-left-color: $black;
-    }
+  input {
+    flex-shrink: 1;
+  }
+
+  .squishable {
+    flex-shrink: 1;
+    width: auto;
   }
 }
