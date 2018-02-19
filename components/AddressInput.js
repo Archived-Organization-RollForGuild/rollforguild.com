@@ -65,6 +65,12 @@ class AddressInput extends Component {
     Public Methods
   \***************************************************************************/
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.value !== nextProps.value) {
+      this.setState({ value: nextProps.value })
+    }
+  }
+
   constructor (props) {
     super(props)
 
@@ -75,7 +81,7 @@ class AddressInput extends Component {
     this._debounceMethods(['_handleChange'])
 
     this.state = {
-      value: props.value || '',
+      value: props.value || props.defaultValue || '',
       options: [],
       valid: false,
     }
@@ -121,11 +127,13 @@ class AddressInput extends Component {
 
 
 AddressInput.defaultProps = {
+  defaultValue: '',
   onChange: null,
   value: '',
 }
 
 AddressInput.propTypes = {
+  defaultValue: PropTypes.any,
   onChange: PropTypes.func,
   value: PropTypes.any,
 }
