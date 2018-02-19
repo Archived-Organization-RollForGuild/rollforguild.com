@@ -34,7 +34,11 @@ class SearchGroups extends Component {
   }
 
   _handleSearchDistanceChange (distance) {
-    this.setState({ searchDistance: distance })
+    this.setState({ searchDistance: distance }, () => {
+      if (this.state.location) {
+        this._search()
+      }
+    })
   }
 
   static _renderGroup (group) {
@@ -95,7 +99,7 @@ class SearchGroups extends Component {
       }
     }
 
-    this.setState(newState)
+    setTimeout(() => this.setState(newState), 500)
   }
 
 
@@ -115,9 +119,12 @@ class SearchGroups extends Component {
       '_search',
     ])
 
+    this._debounceMethods(['_search'])
+
     this.state = {
       firstSearchInitiated: false,
       groups: [],
+      location: null,
       pagination: {
         currentPage: 1,
         totalPageCount: 1,
@@ -169,7 +176,7 @@ class SearchGroups extends Component {
           </div>
         )}
 
-        {!!groups.length && (
+        {(!searching && !!groups.length) && (
           <Pagination
             currentPage={pagination.currentPage}
             onPageChange={this._search}
