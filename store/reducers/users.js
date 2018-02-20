@@ -20,7 +20,7 @@ export default function (state = initialState.users, action) {
       if (status === 'success') {
         return {
           ...state,
-          ...parseJSONAPIResponseForEntityType(payload, 'user', true),
+          ...parseJSONAPIResponseForEntityType(payload, 'users', true),
         }
       }
       return { ...state }
