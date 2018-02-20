@@ -14,16 +14,16 @@
     flex-shrink: 1;
     position: relative;
 
-    > {
-      .value {
-        -moz-appearance: textfield;
-        background-color: transparent;
-        border: none;
-        display: block;
-        font-size: 2em;
-        text-align: center;
-        width: 2em;
-      }
+    > .value {
+      -moz-appearance: textfield;
+      background-color: transparent;
+      border: none;
+      color: $white;
+      display: block;
+      font-size: 2em;
+      text-align: center;
+      text-overflow: initial;
+      width: 2em;
     }
 
     .modifier-container {
