@@ -65,6 +65,12 @@ class AddressInput extends Component {
     Public Methods
   \***************************************************************************/
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.value !== nextProps.value) {
+      this.setState({ value: nextProps.value })
+    }
+  }
+
   constructor (props) {
     super(props)
 
@@ -75,14 +81,17 @@ class AddressInput extends Component {
     this._debounceMethods(['_handleChange'])
 
     this.state = {
-      value: props.value || '',
+      value: props.value || props.defaultValue || '',
       options: [],
       valid: false,
     }
   }
 
   render () {
-    const { options } = this.state
+    const {
+      options,
+      value,
+    } = this.state
 
     return (
       <Dropdown
@@ -92,10 +101,10 @@ class AddressInput extends Component {
         onChange={this._handleChange}
         onSelect={this._handleSelect}
         options={options}
-        placeholder="e.g. 316 W Washington Ave, Madison, WI 53703"
         renderOption={AddressInput._renderValue}
         renderValue={AddressInput._renderValue}
-        value={this.state.value} />
+        searchable
+        value={value} />
     )
   }
 
@@ -117,13 +126,17 @@ class AddressInput extends Component {
 
 
 AddressInput.defaultProps = {
+  defaultValue: '',
   onChange: null,
+  placeholder: 'Enter an address...',
   value: '',
 }
 
 AddressInput.propTypes = {
+  defaultValue: PropTypes.any,
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  placeholder: PropTypes.string,
+  value: PropTypes.any,
 }
 
 

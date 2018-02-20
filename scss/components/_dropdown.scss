@@ -1,10 +1,17 @@
 .dropdown {
   position: relative;
+  width: 100%;
   z-index: 1001;
 
   input,
   ul {
     width: 100%;
+  }
+
+  div[role=button] {
+    cursor: pointer;
+    outline: none;
+    padding: 0.5rem 1rem;
   }
 
   ul {
@@ -13,6 +20,13 @@
     position: absolute;
     right: 0;
     top: 100%;
+  }
+
+  button,
+  div[role=button] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   button {
@@ -28,16 +42,46 @@
       display: none;
     }
 
-    &:hover {
+    &:focus {
+      outline: none;
+    }
+
+    &.active {
       background-color: rgba($green, 0.1);
       border-left-color: $green;
     }
+  }
+
+  div[role=button] {
+    color: $black;
   }
 
   &:not(.focus) {
     ul {
       display: none;
       overflow: auto;
+    }
+  }
+
+  &:not(.searchable) {
+    button,
+    div[role=button] {
+      padding-right: 3rem;
+    }
+
+    &:after {
+      border-color: transparent;
+      border-style: solid;
+      border-width: 0.5rem;
+      border-bottom-width: 0;
+      border-top-color: $black;
+      content: '';
+      height: 0;
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
     }
   }
 }

@@ -1,0 +1,58 @@
+.card {
+  background-color: $black;
+  border-color: $light-grey;
+  border-style: solid;
+  border-width: 0.1rem;
+  display: grid;
+  grid-column-gap: 2rem;
+  grid-template-areas:
+    'header aside'
+    'description aside'
+    'menu menu';
+  grid-template-columns: auto 20%;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  padding: 2rem;
+
+  aside {
+    border-color: $light-grey;
+    border-style: solid;
+    border-left-width: 0.1rem;
+    grid-area: aside;
+    margin-bottom: -2rem;
+    margin-top: -2rem;
+    padding: 2rem;
+  }
+
+  header {
+    grid-area: header;
+    overflow: hidden;
+
+    h2 {
+      margin-right: 2rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    small {
+      flex-shrink: 0;
+    }
+  }
+
+  .description {
+    grid-area: description;
+  }
+
+  menu {
+    border-color: $light-grey;
+    border-style: solid;
+    border-top-width: 0.1rem;
+    grid-area: menu;
+    margin-bottom: -2rem;
+    margin-left: -2rem;
+    margin-right: -2rem;
+    margin-top: 2rem;
+    // padding: 0;
+  }
+}

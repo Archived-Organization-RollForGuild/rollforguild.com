@@ -20,6 +20,16 @@ button,
     border-color 0.2s,
     color 0.2s;
 
+  &:disabled,
+  &.disabled {
+    cursor: auto;
+    opacity: 0.65;
+  }
+
+  &.inline {
+    padding: 0;
+  }
+
 
 
 
@@ -31,11 +41,6 @@ button,
     &:after,
     &:before {
       display: none;
-    }
-
-    &:disabled,
-    &.disabled {
-      opacity: 0.65;
     }
   }
 
@@ -56,9 +61,27 @@ button,
     }
   }
 
+  &.info {
+    background-color: #3498db;
+    border-color: #3498db;
+    color: $white;
+
+    &:hover {
+      background-color: #2384c6;
+      border-color: #217dbb;
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: #3498db;
+      border-color: #3498db;
+    }
+  }
+
   &.link {
     background-color: transparent;
     border-color: transparent;
+    color: $light-blue;
     text-decoration: underline;
     text-decoration-color: transparent;
     transition: text-decoration-color 0.2s;
@@ -101,6 +124,40 @@ button,
     &:disabled,
     &.disabled {
       background-color: $green;
+    }
+  }
+
+  &.binary {
+    background-color: #444;
+    border-color: #444;
+    color: $white;
+
+    &:hover {
+      background-color: #313131;
+      border-color: #2b2a2a;
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: #444;
+      border-color: #444;
+    }
+
+    &[data-on=true] {
+      background-color: #3498db;
+      border-color: #3498db;
+      color: $white;
+
+      &:hover {
+        background-color: #2384c6;
+        border-color: #217dbb;
+      }
+
+      &:disabled,
+      &.disabled {
+        background-color: #3498db;
+        border-color: #3498db;
+      }
     }
   }
 }

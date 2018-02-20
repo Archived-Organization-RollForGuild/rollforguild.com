@@ -6,4 +6,21 @@ fieldset {
   &.horizontal {
     flex-direction: row;
   }
+
+  footer {
+    color: $light-grey;
+    display: flex;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.7em;
+    justify-content: space-between;
+    letter-spacing: initial;
+
+    .options {
+      display: flex;
+
+      li {
+        margin-left: 1rem;
+      }
+    }
+  }
 }

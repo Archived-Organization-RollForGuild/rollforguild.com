@@ -1,0 +1,25 @@
+.pagination {
+  display: flex;
+  flex-shrink: 0;
+  width: 100%;
+
+  ul {
+    margin: 0;
+
+    button {
+      margin: 0 1rem;
+
+      &.active {
+        background-color: $green;
+      }
+    }
+  }
+
+  .next {
+    margin-left: auto;
+  }
+
+  .previous {
+    margin-right: auto;
+  }
+}

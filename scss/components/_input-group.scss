@@ -1,25 +1,33 @@
 .input-group {
-  align-items: center;
+  align-content: stretch;
+  align-items: stretch;
   background-color: $white;
   color: $light-grey;
   display: flex;
-  padding: 0.5rem 1rem;
   transition: color 0.2s;
 
-  input {
+  > :not(:first-child) {
     border-left-color: $light-grey;
     border-left-style: solid;
     border-left-width: 0.1rem;
-    margin-left: 1rem;
-    transition: border-left-color 0.2s;
+    flex-grow: 1;
   }
 
-  &:focus,
-  &:hover {
-    color: $black;
+  > label {
+    padding: 0.5rem 1rem;
+  }
 
-    input {
-      border-left-color: $black;
-    }
+  > input {
+    flex-shrink: 1;
+  }
+
+  > button {
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  .squishable {
+    flex-shrink: 1;
+    width: auto;
   }
 }
