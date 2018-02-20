@@ -20,10 +20,16 @@
       display: block;
       padding: 2rem;
       width: 100%;
+
+      * + span {
+        margin-left: 1rem;
+      }
     }
 
     label {
+      align-items: center;
       cursor: pointer;
+      display: flex;
       position: relative;
 
       &:after {
@@ -109,5 +115,4 @@
   .brand {
     flex-shrink: 0;
   }
-
 }

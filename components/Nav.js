@@ -1,5 +1,7 @@
 // Module imports
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import Cookies from 'js-cookie'
 import React from 'react'
 
 
@@ -7,6 +9,7 @@ import React from 'react'
 
 
 // Module imports
+import { actions } from '../store'
 import { Link } from '../routes'
 import Component from './Component'
 
@@ -17,85 +20,125 @@ import Component from './Component'
 // Constants
 const navItems = [
   {
-    title: 'Player Tools',
+    title: 'Groups',
+    subnav: [
+      {
+        href: '/my/groups',
+        title: 'My Groups',
+      },
+
+      {
+        href: '/groups/search',
+        title: 'Search',
+      },
+    ],
+  },
+
+  {
+    title: 'Content',
     subnav: [
       {
         href: '/my/characters',
-        title: 'My Characters',
-      },
-
-      {
-        href: '/groups/manage',
-        title: 'My Groups',
+        title: 'Characters',
       },
     ],
   },
 
   {
-    title: 'GM Tools',
+    condition: ({ loggedIn }) => loggedIn && (loggedIn !== 'error'),
+    key: 'my-profile',
+    title: ({ user }) => {
+      if (user) {
+        return (
+          <React.Fragment>
+            <img
+              alt="User Avatar"
+              className="avatar"
+              height={20}
+              src={`//api.adorable.io/avatars/20/${user.id}`}
+              width={20} />
+            <span>{user.attributes.username}</span>
+          </React.Fragment>
+        )
+      }
+
+      return 'Loading...'
+    },
     subnav: [
       {
-        href: '/roadmap#3005240', // '/groups/manage',
-        title: 'Groups',
+        href: '/my/activity-feed',
+        title: 'Activity Feed',
       },
-
       {
-        href: '/roadmap#3005241', // '/gm/dungeons',
-        title: 'Dungeons',
+        href: '/my/profile',
+        title: 'My Profile',
       },
-
       {
-        href: '/roadmap#3005245', // '/gm/encounters',
-        title: 'Encounters',
-      },
-
-      // {
-      //   href: '/roadmap#3005240', // '/gm/monsters',
-      //   title: 'Monsters',
-      // },
-
-      {
-        href: '/roadmap#3005248', // '/gm/npcs',
-        title: 'NPCs',
-      },
-
-      {
-        href: '/roadmap#3005243', // '/gm/treasure',
-        title: 'Treasure',
+        href: '/logout',
+        title: 'Logout',
       },
     ],
   },
 
-  {
-    title: 'About',
-    subnav: [
-      // {
-      //   href: '/mission-statement',
-      //   title: 'Our Mission',
-      // },
+  // {
+  //   title: 'GM Tools',
+  //   subnav: [
+  //     {
+  //       href: '/roadmap#3005240', // '/groups/manage',
+  //       title: 'Groups',
+  //     },
 
-      {
-        href: '/roadmap',
-        title: 'Roadmap',
-      },
+  //     {
+  //       href: '/roadmap#3005241', // '/gm/dungeons',
+  //       title: 'Dungeons',
+  //     },
 
-      {
-        href: '/contact',
-        title: 'Contact Us',
-      },
-    ],
-  },
+  //     {
+  //       href: '/roadmap#3005245', // '/gm/encounters',
+  //       title: 'Encounters',
+  //     },
+
+  //     // {
+  //     //   href: '/roadmap#3005240', // '/gm/monsters',
+  //     //   title: 'Monsters',
+  //     // },
+
+  //     {
+  //       href: '/roadmap#3005248', // '/gm/npcs',
+  //       title: 'NPCs',
+  //     },
+
+  //     {
+  //       href: '/roadmap#3005243', // '/gm/treasure',
+  //       title: 'Treasure',
+  //     },
+  //   ],
+  // },
+
+  // {
+  //   title: 'About',
+  //   subnav: [
+  //     // {
+  //     //   href: '/mission-statement',
+  //     //   title: 'Our Mission',
+  //     // },
+
+  //     {
+  //       href: '/roadmap',
+  //       title: 'Roadmap',
+  //     },
+
+  //     {
+  //       href: '/contact',
+  //       title: 'Contact Us',
+  //     },
+  //   ],
+  // },
 
   {
     condition: props => !props.loggedIn || (props.loggedIn === 'error'),
     href: '/login',
     title: 'Login/Sign Up',
-  },
-
-  {
-    condition: props => props.loggedIn && (props.loggedIn !== 'error'),
-    href: '/logout',
-    title: 'Logout',
   },
 ]
 
@@ -107,6 +150,18 @@ class Nav extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
+
+  async componentWillMount () {
+    const {
+      getUser,
+      loggedIn,
+      user,
+    } = this.props
+
+    if (loggedIn && !user) {
+      await getUser(Cookies.get('userId'))
+    }
+  }
 
   constructor (props) {
     super(props)
@@ -135,22 +190,23 @@ class Nav extends Component {
     }
 
     const itemWithOnlyLinkProps = {}
-    const sanitizedTitle = title.toLowerCase().replace(/\s/g, '-')
-    let renderedItemTitle
+    let renderedItemTitle = typeof title === 'string' ? title : title(this.props)
     let renderedSubnav
     let renderedSubnavToggle
 
-    Object.keys(item).forEach(key => {
-      if (/^href|as$/gi.test(key)) {
-        itemWithOnlyLinkProps[key] = item[key]
+    const key = item.key || renderedItemTitle.toLowerCase().replace(/\s/g, '-')
+
+    Object.keys(item).forEach(itemKey => {
+      if (/^href|as$/gi.test(itemKey)) {
+        itemWithOnlyLinkProps[itemKey] = item[itemKey]
       }
     })
 
-    renderedItemTitle = (<span>{title}</span>)
-
     if (subnav) {
       renderedItemTitle = (
-        <label htmlFor={sanitizedTitle}>{renderedItemTitle}</label>
+        <label htmlFor={key}>
+          {renderedItemTitle}
+        </label>
       )
 
       renderedSubnav = (
@@ -164,7 +220,7 @@ class Nav extends Component {
           className="subnav-toggle"
           defaultChecked={subnav.find(({ href }) => href === path)}
           hidden
-          id={sanitizedTitle}
+          id={key}
           name="subnav"
           type="radio" />
       )
@@ -188,11 +244,16 @@ class Nav extends Component {
 
 
 
-const mapStateToProps = state => ({ ...state.authentication })
+const mapDispatchToProps = dispatch => ({ getUser: bindActionCreators(actions.getUser, dispatch) })
+
+const mapStateToProps = state => ({
+  ...state.authentication,
+  user: Object.values(state.users).find(({ loggedIn }) => loggedIn),
+})
 
 
 
 
 
-export default connect(mapStateToProps)(Nav)
+export default connect(mapStateToProps, mapDispatchToProps)(Nav)
 
