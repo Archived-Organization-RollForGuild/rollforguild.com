@@ -236,7 +236,7 @@ const mapDispatchToProps = ['getUser']
 
 const mapStateToProps = (state, ownProps) => {
   const currentUserId = ownProps.userId || null
-  const displayedUserId = ownProps.query.id.toLowerCase() === 'my' ? currentUserId : ownProps.query.id
+  const displayedUserId = ownProps.asPath === '/my/profile' ? currentUserId : ownProps.query.id
 
   return {
     currentUser: state.users[currentUserId] || null, // User that the displayedUser is being displayed to.
