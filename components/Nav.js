@@ -70,7 +70,8 @@ const navItems = [
         title: 'Activity Feed',
       },
       {
-        href: '/my/profile',
+        as: '/my/profile',
+        href: '/users/user',
         title: 'My Profile',
       },
       {
