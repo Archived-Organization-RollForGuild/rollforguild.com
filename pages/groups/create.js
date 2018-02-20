@@ -142,26 +142,22 @@ class CreateGroup extends Component {
           </fieldset>
 
           <fieldset>
-            <label htmlFor="slug">
-              Slug
-            </label>
+            <label htmlFor="permalink">Permalink</label>
 
             <div className="input-group">
-              <label htmlFor="slug">
-                rollforguild.com/groups/
+              <label htmlFor="permalink">
+                https://rollforguild.com/groups/
               </label>
 
               <input
                 disabled={submitting}
-                id="slug"
+                id="permalink"
                 onChange={({ target }) => this.setState({ slug: target.value })}
                 pattern="(\w|-)*"
                 placeholder={CreateGroup._sanitizeName(name)}
                 type="text"
                 value={slug} />
             </div>
-
-            <small>Tell your members what you'll be playing, or maybe a bit about your GM style.</small>
           </fieldset>
 
           <fieldset>
@@ -266,7 +262,7 @@ class CreateGroup extends Component {
 
           <fieldset className="horizontal">
             <label htmlFor="discoverable">
-              Should this group be public?
+              Should your group show up in searches?
             </label>
 
             <Switch
