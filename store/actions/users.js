@@ -19,10 +19,6 @@ export const getUser = userId => async dispatch => {
   try {
     const token = await Cookies.get('accessToken')
 
-    if (!token) {
-      throw new Error('token not found.')
-    }
-
     let response = await fetch(`/api/users/${userId}`, {
       headers: new Headers({
         Authorization: `Bearer ${token}`,
@@ -32,6 +28,27 @@ export const getUser = userId => async dispatch => {
 
     response = await response.json()
 
+    if (response.errors) {
+      const errorMessage = response.errors[0] ? response.errors[0].detail : 'Unknown'
+      throw new Error(`API Error Occured. "${errorMessage}"`)
+    }
+
+
+    /*******************************************************\
+    |* REMOVE THESE ONCE THEY ARE IMPLEMENTED INTO THE API *|
+    \*******************************************************/
+
+    response.data.attributes.playedGames = [
+      'D&D 5e',
+      'Battlestar Galactica: The Board Game',
+      'Zork',
+    ]
+
+    response.data.attributes.wantToPlayGames = [
+      'Kingdom Death: Monsters',
+      'Something completely different',
+    ]
+
     return dispatch({
       status: 'success',
       type: actionTypes.GET_USER,
@@ -39,6 +56,7 @@ export const getUser = userId => async dispatch => {
     })
   } catch (error) {
     return dispatch({
+      error,
       status: 'error',
       type: actionTypes.GET_USER,
     })
