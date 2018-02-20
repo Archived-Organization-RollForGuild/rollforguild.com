@@ -33,13 +33,13 @@ const CharacterReview = (props) => {
           const value = character.description[property]
 
           return (
-            <div
-              className="input-group"
+            <fieldset
+              // className="input-group"
               key={property}>
               <label htmlFor={property}>{name}</label>
 
               <span>{value}</span>
-            </div>
+            </fieldset>
           )
         })}
       </div>
