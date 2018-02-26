@@ -4,6 +4,9 @@
   Module imports
 \******************************************************************************/
 
+// Import variables from .env file.
+require('dotenv').config()
+
 const body = require('koa-body')
 const compress = require('koa-compress')
 const config = require('./config')

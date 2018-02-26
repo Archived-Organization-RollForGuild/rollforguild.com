@@ -18,7 +18,11 @@
       "program": "${workspaceFolder}/server/server.js",
       "protocol": "inspector",
       "request": "launch",
-      "type": "node"
+      "type": "node",
+      "windows": {
+        "console": "internalConsole",
+        "useWSL": true
+      }
     }
   ],
   "compounds": [
