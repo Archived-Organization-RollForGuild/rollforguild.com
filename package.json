@@ -29,6 +29,7 @@
     "cross-env": "^5.1.1",
     "css-loader": "^0.28.5",
     "dialog-polyfill": "^0.4.9",
+    "dotenv": "^5.0.0",
     "echarts": "^3.8.5",
     "echarts-for-react": "^2.0.2",
     "eslint": "^4.12.1",
