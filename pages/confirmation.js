@@ -34,7 +34,9 @@ class Confirmation extends Component {
     const { token } = query
 
     this.setState({ confirming: true })
+
     await confirmAccount(token)
+
     this.setState({ confirming: false })
   }
 
@@ -49,7 +51,7 @@ class Confirmation extends Component {
   componentDidUpdate () {
     const { loggedIn } = this.props
 
-    if (loggedIn === 'success') {
+    if (loggedIn) {
       Router.push('/')
     }
   }
