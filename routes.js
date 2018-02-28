@@ -1,4 +1,4 @@
-const routes = module.exports = require('next-routes')()
+const routes = (module.exports = require('next-routes')())
 
 routes
   // Account
@@ -12,5 +12,9 @@ routes
   .add('manage group', '/groups/manage', '/groups/manage')
   .add('group search', '/groups/search', '/groups/search')
   .add('group profile', '/groups/:id', '/groups/group')
-  .add('user profile', '/users/:id', '/users/user')
-  .add('user profile currentUser', '/:id(my)/profile', '/users/user')
+
+  // Users
+  .add('view user', '/users/:id', '/users/user')
+  //.add('manage user', '/users/:id/edit', '/users/edit') added as placeholder. Disabled until user permisssion groups are added. This endpoint will be used as an admin control endpoint.
+  .add('view current user', '/my/profile', '/users/user')
+  .add('manage current user', '/my/profile/edit', '/users/edit')
