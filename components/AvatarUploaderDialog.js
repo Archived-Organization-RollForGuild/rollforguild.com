@@ -274,7 +274,7 @@ export default class AvatarUploaderDialog extends Component {
     )
   }
 
-  renderimageCrop () {
+  renderImageCrop () {
     const {
       crop,
       fileBase64,
@@ -374,7 +374,7 @@ export default class AvatarUploaderDialog extends Component {
 
           {stage === this.stages.CHOOSE && this.renderImageChoose()}
 
-          {stage === this.stages.CROP && this.renderimageCrop()}
+          {stage === this.stages.CROP && this.renderImageCrop()}
 
           {stage === this.stages.CONFIRM && this.renderImageConfirm()}
 
