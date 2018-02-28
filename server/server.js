@@ -15,6 +15,7 @@ const etag = require('koa-etag')
 const Koa = require('koa')
 const logger = require('koa-logger')
 const path = require('path')
+const removeTrailingSlashes = require('koa-no-trailing-slash')
 const robotsTxt = require('koa-robots.txt')
 const SitemapGenerator = require('sitemap-generator')
 
@@ -39,6 +40,8 @@ const koa = new Koa
 next.prepare().then(() => {
   // Set up the logger
   koa.use(logger())
+
+  koa.use(removeTrailingSlashes())
 
   // Configure proxies
   proxy(koa, config)
