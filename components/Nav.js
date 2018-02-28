@@ -50,6 +50,7 @@ const navItems = [
     title: ({ user }) => {
       if (user) {
         const { username } = user.attributes
+        const avatarSrc = user.attributes.avatar ? `/api/users/${user.id}/avatar` : `//api.adorable.io/avatars/20/${user.id}`
 
         return (
           <React.Fragment>
@@ -57,7 +58,7 @@ const navItems = [
               aria-label={`${username}'s Avatar`}
               className="avatar tiny"
               role="img"
-              style={{ backgroundImage: `url(//api.adorable.io/avatars/20/${user.id})` }} />
+              style={{ backgroundImage: `url(${avatarSrc})` }} />
             <span>{username}</span>
           </React.Fragment>
         )
