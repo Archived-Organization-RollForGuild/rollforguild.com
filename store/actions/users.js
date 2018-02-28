@@ -109,7 +109,6 @@ export const updateUserPassword = (userId, attributes) => async dispatch => {
 export const updateUserAvatar = (userId, file) => async dispatch => {
   dispatch({ type: actionTypes.UPDATE_USER_AVATAR })
 
-  let response = null
   let success = false
 
   try {
@@ -118,7 +117,7 @@ export const updateUserAvatar = (userId, file) => async dispatch => {
 
     body.append('file', file)
 
-    response = await fetch(`/api/users/${userId}/avatar`, {
+    const response = await fetch(`/api/users/${userId}/avatar`, {
       body,
       headers: new Headers({
         Authorization: `Bearer ${token}`,
@@ -126,19 +125,13 @@ export const updateUserAvatar = (userId, file) => async dispatch => {
       method: 'post',
     })
 
-    if (!response.ok) {
-      response = await response.json()
-      throw new Error('Api returned error.')
-    }
-
-    response = await response.json()
-    success = true
+    success = response.ok
   } catch (error) {
-    // Do nothing.
+    success = false
   }
 
   return dispatch({
-    payload: response,
+    payload: null,
     status: success ? 'success' : 'error',
     type: actionTypes.UPDATE_USER_AVATAR,
   })
