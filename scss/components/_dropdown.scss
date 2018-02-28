@@ -6,7 +6,7 @@
   input,
   ul {
     background-color: $white;
-    width: 100%;
+    width: min-content;
   }
 
   ul {
@@ -15,6 +15,7 @@
     position: absolute;
     right: 0;
     top: 100%;
+    width: 100%;
   }
 
   button {
@@ -51,7 +52,7 @@
   }
 
   &:not(.searchable) {
-    button {
+    input {
       padding-right: 3rem;
     }
 
