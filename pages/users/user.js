@@ -72,7 +72,7 @@ class UserProfile extends Component {
     }
   }
 
-  currentUserIsDisplayedUser() {
+  currentUserIsDisplayedUser () {
     const {
       currentUser,
       displayedUser,
@@ -83,7 +83,7 @@ class UserProfile extends Component {
       currentUser.id === displayedUser.id
   }
 
-  currentUserSharesGroup() {
+  currentUserSharesGroup () {
     const {
       currentUser,
       displayedUser,
@@ -107,11 +107,10 @@ class UserProfile extends Component {
     return currentUserGroups.some(group => displayedUserGroups.includes(group))
   }
 
-  get renderUserProfile() {
+  get renderUserProfile () {
     const {
       displayedUser,
     } = this.state
-
     const {
       avatar,
       bio,
@@ -156,28 +155,50 @@ class UserProfile extends Component {
               </menu>
             </div>
           </div>
+
           <div className="user-bio">
             <h4>About {username}</h4>
+
             <div className="bio-content">
               { bio || 'Blah blash blah I\'m a user bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'}
             </div>
           </div>
+
           <div className="user-favorite-games">
             <h4>{username}'s favorite games</h4>
+
             <ul className="gamelist">
               {playedGames.map(game => (
                 <li key={game.replace(' ', '')}>{game}</li>
               ))}
             </ul>
           </div>
+
           <div className="user-unplayed-games">
             <h4>Games {username} wants to play</h4>
+
             <ul className="gamelist">
               {wantToPlayGames.map(game => (
                 <li key={game.replace(' ', '')}>{game}</li>
               ))}
             </ul>
           </div>
+
+          {this.currentUserIsDisplayedUser() && (
+            <div className="groups">
+              <h4>Groups</h4>
+
+              <ul className="gamelist">
+                {this.props.groups.map(group => (
+                  <li key={group.id}>
+                    <Link as={`/groups/${group.id}`} href={`/groups/group?id=${group.id}`}>
+                      <a>{group.attributes.name}</a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </React.Fragment>
     )
@@ -222,7 +243,7 @@ class UserProfile extends Component {
           <p>No user with that ID was found.</p>
         )}
 
-        {(loaded && displayedUser) && this.renderUserProfile }
+        {(loaded && displayedUser) && this.renderUserProfile}
       </React.Fragment>
     )
   }
@@ -238,8 +259,10 @@ const mapStateToProps = (state, ownProps) => {
   const currentUserId = ownProps.userId || null
   const displayedUserId = ownProps.asPath === '/my/profile' ? currentUserId : ownProps.query.id
 
-  return {
-    currentUser: state.users[currentUserId] || null, // User that the displayedUser is being displayed to.
+  const currentUser = state.users[currentUserId] || null
+
+  const newState = {
+    currentUser, // User that the displayedUser is being displayed to.
     currentUserId,
     displayedUser: state.users[displayedUserId] || null, // User that is being displayed
     query: {
@@ -247,6 +270,12 @@ const mapStateToProps = (state, ownProps) => {
       id: displayedUserId,
     },
   }
+
+  if ((currentUserId === displayedUserId) && currentUser) {
+    newState.groups = currentUser.relationships.groups.data.map(({ id }) => state.groups[id])
+  }
+
+  return newState
 }
 
 export default Page(UserProfile, title, {

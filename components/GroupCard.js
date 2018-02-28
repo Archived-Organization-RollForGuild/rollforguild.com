@@ -21,23 +21,23 @@ class GroupCard extends Component {
     Private Methods
   \***************************************************************************/
 
-  async _requestToJoinGroup () {
-    const {
-      group,
-      requestToJoinGroup,
-    } = this.props
+  // async _requestToJoinGroup () {
+  //   const {
+  //     group,
+  //     requestToJoinGroup,
+  //   } = this.props
 
-    this.setState({ requestingToJoin: true })
+  //   this.setState({ requestingToJoin: true })
 
-    const { status } = await requestToJoinGroup(group.id)
+  //   const { status } = await requestToJoinGroup(group.id)
 
-    setTimeout(() => {
-      this.setState({
-        joinRequestSent: status,
-        requestingToJoin: false,
-      })
-    }, 500)
-  }
+  //   setTimeout(() => {
+  //     this.setState({
+  //       joinRequestSent: status,
+  //       requestingToJoin: false,
+  //     })
+  //   }, 500)
+  // }
 
 
 
@@ -50,20 +50,20 @@ class GroupCard extends Component {
   constructor (props) {
     super(props)
 
-    this._bindMethods(['_requestToJoinGroup'])
+    // this._bindMethods(['_requestToJoinGroup'])
 
     this.state = {
-      joinRequestSent: false,
-      requestingToJoin: false,
+      // joinRequestSent: false,
+      // requestingToJoin: false,
     }
   }
 
   render () {
     const { group } = this.props
-    const {
-      joinRequestSent,
-      requestingToJoin,
-    } = this.state
+    // const {
+    //   joinRequestSent,
+    //   requestingToJoin,
+    // } = this.state
 
     const { id } = group
     const {
@@ -72,7 +72,7 @@ class GroupCard extends Component {
       members,
       name,
     } = group.attributes
-    const memberStatus = group.attributes.mamber_status
+    // const memberStatus = group.attributes.mamber_status
 
     return (
       <div className="card">
@@ -82,21 +82,7 @@ class GroupCard extends Component {
           <small>{members} members</small>
         </header>
 
-        {games && (
-          <aside>
-            <header>
-              <h3>Games:</h3>
-            </header>
-
-            <ul className="comma-separated inline">
-              {games.map(game => (
-                <li key={game}>{game}</li>
-              ))}
-            </ul>
-          </aside>
-        )}
-
-        <div className="description">
+        <div className="content">
           {!!description && (
             <p>{description}</p>
           )}
@@ -104,34 +90,50 @@ class GroupCard extends Component {
           {!description && (
             <p><em>No description</em></p>
           )}
+
+          {games && (
+            <header>
+              <h3>Games:</h3>
+            </header>
+          )}
+
+          {games && (
+            <ul className="comma-separated inline">
+              {games.map(game => (
+                <li key={game}>{game}</li>
+              ))}
+            </ul>
+          )}
         </div>
 
-        <menu type="toolbar">
-          <div className="primary">
-            <Link href={`/groups/?id=${id}`} as={`/groups/${id}`}>
-              <a className="button info">
-                Learn more
-              </a>
-            </Link>
-          </div>
+        <footer>
+          <menu type="toolbar">
+            <div className="primary">
+              <Link href={`/groups/?id=${id}`} as={`/groups/${id}`}>
+                <a className="button info">
+                  Learn more
+                </a>
+              </Link>
+            </div>
 
-          <div className="secondary">
-            <button
-              className="secondary"
-              disabled={requestingToJoin || joinRequestSent}
-              onClick={this._requestToJoinGroup}>
-              {(!requestingToJoin && !joinRequestSent && !(memberStatus === 'pending')) && 'Join'}
+            {/* <div className="secondary">
+              <button
+                className="secondary"
+                disabled={requestingToJoin || joinRequestSent}
+                onClick={this._requestToJoinGroup}>
+                {(!requestingToJoin && !joinRequestSent && !(memberStatus === 'pending')) && 'Join'}
 
-              {((!requestingToJoin && joinRequestSent) || (memberStatus === 'pending')) && (
-                <span><i className="fas fa-check" /> Request Sent</span>
-              )}
+                {((!requestingToJoin && joinRequestSent) || (memberStatus === 'pending')) && (
+                  <span><i className="fas fa-check" /> Request Sent</span>
+                )}
 
-              {requestingToJoin && (
-                <span><i className="fas fa-pulse fa-spinner" /> Sending request...</span>
-              )}
-            </button>
-          </div>
-        </menu>
+                {requestingToJoin && (
+                  <span><i className="fas fa-pulse fa-spinner" /> Sending request...</span>
+                )}
+              </button>
+            </div> */}
+          </menu>
+        </footer>
       </div>
     )
   }

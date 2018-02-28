@@ -95,8 +95,10 @@ components
 @import 'components/map';
 @import 'components/map-marker-label';
 @import 'components/pagination';
+@import 'components/profile';
 @import 'components/starting-level';
 @import 'components/static-map';
+@import 'components/tab-panel';
 @import 'components/wizard';
 
 
@@ -131,4 +133,5 @@ components
 @import 'pages/manage-group';
 @import 'pages/manage-groups';
 @import 'pages/roadmap';
-@import 'pages/user-profile'
+@import 'pages/search-groups';
+@import 'pages/user-profile';

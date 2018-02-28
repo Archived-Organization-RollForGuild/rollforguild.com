@@ -86,6 +86,78 @@ export const getGroup = groupId => async dispatch => {
 
 
 
+export const getJoinRequests = groupId => async dispatch => {
+  const accessToken = Cookies.get('accessToken')
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.GET_JOIN_REQUESTS })
+
+  try {
+    response = await fetch(`/api/groups/${groupId}/join-requests`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+
+    success = response.ok
+
+    response = await response.json()
+  } catch (error) {
+    success = false
+  }
+
+  return dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.GET_JOIN_REQUESTS,
+  })
+}
+
+
+
+
+
+export const handleJoinRequest = (groupId, userId, status) => async dispatch => {
+  const accessToken = Cookies.get('accessToken')
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.HANDLE_JOIN_REQUESTS })
+
+  try {
+    response = await fetch(`/api/groups/${groupId}/join-requests/${userId}`, {
+      body: JSON.stringify({
+        data: {
+          type: 'join-requests',
+          attributes: { status },
+        },
+      }),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      method: 'put',
+    })
+
+    success = response.ok
+
+    response = await response.json()
+  } catch (error) {
+    success = false
+  }
+
+  return dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.HANDLE_JOIN_REQUESTS,
+  })
+}
+
+
+
+
+
 export const requestToJoinGroup = groupId => async dispatch => {
   const accessToken = Cookies.get('accessToken')
   let response = null

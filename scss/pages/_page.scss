@@ -6,6 +6,14 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0 2rem 2rem;
+
+  > header {
+    background-color: $black;
+    margin-bottom: 2rem;
+    margin-left: -2rem;
+    margin-right: -2rem;
+    padding: 0 2rem;
+  }
 }
 
 .page-wrapper {

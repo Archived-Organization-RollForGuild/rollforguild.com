@@ -204,34 +204,19 @@ class Dropdown extends Component {
 
     return (
       <div className={classes.join(' ')}>
-        {!searchable && (
-          <div
-            disabled={disabled}
-            onBlur={this._handleBlur}
-            onFocus={this._handleFocus}
-            onClick={this._handleFocus}
-            onKeyDown={this._handleKeyDown}
-            role="button"
-            tabIndex={0}>
-            {renderValue(value)}
-          </div>
-        )}
-
-        {searchable && (
-          <input
-            autoComplete="off"
-            disabled={disabled}
-            id={id}
-            name={name}
-            onChange={this._handleChange}
-            onBlur={this._handleBlur}
-            onFocus={this._handleFocus}
-            onKeyDown={this._handleKeyDown}
-            placeholder={placeholder}
-            readOnly={readOnly}
-            ref={_input => this._input = _input}
-            value={renderValue(value)} />
-        )}
+        <input
+          autoComplete="off"
+          disabled={disabled}
+          id={id}
+          name={name}
+          onChange={this._handleChange}
+          onBlur={this._handleBlur}
+          onFocus={this._handleFocus}
+          onKeyDown={this._handleKeyDown}
+          placeholder={placeholder}
+          readOnly={readOnly || !searchable}
+          ref={_input => this._input = _input}
+          value={renderValue(value)} />
 
         <ul className="options">
           {filteredOptions.map(option => {
