@@ -81,6 +81,7 @@ components
 @import 'components/ability-score';
 @import 'components/ability-score-editor';
 @import 'components/address-input';
+@import 'components/avatar-uploader-dialog';
 @import 'components/avatar';
 @import 'components/background-chooser';
 @import 'components/brand';
@@ -133,5 +134,6 @@ components
 @import 'pages/manage-group';
 @import 'pages/manage-groups';
 @import 'pages/roadmap';
-@import 'pages/search-groups';
 @import 'pages/user-profile';
+@import 'pages/edit-profile';
+@import 'pages/search-groups';

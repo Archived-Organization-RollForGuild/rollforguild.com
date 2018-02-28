@@ -24,6 +24,7 @@ export default function (state = initialState.users, action) {
     case actionTypes.GET_GROUP:
     case actionTypes.GET_USER:
     case actionTypes.GET_USERS:
+    case actionTypes.UPDATE_USER:
       if (status === 'success') {
         const userId = Cookies.get('userId')
         const newState = {

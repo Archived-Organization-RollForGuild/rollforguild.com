@@ -5603,6 +5603,10 @@ react-hot-loader@4.0.0-beta.18:
     hoist-non-react-statics "^2.3.1"
     react-stand-in "^4.0.0-beta.18"
 
+react-image-crop@^3.0.10:
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-3.0.10.tgz#a1bced7ca608b17632da124cab63f5bad1877de0"
+
 react-leaflet@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-1.8.0.tgz#e33ba704910e2ad86dd29b5a4a52acb7030fe2c4"

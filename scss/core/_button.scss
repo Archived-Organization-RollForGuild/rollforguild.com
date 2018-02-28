@@ -30,13 +30,13 @@ button,
     padding: 0;
   }
 
+  &.compact {
+    padding: 0 1rem;
+  }
+
   &:focus {
     outline: none;
   }
-
-
-
-
 
   // Button styles
 
