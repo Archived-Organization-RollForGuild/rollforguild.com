@@ -1,5 +1,4 @@
 // Module imports
-import Link from 'next/link'
 import React from 'react'
 
 
@@ -7,6 +6,7 @@ import React from 'react'
 
 // Component imports
 import Component from '../../components/Component'
+import { Link } from '../../routes'
 import Page from '../../components/Page'
 
 
@@ -116,9 +116,9 @@ class UserProfile extends Component {
       avatar,
       bio,
       email,
-      playedGames,
+      gamesHistory,
       username,
-      wantToPlayGames,
+      gamesInterest,
     } = displayedUser.attributes
 
     const displayedUserSharesGroup = this.currentUserSharesGroup()
@@ -156,24 +156,24 @@ class UserProfile extends Component {
               </menu>
             </div>
           </div>
-          <div className="user-bio">
+          <div className="profile-section user-bio">
             <h4>About {username}</h4>
-            <div className="bio-content">
+            <div className="section-content">
               { bio || 'Blah blash blah I\'m a user bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'}
             </div>
           </div>
-          <div className="user-favorite-games">
+          <div className="profile-section user-game-history">
             <h4>{username}'s favorite games</h4>
-            <ul className="gamelist">
-              {playedGames.map(game => (
+            <ul className="section-content gamelist">
+              {gamesHistory.map(game => (
                 <li key={game.replace(' ', '')}>{game}</li>
               ))}
             </ul>
           </div>
-          <div className="user-unplayed-games">
+          <div className="profile-section user-game-interest">
             <h4>Games {username} wants to play</h4>
-            <ul className="gamelist">
-              {wantToPlayGames.map(game => (
+            <ul className="section-content gamelist">
+              {gamesInterest.map(game => (
                 <li key={game.replace(' ', '')}>{game}</li>
               ))}
             </ul>
@@ -195,7 +195,15 @@ class UserProfile extends Component {
       pageTitle = (
         <React.Fragment>
           <h1>Your profile</h1>
-          <Link href="/my/profile"><a className="button small success edit-button">Edit</a></Link>
+
+          <Link
+            href="/users/edit"
+            as="/my/profile/edit" >
+            <a className="button small success edit-button">
+              Edit
+            </a>
+          </Link>
+
         </React.Fragment>
       )
     } else if (loaded && displayedUser) {
