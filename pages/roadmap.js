@@ -1,5 +1,6 @@
 // Module imports
 // import Chart from 'echarts-for-react'
+import CountUp from 'react-countup'
 import moment from 'moment'
 import React from 'react'
 import 'isomorphic-fetch'
@@ -32,11 +33,11 @@ class Roadmap extends Component {
     const momentA = moment(a.due_on)
     const momentB = moment(b.due_on)
 
-    if (momentA.isAfter(momentB, 'day')) {
+    if (!momentA.isValid() || momentA.isAfter(momentB, 'day')) {
       return 1
     }
 
-    if (momentA.isBefore(momentB, 'day')) {
+    if (!momentB.isValid() || momentA.isBefore(momentB, 'day')) {
       return -1
     }
 
@@ -96,17 +97,30 @@ class Roadmap extends Component {
         {(!loading && data) && (
           <ol>
             {data.map(datum => {
-              const percentComplete = `${Math.round((datum.closed_issues / (datum.open_issues + datum.closed_issues)) * 100 || 0)}%`
+              const percentComplete = Math.round((datum.closed_issues / (datum.open_issues + datum.closed_issues)) * 100 || 0)
+              const dueDateIsValid = moment(datum.due_on).isValid()
 
               return (
                 <li id={datum.id} key={datum.id}>
                   <header>
                     <h2>{datum.title}</h2>
+
                     <h3>
-                      <div className={moment().isAfter(datum.due_on) ? 'late' : ''}>
-                        Launching by <time dateTime={datum.due_on}>{moment(datum.due_on).format('DD MMMM')}</time>
-                        {moment().isAfter(datum.due_on) ? '(late)' : null}
-                      </div>
+                      <sup>Launch Date</sup>
+                      {dueDateIsValid && (
+                        <time
+                          dateTime={datum.due_on}
+                          title={moment(datum.due_on).format('DD MMMM, YYYY')}>
+                          {moment(datum.due_on).format('DD MMMM')}
+                          {moment().isAfter(datum.due_on) && (
+                            <span>(late)</span>
+                          )}
+                        </time>
+                      )}
+
+                      {!dueDateIsValid && (
+                        <abbr title="To be determined">TBD</abbr>
+                      )}
                     </h3>
                   </header>
 
@@ -117,8 +131,11 @@ class Roadmap extends Component {
 
                     <div
                       className="completion-percentage"
-                      style={{ left: percentComplete }}>
-                      {percentComplete}
+                      style={{ left: `${percentComplete}%` }}>
+                      <CountUp
+                        end={percentComplete}
+                        start={0}
+                        suffix="%" />
                     </div>
                   </div>
 

@@ -35,9 +35,14 @@ export default class Wizard extends Component {
     const { currentStep } = this.state
     const isFirstStep = this.state.currentStep === 0
     const isLastStep = currentStep === (children.length - 1)
+    const classes = ['step']
 
     if (!Array.isArray(children)) {
       children = [children]
+    }
+
+    if (children[currentStep].props.className) {
+      classes.push(children[currentStep].props.className)
     }
 
     return (
@@ -52,25 +57,29 @@ export default class Wizard extends Component {
           ))}
         </ol>
 
-        <section className="step">
+        <section className={classes.join(' ')}>
           {children[currentStep]}
         </section>
 
         <menu type="toolbar">
-          {!isFirstStep && (
+          <div className="primary">
             <button
-              className="previous"
-              onClick={this._handlePreviousClick}>
-              Previous
+              className="next success"
+              disabled={children[currentStep].props.isValidated ? !children[currentStep].props.isValidated() : false}
+              onClick={isLastStep ? this._handleFinalClick : this._handleNextClick}>
+              Next
             </button>
-          )}
+          </div>
 
-          <button
-            className="next"
-            disabled={children[currentStep].props.isValidated ? !children[currentStep].props.isValidated() : false}
-            onClick={isLastStep ? this._handleFinalClick : this._handleNextClick}>
-            Next
-          </button>
+          <div className="secondary">
+            {!isFirstStep && (
+              <button
+                className="previous secondary"
+                onClick={this._handlePreviousClick}>
+                Previous
+              </button>
+            )}
+          </div>
         </menu>
       </div>
     )

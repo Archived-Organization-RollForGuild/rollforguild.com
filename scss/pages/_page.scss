@@ -5,10 +5,14 @@
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  padding: 0 2rem 2rem;
 
   > header {
-    font-size: 2em;
-    padding: 2rem;
+    background-color: $black;
+    margin-bottom: 2rem;
+    margin-left: -2rem;
+    margin-right: -2rem;
+    padding: 0 2rem;
   }
 }
 

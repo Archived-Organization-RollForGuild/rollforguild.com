@@ -1,5 +1,5 @@
 // Module imports
-import fetch from 'isomorphic-fetch'
+import 'isomorphic-fetch'
 
 
 
@@ -16,7 +16,7 @@ export const getRuleset = ruleset => async dispatch => {
   dispatch({ type: actionTypes.GET_RULESET })
 
   try {
-    const response = await fetch(`/api/rulesets/${ruleset}`)
+    const response = await fetch(`/local-api/rulesets/${ruleset}`)
     const payload = await response.json()
 
     dispatch({
@@ -40,7 +40,7 @@ export const getRulesets = () => async dispatch => {
   dispatch({ type: actionTypes.GET_RULESETS })
 
   try {
-    const response = await fetch('/api/rulesets')
+    const response = await fetch('/local-api/rulesets')
     const payload = await response.json()
 
     dispatch({

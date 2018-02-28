@@ -1,0 +1,136 @@
+{
+  "max": 20,
+  "min": 1,
+  "name": "Level",
+  "levels": {
+    "1": {
+      "level": 1,
+      "modifiers": [
+        {
+          "modifier": "(character => character['proficiency-bonus'] + 2)",
+          "type": "proficiency-bonus"
+        }
+      ],
+      "requirement": "(character => character.experience >= 0)"
+    },
+
+    "2": {
+      "level": 2,
+      "requirement": "(character => character.experience >= 300)"
+    },
+
+    "3": {
+      "level": 3,
+      "requirement": "(character => character.experience >= 900)"
+    },
+
+    "4": {
+      "level": 4,
+      "requirement": "(character => character.experience >= 2700)"
+    },
+
+    "5": {
+      "level": 5,
+      "modifiers": [
+        {
+          "modifier": "(character => character['proficiency-bonus'] + 1)",
+          "type": "proficiency-bonus"
+        }
+      ],
+      "requirement": "(character => character.experience >= 6500)"
+    },
+
+    "6": {
+      "level": 6,
+      "requirement": "(character => character.experience >= 14000)"
+    },
+
+    "7": {
+      "level": 7,
+      "requirement": "(character => character.experience >= 23000)"
+    },
+
+    "8": {
+      "level": 8,
+      "requirement": "(character => character.experience >= 34000)"
+    },
+
+    "9": {
+      "level": 9,
+      "modifiers": [
+        {
+          "modifier": "(character => character['proficiency-bonus'] + 1)",
+          "type": "proficiency-bonus"
+        }
+      ],
+      "requirement": "(character => character.experience >= 48000)"
+    },
+
+    "10": {
+      "level": 10,
+      "requirement": "(character => character.experience >= 64000)"
+    },
+
+    "11": {
+      "level": 11,
+      "requirement": "(character => character.experience >= 85000)"
+    },
+
+    "12": {
+      "level": 12,
+      "requirement": "(character => character.experience >= 100000)"
+    },
+
+    "13": {
+      "level": 13,
+      "modifiers": [
+        {
+          "modifier": "(character => character['proficiency-bonus'] + 1)",
+          "type": "proficiency-bonus"
+        }
+      ],
+      "requirement": "(character => character.experience >= 120000)"
+    },
+
+    "14": {
+      "level": 14,
+      "requirement": "(character => character.experience >= 140000)"
+    },
+
+    "15": {
+      "level": 15,
+      "requirement": "(character => character.experience >= 165000)"
+    },
+
+    "16": {
+      "level": 16,
+      "requirement": "(character => character.experience >= 195000)"
+    },
+
+    "17": {
+      "level": 17,
+      "modifiers": [
+        {
+          "modifier": "(character => character['proficiency-bonus'] + 1)",
+          "type": "proficiency-bonus"
+        }
+      ],
+      "requirement": "(character => character.experience >= 225000)"
+    },
+
+    "18": {
+      "level": 18,
+      "requirement": "(character => character.experience >= 265000)"
+    },
+
+    "19": {
+      "level": 19,
+      "requirement": "(character => character.experience >= 305000)"
+    },
+
+    "20": {
+      "level": 20,
+      "requirement": "(character => character.experience >= 355000)"
+    }
+  }
+}

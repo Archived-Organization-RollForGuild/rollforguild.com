@@ -7,92 +7,88 @@ import React from 'react'
 
 
 // Module imports
-import BondChooser from './BondChooser'
+import BackgroundPropChooser from './BackgroundPropChooser'
 import Chooser from '../Chooser/Chooser'
-import Component from '../Component'
-import FlawChooser from './FlawChooser'
-import IdealChooser from './IdealChooser'
-import PersonalityTraitChooser from './PersonalityTraitChooser'
 import Option from './Option'
 
 
 
 
 
-class BackgroundChooser extends Component {
-  constructor (props) {
-    super(props)
+const BackgroundChooser = (props) => {
+  const {
+    character,
+    onBackgroundChange,
+    onBondChange,
+    onFlawChange,
+    onIdealChange,
+    onPersonalityTraitChange,
+    ruleset,
+  } = props
+  const { backgrounds } = ruleset['player-characters']
+  const bonds = character.background ? backgrounds[character.background].bonds : null
+  const flaws = character.background ? backgrounds[character.background].flaws : null
+  const ideals = character.background ? backgrounds[character.background].ideals : null
+  const personalityTraits = character.background ? backgrounds[character.background]['personality-traits'] : null
 
-    console.log('BackgroundChooser', props)
-  }
+  return (
+    <React.Fragment>
+      <header>
+        <h2>Select Your Background</h2>
+      </header>
 
-  render () {
-    const {
-      character,
-      onBackgroundChange,
-      onBondChange,
-      onFlawChange,
-      onIdealChange,
-      onPersonalityTraitChange,
-      ruleset,
-    } = this.props
-    const { backgrounds } = ruleset['player-characters']
-    const bonds = character.background ? backgrounds[character.background].bonds : null
-    const flaws = character.background ? backgrounds[character.background].flaws : null
-    const ideals = character.background ? backgrounds[character.background].ideals : null
-    const personalityTraits = character.background ? backgrounds[character.background]['personality-traits'] : null
-
-    return (
-      <React.Fragment>
-        <header>
-          <h2>Select Your Background</h2>
-        </header>
-
-        <Chooser
-          className="list"
-          options={Object.keys(backgrounds).map(item => ({
-            ...backgrounds[item],
-            value: item,
-          }))}
-          renderButton={false}
-          renderOption={option => (
-            <Option
-              onClick={onBackgroundChange}
-              option={option} />
-          )}
-          returnValue={option => option.value}
-          value={character.background} />
-
-        {personalityTraits && (
-          <PersonalityTraitChooser
-            character={character}
-            personalityTraits={personalityTraits}
-            onChange={onPersonalityTraitChange} />
+      <Chooser
+        className="list"
+        options={Object.keys(backgrounds).map(item => ({
+          ...backgrounds[item],
+          value: item,
+        }))}
+        renderButton={false}
+        renderOption={option => (
+          <Option
+            onClick={onBackgroundChange}
+            option={option} />
         )}
+        returnValue={option => option.value}
+        value={character.background} />
 
-        {ideals && (
-          <IdealChooser
-            character={character}
-            ideals={ideals}
-            onChange={onIdealChange} />
-        )}
+      {character.background && (
+        <div className="background-props">
+          <div className="personality-traits">
+            <BackgroundPropChooser
+              options={personalityTraits}
+              onChange={onPersonalityTraitChange}
+              title="Personality Traits"
+              value={character['personality-trait']} />
+          </div>
 
-        {bonds && (
-          <BondChooser
-            character={character}
-            bonds={bonds}
-            onChange={onBondChange} />
-        )}
+          <div className="ideals">
+            <BackgroundPropChooser
+              options={ideals}
+              onChange={onIdealChange}
+              title="Ideals"
+              value={character.ideal} />
+          </div>
 
-        {flaws && (
-          <FlawChooser
-            character={character}
-            flaws={flaws}
-            onChange={onFlawChange} />
-        )}
-      </React.Fragment>
-    )
-  }
+          <div className="bonds">
+            <BackgroundPropChooser
+              options={bonds}
+              onChange={onBondChange}
+              title="Bonds"
+              value={character.bond} />
+          </div>
+
+          <div className="flaws">
+            <BackgroundPropChooser
+              options={flaws}
+              onChange={onFlawChange}
+              title="Flaws"
+              value={character.flaw} />
+          </div>
+        </div>
+      )}
+    </React.Fragment>
+  )
 }
 
 BackgroundChooser.propTypes = {

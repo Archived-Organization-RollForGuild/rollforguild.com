@@ -17,6 +17,10 @@ import {
 import Head from './Head'
 import Header from './Header'
 
+/* eslint-disable no-unused-expressions */
+preval`if (process.env.NODE_ENV === 'production') require('../helpers/offline')`
+/* eslint-enable */
+
 
 
 
@@ -62,7 +66,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
     }
 
     render () {
-      const mainClasses = ['fade-in', 'page', title.toLowerCase().replace(' ', '-')].join(' ')
+      const mainClasses = ['fade-in', 'page', title.toLowerCase().replace(/\s/g, '-')].join(' ')
 
       return (
         <div role="application">

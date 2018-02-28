@@ -1,0 +1,28 @@
+.avatar {
+  background-size: cover;
+  border-color: $green;
+  border-style: solid;
+  border-width: 0.2rem;
+  border-radius: 50%;
+  overflow: hidden;
+
+  &.tiny {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  &.small {
+    height: 5rem;
+    width: 5rem;
+  }
+
+  &.medium {
+    height: 10rem;
+    width: 10rem;
+  }
+
+  &.large {
+    height: 20rem;
+    width: 20rem;
+  }
+}

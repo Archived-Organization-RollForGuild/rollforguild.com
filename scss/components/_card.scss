@@ -1,0 +1,25 @@
+.card {
+  background-color: #303030;
+  border-radius: 0.25rem;
+  overflow: hidden;
+
+  > header {
+    background-color: #444;
+    font-family: Montserrat, sans-serif;
+    padding: 0 2rem;
+  }
+
+  > .content {
+    padding: 2rem;
+  }
+
+  > footer {
+    background-color: #444;
+    menu {
+      .button,
+      button {
+        border-radius: 0;
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 module.exports = {
-  CONFIG_SECTION_TITLE: {
-    CONFIG_KEY: process.env.CONFIG_KEY || 'DEFAULT_VALUE',
+  api: {
+    url: process.env.RFG_API_URL || 'http://localhost:4000',
   },
 }

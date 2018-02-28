@@ -1,0 +1,25 @@
+.profile {
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-areas: 'header details';
+  grid-template-columns: minmax(25rem, min-content) auto;
+
+  > header {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    grid-area: header;
+
+    .avatar {
+      align-self: center;
+    }
+
+    > * {
+      margin-bottom: 2rem;
+    }
+  }
+
+  > .details {
+    grid-area: details;
+  }
+}

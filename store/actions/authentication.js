@@ -1,5 +1,6 @@
 // Module imports
-import fetch from 'isomorphic-fetch'
+import 'isomorphic-fetch'
+import Cookies from 'js-cookie'
 
 
 
@@ -12,57 +13,138 @@ import actionTypes from '../actionTypes'
 
 
 
+export const confirmAccount = token => async dispatch => {
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.CONFIRM_ACCOUNT })
+
+  try {
+    response = await fetch(`/api/confirmation/${token}`, { method: 'post' })
+
+    success = response.ok
+  } catch (error) {
+    success = false
+  }
+
+  if (success) {
+    response = await response.json()
+
+    Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
+    Cookies.set('userId', response.data.attributes.user_id, { expires: 365 })
+  }
+
+  dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.CONFIRM_ACCOUNT,
+  })
+}
+
+
+
+
+
 export const login = (email, password) => async dispatch => {
+  let response = null
+  let success = false
+
   dispatch({ type: actionTypes.LOGIN })
 
   try {
-    let token = localStorage.getItem('access_token')
+    const token = Cookies.get('accessToken')
 
     if (!token) {
-      const data = JSON.stringify({
-        grant_type: 'password',
-        password,
-        username: email,
-      })
-
-      let response = await fetch('/token', {
-        body: data,
+      response = await fetch('/api/login', {
+        body: JSON.stringify({
+          data: {
+            type: 'auth',
+            attributes: {
+              email,
+              password,
+            },
+          },
+        }),
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'post',
       })
 
-      response = await response.json()
-
-      token = response.access_token
-      localStorage.setItem('access_token', token)
+      success = response.ok
     }
-
-    dispatch({
-      status: 'success',
-      type: actionTypes.LOGIN,
-    })
-
-    /* eslint-disable no-restricted-globals */
-    if (location && location.search) {
-      const searchParams = {}
-
-      location.search.replace(/^\?/, '').split('&').forEach(searchParam => {
-        const [key, value] = searchParam.split('=')
-
-        searchParams[key] = value
-      })
-
-      /* eslint-disable no-global-assign */
-      location = searchParams.destination ? searchParams.destination : '/profile'
-      /* eslint-enable  no-global-assign */
-    }
-    /* eslint-enable */
   } catch (error) {
-    dispatch({
-      status: 'error',
-      type: actionTypes.LOGIN,
-    })
+    success = false
   }
+
+  if (success) {
+    response = await response.json()
+
+    Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
+    Cookies.set('userId', response.data.attributes.user_id, { expires: 365 })
+  }
+
+  return dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.LOGIN,
+  })
+}
+
+
+
+
+
+export const logout = () => async dispatch => {
+  Cookies.remove('accessToken')
+  Cookies.remove('userId')
+
+  dispatch({ type: actionTypes.LOGOUT })
+}
+
+
+
+
+
+export const register = (username, email, password) => async dispatch => {
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.REGISTER })
+
+  try {
+    response = await fetch('/api/register', {
+      body: JSON.stringify({
+        data: {
+          type: 'users',
+          attributes: {
+            email,
+            password,
+            username,
+          },
+        },
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'post',
+    })
+
+    success = response.ok
+  } catch (error) {
+    success = false
+  }
+
+  return dispatch({
+    status: success ? 'success' : 'error',
+    type: actionTypes.REGISTER,
+  })
+}
+
+
+
+
+
+export const resetAuthenticationState = () => dispatch => {
+  dispatch({ type: actionTypes.RESET_AUTHENTICATION_STATE })
 }

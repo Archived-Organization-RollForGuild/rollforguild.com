@@ -1,5 +1,14 @@
 form {
-  > *:not(:last-child) {
-    margin-bottom: 2rem;
+  max-width: 80rem;
+  // padding: 2rem;
+
+  input[aria-label],
+  menu {
+    grid-column-end: -1;
+    grid-column-start: 1;
+  }
+
+  menu {
+    padding: 0;
   }
 }

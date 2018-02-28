@@ -1,0 +1,58 @@
+.page.manage-group {
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-areas:
+    'header header'
+    'games members'
+    'description members'
+    'location members';
+  grid-template-columns: auto min-content;
+  grid-template-rows: min-content auto;
+
+  > header {
+    grid-area: header;
+    height: auto;
+  }
+
+  .description {
+    grid-area: description;
+  }
+
+  .games {
+    grid-area: games;
+  }
+
+  .location {
+    grid-area: location;
+  }
+
+  .players {
+    grid-area: members;
+
+    li {
+      background-color: $black;
+      display: grid;
+      grid-gap: 2rem;
+      grid-template-areas:
+        'avatar username'
+        'avatar actions';
+      padding: 2rem;
+
+      &:not(:last-child) {
+        margin-bottom: 2rem;
+      }
+
+      .avatar {
+        grid-area: avatar;
+      }
+
+      header {
+        grid-area: username;
+      }
+
+      menu {
+        grid-area: actions;
+      }
+    }
+  }
+}

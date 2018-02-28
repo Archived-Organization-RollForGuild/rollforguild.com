@@ -1,0 +1,7 @@
+.background-chooser {
+  .background-props {
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(auto, calc(50% - 1rem)));
+  }
+}

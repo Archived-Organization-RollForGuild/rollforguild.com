@@ -1,0 +1,111 @@
+.page.user-profile,
+.page.edit-profile {
+  --content-border: 1px solid $black;
+  --content-background: rgba($black, .35);
+
+  header {
+    align-items: center;
+    justify-content: left;
+    margin-bottom: 2rem;
+
+    h1 {
+      margin-bottom: 0;
+    }
+
+    .button.edit-button {
+      padding: 0 1rem;
+      margin-left: 2rem;
+    }
+  }
+
+  .page-content {
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-areas:
+      'userdetails bio'
+      'userdetails playedgames'
+      'userdetails unplayedgames'
+      'userdetails groups';
+    grid-template-columns: min-content auto;
+    grid-template-rows: auto;
+
+    .user-details {
+      grid-area: userdetails;
+
+      .user-details-card {
+        height: auto;
+        background: var(--content-background);
+        border: 1px solid $black;
+        padding: 2rem;
+
+        .user-image {
+          border: .5rem solid $green;
+          border-radius: 50%;
+          display: block;
+          width: 150px;
+          height: 150px;
+          margin: 0 auto;
+        }
+
+        .user-name {
+          text-align: center;
+        }
+
+        menu {
+          justify-content: center;
+
+          *:not(:first-child) {
+            margin-left: .5rem;
+          }
+        }
+      }
+    }
+
+    ul.gamelist {
+      background: var(--content-background);
+      border: var(--content-border);
+      margin: 0 0 0 2rem;
+      max-width: 50%;
+
+      li {
+        padding: 0 1rem;
+
+        &:not(:last-child) {
+          border-bottom: var(--content-border);
+        }
+      }
+    }
+
+    .profile-section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      h4 {
+        margin-bottom: 0;
+      }
+
+      .section-content {
+        background: var(--content-background);
+        border: var(--content-border);
+        margin-left: 2rem;
+        padding: 1rem;
+      }
+    }
+
+    .user-bio {
+      grid-area: bio;
+    }
+    .user-favorite-games {
+      grid-area: playedgames;
+    }
+
+    .user-unplayed-games {
+      grid-area: unplayedgames;
+    }
+
+    .groups {
+      grid-area: groups;
+    }
+  }
+}

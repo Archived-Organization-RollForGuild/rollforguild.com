@@ -2,13 +2,11 @@ $border-color: $green;
 
 button,
 .button {
-  background-color: $black;
-  border-color: $border-color;
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 0.25rem;
   border-style: solid;
-  border-width: 0;
-  border-radius: 0;
-  border-left-width: 1px;
-  border-right-width: 1px;
+  border-width: 0.1rem;
   color: $white;
   cursor: pointer;
   font-family: inherit;
@@ -16,69 +14,154 @@ button,
   font-weight: inherit;
   line-height: inherit;
   padding: 1rem 2rem;
-  position: relative;
   text-decoration: none;
   transition:
     background-color 0.2s,
     border-color 0.2s,
     color 0.2s;
 
-  &:after,
-  &:before {
-    background-color: $border-color;
-    content: '';
-    height: 1px;
-    position: absolute;
-    transition: width 0.2s;
-    width: 100%;
-  }
-
-  &:after {
-    bottom: 0;
-    right: 0;
-  }
-
-  &:before {
-    left: 0;
-    top: 0;
-  }
-
-  &:not([disabled]):not(.disabled) {
-    &.inactive {
-      opacity: 0.6;
-
-      &:after,
-      &:before {
-        width: 0;
-      }
-    }
-
-    &:active,
-    &:focus,
-    &:hover,
-    &.active {
-      background-color: rgba($green, 0.1);
-
-      &:after,
-      &:before {
-        width: 100%;
-      }
-    }
-
-    &.active {
-      background-color: $green;
-      color: $black;
-    }
-  }
-
-  &[disabled],
+  &:disabled,
   &.disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
+    cursor: auto;
+    opacity: 0.65;
+  }
+
+  &.inline {
+    padding: 0;
+  }
+
+  &.compact {
+    padding: 0 1rem;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  // Button styles
+
+  &.danger,
+  &.success {
+    &:after,
+    &:before {
+      display: none;
+    }
+  }
+
+  &.danger {
+    background-color: $red;
+    border-color: $red;
+    color: $white;
+
+    &:hover {
+      background-color: #e12e1c;
+      border-color: #d62c1a;
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: $red;
+      border-color: $red;
+    }
+  }
+
+  &.info {
+    background-color: #3498db;
+    border-color: #3498db;
+    color: $white;
+
+    &:hover {
+      background-color: #2384c6;
+      border-color: #217dbb;
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: #3498db;
+      border-color: #3498db;
+    }
+  }
+
+  &.link {
+    background-color: transparent;
+    border-color: transparent;
+    color: $light-blue;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.2s;
 
     &:after,
     &:before {
       width: 0;
+    }
+
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+  }
+
+  &.secondary {
+    background-color: #444;
+    border-color: #444;
+    color: $white;
+
+    &:hover {
+      background-color: #313131;
+      border-color: #2b2a2a;
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: #444;
+      border-color: #444;
+    }
+  }
+
+  &.success {
+    background-color: #00bc8c;
+    color: $white;
+
+    &:hover {
+      background-color: #009670;
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: $green;
+    }
+  }
+
+  &.binary {
+    background-color: #444;
+    border-color: #444;
+    color: $white;
+
+    &:hover {
+      background-color: #313131;
+      border-color: #2b2a2a;
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: #444;
+      border-color: #444;
+    }
+
+    &[data-on=true] {
+      background-color: #3498db;
+      border-color: #3498db;
+      color: $white;
+
+      &:hover {
+        background-color: #2384c6;
+        border-color: #217dbb;
+      }
+
+      &:disabled,
+      &.disabled {
+        background-color: #3498db;
+        border-color: #3498db;
+      }
     }
   }
 }

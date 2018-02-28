@@ -95,8 +95,8 @@ class Character extends Component {
 
 const mapDispatchToProps = ['getCharacter', 'getRuleset']
 
-const mapStateToProps = state => ({
-  ...state.character,
+const mapStateToProps = (state, ownProps) => ({
+  character: state.characters[ownProps.query.id],
   ruleset: state.rulesets['dnd-5e'],
 })
 

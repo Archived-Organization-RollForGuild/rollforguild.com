@@ -1,5 +1,33 @@
 .input-group {
-  display: grid;
-  grid-gap: 2rem;
-  grid-template-columns: 20% auto;
+  align-content: stretch;
+  align-items: stretch;
+  background-color: $white;
+  color: $light-grey;
+  display: flex;
+  transition: color 0.2s;
+
+  > :not(:first-child) {
+    border-left-color: $light-grey;
+    border-left-style: solid;
+    border-left-width: 0.1rem;
+    flex-grow: 1;
+  }
+
+  > label {
+    padding: 0.5rem 1rem;
+  }
+
+  > input {
+    flex-shrink: 1;
+  }
+
+  > button {
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  .squishable {
+    flex-shrink: 1;
+    width: auto;
+  }
 }

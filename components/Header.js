@@ -1,12 +1,12 @@
 // Module imports
-import Link from 'next/link'
 import React from 'react'
 
 
 
 
 
-// Module imports
+// Component imports
+import { Link } from '../routes'
 import Nav from './Nav'
 
 

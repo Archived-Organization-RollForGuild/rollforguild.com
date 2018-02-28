@@ -8,8 +8,10 @@ const cookie = require('koa-cookie')
 const fs = require('fs')
 const path = require('path')
 const router = require('koa-router')()
+const send = require('koa-send')
 const uuid = require('uuid/v4')
 
+const routes = require('../../routes')
 const recursivelyConvertDirectoryStructureIntoJSON = require('../helpers/recursivelyConvertDirectoryStructureIntoJSON')
 
 
@@ -21,7 +23,7 @@ module.exports = function foo (nextjs, koa) {
     Router setup
   \******************************************************************************/
 
-  const handle = nextjs.getRequestHandler()
+  const handle = routes.getRequestHandler(nextjs)
 
   router.use(cookie.default())
 
@@ -56,16 +58,16 @@ module.exports = function foo (nextjs, koa) {
   //   await ctx.redirect(`[ROUTE_TO_REDIRECT_THE_USER_TO]`)
   // })
 
+  router.get('/browserconfig.xml', async ctx => {
+    await send(ctx, '/static/browserconfig.xml')
+  })
 
+  router.get('/sitemap.xml', async ctx => {
+    await send(ctx, '/static/sitemap.xml')
+  })
 
-
-
-  /******************************************************************************\
-    Parameterized routes
-  \******************************************************************************/
-
-  router.get(['/my/characters/:id'], async ctx => {
-    await nextjs.render(ctx.request, ctx.res, '/my/character', Object.assign({}, ctx.query, ctx.params))
+  router.get('/sw.js', async ctx => {
+    await send(ctx, '/static/sw.js')
   })
 
 
@@ -77,7 +79,7 @@ module.exports = function foo (nextjs, koa) {
   \******************************************************************************/
 
   // Get all rulesets
-  router.get(['/api/rulesets'], async ctx => {
+  router.get(['/local-api/rulesets'], async ctx => {
     const rulesetsPath = path.resolve('data', 'rulesets')
 
     ctx.body = {
@@ -88,7 +90,7 @@ module.exports = function foo (nextjs, koa) {
   })
 
   // Get a ruleset
-  router.get(['/api/rulesets/:ruleset'], async ctx => {
+  router.get(['/local-api/rulesets/:ruleset'], async ctx => {
     const rulesetsPath = path.resolve('data', 'rulesets')
     const availableRulesets = fs.readdirSync(rulesetsPath)
 
@@ -108,7 +110,7 @@ module.exports = function foo (nextjs, koa) {
   })
 
   // Create entity
-  router.post(['/api/:entityType'], async ctx => {
+  router.post(['/local-api/:entityType'], async ctx => {
     const { body } = ctx.request
 
     body.id = uuid()
@@ -120,7 +122,7 @@ module.exports = function foo (nextjs, koa) {
   })
 
   // Get a list of entities
-  router.get(['/api/:entityType'], async ctx => {
+  router.get(['/local-api/:entityType'], async ctx => {
     const entityTypePath = path.resolve('data', ctx.params.entityType)
     ctx.body = fs.readdirSync(entityTypePath)
 
@@ -130,7 +132,7 @@ module.exports = function foo (nextjs, koa) {
   })
 
   // Get a specific entity
-  router.get(['/api/:entityType/:id'], async ctx => {
+  router.get(['/local-api/:entityType/:id'], async ctx => {
     const entityFilePath = path.resolve('data', ctx.params.entityType, `${ctx.params.id}.json`)
 
     try {

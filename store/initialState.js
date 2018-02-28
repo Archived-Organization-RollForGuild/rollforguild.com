@@ -1,29 +1,16 @@
+import Cookies from 'js-cookie'
+
 export default {
   authentication: {
-    loggedIn: false,
-    loggingIn: false,
-    loggingOut: false,
-    registering: false,
+    loggedIn: !!Cookies.get('accessToken'),
   },
 
-  character: {
-    character: null,
-    loaded: false,
-    loading: false,
-  },
+  characters: {},
 
-  characters: {
-    characters: [],
-    loaded: false,
-    loading: false,
-  },
+  groups: {},
 
   rulesets: {},
 
-  user: {
-    id: (typeof localStorage !== 'undefined') ? localStorage.getItem('userId') : null,
-    loaded: false,
-    loading: false,
-    name: null,
-  },
+  users: {},
 }
+

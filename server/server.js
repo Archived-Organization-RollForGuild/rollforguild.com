@@ -4,6 +4,9 @@
   Module imports
 \******************************************************************************/
 
+// Import variables from .env file.
+require('dotenv').config()
+
 const body = require('koa-body')
 const compress = require('koa-compress')
 const config = require('./config')
@@ -12,6 +15,9 @@ const etag = require('koa-etag')
 const Koa = require('koa')
 const logger = require('koa-logger')
 const path = require('path')
+const removeTrailingSlashes = require('koa-no-trailing-slash')
+const robotsTxt = require('koa-robots.txt')
+const SitemapGenerator = require('sitemap-generator')
 
 const next = require('next')({
   dev: process.env.NODE_ENV !== 'production',
@@ -35,6 +41,8 @@ next.prepare().then(() => {
   // Set up the logger
   koa.use(logger())
 
+  koa.use(removeTrailingSlashes())
+
   // Configure proxies
   proxy(koa, config)
 
@@ -44,6 +52,9 @@ next.prepare().then(() => {
   // Parse request bodies
   koa.use(body())
 
+  // Serve up the robots.txt
+  koa.use(robotsTxt(['rollforguild.com']))
+
   // Configure the router
   router(next, koa, config)
 
@@ -51,6 +62,10 @@ next.prepare().then(() => {
   koa.use(conditional())
   koa.use(etag())
 
+  if (process.env.NODE_ENV === 'production') {
+    SitemapGenerator('http://rollforguild.com', { filepath: './static/sitemap.xml' }).start()
+  }
+
   // Start the server
-  koa.listen(process.env.PORT || 3000)
+  koa.listen(process.env.RFG_APP_PORT || 3000)
 })

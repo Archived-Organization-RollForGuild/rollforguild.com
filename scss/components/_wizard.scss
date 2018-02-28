@@ -14,9 +14,10 @@
       border-bottom-width: 1px;
       display: flex;
       flex-shrink: 0;
+      margin-bottom: 0;
+      overflow-x: auto;
       padding: 2rem;
       position: relative;
-      overflow-x: auto;
 
       .step-title {
         display: flex;
@@ -103,12 +104,16 @@
     }
 
     menu {
-      .next {
+      .primary {
         margin-left: auto;
+        margin-right: 0;
+        order: 2;
       }
 
-      .previous {
+      .secondary {
+        margin-left: 0;
         margin-right: auto;
+        order: 1;
       }
     }
   }

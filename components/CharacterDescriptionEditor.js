@@ -6,7 +6,9 @@ import React from 'react'
 
 
 // Module imports
+// import Combobox from './Combobox'
 import Component from './Component'
+import Dropdown from './Dropdown'
 
 
 
@@ -14,8 +16,20 @@ import Component from './Component'
 
 export default class extends Component {
   /***************************************************************************\
-    Public Methods
+    Private Methods
   \***************************************************************************/
+
+  static _filterDropdownOptions (options, value) {
+    const regex = new RegExp(`${value}.*`, 'gi')
+
+    return options.filter(option => regex.test(option))
+  }
+
+  _handleAlignmentChange (alignment) {
+    if (this.props.onChange) {
+      this.props.onChange('alignment', alignment)
+    }
+  }
 
   _handleChange (event) {
     const { target } = event
@@ -36,7 +50,10 @@ export default class extends Component {
   constructor (props) {
     super(props)
 
-    this._bindMethods(['_handleChange'])
+    this._bindMethods([
+      '_handleAlignmentChange',
+      '_handleChange',
+    ])
   }
 
   render () {
@@ -47,7 +64,7 @@ export default class extends Component {
     const { description } = ruleset['player-characters']
 
     return (
-      <form className="vertical">
+      <form>
         {Object.keys(description).map(property => {
           const {
             name,
@@ -58,9 +75,7 @@ export default class extends Component {
           const value = character.description[property]
 
           return (
-            <div
-              className="input-group"
-              key={property}>
+            <fieldset key={property}>
               <label htmlFor={property}>{name}</label>
 
               {['number', 'text'].includes(type) && (
@@ -71,7 +86,7 @@ export default class extends Component {
                   placeholder={placeholder}
                   type={type}
                   value={value} />
-                )}
+              )}
 
               {type === 'long-text' && (
                 <textarea
@@ -80,24 +95,16 @@ export default class extends Component {
                   onChange={this._handleChange}
                   placeholder={placeholder}
                   value={value} />
-                )}
+              )}
 
               {type === 'select' && (
-                <select
-                  id={property}
+                <Dropdown
+                  filter={Dropdown._filterDropdownOptions}
                   name={property}
-                  onChange={this._handleChange}
-                  value={value}>
-                  {options.map(option => (
-                    <option
-                      key={option}
-                      value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+                  options={options}
+                  placeholder="Choose your alignment..." />
               )}
-            </div>
+            </fieldset>
           )
         })}
       </form>

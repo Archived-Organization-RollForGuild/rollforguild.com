@@ -6,6 +6,10 @@ import React from 'react'
 
 
 // Component imports
+import {
+  Link,
+  Router,
+} from '../routes'
 import Component from '../components/Component'
 import Page from '../components/Page'
 
@@ -25,10 +29,19 @@ class Login extends Component {
     Private Methods
   \***************************************************************************/
 
-  _onSubmit (event) {
+  async _onSubmit (event) {
+    const { password, email } = this.state
+
     event.preventDefault()
 
-    console.log('logging in:', this.state)
+    this.setState({ loggingIn: true })
+
+    const result = await this.props.login(email, password)
+
+    this.setState({
+      loggingIn: false,
+      status: result.status,
+    })
   }
 
 
@@ -38,6 +51,26 @@ class Login extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
+
+  componentDidUpdate () {
+    const { loggedIn } = this.props
+
+    if (loggedIn && (loggedIn !== 'error')) {
+      const searchParams = {}
+
+      /* eslint-disable no-restricted-globals */
+      if (location) {
+        location.search.replace(/^\?/, '').split('&').forEach(searchParam => {
+          const [key, value] = searchParam.split('=')
+
+          searchParams[key] = value
+        })
+      }
+      /* eslint-enable */
+
+      Router.push(searchParams.destination ? searchParams.destination : '/')
+    }
+  }
 
   constructor (props) {
     super(props)
@@ -49,14 +82,18 @@ class Login extends Component {
 
     this.state = {
       email: '',
+      loggingIn: false,
       password: '',
+      status: null,
     }
   }
 
   render () {
     const {
       email,
+      loggingIn,
       password,
+      status,
     } = this.state
 
     return (
@@ -66,33 +103,65 @@ class Login extends Component {
         </header>
 
         <form onSubmit={this._onSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
+          <fieldset>
+            <div className="input-group">
+              <label htmlFor="email">
+                <i className="fas fa-fw fa-user" />
+              </label>
 
-            <input
-              id="email"
-              name="email"
-              onChange={this._handleChange}
-              placeholder="john.doe@example.com"
-              type="email"
-              value={email} />
-          </div>
+              <input
+                aria-label="Email"
+                disabled={loggingIn}
+                id="email"
+                name="email"
+                onChange={this._handleChange}
+                placeholder="Email"
+                type="email"
+                value={email} />
+            </div>
+          </fieldset>
 
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
+          <fieldset>
+            <div className="input-group">
+              <label htmlFor="password">
+                <i className="fas fa-fw fa-lock" />
+              </label>
 
-            <input
-              id="password"
-              name="password"
-              onChange={this._handleChange}
-              placeholder="We recommend using a password manager like 1Password"
-              type="password"
-              value={password} />
-          </div>
+              <input
+                aria-label="Password"
+                disabled={loggingIn}
+                id="password"
+                name="password"
+                onChange={this._handleChange}
+                placeholder="Password"
+                type="password"
+                value={password} />
+            </div>
+          </fieldset>
 
           <menu type="toolbar">
-            <button type="submit">Login</button>
+            <div className="primary">
+              <button
+                className="success"
+                type="submit">
+                Login
+              </button>
+            </div>
+
+            <div className="secondary">
+              <Link href="/register">
+                <a className="button link">
+                  Sign Up
+                </a>
+              </Link>
+            </div>
           </menu>
+
+          {(status === 'error') && (
+            <React.Fragment>
+              <p>There seems to have been an error when trying to log in to your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
+            </React.Fragment>
+          )}
         </form>
       </React.Fragment>
     )
@@ -103,4 +172,15 @@ class Login extends Component {
 
 
 
-export default Page(Login, title)
+const mapDispatchToProps = ['login']
+
+const mapStateToProps = state => ({ ...state.authentication })
+
+
+
+
+
+export default Page(Login, title, {
+  mapStateToProps,
+  mapDispatchToProps,
+})
