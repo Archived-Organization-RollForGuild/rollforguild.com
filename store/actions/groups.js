@@ -158,6 +158,40 @@ export const handleJoinRequest = (groupId, userId, status) => async dispatch => 
 
 
 
+export const leaveGroup = groupId => async dispatch => {
+  const accessToken = Cookies.get('accessToken')
+  const userId = Cookies.get('userId')
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.LEAVE_GROUP })
+
+  try {
+    response = await fetch(`/api/groups/${groupId}/members/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      method: 'delete',
+    })
+
+    success = response.ok
+
+    response = await response.json()
+  } catch (error) {
+    success = false
+  }
+
+  return dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.LEAVE_GROUP,
+  })
+}
+
+
+
+
+
 export const requestToJoinGroup = groupId => async dispatch => {
   const accessToken = Cookies.get('accessToken')
   let response = null

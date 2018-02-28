@@ -66,6 +66,7 @@ class JoinRequestCard extends Component {
     this._bindMethods([
       '_accept',
       '_ignore',
+      '_leave',
     ])
     this.state = {
       accepting: false,
@@ -165,6 +166,19 @@ class GroupProfile extends Component {
     await this._handleJoinRequest(userId, 'ignored')
   }
 
+  async _leaveGroup () {
+    const {
+      group,
+      leaveGroup,
+    } = this.props
+
+    this.setState({ leaving: true })
+
+    await leaveGroup(group.id)
+
+    window.location.reload()
+  }
+
   async _requestToJoin () {
     const {
       group,
@@ -233,6 +247,7 @@ class GroupProfile extends Component {
     this._bindMethods([
       '_acceptJoinRequest',
       '_ignoreJoinRequest',
+      '_leaveGroup',
       '_requestToJoin',
       '_requestToJoin',
     ])
@@ -259,6 +274,7 @@ class GroupProfile extends Component {
       gettingJoinRequests,
       joinRequests,
       joinRequestSent,
+      leaving,
       loaded,
       requestingToJoin,
     } = this.state
@@ -319,8 +335,15 @@ class GroupProfile extends Component {
               )}
 
               {currentUserIsMember && (
-                <button className="danger">
-                  Leave group
+                <button
+                  className="danger"
+                  disabled={leaving}
+                  onClick={this._leaveGroup}>
+                  {!leaving && 'Leave group'}
+
+                  {leaving && (
+                    <span><i className="fas fa-pulse fa-spinner" /> Leaving group...</span>
+                  )}
                 </button>
               )}
             </menu>
@@ -471,6 +494,7 @@ const mapDispatchToProps = [
   'getGroup',
   'getJoinRequests',
   'handleJoinRequest',
+  'leaveGroup',
   'requestToJoinGroup',
 ]
 
