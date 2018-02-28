@@ -23,13 +23,14 @@
     grid-template-areas:
       'userdetails bio'
       'userdetails playedgames'
-      'userdetails unplayedgames';
+      'userdetails unplayedgames'
+      'userdetails groups';
     grid-template-columns: min-content auto;
     grid-template-rows: auto;
 
     .user-details {
       grid-area: userdetails;
-    
+
       .user-details-card {
         height: auto;
         background: var(--content-background);
@@ -53,7 +54,7 @@
           justify-content: center;
 
           *:not(:first-child) {
-            margin-left: .5rem; 
+            margin-left: .5rem;
           }
         }
       }
@@ -88,11 +89,17 @@
         border: var(--content-border);
       }
     }
+
     .user-favorite-games {
       grid-area: playedgames;
     }
+
     .user-unplayed-games {
-      grid-area: unplayedgames
+      grid-area: unplayedgames;
+    }
+
+    .groups {
+      grid-area: groups;
     }
   }
 }
