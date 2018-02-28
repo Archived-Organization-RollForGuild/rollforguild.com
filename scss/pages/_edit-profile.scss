@@ -72,8 +72,14 @@
 
     .profile-section .section-content.editor {
 
-      input {
+      input:not(:last-child) {
         margin-bottom: 1rem;
+      }
+      textarea {
+        min-width: 80%;
+        resize: both;
+        vertical-align: top;
+        display: block;
       }
     }
 

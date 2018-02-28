@@ -275,7 +275,7 @@ class UserEditor extends Component {
         <div className="profile-section user-bio">
           <h4>Your Bio</h4>
           { editors.bio ? (
-            <div className="section-content">
+            <div className="section-content editor bio-editor">
               <textarea
                 disabled={submitting}
                 id="bio"
