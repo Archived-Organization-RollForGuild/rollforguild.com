@@ -1,4 +1,5 @@
-.page.user-profile {
+.page.user-profile,
+.page.edit-profile {
   --content-border: 1px solid $black;
   --content-background: rgba($black, .35);
 
@@ -29,7 +30,7 @@
 
     .user-details {
       grid-area: userdetails;
-    
+
       .user-details-card {
         height: auto;
         background: var(--content-background);
@@ -53,14 +54,10 @@
           justify-content: center;
 
           *:not(:first-child) {
-            margin-left: .5rem; 
+            margin-left: .5rem;
           }
         }
       }
-    }
-
-    h4 {
-      margin-bottom: 0;
     }
 
     ul.gamelist {
@@ -70,7 +67,7 @@
       max-width: 50%;
 
       li {
-        padding-left: 1rem;
+        padding: 0 1rem;
 
         &:not(:last-child) {
           border-bottom: var(--content-border);
@@ -78,15 +75,25 @@
       }
     }
 
-    .user-bio {
-      grid-area: bio;
+    .profile-section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
 
-      .bio-content {
-        margin-left: 2rem;
-        padding-left: 1rem;
+      h4 {
+        margin-bottom: 0;
+      }
+
+      .section-content {
         background: var(--content-background);
         border: var(--content-border);
+        margin-left: 2rem;
+        padding: 0 1rem;
       }
+    }
+
+    .user-bio {
+      grid-area: bio;
     }
     .user-favorite-games {
       grid-area: playedgames;
