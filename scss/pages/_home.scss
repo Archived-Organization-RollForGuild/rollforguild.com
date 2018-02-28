@@ -5,9 +5,11 @@
       url(/static/images/dice.jpg);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 75%, cover;
+    background-size: 50%, cover;
     flex-shrink: 0;
-    height: 100vh;
+    height: 50vh;
+    margin-left: -2rem;
+    margin-right: -2rem;
   }
 
   p {
