@@ -102,57 +102,6 @@ class UserEditor extends Component {
     })
     return null
   }
-
-  updateUserAttribute (attribute, newValue) {
-    const {
-      user,
-      dirtyFields,
-    } = this.state
-
-    if (!user || !user.attributes) {
-      return // Just in case.
-    }
-    const origValue = user.attributes[attribute]
-    const curValue = dirtyFields[attribute]
-
-    const newDirtyFields = { ...dirtyFields }
-
-
-    if (typeof newDirtyFields[attribute] !== 'undefined' && newValue === origValue) {
-      delete newDirtyFields[attribute]
-    } else if (typeof origValue !== 'undefined' && newValue !== origValue && newValue !== curValue) {
-      newDirtyFields[attribute] = newValue
-    } else {
-      return
-    }
-
-    this.setState({ dirtyFields: newDirtyFields })
-  }
-
-  toggleEditor(event, editorName, isActive) {
-    if (event) {
-      event.preventDefault()
-    }
-
-    this.setState({
-      editors: {
-        ...this.state.editors,
-        [editorName]: typeof isActive === 'boolean' ? isActive : !this.state.editors[editorName],
-      },
-    })
-  }
-
-  updatePasswordAttribute(attribute, newValue) {
-    this.setState({
-      passwordAttributes: {
-        ...this.state.passwordAttributes,
-        [attribute]: newValue,
-      },
-    })
-  }
-
-
-
   async handleEditSubmit(event) {
     event.preventDefault()
 
@@ -223,6 +172,55 @@ class UserEditor extends Component {
         user: newUser || user,
       })
     }
+  }
+
+  updateUserAttribute (attribute, newValue) {
+    const {
+      user,
+      dirtyFields,
+    } = this.state
+
+    if (!user || !user.attributes) {
+      return // Just in case.
+    }
+
+    const origValue = user.attributes[attribute]
+    const curValue = dirtyFields[attribute]
+
+    const newDirtyFields = { ...dirtyFields }
+
+
+    if (typeof newDirtyFields[attribute] !== 'undefined' && newValue === origValue) {
+      delete newDirtyFields[attribute]
+    } else if (typeof origValue !== 'undefined' && newValue !== origValue && newValue !== curValue) {
+      newDirtyFields[attribute] = newValue
+    } else {
+      return
+    }
+
+    this.setState({ dirtyFields: newDirtyFields })
+  }
+
+  toggleEditor(event, editorName, isActive) {
+    if (event) {
+      event.preventDefault()
+    }
+
+    this.setState({
+      editors: {
+        ...this.state.editors,
+        [editorName]: typeof isActive === 'boolean' ? isActive : !this.state.editors[editorName],
+      },
+    })
+  }
+
+  updatePasswordAttribute(attribute, newValue) {
+    this.setState({
+      passwordAttributes: {
+        ...this.state.passwordAttributes,
+        [attribute]: newValue,
+      },
+    })
   }
 
   renderUserEditor () {
