@@ -5,14 +5,8 @@
 
   input,
   ul {
-    width: 100%;
-  }
-
-  div[role=button] {
     background-color: $white;
-    cursor: pointer;
-    outline: none;
-    padding: 0.5rem 1rem;
+    width: min-content;
   }
 
   ul {
@@ -21,13 +15,7 @@
     position: absolute;
     right: 0;
     top: 100%;
-  }
-
-  button,
-  div[role=button] {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    width: 100%;
   }
 
   button {
@@ -35,7 +23,10 @@
     border-left-color: $black;
     border-left-style: solid;
     border-left-width: 0.1rem;
+    overflow: hidden;
     text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     width: 100%;
 
     &:after,
@@ -53,10 +44,6 @@
     }
   }
 
-  div[role=button] {
-    color: $black;
-  }
-
   &:not(.focus) {
     ul {
       display: none;
@@ -65,8 +52,7 @@
   }
 
   &:not(.searchable) {
-    button,
-    div[role=button] {
+    input {
       padding-right: 3rem;
     }
 

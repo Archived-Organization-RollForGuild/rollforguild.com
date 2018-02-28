@@ -24,7 +24,8 @@
     grid-template-areas:
       'userdetails bio'
       'userdetails playedgames'
-      'userdetails unplayedgames';
+      'userdetails unplayedgames'
+      'userdetails groups';
     grid-template-columns: min-content auto;
     grid-template-rows: auto;
 
@@ -98,8 +99,13 @@
     .user-favorite-games {
       grid-area: playedgames;
     }
+
     .user-unplayed-games {
-      grid-area: unplayedgames
+      grid-area: unplayedgames;
+    }
+
+    .groups {
+      grid-area: groups;
     }
   }
 }

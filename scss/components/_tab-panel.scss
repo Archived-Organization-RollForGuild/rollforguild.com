@@ -1,0 +1,29 @@
+.tab-panel {
+  .tab-header {
+    border-bottom-width: 0.1rem;
+    border-color: #444;
+    border-style: solid;
+    justify-content: flex-start;
+
+    button {
+      border-color: transparent;
+      border-radius: 0;
+      border-style: solid;
+      border-width: 0.1rem;
+      border-bottom: none;
+      border-top-left-radius: 0.25rem;
+      border-top-right-radius: 0.25rem;
+      margin-right: 0.5rem;
+
+      &.active,
+      &:focus,
+      &:hover {
+        border-color: #444;
+      }
+    }
+  }
+
+  .tab {
+    padding-top: 2rem;
+  }
+}

@@ -99,10 +99,10 @@ export default class extends Component {
 
               {type === 'select' && (
                 <Dropdown
-                  defaultValue={options[0]}
                   filter={Dropdown._filterDropdownOptions}
                   name={property}
-                  options={options} />
+                  options={options}
+                  placeholder="Choose your alignment..." />
               )}
             </fieldset>
           )
