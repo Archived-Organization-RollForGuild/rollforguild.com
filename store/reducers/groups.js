@@ -21,14 +21,24 @@ export default function (state = initialState.groups, action) {
 
         newGroups = Object.values(newGroups).reduce((accumulator, group) => {
           const oldGroup = state[group.id]
-          const memberStatus = group.member_status || (oldGroup ? oldGroup.member_status : null)
+
+          if (oldGroup) {
+            return {
+              ...accumulator,
+              [group.id]: {
+                ...oldGroup,
+                ...group,
+                attributes: {
+                  ...oldGroup.attributes,
+                  ...group.attributes,
+                },
+              },
+            }
+          }
 
           return {
             ...accumulator,
-            [group.id]: {
-              ...group,
-              member_status: memberStatus,
-            },
+            [group.id]: { ...group },
           }
         }, {})
 
