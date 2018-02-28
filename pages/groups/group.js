@@ -66,7 +66,6 @@ class JoinRequestCard extends Component {
     this._bindMethods([
       '_accept',
       '_ignore',
-      '_leave',
     ])
     this.state = {
       accepting: false,
