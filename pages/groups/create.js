@@ -10,6 +10,7 @@ import Switch from 'rc-switch'
 import { Router } from '../../routes'
 import AddressInput from '../../components/AddressInput'
 import Component from '../../components/Component'
+import convertStringToSlug from '../../helpers/convertStringToSlug'
 import Page from '../../components/Page'
 
 
@@ -55,7 +56,7 @@ class CreateGroup extends Component {
       discoverable,
       games: games.split(',').map(game => game.trim()),
       name,
-      slug: slug || CreateGroup._sanitizeName(name),
+      slug: slug || convertStringToSlug(name),
     })
     const groupId = payload.data.id
 
@@ -77,10 +78,6 @@ class CreateGroup extends Component {
     }
 
     return true
-  }
-
-  static _sanitizeName (name) {
-    return encodeURIComponent(name.toLowerCase().replace(/[^\w\s-]/gi, '').replace(/\s|_/gi, '-').replace(/-+/gi, '-'))
   }
 
 
@@ -134,8 +131,8 @@ class CreateGroup extends Component {
               disabled={submitting}
               id="group-name"
               onChange={({ target }) => this.setState({ name: target.value })}
-              pattern="(\w|\s)+"
-              placeholder="e.g. Quigley's Tavern"
+              pattern="[\w\s_-]+"
+              placeholder="Quigley's Tavern"
               required
               type="text"
               value={name} />
@@ -152,9 +149,9 @@ class CreateGroup extends Component {
               <input
                 disabled={submitting}
                 id="permalink"
-                onChange={({ target }) => this.setState({ slug: target.value })}
+                onChange={({ target }) => this.setState({ slug: convertStringToSlug(target.value) })}
                 pattern="(\w|-)*"
-                placeholder={CreateGroup._sanitizeName(name)}
+                placeholder={convertStringToSlug(name)}
                 type="text"
                 value={slug} />
             </div>
@@ -293,13 +290,8 @@ class CreateGroup extends Component {
 
 const mapDispatchToProps = ['createGroup']
 
-const mapStateToProps = (/*state*/) => ({})
 
 
 
 
-
-export default Page(CreateGroup, title, {
-  mapDispatchToProps,
-  mapStateToProps,
-})
+export default Page(CreateGroup, title, { mapDispatchToProps })
