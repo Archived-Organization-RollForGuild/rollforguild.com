@@ -125,7 +125,7 @@ class GroupSettingsPanel extends Component {
     const description = changes.description || group.attributes.description
     // const discoverable = changes.discoverable || group.attributes.discoverable
     const name = changes.name || group.attributes.name
-    const slug = changes.slug || group.attributes.slug
+    // const slug = changes.slug || group.attributes.slug
 
     return (
       <section className="settings">
@@ -148,7 +148,7 @@ class GroupSettingsPanel extends Component {
               value={name} />
           </fieldset>
 
-          <fieldset>
+          {/* <fieldset>
             <label htmlFor="slug">Permalink</label>
 
             <div className="input-group">
@@ -166,7 +166,7 @@ class GroupSettingsPanel extends Component {
                 type="text"
                 value={slug} />
             </div>
-          </fieldset>
+          </fieldset> */}
 
           <fieldset>
             <label htmlFor="description">
