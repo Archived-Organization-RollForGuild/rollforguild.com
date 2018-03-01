@@ -6,13 +6,17 @@ import Component from './Component'
 
 
 class ValidatedInput extends Component {
-  _onChange (event) {
-    const { onChange } = this.props
+  /***************************************************************************\
+    Private Methods
+  \***************************************************************************/
+
+  _onInput (event) {
+    const { onInput } = this.props
 
     this._validate()
 
-    if (onChange) {
-      onChange(event)
+    if (onInput) {
+      onInput(event)
     }
   }
 
@@ -70,10 +74,18 @@ class ValidatedInput extends Component {
     this.setState({ messages })
   }
 
+
+
+
+
+  /***************************************************************************\
+    Public Methods
+  \***************************************************************************/
+
   constructor (props) {
     super(props)
 
-    this._bindMethods(['_onChange'])
+    this._bindMethods(['_onInput'])
     this._debounceMethods(['_validate'])
 
     this.state = { messages: [] }
@@ -88,7 +100,7 @@ class ValidatedInput extends Component {
       <div className="validated-input">
         <input
           {...this.props}
-          onChange={this._onChange}
+          onInput={this._onInput}
           ref={_el => this._el = _el} />
 
         <i className="fas fa-fw fa-exclamation-triangle validity-indicator" />
