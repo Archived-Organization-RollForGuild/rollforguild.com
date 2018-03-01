@@ -13,6 +13,7 @@ import {
 } from '../../components/TabPanel'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
+import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
 import StaticMap from '../../components/StaticMap'
 
 
@@ -30,6 +31,7 @@ class JoinRequestCard extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
+
   async _accept () {
     const {
       accept,
@@ -55,6 +57,10 @@ class JoinRequestCard extends Component {
 
     setTimeout(() => this.setState({ ignoring: false }), 500)
   }
+
+
+
+
 
   /***************************************************************************\
     Public Methods
@@ -473,9 +479,7 @@ class GroupProfile extends Component {
 
             {currentUserIsAdmin && (
               <Tab title="Settings">
-                <section className="settings">
-                  Settings!
-                </section>
+                <GroupSettingsPanel group={group} />
               </Tab>
             )}
           </TabPanel>
