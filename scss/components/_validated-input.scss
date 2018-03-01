@@ -1,0 +1,48 @@
+.validated-input {
+  position: relative;
+
+  .messages {
+    background-color: $red;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.8em;
+    left: 0;
+    opacity: 0;
+    padding: 0.5rem 1rem;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    transition: opacity 0.2s;
+
+    li {
+      [data-icon] {
+        margin-right: 1rem;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .validity-indicator {
+    color: $red;
+    left: calc(100% + 1rem);
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 0.2s;
+  }
+
+  input:focus ~ .messages:not(:empty) {
+    opacity: 1;
+  }
+
+  input:not(:focus):not(:valid) ~ .validity-indicator {
+    animation-direction: alternate;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-name: pulse;
+  }
+}
