@@ -1,4 +1,6 @@
 // Module imports
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
 import React from 'react'
 // import Switch from 'rc-switch'
@@ -8,6 +10,7 @@ import React from 'react'
 
 
 // Component imports
+import { actions } from '../../store'
 import AddressInput from '../AddressInput'
 import Component from '../Component'
 import convertStringToSlug from '../../helpers/convertStringToSlug'
@@ -22,28 +25,62 @@ class GroupSettingsPanel extends Component {
     Private Methods
   \***************************************************************************/
 
-  _handleChange ({ target }) {
-    const { validity } = this.state
-
-    this.setState({
-      [target.name]: target.value,
-      validity: {
-        ...validity,
-        [target.name]: target.validity.valid,
-      },
-    })
+  _handleAddressChange (value) {
+    this._setChanges('address', value.formatted_address)
   }
 
-  _handleSubmit (event) {
+  _handleChange ({ target }) {
+    const {
+      name,
+      validity,
+      value,
+    } = target
+
+    this._setChanges(name, value, validity.valid)
+  }
+
+  _handleSlugChange (event) {
+    this._setChanges('slug', convertStringToSlug(event.target.value))
+  }
+
+  async _handleSubmit (event) {
+    const {
+      group,
+      updateGroup,
+    } = this.props
+    const { changes } = this.state
+
     event.preventDefault()
 
-    console.log('Submitting', this.state)
+    this.setState({ submitting: true })
+
+    await updateGroup(group.id, changes)
+
+    window.location.reload()
   }
 
   _isValid () {
     const { validity } = this.state
 
     return !Object.values(validity).includes(false)
+  }
+
+  _setChanges (key, value, isValid = true) {
+    const {
+      changes,
+      validity,
+    } = this.state
+
+    this.setState({
+      changes: {
+        ...changes,
+        [key]: value,
+      },
+      validity: {
+        ...validity,
+        [key]: isValid,
+      },
+    })
   }
 
 
@@ -58,12 +95,14 @@ class GroupSettingsPanel extends Component {
     super(props)
 
     this._bindMethods([
+      '_handleAddressChange',
       '_handleChange',
+      '_handleSlugChange',
       '_handleSubmit',
     ])
 
     this.state = {
-      ...props.group.attributes,
+      changes: {},
       submitting: false,
       validity: {
         address: true,
@@ -76,14 +115,17 @@ class GroupSettingsPanel extends Component {
   }
 
   render () {
+    const { group } = this.props
     const {
-      address,
-      description,
-      // discoverable,
-      name,
-      slug,
+      changes,
       submitting,
     } = this.state
+
+    const address = changes.address || group.attributes.address
+    const description = changes.description || group.attributes.description
+    // const discoverable = changes.discoverable || group.attributes.discoverable
+    const name = changes.name || group.attributes.name
+    const slug = changes.slug || group.attributes.slug
 
     return (
       <section className="settings">
@@ -118,7 +160,7 @@ class GroupSettingsPanel extends Component {
                 disabled={submitting}
                 id="slug"
                 name="slug"
-                onChange={({ target }) => this.setState({ slug: convertStringToSlug(target.value) })}
+                onChange={this._handleSlugChange}
                 pattern="[\w\s_-]+"
                 placeholder={convertStringToSlug(name)}
                 type="text"
@@ -152,7 +194,7 @@ class GroupSettingsPanel extends Component {
             <AddressInput
               disabled={submitting}
               id="address"
-              onChange={value => this.setState({ address: value })}
+              onChange={this._handleAddressChange}
               required
               value={address} />
           </fieldset>
@@ -194,4 +236,10 @@ GroupSettingsPanel.propTypes = {}
 
 
 
-export default GroupSettingsPanel
+const mapDispatchToProps = dispatch => ({ updateGroup: bindActionCreators(actions.updateGroup, dispatch) })
+
+
+
+
+
+export default connect(null, mapDispatchToProps)(GroupSettingsPanel)
