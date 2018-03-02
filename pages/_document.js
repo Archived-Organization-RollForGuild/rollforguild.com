@@ -17,7 +17,7 @@ export default class extends Document {
     return (
       <html lang="en">
         <Head>
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+          <meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
 
           <meta name="application-name" content="Roll For Guild" />
           <meta name="apple-mobile-web-app-title" content="Roll For Guild" />
