@@ -14,8 +14,8 @@ import {
   actions,
   initStore,
 } from '../store'
+import Banner from './Banner'
 import Head from './Head'
-import Header from './Header'
 
 /* eslint-disable no-unused-expressions */
 preval`if (process.env.NODE_ENV === 'production') require('../helpers/offline')`
@@ -72,7 +72,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
         <div role="application">
           <Head title={title} />
 
-          <Header path={this.props.asPath} />
+          <Banner path={this.props.asPath} />
 
           <main className={mainClasses}>
             <Component {...this.props} />
