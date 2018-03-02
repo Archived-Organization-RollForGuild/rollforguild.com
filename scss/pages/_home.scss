@@ -9,7 +9,9 @@
     flex-shrink: 0;
     height: 50vh;
     margin-left: -2rem;
+    margin-left: calc(-2rem - env(safe-area-inset-left));
     margin-right: -2rem;
+    margin-right: calc(-2rem - env(safe-area-inset-right));
   }
 
   p {
