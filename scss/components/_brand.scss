@@ -4,5 +4,15 @@
   background-repeat: no-repeat;
   background-size: 50%;
   height: 100px;
+  position: relative;
   width: 100%;
+
+  &:after {
+    bottom: 0.2rem;
+    color: $green;
+    content: 'Beta';
+    font-family: Montserrat, sans-serif;
+    position: absolute;
+    right: 4.5rem;
+  }
 }
