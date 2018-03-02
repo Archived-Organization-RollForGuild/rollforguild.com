@@ -26,6 +26,7 @@ export default (props) => (
         data-openNav
         htmlFor="application-banner-control">
         <i className="fas fa-fw fa-bars" />
+        Menu
       </label>
 
       <label
@@ -33,6 +34,7 @@ export default (props) => (
         data-closeNav
         htmlFor="application-banner-control">
         <i className="fas fa-fw fa-times" />
+        Close
       </label>
 
       <Link href="/">
