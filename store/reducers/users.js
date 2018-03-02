@@ -9,6 +9,7 @@ import Cookies from 'js-cookie'
 import actionTypes from '../actionTypes'
 import initialState from '../initialState'
 import parseJSONAPIResponseForEntityType from '../../helpers/parseJSONAPIResponseForEntityType'
+import deepMergeJSONAPIObjectCollections from '../../helpers/deepMergeJSONAPIObjectCollections'
 
 
 
@@ -26,14 +27,12 @@ export default function (state = initialState.users, action) {
     case actionTypes.GET_USERS:
     case actionTypes.UPDATE_USER:
       if (status === 'success') {
-        const userId = Cookies.get('userId')
-        const newState = {
-          ...state,
-          ...parseJSONAPIResponseForEntityType(payload, 'users', true),
-        }
+        const newUsers = parseJSONAPIResponseForEntityType(payload, 'users')
+        const newState = deepMergeJSONAPIObjectCollections(state, newUsers)
 
-        if (newState[userId]) {
-          newState[userId].loggedIn = true
+        const currentUserId = Cookies.get('userId')
+        if (newState[currentUserId]) {
+          newState[currentUserId].loggedIn = true
         }
 
         return newState

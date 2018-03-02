@@ -30,6 +30,7 @@
 \*****************************************************************************/
 
 @import 'animations/fade';
+@import 'animations/pulse';
 
 
 
@@ -100,6 +101,7 @@ components
 @import 'components/starting-level';
 @import 'components/static-map';
 @import 'components/tab-panel';
+@import 'components/validated-input';
 @import 'components/wizard';
 
 

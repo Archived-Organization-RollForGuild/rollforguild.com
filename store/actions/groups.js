@@ -259,3 +259,43 @@ export const searchForGroups = ({ lat, lng }, { distance, itemsPerPage, page }) 
     type: actionTypes.SEARCH_FOR_GROUPS,
   })
 }
+
+
+
+
+
+export const updateGroup = (groupId, updates) => async dispatch => {
+  const accessToken = Cookies.get('accessToken')
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.UPDATE_GROUP })
+
+  try {
+    response = await fetch(`/api/groups/${groupId}`, {
+      body: JSON.stringify({
+        data: {
+          type: 'groups',
+          attributes: updates,
+        },
+      }),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      method: 'put',
+    })
+
+    success = response.ok
+
+    response = await response.json()
+  } catch (error) {
+    success = false
+  }
+
+  return dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.UPDATE_GROUP,
+  })
+}

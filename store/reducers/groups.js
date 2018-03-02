@@ -1,6 +1,8 @@
 import actionTypes from '../actionTypes'
 import initialState from '../initialState'
 import parseJSONAPIResponseForEntityType from '../../helpers/parseJSONAPIResponseForEntityType'
+import deepMergeJSONAPIObjectCollections from '../../helpers/deepMergeJSONAPIObjectCollections'
+
 
 
 
@@ -17,35 +19,8 @@ export default function (state = initialState.groups, action) {
     case actionTypes.GET_GROUP:
     case actionTypes.GET_USER:
       if (status === 'success') {
-        let newGroups = parseJSONAPIResponseForEntityType(payload, 'groups', true)
-
-        newGroups = Object.values(newGroups).reduce((accumulator, group) => {
-          const oldGroup = state[group.id]
-
-          if (oldGroup) {
-            return {
-              ...accumulator,
-              [group.id]: {
-                ...oldGroup,
-                ...group,
-                attributes: {
-                  ...oldGroup.attributes,
-                  ...group.attributes,
-                },
-              },
-            }
-          }
-
-          return {
-            ...accumulator,
-            [group.id]: { ...group },
-          }
-        }, {})
-
-        return {
-          ...state,
-          ...newGroups,
-        }
+        const newGroups = parseJSONAPIResponseForEntityType(payload, 'groups', true)
+        return deepMergeJSONAPIObjectCollections(state, newGroups)
       }
       return { ...state }
 
