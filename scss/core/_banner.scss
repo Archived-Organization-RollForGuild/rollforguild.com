@@ -12,7 +12,7 @@
   position: relative;
   width: 20rem;
 
-  nav {
+  > nav {
     overflow: auto;
 
     a,
@@ -114,5 +114,36 @@
 
   .brand {
     flex-shrink: 0;
+  }
+
+  footer {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+
+    .social {
+      align-content: stretch;
+      display: flex;
+    }
+
+    a,
+    button,
+    .button {
+      border-radius: 0;
+      color: $green;
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      padding: 2rem;
+      transition:
+        background-color 0.2s,
+        color 0.2s;
+
+      &:hover,
+      &:focus {
+        background-color: $green;
+        color: $white;
+      }
+    }
   }
 }
