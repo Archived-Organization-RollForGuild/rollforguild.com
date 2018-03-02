@@ -273,7 +273,11 @@ const mapStateToProps = (state, ownProps) => {
     },
   }
 
-  if ((currentUserId === displayedUserId) && currentUser) {
+  if ((currentUserId === displayedUserId)
+    && currentUser
+    && currentUser.relationships
+    && currentUser.relationships.groups
+    && currentUser.relationships.groups.data) {
     newState.groups = currentUser.relationships.groups.data.map(({ id }) => state.groups[id])
   }
 

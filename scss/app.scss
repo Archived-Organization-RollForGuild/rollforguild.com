@@ -30,6 +30,7 @@
 \*****************************************************************************/
 
 @import 'animations/fade';
+@import 'animations/pulse';
 
 
 
@@ -81,6 +82,7 @@ components
 @import 'components/ability-score';
 @import 'components/ability-score-editor';
 @import 'components/address-input';
+@import 'components/application-nav-control';
 @import 'components/avatar-uploader-dialog';
 @import 'components/avatar';
 @import 'components/background-chooser';
@@ -100,6 +102,7 @@ components
 @import 'components/starting-level';
 @import 'components/static-map';
 @import 'components/tab-panel';
+@import 'components/validated-input';
 @import 'components/wizard';
 
 
