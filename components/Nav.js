@@ -34,15 +34,15 @@ const navItems = [
     ],
   },
 
-  {
-    title: 'Content',
-    subnav: [
-      {
-        href: '/my/characters',
-        title: 'Characters',
-      },
-    ],
-  },
+  // {
+  //   title: 'Content',
+  //   subnav: [
+  //     {
+  //       href: '/my/characters',
+  //       title: 'Characters',
+  //     },
+  //   ],
+  // },
 
   {
     condition: ({ loggedIn }) => loggedIn && (loggedIn !== 'error'),
@@ -67,10 +67,10 @@ const navItems = [
       return 'Loading...'
     },
     subnav: [
-      {
-        href: '/my/activity-feed',
-        title: 'Activity Feed',
-      },
+      // {
+      //   href: '/my/activity-feed',
+      //   title: 'Activity Feed',
+      // },
       {
         as: '/my/profile',
         href: '/users/user',
