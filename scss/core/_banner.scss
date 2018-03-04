@@ -121,28 +121,33 @@
     flex-direction: column;
     margin-top: auto;
 
+    small {
+      margin: 0 2rem;
+      text-align: center;
+    }
+
     .social {
       align-content: stretch;
       display: flex;
-    }
 
-    a,
-    button,
-    .button {
-      border-radius: 0;
-      color: $green;
-      display: flex;
-      flex-grow: 1;
-      justify-content: center;
-      padding: 2rem;
-      transition:
-        background-color 0.2s,
-        color 0.2s;
+      a,
+      button,
+      .button {
+        border-radius: 0;
+        color: $green;
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+        padding: 2rem;
+        transition:
+          background-color 0.2s,
+          color 0.2s;
 
-      &:hover,
-      &:focus {
-        background-color: $green;
-        color: $white;
+        &:hover,
+        &:focus {
+          background-color: $green;
+          color: $white;
+        }
       }
     }
   }

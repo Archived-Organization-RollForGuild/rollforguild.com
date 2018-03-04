@@ -44,6 +44,10 @@ export default (props) => (
       <Nav path={props.path} />
 
       <footer>
+        <small>
+          Questions, comments, or concerns? <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1" rel="noopener noreferrer" target="_blank">Let us know!</a>
+        </small>
+
         <nav className="social">
           <a href="//twitter.com/RollForGuild">
             <i
