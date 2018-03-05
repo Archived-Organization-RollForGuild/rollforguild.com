@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux'
 import Cookies from 'next-cookies'
 import LocalForage from 'localforage'
 import React from 'react'
-import Router from 'next/router'
 import withRedux from 'next-redux-wrapper'
 
 
@@ -15,6 +14,7 @@ import {
   actions,
   initStore,
 } from '../store'
+import { Router } from '../routes'
 import Banner from './Banner'
 import Head from './Head'
 
