@@ -101,4 +101,4 @@ const mapStateToProps = state => ({
 export default Page(MyCharacters, title, {
   mapStateToProps,
   mapDispatchToProps,
-})
+}, true)
