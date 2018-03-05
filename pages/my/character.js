@@ -107,4 +107,4 @@ const mapStateToProps = (state, ownProps) => ({
 export default Page(Character, title, {
   mapStateToProps,
   mapDispatchToProps,
-})
+}, true)

@@ -356,4 +356,4 @@ const mapStateToProps = (/*state*/) => ({})
 export default Page(GroupSearch, title, {
   mapDispatchToProps,
   mapStateToProps,
-})
+}, true)

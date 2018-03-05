@@ -473,4 +473,4 @@ const mapStateToProps = state => ({ ruleset: state.rulesets['dnd-5e'] || null })
 export default Page(CharacterBuilder, title, {
   mapDispatchToProps,
   mapStateToProps,
-})
+}, true)

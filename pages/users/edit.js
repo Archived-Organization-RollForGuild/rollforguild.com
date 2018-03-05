@@ -459,4 +459,4 @@ const mapStateToProps = (state, ownProps) => ({
 export default Page(UserEditor, title, {
   mapDispatchToProps,
   mapStateToProps,
-})
+}, true)
