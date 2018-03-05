@@ -29,30 +29,44 @@ class UserProfile extends Component {
     const {
       currentUserId,
       getUser,
+      query,
     } = this.props
-    const { id } = this.props.query
     let {
       currentUser,
       displayedUser,
     } = this.props
 
-    if (!currentUser && currentUserId) {
+    const userIsCurrentUser = query.id === currentUserId
+
+    if (!currentUser) {
       const response = await getUser(currentUserId)
       if (response.status === 'success') {
         currentUser = response.payload.data
       }
     }
 
-    if (!displayedUser) {
-      const response = await getUser(id)
+    if (!displayedUser && !userIsCurrentUser) {
+      const response = await getUser(query.id)
       if (response.status === 'success') {
         displayedUser = response.payload.data
       }
+    } else if (!displayedUser && userIsCurrentUser) {
+      displayedUser = { ...currentUser }
+    }
+
+    let userSharesGroup = userIsCurrentUser
+
+    if (!userIsCurrentUser && displayedUser && currentUser && displayedUser.relationships.groups.data.length && currentUser.relationships.groups.data.length) {
+      const currentUserGroups = currentUser.relationships.groups.data.map(group => group.id)
+      const displayedUserGroups = displayedUser.relationships.groups.data.map(group => group.id)
+
+      userSharesGroup = currentUserGroups.some(group => displayedUserGroups.includes(group))
     }
 
     this.setState({
-      currentUser,
-      displayedUser,
+      userSharesGroup,
+      userIsCurrentUser,
+      user: displayedUser,
       loaded: true,
     })
   }
@@ -60,67 +74,30 @@ class UserProfile extends Component {
   constructor (props) {
     super(props)
 
-    this._bindMethods([
-      'currentUserIsDisplayedUser',
-      'currentUserSharesGroup',
-    ])
-
     this.state = {
-      currentUser: null,
-      displayedUser: null,
+      userSharesGroup: false,
+      userIsCurrentUser: false,
+      user: null,
       loaded: false,
     }
   }
 
-  currentUserIsDisplayedUser () {
-    const {
-      currentUser,
-      displayedUser,
-    } = this.state
-
-    return currentUser !== null &&
-      displayedUser !== null &&
-      currentUser.id === displayedUser.id
-  }
-
-  currentUserSharesGroup () {
-    const {
-      currentUser,
-      displayedUser,
-    } = this.state
-
-    // If the current user is the same as the displayed user, return true.
-    if (this.currentUserIsDisplayedUser()) {
-      return true
-    }
-
-    // Ensure current user and displayed user exists, then make sure each user has groups to compare. if any condition isn't met, return false.
-    if (!currentUser || !displayedUser || !currentUser.relationships.groups.data.length || !displayedUser.relationships.groups.data.length) {
-      return false
-    }
-
-    // Get a list of group ids for both current user and displayed user.
-    const currentUserGroups = currentUser.relationships.groups.data.map(group => group.id)
-    const displayedUserGroups = displayedUser.relationships.groups.data.map(group => group.id)
-
-    // If any of the current user's groups are shared with the display user, return true.
-    return currentUserGroups.some(group => displayedUserGroups.includes(group))
-  }
-
   get renderUserProfile () {
     const {
-      displayedUser,
+      userSharesGroup,
+      userIsCurrentUser,
+      user,
     } = this.state
+
+
     const {
       avatar,
       bio,
       email,
-      gamesHistory,
       username,
-      gamesInterest,
-    } = displayedUser.attributes
+    } = user.attributes
 
-    const displayedUserSharesGroup = this.currentUserSharesGroup()
+
 
     return (
       <React.Fragment>
@@ -129,7 +106,7 @@ class UserProfile extends Component {
             <div className="user-details-card">
               <img
                 className="user-image"
-                src={avatar ? `/api/users/${displayedUser.id}/avatar` : `//api.adorable.io/avatars/500/${encodeURIComponent(displayedUser.id)}`}
+                src={avatar ? `/api/users/${user.id}/avatar` : `//api.adorable.io/avatars/500/${encodeURIComponent(user.id)}`}
                 alt="User Avatar" />
 
               <div className="user-name">
@@ -140,7 +117,7 @@ class UserProfile extends Component {
                 className="compact"
                 type="toolbar">
 
-                {displayedUserSharesGroup && (
+                {userSharesGroup && (
                   <a
                     className="button small success"
                     href={`mailto:${email}`}>
@@ -161,7 +138,8 @@ class UserProfile extends Component {
               { bio || 'Blah blash blah I\'m a user bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'}
             </div>
           </div>
-          <div className="profile-section user-game-history">
+
+          {/*<div className="profile-section user-game-history">
             <h4>{username}'s favorite games</h4>
             <ul className="section-content gamelist">
               {gamesHistory.map(game => (
@@ -176,9 +154,9 @@ class UserProfile extends Component {
                 <li key={game.replace(' ', '')}>{game}</li>
               ))}
             </ul>
-          </div>
+          </div>*/}
 
-          {this.currentUserIsDisplayedUser() && (
+          {userIsCurrentUser && (
             <div className="groups">
               <h4>Groups</h4>
 
@@ -201,51 +179,31 @@ class UserProfile extends Component {
   render () {
     const {
       loaded,
-      displayedUser,
+      user,
+      userIsCurrentUser,
     } = this.state
 
     let pageTitle = 'Loading profile...'
 
-    if (loaded && this.currentUserIsDisplayedUser()) {
-      pageTitle = (
-        <React.Fragment>
-          <h1>Your profile</h1>
-
-          <Link
-            href="/users/edit"
-            as="/my/profile/edit" >
-            <a className="button small success edit-button">
-              Edit
-            </a>
-          </Link>
-
-        </React.Fragment>
-      )
-    } else if (loaded && displayedUser) {
-      pageTitle = (
-        <h1>{displayedUser.attributes.username}'s profile</h1>
-      )
-    } else if (loaded && !displayedUser) {
-      pageTitle = (
-        <h1>A user's profile</h1>
-      )
+    if (loaded && userIsCurrentUser) {
+      pageTitle = 'Your profile'
+    } else if (loaded && user) {
+      pageTitle = `${user.attributes.username}'s profile`
+    } else if (loaded && !user) {
+      pageTitle = 'User Profile'
     }
 
     return (
       <React.Fragment>
         <header>
-          {pageTitle}
+          <h1>{pageTitle}</h1>
         </header>
 
-        {!loaded && (
-          <p>Loading...</p>
-        )}
-
-        {(loaded && !displayedUser) && (
+        {(loaded && !user) && (
           <p>No user with that ID was found.</p>
         )}
 
-        {(loaded && displayedUser) && this.renderUserProfile}
+        {(loaded && user) && this.renderUserProfile}
       </React.Fragment>
     )
   }
@@ -258,15 +216,16 @@ class UserProfile extends Component {
 const mapDispatchToProps = ['getUser']
 
 const mapStateToProps = (state, ownProps) => {
-  const currentUserId = ownProps.userId || null
-  const displayedUserId = ownProps.asPath === '/my/profile' ? currentUserId : ownProps.query.id
+  const currentUserId = ownProps.userId || null // User that the displayedUser is being displayed to.
+  const displayedUserId = ownProps.asPath === '/my/profile' ? currentUserId : ownProps.query.id // User that is being displayed
 
   const currentUser = state.users[currentUserId] || null
+  const displayedUser = state.users[currentUserId] || null
 
   const newState = {
-    currentUser, // User that the displayedUser is being displayed to.
+    currentUser,
     currentUserId,
-    displayedUser: state.users[displayedUserId] || null, // User that is being displayed
+    displayedUser,
     query: {
       ...ownProps.query,
       id: displayedUserId,
