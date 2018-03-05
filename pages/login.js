@@ -68,7 +68,7 @@ class Login extends Component {
       }
       /* eslint-enable */
 
-      Router.push(searchParams.destination ? searchParams.destination : '/')
+      Router.push(searchParams.destination ? decodeURIComponent(searchParams.destination) : '/')
     }
   }
 

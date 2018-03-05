@@ -34,4 +34,4 @@ const MyGroups = () => (
 
 
 
-export default Page(MyGroups, title)
+export default Page(MyGroups, title, null, true)

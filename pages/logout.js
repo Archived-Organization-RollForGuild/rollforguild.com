@@ -44,4 +44,4 @@ const mapDispatchToProps = ['logout']
 
 
 
-export default Page(Logout, title, { mapDispatchToProps })
+export default Page(Logout, title, { mapDispatchToProps }, true)

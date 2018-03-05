@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import Cookies from 'next-cookies'
 import LocalForage from 'localforage'
 import React from 'react'
+import Router from 'next/router'
 import withRedux from 'next-redux-wrapper'
 
 
@@ -32,8 +33,25 @@ initStore()
 
 
 
-export default (Component, title = 'Untitled', reduxOptions = {}) => {
+export default (Component, title = 'Untitled', reduxOptions = {}, authenticationRequired = false) => {
   class Page extends React.Component {
+    componentWillMount () {
+      const {
+        accessToken,
+        asPath,
+      } = this.props
+
+      if (authenticationRequired && !accessToken) {
+        return Router.replace(`/login?destination=${encodeURIComponent(asPath)}`)
+      }
+
+      if (Component.componentWillMount) {
+        Component.componentWillMount()
+      }
+
+      return true
+    }
+
     constructor (props) {
       super(props)
 
@@ -49,7 +67,10 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
         isServer,
         query,
       } = ctx
-      const { userId } = Cookies(ctx)
+      const {
+        accessToken,
+        userId,
+      } = Cookies(ctx)
       let props = {}
 
       if (typeof Component.getInitialProps === 'function') {
@@ -57,6 +78,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}) => {
       }
 
       return {
+        accessToken,
         asPath,
         isServer,
         query,
