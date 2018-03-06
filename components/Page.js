@@ -111,7 +111,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
     mapDispatchToProps = dispatch => {
       const actionMap = {}
 
-      for (const actionName of mapDispatchToProps) {
+      for (const actionName of (mapDispatchToProps || {})) {
         actionMap[actionName] = bindActionCreators(actions[actionName], dispatch)
       }
 
