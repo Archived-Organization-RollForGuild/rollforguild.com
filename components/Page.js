@@ -104,8 +104,8 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
     }
   }
 
-  const { mapStateToProps } = reduxOptions
-  let { mapDispatchToProps } = reduxOptions
+  const { mapStateToProps } = reduxOptions || {}
+  let { mapDispatchToProps } = reduxOptions || {}
 
   if (Array.isArray(reduxOptions.mapDispatchToProps)) {
     mapDispatchToProps = dispatch => {
