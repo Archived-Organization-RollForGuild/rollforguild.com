@@ -13,6 +13,7 @@
     right: 0;
     top: 100%;
     transition: opacity 0.2s;
+    z-index: 1;
 
     li {
       [data-icon] {
