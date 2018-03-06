@@ -121,11 +121,11 @@ class GroupSettingsPanel extends Component {
       submitting,
     } = this.state
 
-    const address = changes.address || group.attributes.address
-    const description = changes.description || group.attributes.description
+    const address = typeof changes.address === 'string' ? changes.address : group.attributes.address
+    const description = typeof changes.description === 'string' ? changes.description : group.attributes.description
     // const discoverable = changes.discoverable || group.attributes.discoverable
-    const name = changes.name || group.attributes.name
-    // const slug = changes.slug || group.attributes.slug
+    const name = typeof changes.name === 'string' ? changes.name : group.attributes.name
+    // const slug = typeof changes.slug === 'string' ? changes.slug : group.attributes.slug
 
     return (
       <section className="settings">
