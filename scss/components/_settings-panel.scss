@@ -5,12 +5,15 @@
     margin-bottom: 2rem;
   }
 
-  fieldset .fieldset-input {
-    margin-left: 1rem;
-
-    input,
-    textarea {
+  fieldset {
+    > *:not(:last-child) {
       margin-bottom: 1rem;
+    }
+
+    > input,
+    > textarea,
+    > .validated-input {
+      margin-left: 1rem;
     }
   }
 }

@@ -189,17 +189,15 @@ class GroupSettingsPanel extends Component {
                 Bio
               </label>
 
-              <div className="fieldset-input">
-                <textarea
-                  aria-describedby="bio"
-                  disabled={submitting}
-                  id="bio"
-                  maxLength={1000}
-                  name="bio"
-                  onChange={this._handleChange}
-                  placeholder="Tell others a little about yourself."
-                  value={bio} />
-              </div>
+              <textarea
+                aria-describedby="bio"
+                disabled={submitting}
+                id="bio"
+                maxLength={1000}
+                name="bio"
+                onChange={this._handleChange}
+                placeholder="Tell others a little about yourself."
+                value={bio} />
             </fieldset>
 
             {/*<fieldset>
@@ -224,32 +222,28 @@ class GroupSettingsPanel extends Component {
               <label htmlFor="name">
                 Change Password
               </label>
-              <div className="fieldset-input">
-                <ValidatedInput
-                  data-pattern-explainer="Please make sure your email is valid. e.g. user@emailprovider.com"
-                  disabled={submitting}
-                  id="currentPassword"
-                  name="currentPassword"
-                  onChange={this._handleChange}
-                  pattern="[\w\s_-]+"
-                  placeholder="Current Password"
-                  required={password.length}
-                  type="password"
-                  value={currentPassword} />
+              <ValidatedInput
+                data-required-explainer="Both password fields are required to change your password."
+                disabled={submitting}
+                id="currentPassword"
+                name="currentPassword"
+                onChange={this._handleChange}
+                placeholder="Current Password"
+                required={password.length}
+                type="password"
+                value={currentPassword} />
 
-                <ValidatedInput
-                  data-pattern-explainer="Please make sure your email is valid. e.g. user@emailprovider.com"
-                  disabled={submitting}
-                  id="password"
-                  name="password"
-                  onChange={this._handleChange}
-                  minLength={8}
-                  pattern="[\w\s_-]+"
-                  placeholder="New Password"
-                  required={currentPassword.length}
-                  type="password"
-                  value={password} />
-              </div>
+              <ValidatedInput
+                data-required-explainer="Both password fields are required to change your password."
+                disabled={submitting}
+                id="password"
+                name="password"
+                onChange={this._handleChange}
+                minLength={8}
+                placeholder="New Password"
+                required={currentPassword.length}
+                type="password"
+                value={password} />
             </fieldset>
 
 
