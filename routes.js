@@ -15,6 +15,4 @@ routes
 
   // Users
   .add('view user', '/users/:id', '/users/user')
-  //.add('manage user', '/users/:id/edit', '/users/edit') added as placeholder. Disabled until user permisssion groups are added. This endpoint will be used as an admin control endpoint.
   .add('view current user', '/my/profile', '/users/user')
-  .add('manage current user', '/my/profile/edit', '/users/edit')

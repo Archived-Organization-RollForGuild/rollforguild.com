@@ -20,6 +20,16 @@ class ValidatedInput extends Component {
     }
   }
 
+  _onFocus (event) {
+    const { onFocus } = this.props
+
+    this._validate()
+
+    if (onFocus) {
+      onFocus(event)
+    }
+  }
+
   _validate () {
     const messages = []
     const {
@@ -32,13 +42,11 @@ class ValidatedInput extends Component {
       valueMissing,
     } = this._el.validity
 
-    console.log('ValidityState:', this._el.validity)
-
     if (!valid) {
       if (badInput || typeMismatch) {
         messages.push({
           icon: 'exclamation-circle',
-          message: 'Doesn\'t match field type',
+          message: this._el.getAttribute('data-badinput-explainer') || 'Doesn\'t match field type',
         })
       }
 
@@ -52,21 +60,21 @@ class ValidatedInput extends Component {
       if (tooLong) {
         messages.push({
           icon: 'exclamation-circle',
-          message: `Must be fewer than ${this._el.getAttribute('maxlength')} characters`,
+          message: this._el.getAttribute('data-maxlength-explainer') || `Must be fewer than ${this._el.getAttribute('maxlength')} characters`,
         })
       }
 
       if (tooShort) {
         messages.push({
           icon: 'exclamation-circle',
-          message: `Must be longer than ${this._el.getAttribute('minlength')} characters`,
+          message: this._el.getAttribute('data-minlength-explainer') || `Must be longer than ${this._el.getAttribute('minlength')} characters`,
         })
       }
 
       if (valueMissing) {
         messages.push({
           icon: 'exclamation-circle',
-          message: 'This field is required',
+          message: this._el.getAttribute('data-required-explainer') || 'This field is required',
         })
       }
     }
@@ -85,7 +93,10 @@ class ValidatedInput extends Component {
   constructor (props) {
     super(props)
 
-    this._bindMethods(['_onInput'])
+    this._bindMethods([
+      '_onInput',
+      '_onFocus',
+    ])
     this._debounceMethods(['_validate'])
 
     this.state = { messages: [] }
@@ -101,6 +112,7 @@ class ValidatedInput extends Component {
         <input
           {...this.props}
           onInput={this._onInput}
+          onFocus={this._onFocus}
           ref={_el => this._el = _el} />
 
         <i className="fas fa-fw fa-exclamation-triangle validity-indicator" />
