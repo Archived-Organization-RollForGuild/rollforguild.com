@@ -60,22 +60,30 @@ class GroupSettingsPanel extends Component {
   }
 
   _isValid () {
-    const { validity } = this.state
-
-    return !Object.values(validity).includes(false)
-  }
-
-  _setChanges (key, value, isValid = true) {
     const {
       changes,
       validity,
     } = this.state
 
+    return Object.keys(changes) && !Object.values(validity).includes(false)
+  }
+
+  _setChanges (key, value, isValid = true) {
+    const { group } = this.props
+    const {
+      changes,
+      validity,
+    } = this.state
+    const newChanges = { ...changes }
+
+    if (value === group.attributes[key]) {
+      delete newChanges[key]
+    } else {
+      newChanges[key] = value
+    }
+
     this.setState({
-      changes: {
-        ...changes,
-        [key]: value,
-      },
+      changes: newChanges,
       validity: {
         ...validity,
         [key]: isValid,
