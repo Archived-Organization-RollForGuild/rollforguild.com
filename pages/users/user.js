@@ -5,9 +5,15 @@ import React from 'react'
 
 
 // Component imports
+import {
+  Tab,
+  TabPanel,
+} from '../../components/TabPanel'
+import AvatarUploader from '../../components/AvatarUploaderDialog'
 import Component from '../../components/Component'
 import { Link } from '../../routes'
 import Page from '../../components/Page'
+import UserSettingsPanel from '../../components/UserProfilePanels/UserSettingsPanel'
 
 
 
@@ -22,9 +28,47 @@ const title = 'User Profile'
 
 class UserProfile extends Component {
   /***************************************************************************\
-    Public Methods
+    Private Methods
   \***************************************************************************/
 
+  _toggleAvatarDialogState (show) {
+    this.setState({ showAvatarEdit: typeof show === 'boolean' ? show : !this.state.showAvatarEdit })
+  }
+
+  async _handleAvatarDialogComplete (_fileBlob) {
+    const {
+      updateUserAvatar,
+    } = this.props
+
+    const {
+      user,
+    } = this.state
+
+    const fileBlob = _fileBlob
+
+    fileBlob.name = `${user.id}-avatar`
+
+    const response = await updateUserAvatar(user.id, fileBlob)
+
+    if (response.status !== 'success') {
+      return 'File Upload Error. Please Try again.'
+    }
+
+    this.setState({
+      userAvatar: URL.createObjectURL(fileBlob),
+      showAvatarEdit: false,
+    })
+
+    return null
+  }
+
+
+
+
+
+  /***************************************************************************\
+    Public Methods
+  \***************************************************************************/
   async componentDidMount () {
     const {
       currentUserId,
@@ -54,7 +98,7 @@ class UserProfile extends Component {
       displayedUser = { ...currentUser }
     }
 
-    let userSharesGroup = userIsCurrentUser
+    let userSharesGroup = !userIsCurrentUser
 
     if (!userIsCurrentUser && displayedUser && currentUser && displayedUser.relationships.groups.data.length && currentUser.relationships.groups.data.length) {
       const currentUserGroups = currentUser.relationships.groups.data.map(group => group.id)
@@ -63,147 +107,175 @@ class UserProfile extends Component {
       userSharesGroup = currentUserGroups.some(group => displayedUserGroups.includes(group))
     }
 
+    const userAvatar = displayedUser && displayedUser.attributes.avatar ? `/api/users/${displayedUser.id}/avatar` : `//api.adorable.io/avatars/500/${displayedUser.id}`
+
     this.setState({
+      loaded: true,
+      user: displayedUser,
+      userAvatar,
       userSharesGroup,
       userIsCurrentUser,
-      user: displayedUser,
-      loaded: true,
     })
   }
 
   constructor (props) {
     super(props)
 
+    this._bindMethods([
+      '_toggleAvatarDialogState',
+      '_handleAvatarDialogComplete',
+    ])
+
     this.state = {
-      userSharesGroup: false,
-      userIsCurrentUser: false,
-      user: null,
       loaded: false,
+      showAvatarEdit: false,
+      user: null,
+      userAvatar: null,
+      userIsCurrentUser: false,
+      userSharesGroup: false,
     }
-  }
-
-  get renderUserProfile () {
-    const {
-      userSharesGroup,
-      userIsCurrentUser,
-      user,
-    } = this.state
-
-
-    const {
-      avatar,
-      bio,
-      email,
-      username,
-    } = user.attributes
-
-
-
-    return (
-      <React.Fragment>
-        <div className="page-content">
-          <div className="user-details">
-            <div className="user-details-card">
-              <img
-                className="user-image"
-                src={avatar ? `/api/users/${user.id}/avatar` : `//api.adorable.io/avatars/500/${encodeURIComponent(user.id)}`}
-                alt="User Avatar" />
-
-              <div className="user-name">
-                <h4>{username}</h4>
-              </div>
-
-              <menu
-                className="compact"
-                type="toolbar">
-
-                {userSharesGroup && (
-                  <a
-                    className="button small success"
-                    href={`mailto:${email}`}>
-                    Message
-                  </a>
-                )}
-
-                <button className="danger small">
-                  block
-                </button>
-
-              </menu>
-            </div>
-          </div>
-          <div className="profile-section user-bio">
-            <h4>About {username}</h4>
-            <div className="section-content">
-              { bio || 'Blah blash blah I\'m a user bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'}
-            </div>
-          </div>
-
-          {/*<div className="profile-section user-game-history">
-            <h4>{username}'s favorite games</h4>
-            <ul className="section-content gamelist">
-              {gamesHistory.map(game => (
-                <li key={game.replace(' ', '')}>{game}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="profile-section user-game-interest">
-            <h4>Games {username} wants to play</h4>
-            <ul className="section-content gamelist">
-              {gamesInterest.map(game => (
-                <li key={game.replace(' ', '')}>{game}</li>
-              ))}
-            </ul>
-          </div>*/}
-
-          {userIsCurrentUser && (
-            <div className="groups">
-              <h4>Groups</h4>
-
-              <ul className="gamelist">
-                {this.props.groups.map(group => (
-                  <li key={group.id}>
-                    <Link as={`/groups/${group.id}`} href={`/groups/group?id=${group.id}`}>
-                      <a>{group.attributes.name}</a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      </React.Fragment>
-    )
   }
 
   render () {
     const {
       loaded,
+      showAvatarEdit,
       user,
+      userAvatar,
       userIsCurrentUser,
+      userSharesGroup,
     } = this.state
 
-    let pageTitle = 'Loading profile...'
+    const {
+      groups,
+    } = this.props
 
-    if (loaded && userIsCurrentUser) {
-      pageTitle = 'Your profile'
-    } else if (loaded && user) {
-      pageTitle = `${user.attributes.username}'s profile`
-    } else if (loaded && !user) {
-      pageTitle = 'User Profile'
+    if (!user && !loaded) {
+      return (
+        <React.Fragment>
+          <header>
+            <h1>User</h1>
+          </header>
+
+          <p>Loading...</p>
+        </React.Fragment>
+      )
     }
+
+    if (!user) {
+      return (
+        <React.Fragment>
+          <header>
+            <h1>User</h1>
+          </header>
+
+          <p>No user with that ID was found.</p>
+        </React.Fragment>
+      )
+    }
+
+    const {
+      bio,
+      email,
+      username,
+    } = user.attributes
 
     return (
       <React.Fragment>
         <header>
-          <h1>{pageTitle}</h1>
+          <h1>{userIsCurrentUser ? 'Your profile' : `${username}'s profile`}</h1>
+
+          <menu type="toolbar">
+            {userSharesGroup && (
+              <a
+                className="button success"
+                href={`mailto:${email}`}>
+                Message
+              </a>
+            )}
+          </menu>
         </header>
 
-        {(loaded && !user) && (
-          <p>No user with that ID was found.</p>
-        )}
+        <div className="profile">
+          <header>
+            <div
+              aria-label={`${username}'s avatar`}
+              className="avatar large"
+              style={{ backgroundImage: `url(${userAvatar})` }}>
+              {userIsCurrentUser && (
+                <button className="avatar-edit-overlay" onClick={this._toggleAvatarDialogState}>
+                  <h4>Edit</h4>
+                </button>
+              )}
+            </div>
+          </header>
 
-        {(loaded && user) && this.renderUserProfile}
+          <TabPanel className="details">
+            <Tab title="Details">
+              <section className="bio">
+                <h4>Bio</h4>
+                <div className="section-content">
+                  <p>{bio || `${username} hasn't written their bio yet!`}</p>
+                </div>
+              </section>
+            </Tab>
+
+            {(userIsCurrentUser && groups) && (
+              <Tab title="Groups">
+                <section className="groups">
+                  <ul>
+                    {this.props.groups.map(group => (
+                      <li
+                        className="card"
+                        key={group.id}>
+                        <header>
+                          {group.attributes.name}
+                        </header>
+                        <div className="content">
+                          <div
+                            aria-label={`${group.attributes.name} Avatar`}
+                            className="avatar small pull-left"
+                            style={{ backgroundImage: `url(${group.attributes.avatar ? `/api/groups/${group.id}/avatar` : `//api.adorable.io/avatars/50/${group.id}`})` }} />
+                          <h4>{group.attributes.name}</h4>
+                        </div>
+                        <footer>
+                          <menu
+                            className="compact"
+                            type="toolbar">
+                            <div className="primary">
+                              <Link
+                                href={`/groups/group?id=${group.id}`}
+                                as={`/groups/${group.id}`}>
+                                <button
+                                  className="small success" >
+                                  View
+                                </button>
+                              </Link>
+                            </div>
+                          </menu>
+                        </footer>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              </Tab>
+            )}
+
+            {userIsCurrentUser && (
+              <Tab title="Settings">
+                <UserSettingsPanel user={user} />
+              </Tab>
+            )}
+          </TabPanel>
+
+
+        </div>
+
+        {showAvatarEdit && (
+          <AvatarUploader
+            onComplete={this._handleAvatarDialogComplete}
+            onCancel={() => this._toggleAvatarDialogState(false)} />
+        )}
       </React.Fragment>
     )
   }
@@ -213,7 +285,10 @@ class UserProfile extends Component {
 
 
 
-const mapDispatchToProps = ['getUser']
+const mapDispatchToProps = [
+  'getUser',
+  'updateUserAvatar',
+]
 
 const mapStateToProps = (state, ownProps) => {
   const currentUserId = ownProps.userId || null // User that the displayedUser is being displayed to.
@@ -222,25 +297,21 @@ const mapStateToProps = (state, ownProps) => {
   const currentUser = state.users[currentUserId] || null
   const displayedUser = state.users[currentUserId] || null
 
-  const newState = {
+  let groups = null
+  if ((currentUserId === displayedUserId) && currentUser && currentUser.relationships) {
+    groups = currentUser.relationships.groups.data.map(({ id }) => state.groups[id])
+  }
+
+  return {
     currentUser,
     currentUserId,
     displayedUser,
+    groups,
     query: {
       ...ownProps.query,
       id: displayedUserId,
     },
   }
-
-  if ((currentUserId === displayedUserId)
-    && currentUser
-    && currentUser.relationships
-    && currentUser.relationships.groups
-    && currentUser.relationships.groups.data) {
-    newState.groups = currentUser.relationships.groups.data.map(({ id }) => state.groups[id])
-  }
-
-  return newState
 }
 
 export default Page(UserProfile, title, {

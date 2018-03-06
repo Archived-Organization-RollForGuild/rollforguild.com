@@ -92,6 +92,7 @@ components
 @import 'components/character-review';
 @import 'components/chooser';
 @import 'components/dropdown';
+@import 'components/error-box';
 @import 'components/games-list';
 @import 'components/input-group';
 @import 'components/leaflet';
@@ -99,6 +100,7 @@ components
 @import 'components/map-marker-label';
 @import 'components/pagination';
 @import 'components/profile';
+@import 'components/settings-panel';
 @import 'components/starting-level';
 @import 'components/static-map';
 @import 'components/tab-panel';
@@ -137,6 +139,4 @@ components
 @import 'pages/manage-group';
 @import 'pages/manage-groups';
 @import 'pages/roadmap';
-@import 'pages/user-profile';
-@import 'pages/edit-profile';
 @import 'pages/search-groups';
