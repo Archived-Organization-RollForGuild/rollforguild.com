@@ -386,7 +386,9 @@ class GroupProfile extends Component {
             <Tab title="Details">
               <section className="description">
                 <h4>Description</h4>
-                <p>{description || 'No description.'}</p>
+                <div className="section-content">
+                  <p>{description || 'No description.'}</p>
+                </div>
               </section>
             </Tab>
 
