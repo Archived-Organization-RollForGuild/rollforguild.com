@@ -107,11 +107,11 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
   const { mapStateToProps } = reduxOptions || {}
   let { mapDispatchToProps } = reduxOptions || {}
 
-  if (Array.isArray(reduxOptions.mapDispatchToProps)) {
+  if (Array.isArray(mapDispatchToProps)) {
     mapDispatchToProps = dispatch => {
       const actionMap = {}
 
-      for (const actionName of reduxOptions.mapDispatchToProps) {
+      for (const actionName of (reduxOptions || {}).mapDispatchToProps) {
         actionMap[actionName] = bindActionCreators(actions[actionName], dispatch)
       }
 
