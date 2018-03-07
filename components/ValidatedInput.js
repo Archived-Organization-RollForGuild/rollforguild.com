@@ -13,21 +13,21 @@ class ValidatedInput extends Component {
   _onInput (event) {
     const { onInput } = this.props
 
-    this._validate()
-
     if (onInput) {
       onInput(event)
     }
+
+    this._validate()
   }
 
   _onFocus (event) {
     const { onFocus } = this.props
 
-    this._validate()
-
     if (onFocus) {
       onFocus(event)
     }
+
+    this._validate()
   }
 
   _validate () {
