@@ -31,7 +31,7 @@ class ValidatedInput extends Component {
   }
 
   _validate () {
-    const messages = []
+    let messages = []
     const {
       badInput,
       patternMismatch,
@@ -78,6 +78,8 @@ class ValidatedInput extends Component {
         })
       }
     }
+
+    messages = messages.sort((firstMessage, secondMessage) => (secondMessage.priority || 0) - (firstMessage.priority || 0))
 
     this.setState({ messages })
   }
