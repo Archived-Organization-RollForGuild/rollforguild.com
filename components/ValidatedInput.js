@@ -115,6 +115,8 @@ class ValidatedInput extends Component {
           onFocus={this._onFocus}
           ref={_el => this._el = _el} />
 
+        {this.props.children}
+
         <i className="fas fa-fw fa-exclamation-triangle validity-indicator" />
 
         <ul className="messages">
