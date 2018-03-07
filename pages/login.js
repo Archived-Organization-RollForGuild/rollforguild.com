@@ -150,8 +150,14 @@ class Login extends Component {
             </div>
 
             <div className="secondary">
-              <Link href="/register">
+              <Link href="/forgot-password">
                 <a className="button link">
+                  Forgot Password?
+                </a>
+              </Link>
+
+              <Link href="/register">
+                <a className="button secondary">
                   Sign Up
                 </a>
               </Link>
