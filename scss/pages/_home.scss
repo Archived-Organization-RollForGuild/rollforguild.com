@@ -1,11 +1,11 @@
 .page.home {
   .hero {
     background-image:
-      url(/static/images/logo.white.svg),
+      url(/static/images/logomark.white.full.svg),
       url(/static/images/dice.jpg);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%, cover;
+    background-size: 75%, cover;
     flex-shrink: 0;
     height: 50vh;
     margin-left: -2rem;
