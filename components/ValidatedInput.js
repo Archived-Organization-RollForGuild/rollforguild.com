@@ -117,13 +117,24 @@ class ValidatedInput extends Component {
       messages,
     } = this.state
 
+    const inputProps = { ...this.props }
+
+    if (inputProps.children) {
+      delete inputProps.children
+    }
+
     return (
       <div className="validated-input">
         <input
-          {...this.props}
+          {...inputProps}
           onInput={this._onInput}
           onFocus={this._onFocus}
-          ref={_el => this._el = _el} />
+          ref={_el => {
+            if (this.props.inputRef) {
+              this.props.inputRef(_el)
+            }
+            this._el = _el
+          }} />
 
         {this.props.children}
 
