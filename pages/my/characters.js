@@ -1,4 +1,5 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { Fragment } from 'react'
 
 
@@ -72,7 +73,7 @@ class MyCharacters extends Component {
             <li className="create">
               <Link href="/character-builder">
                 <a>
-                  <i className="fa fa-fw fa-plus" />
+                  <FontAwesomeIcon icon="plus" fixedWidth />
                   Add New
                 </a>
               </Link>

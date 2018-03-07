@@ -1,4 +1,5 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 // import Switch from 'rc-switch'
 
@@ -330,11 +331,11 @@ class GroupProfile extends Component {
                   {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
                   {(!requestingToJoin && joinRequestSent) && (
-                    <span><i className="fas fa-check" /> Request sent</span>
+                    <span><FontAwesomeIcon icon="check" /> Request sent</span>
                   )}
 
                   {requestingToJoin && (
-                    <span><i className="fas fa-pulse fa-spinner" /> Sending request...</span>
+                    <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
                   )}
                 </button>
               )}
@@ -347,7 +348,7 @@ class GroupProfile extends Component {
                   {!leaving && 'Leave group'}
 
                   {leaving && (
-                    <span><i className="fas fa-pulse fa-spinner" /> Leaving group...</span>
+                    <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
                   )}
                 </button>
               )}

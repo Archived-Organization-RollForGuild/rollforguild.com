@@ -1,4 +1,5 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
@@ -96,7 +97,7 @@ class Register extends Component {
             <fieldset>
               <div className="input-group">
                 <label htmlFor="email">
-                  <i className="fas fa-fw fa-envelope" />
+                  <FontAwesomeIcon icon="envelope" fixedWidth />
                 </label>
 
                 <input
@@ -114,7 +115,7 @@ class Register extends Component {
             <fieldset>
               <div className="input-group">
                 <label htmlFor="username">
-                  <i className="fas fa-fw fa-user" />
+                  <FontAwesomeIcon icon="user" fixedWidth />
                 </label>
 
                 <input
@@ -132,7 +133,7 @@ class Register extends Component {
             <fieldset>
               <div className="input-group">
                 <label htmlFor="password">
-                  <i className="fas fa-fw fa-lock" />
+                  <FontAwesomeIcon icon="lock" fixedWidth />
                 </label>
 
                 <input
