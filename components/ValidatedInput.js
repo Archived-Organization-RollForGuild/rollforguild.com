@@ -79,6 +79,14 @@ class ValidatedInput extends Component {
       }
     }
 
+    const propMessages = this.props.messages
+
+    if (typeof propMessages === 'function') {
+      messages = messages.concat(propMessages(this._el.value))
+    } else if (Array.isArray(propMessages)) {
+      messages = messages.concat(propMessages)
+    }
+
     messages = messages.sort((firstMessage, secondMessage) => (secondMessage.priority || 0) - (firstMessage.priority || 0))
 
     this.setState({ messages })
