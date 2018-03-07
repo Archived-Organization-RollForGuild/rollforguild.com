@@ -26,11 +26,11 @@ export default class extends Document {
           <meta name="theme-color" content="#ffffff" />
 
           <link rel="alternate" href="//rollforguild.com" hrefLang="en-us" />
-          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
-          <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png" />
-          <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg" color="#42dca3" />
-          <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png?v=2" />
+          <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png?v=2" />
+          <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png?v=2" />
+          <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg?v=2" color="#42dca3" />
+          <link rel="shortcut icon" href="/static/favicon/favicon.ico?v=2" />
 
           <link rel="manifest" href="/static/manifest.json" />
 
