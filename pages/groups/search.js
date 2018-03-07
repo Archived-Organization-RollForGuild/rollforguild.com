@@ -1,4 +1,5 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
@@ -233,7 +234,7 @@ class GroupSearch extends Component {
         <fieldset>
           <div className="input-group">
             <label>
-              <i className="fas fa-fw fa-search" />
+              <FontAwesomeIcon icon="search" fixedWidth />
             </label>
 
             <AddressInput
@@ -270,7 +271,7 @@ class GroupSearch extends Component {
                     className="binary button inline"
                     data-on={useCurrentLocation}
                     htmlFor="use-current-location">
-                    <i className="fas fa-fw fa-map-marker" />
+                    <FontAwesomeIcon icon="map-marker" fixedWidth />
                     Use my current location
                   </label>
                 </li>
@@ -299,7 +300,7 @@ class GroupSearch extends Component {
 
         {searching && (
           <div>
-            <i className="fas fa-pulse fa-spinner" /> Searching...
+            <FontAwesomeIcon icon="spinner" pulse /> Searching...
           </div>
         )}
 

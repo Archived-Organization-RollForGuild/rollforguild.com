@@ -34,8 +34,6 @@ export default class extends Document {
 
           <link rel="manifest" href="/static/manifest.json" />
 
-          <script defer src="//use.fontawesome.com/releases/v5.0.6/js/all.js" />
-
           <script src="//cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js" />
           <script dangerouslySetInnerHTML={
             {

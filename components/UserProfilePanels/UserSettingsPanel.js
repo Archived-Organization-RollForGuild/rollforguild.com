@@ -1,6 +1,8 @@
 // Module imports
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+// import PropTypes from 'prop-types'
 import React from 'react'
 
 
@@ -256,7 +258,7 @@ class GroupSettingsPanel extends Component {
                   {!submitting && 'Save'}
 
                   {submitting && (
-                    <span><i className="fas fa-pulse fa-spinner" /> Saving...</span>
+                    <span><FontAwesomeIcon icon="spinner" pulse /> Saving...</span>
                   )}
                 </button>
               </div>

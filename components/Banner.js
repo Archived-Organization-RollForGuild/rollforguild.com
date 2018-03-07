@@ -1,6 +1,6 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
-
 
 
 
@@ -25,7 +25,7 @@ export default (props) => (
         className="button success"
         data-openNav
         htmlFor="application-banner-control">
-        <i className="fas fa-fw fa-bars" />
+        <FontAwesomeIcon icon="bars" fixedWidth />
         Menu
       </label>
 
@@ -33,7 +33,7 @@ export default (props) => (
         className="button secondary"
         data-closeNav
         htmlFor="application-banner-control">
-        <i className="fas fa-fw fa-times" />
+        <FontAwesomeIcon icon="times" fixedWidth />
         Close
       </label>
 
@@ -50,24 +50,15 @@ export default (props) => (
 
         <nav className="social">
           <a href="//twitter.com/RollForGuild">
-            <i
-              aria-label="Twitter Icon"
-              role="img"
-              className="fab fa-fw fa-twitter" />
+            <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
           </a>
 
           <a href="//instagram.com/RollForGuild">
-            <i
-              aria-label="Instagram Icon"
-              role="img"
-              className="fab fa-fw fa-instagram" />
+            <FontAwesomeIcon icon={['fab', 'instagram']} fixedWidth />
           </a>
 
           <a href="//facebook.com/RollForGuild">
-            <i
-              aria-label="Facebook Icon"
-              role="img"
-              className="fab fa-fw fa-facebook" />
+            <FontAwesomeIcon icon={['fab', 'facebook']} fixedWidth />
           </a>
         </nav>
       </footer>

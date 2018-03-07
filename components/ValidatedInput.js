@@ -1,4 +1,11 @@
-// Component constants
+// Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+
+
+
+
+
+// Component imports
 import Component from './Component'
 
 
@@ -138,12 +145,12 @@ class ValidatedInput extends Component {
 
         {this.props.children}
 
-        <i className="fas fa-fw fa-exclamation-triangle validity-indicator" />
+        <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
 
         <ul className="messages">
           {messages.map(({ icon, message }) => (
             <li key={message}>
-              <i className={`fas fa-fw fa-${icon}`} />
+              <FontAwesomeIcon icon={icon} fixedWidth />
               {message}
             </li>
           ))}
