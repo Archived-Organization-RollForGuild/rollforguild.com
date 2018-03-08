@@ -1,5 +1,6 @@
 // Module imports
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import Head from 'next/head'
 import React from 'react'
 // import Switch from 'rc-switch'
 
@@ -18,6 +19,7 @@ import {
 } from '../../helpers'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
+import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
 import StaticMap from '../../components/StaticMap'
 
@@ -318,10 +320,20 @@ class GroupProfile extends Component {
       games,
       geo,
       name,
+      slug,
     } = group.attributes
 
     return (
       <React.Fragment>
+        <Head>
+          <meta property="og:description" content={description} />
+          <meta property="og:image" content={`https://api.adorable.io/avatars/500/${group.id}`} />
+          <meta property="og:site_name" content="Roll For Guild" />
+          <meta property="og:title" content={name} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={`https://rfg.group/${slug}`} />
+        </Head>
+
         <header>
           <h1>{name}</h1>
 
@@ -389,12 +401,7 @@ class GroupProfile extends Component {
 
           <TabPanel className="details">
             <Tab title="Details">
-              <section className="description">
-                <h4>Description</h4>
-                <div className="section-content">
-                  <p>{description || 'No description.'}</p>
-                </div>
-              </section>
+              <GroupDetailsPanel group={group} />
             </Tab>
 
             {currentUserIsMember && (
