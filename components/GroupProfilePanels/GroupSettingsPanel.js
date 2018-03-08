@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 // import PropTypes from 'prop-types'
 import React from 'react'
-// import Switch from 'rc-switch'
+import Switch from 'rc-switch'
 
 
 
@@ -38,6 +38,10 @@ class GroupSettingsPanel extends Component {
     } = target
 
     this._setChanges(name, value, validity.valid)
+  }
+
+  _handleDiscoverabilityChange (value) {
+    this._setChanges('discoverable', value)
   }
 
   _handleSlugChange (event) {
@@ -106,6 +110,7 @@ class GroupSettingsPanel extends Component {
     this._bindMethods([
       '_handleAddressChange',
       '_handleChange',
+      '_handleDiscoverabilityChange',
       '_handleSlugChange',
       '_handleSubmit',
     ])
@@ -132,7 +137,7 @@ class GroupSettingsPanel extends Component {
 
     const address = typeof changes.address === 'string' ? changes.address : group.attributes.address
     const description = typeof changes.description === 'string' ? changes.description : group.attributes.description
-    // const discoverable = changes.discoverable || group.attributes.discoverable
+    const discoverable = changes.discoverable || group.attributes.discoverable
     const name = typeof changes.name === 'string' ? changes.name : group.attributes.name
     // const slug = typeof changes.slug === 'string' ? changes.slug : group.attributes.slug
 
@@ -208,7 +213,7 @@ class GroupSettingsPanel extends Component {
               value={address} />
           </fieldset>
 
-          {/* <fieldset className="horizontal">
+          <fieldset className="horizontal">
             <label htmlFor="discoverable">
               Should your group show up in searches?
             </label>
@@ -217,8 +222,8 @@ class GroupSettingsPanel extends Component {
               disabled={submitting}
               checked={discoverable}
               id="discoverable"
-              onChange={isChecked => this.setState({ discoverable: isChecked })} />
-          </fieldset> */}
+              onChange={this._handleDiscoverabilityChange} />
+          </fieldset>
 
           <menu type="toolbar">
             <div className="primary">
