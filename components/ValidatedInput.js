@@ -17,28 +17,7 @@ class ValidatedInput extends Component {
     Private Methods
   \***************************************************************************/
 
-  _onInput (event) {
-    const { onInput } = this.props
-
-    if (onInput) {
-      onInput(event)
-    }
-
-    this._validate()
-  }
-
-  _onFocus (event) {
-    const { onFocus } = this.props
-
-    if (onFocus) {
-      onFocus(event)
-    }
-
-    this._validate()
-  }
-
-  _validate () {
-    let messages = []
+  _validate (messages = []) {
     const {
       badInput,
       patternMismatch,
@@ -58,10 +37,13 @@ class ValidatedInput extends Component {
       }
 
       if (patternMismatch) {
-        messages.push({
-          icon: 'exclamation-circle',
-          message: this._el.getAttribute('data-pattern-explainer'),
-        })
+        const message = this._el.getAttribute('data-pattern-explainer')
+        if (message) {
+          messages.push({
+            icon: 'exclamation-circle',
+            message,
+          })
+        }
       }
 
       if (tooLong) {
@@ -86,17 +68,14 @@ class ValidatedInput extends Component {
       }
     }
 
-    const propMessages = this.props.messages
-
-    if (typeof propMessages === 'function') {
-      messages = messages.concat(propMessages(this._el.value))
-    } else if (Array.isArray(propMessages)) {
-      messages = messages.concat(propMessages)
-    }
-
-    messages = messages.sort((firstMessage, secondMessage) => (secondMessage.priority || 0) - (firstMessage.priority || 0))
-
     this.setState({ messages })
+
+    if (this.props.onValidate) {
+      this.props.onValidate({
+        type: 'validate',
+        target: this._el,
+      })
+    }
   }
 
 
@@ -107,16 +86,35 @@ class ValidatedInput extends Component {
     Public Methods
   \***************************************************************************/
 
+  componentDidMount () {
+    this._validate()
+  }
+
+  componentDidUpdate (prevProps) {
+    let comparedProps = [
+      'pattern',
+      'value',
+      'required',
+      'type',
+      'minLength',
+      'maxLength',
+    ]
+
+    comparedProps = comparedProps.map(fieldName => this.props[fieldName] === prevProps[fieldName])
+
+    if (comparedProps.includes(false)) {
+      this._validate()
+    }
+  }
+
   constructor (props) {
     super(props)
 
-    this._bindMethods([
-      '_onInput',
-      '_onFocus',
-    ])
     this._debounceMethods(['_validate'])
 
-    this.state = { messages: [] }
+    this.state = {
+      messages: [],
+    }
   }
 
   render () {
@@ -124,26 +122,20 @@ class ValidatedInput extends Component {
       messages,
     } = this.state
 
-    const inputProps = { ...this.props }
+    const classNames = [
+      'validated-input',
+      (this.props.className || ''),
+    ]
 
-    if (inputProps.children) {
-      delete inputProps.children
-    }
+    const inputProps = { ...this.props }
+    delete inputProps.onValidate
+    delete inputProps.className
 
     return (
-      <div className="validated-input">
+      <div className={classNames.join(' ')}>
         <input
           {...inputProps}
-          onInput={this._onInput}
-          onFocus={this._onFocus}
-          ref={_el => {
-            if (this.props.inputRef) {
-              this.props.inputRef(_el)
-            }
-            this._el = _el
-          }} />
-
-        {this.props.children}
+          ref={_el => this._el = _el} />
 
         <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
 
