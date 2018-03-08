@@ -12,9 +12,11 @@ import {
   Tab,
   TabPanel,
 } from '../../components/TabPanel'
+import {
+  convertSlugToUUID,
+  isUUID,
+} from '../../helpers'
 import Component from '../../components/Component'
-import convertSlugToUUID from '../../helpers/convertSlugToUUID'
-import isUUID from '../../helpers/isUUID'
 import Page from '../../components/Page'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
 import StaticMap from '../../components/StaticMap'

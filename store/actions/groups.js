@@ -7,8 +7,8 @@ import 'isomorphic-fetch'
 
 
 // Component imports
+import { convertObjectToQueryParams } from '../../helpers'
 import actionTypes from '../actionTypes'
-import convertObjectToQueryParams from '../../helpers/convertObjectToQueryParams'
 
 
 

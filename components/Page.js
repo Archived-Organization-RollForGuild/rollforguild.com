@@ -38,7 +38,7 @@ import Banner from './Banner'
 import Head from './Head'
 
 /* eslint-disable no-unused-expressions */
-preval`if (process.env.NODE_ENV === 'production') require('../helpers/offline')`
+preval`if (process.env.NODE_ENV === 'production') require('../workers/offline')`
 /* eslint-enable */
 
 

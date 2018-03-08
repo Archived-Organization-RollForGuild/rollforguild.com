@@ -12,9 +12,9 @@ import Switch from 'rc-switch'
 
 // Component imports
 import { actions } from '../../store'
+import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../AddressInput'
 import Component from '../Component'
-import convertStringToSlug from '../../helpers/convertStringToSlug'
 import ValidatedInput from '../ValidatedInput'
 
 
