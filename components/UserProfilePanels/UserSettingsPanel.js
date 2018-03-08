@@ -117,7 +117,7 @@ class GroupSettingsPanel extends Component {
     } = this.state
     const newChanges = { ...changes }
 
-    if (value === user.attributes[key]) {
+    if (value === (user.attributes[key] || '')) {
       delete newChanges[key]
     } else {
       newChanges[key] = value
