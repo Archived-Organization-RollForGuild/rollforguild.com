@@ -25,6 +25,10 @@ Router.onRouteChangeError = () => {
 }
 
 Router.onRouteChangeComplete = () => {
+  if (window.twttr) {
+    window.twttr.widgets.load()
+  }
+
   NProgress.done()
 }
 

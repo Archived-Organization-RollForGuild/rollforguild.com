@@ -12,6 +12,10 @@ import {
   Tab,
   TabPanel,
 } from '../../components/TabPanel'
+import {
+  convertSlugToUUID,
+  isUUID,
+} from '../../helpers'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
@@ -215,8 +219,8 @@ class GroupProfile extends Component {
     const {
       getGroup,
       getJoinRequests,
+      id,
     } = this.props
-    const { id } = this.props.query
     let { group } = this.props
     let memberStatus = null
     let joinRequests = []
@@ -505,9 +509,15 @@ const mapDispatchToProps = [
 ]
 
 const mapStateToProps = (state, ownProps) => {
-  const group = state.groups[ownProps.query.id] || null
+  let { id } = ownProps.query
   let currentUserIsMember = false
   let members = []
+
+  if (!isUUID(id)) {
+    id = convertSlugToUUID(id, 'groups')
+  }
+
+  const group = state.groups[id] || null
 
   if (group) {
     const memberStatus = group.attributes.member_status
@@ -522,6 +532,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     group,
+    id,
     members,
   }
 }

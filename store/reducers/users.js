@@ -8,8 +8,10 @@ import Cookies from 'js-cookie'
 // Component imports
 import actionTypes from '../actionTypes'
 import initialState from '../initialState'
-import parseJSONAPIResponseForEntityType from '../../helpers/parseJSONAPIResponseForEntityType'
-import deepMergeJSONAPIObjectCollections from '../../helpers/deepMergeJSONAPIObjectCollections'
+import {
+  deepMergeJSONAPIObjectCollections,
+  parseJSONAPIResponseForEntityType,
+} from '../../helpers'
 
 
 
