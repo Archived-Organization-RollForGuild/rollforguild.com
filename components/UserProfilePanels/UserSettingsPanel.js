@@ -229,8 +229,9 @@ class GroupSettingsPanel extends Component {
                 id="currentPassword"
                 name="currentPassword"
                 onInput={this._handleChange}
+                onValidate={this._handleChange}
                 placeholder="Current Password"
-                required={password.length}
+                required={!!password.length}
                 value={currentPassword} />
 
               <PasswordInput
@@ -239,12 +240,13 @@ class GroupSettingsPanel extends Component {
                 id="password"
                 name="password"
                 onInput={this._handleChange}
+                onValidate={this._handleChange}
                 minLength={8}
                 placeholder="New Password"
-                required={currentPassword.length}
                 showStrength
-                showSugguestions
+                showSuggestions
                 showWarnings
+                required={!!currentPassword.length}
                 value={password} />
             </fieldset>
 
