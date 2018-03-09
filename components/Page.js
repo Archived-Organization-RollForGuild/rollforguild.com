@@ -8,6 +8,7 @@ import fontawesome from '@fortawesome/fontawesome'
 import {
   faBars,
   faCheck,
+  faCopy,
   faEnvelope,
   faTimes,
   faExclamationCircle,
@@ -78,6 +79,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         // Solids
         faBars,
         faCheck,
+        faCopy,
         faEnvelope,
         faTimes,
         faExclamationCircle,

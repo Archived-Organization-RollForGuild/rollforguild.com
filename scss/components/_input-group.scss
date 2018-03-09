@@ -1,10 +1,19 @@
 .input-group {
   align-content: stretch;
   align-items: stretch;
-  background-color: $white;
   color: $light-grey;
   display: flex;
   transition: color 0.2s;
+
+  > :first-child {
+    border-bottom-left-radius: 0.25rem;
+    border-top-left-radius: 0.25rem;
+  }
+
+  > :last-child {
+    border-bottom-right-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+  }
 
   > :not(:first-child) {
     border-left-color: $light-grey;
@@ -14,14 +23,17 @@
   }
 
   > label {
+    background-color: $white;
     padding: 0.5rem 1rem;
   }
 
   > input {
+    background-color: $white;
     flex-shrink: 1;
   }
 
   > button {
+    border-radius: 0;
     padding-bottom: 0;
     padding-top: 0;
   }
