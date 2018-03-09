@@ -1,6 +1,7 @@
 // Module imports
+import React from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-
+import { orderBy } from 'lodash'
 
 
 
@@ -17,28 +18,7 @@ class ValidatedInput extends Component {
     Private Methods
   \***************************************************************************/
 
-  _onInput (event) {
-    const { onInput } = this.props
-
-    this._validate()
-
-    if (onInput) {
-      onInput(event)
-    }
-  }
-
-  _onFocus (event) {
-    const { onFocus } = this.props
-
-    this._validate()
-
-    if (onFocus) {
-      onFocus(event)
-    }
-  }
-
-  _validate () {
-    const messages = []
+  _validate (messages = []) {
     const {
       badInput,
       patternMismatch,
@@ -52,41 +32,51 @@ class ValidatedInput extends Component {
     if (!valid) {
       if (badInput || typeMismatch) {
         messages.push({
-          icon: 'exclamation-circle',
+          icon: 'exclamation-triangle',
           message: this._el.getAttribute('data-badinput-explainer') || 'Doesn\'t match field type',
         })
       }
 
       if (patternMismatch) {
-        messages.push({
-          icon: 'exclamation-circle',
-          message: this._el.getAttribute('data-pattern-explainer'),
-        })
+        const message = this._el.getAttribute('data-pattern-explainer')
+        if (message) {
+          messages.push({
+            icon: 'exclamation-triangle',
+            message,
+          })
+        }
       }
 
       if (tooLong) {
         messages.push({
-          icon: 'exclamation-circle',
+          icon: 'exclamation-triangle',
           message: this._el.getAttribute('data-maxlength-explainer') || `Must be fewer than ${this._el.getAttribute('maxlength')} characters`,
         })
       }
 
       if (tooShort) {
         messages.push({
-          icon: 'exclamation-circle',
+          icon: 'exclamation-triangle',
           message: this._el.getAttribute('data-minlength-explainer') || `Must be longer than ${this._el.getAttribute('minlength')} characters`,
         })
       }
 
       if (valueMissing) {
         messages.push({
-          icon: 'exclamation-circle',
+          icon: 'exclamation-triangle',
           message: this._el.getAttribute('data-required-explainer') || 'This field is required',
         })
       }
     }
 
-    this.setState({ messages })
+    this.setState({ messages: orderBy(messages, ['priority'], ['desc']) })
+
+    if (this.props.onValidate) {
+      this.props.onValidate({
+        type: 'validate',
+        target: this._el,
+      })
+    }
   }
 
 
@@ -97,41 +87,74 @@ class ValidatedInput extends Component {
     Public Methods
   \***************************************************************************/
 
+  componentDidMount () {
+    this._validate()
+  }
+
+  componentDidUpdate (prevProps) {
+    let comparedProps = [
+      'pattern',
+      'value',
+      'required',
+      'type',
+      'minLength',
+      'maxLength',
+    ]
+
+    comparedProps = comparedProps.map(fieldName => this.props[fieldName] === prevProps[fieldName])
+
+    if (comparedProps.includes(false)) {
+      this._validate()
+    }
+  }
+
   constructor (props) {
     super(props)
 
-    this._bindMethods([
-      '_onInput',
-      '_onFocus',
-    ])
     this._debounceMethods(['_validate'])
 
-    this.state = { messages: [] }
+    this.state = {
+      messages: [],
+    }
   }
 
-  render () {
+  renderMessages() {
     const {
       messages,
     } = this.state
 
     return (
-      <div className="validated-input">
-        <input
-          {...this.props}
-          onInput={this._onInput}
-          onFocus={this._onFocus}
-          ref={_el => this._el = _el} />
-
+      <React.Fragment>
         <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
 
         <ul className="messages">
-          {messages.map(({ icon, message }) => (
-            <li key={message}>
+          {messages.map(({ icon, message, type }) => (
+            <li key={message} className={`${type || 'error'} message`}>
               <FontAwesomeIcon icon={icon} fixedWidth />
               {message}
             </li>
           ))}
         </ul>
+      </React.Fragment>
+    )
+  }
+
+  render () {
+    const classNames = [
+      'validated-input',
+      (this.props.className || ''),
+    ]
+
+    const inputProps = { ...this.props }
+    delete inputProps.onValidate
+    delete inputProps.className
+
+    return (
+      <div className={classNames.join(' ')}>
+        <input
+          {...inputProps}
+          ref={_el => this._el = _el} />
+        {this.renderMessages()}
       </div>
     )
   }

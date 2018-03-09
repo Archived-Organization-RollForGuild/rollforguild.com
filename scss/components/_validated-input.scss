@@ -2,12 +2,10 @@
   position: relative;
 
   .messages {
-    background-color: $red;
     font-family: Montserrat, sans-serif;
     font-size: 0.8em;
     left: 0;
     opacity: 0;
-    padding: 0.5rem 1rem;
     pointer-events: none;
     position: absolute;
     right: 0;
@@ -16,12 +14,25 @@
     z-index: 1;
 
     li {
-      [data-icon] {
-        margin-right: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: $red;
+      color: $white;
+
+      &.info {
+        background-color: $blue;
       }
 
-      &:not(:last-child) {
-        margin-bottom: 1rem;
+      &.warn {
+        background-color: $orange;
+      }
+
+      &.error {
+        background-color: $red;
+
+      }
+
+      [data-icon] {
+        margin-right: 1rem;
       }
     }
   }
