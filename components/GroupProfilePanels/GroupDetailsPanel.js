@@ -40,13 +40,17 @@ const GroupDetailsPanel = ({ group }) => {
       <section className="sharing">
         <h4>Sharing</h4>
         <div className="section-content">
-          <Link href={`//twitter.com/intent/tweet${convertObjectToQueryParams(twitterShareParams)}`}>
-            <a>
-              <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
-            </a>
-          </Link>
+          <div className="input-group">
+            <div className="input-group">
+              <Link href={`//twitter.com/intent/tweet${convertObjectToQueryParams(twitterShareParams)}`}>
+                <a className="button secondary">
+                  <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
+                </a>
+              </Link>
+            </div>
 
-          <ShareableLink link={permalink} />
+            <ShareableLink link={permalink} />
+          </div>
         </div>
       </section>
     </React.Fragment>

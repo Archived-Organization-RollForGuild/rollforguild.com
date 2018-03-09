@@ -63,7 +63,7 @@ export default class extends Document {
                   if (d.getElementById(id)) return t;
                   js = d.createElement(s);
                   js.id = id;
-                  js.src = "https://platform.twitter.com/widgets.js";
+                  js.src = "//platform.twitter.com/widgets.js";
                   fjs.parentNode.insertBefore(js, fjs);
 
                   t._e = [];

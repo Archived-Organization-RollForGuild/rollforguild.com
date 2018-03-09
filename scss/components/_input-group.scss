@@ -5,6 +5,27 @@
   display: flex;
   transition: color 0.2s;
 
+  > label {
+    background-color: $white;
+    padding: 0.5rem 1rem;
+  }
+
+  > input {
+    background-color: $white;
+    flex-shrink: 1;
+  }
+
+  > button,
+  > .button {
+    border-radius: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  > .input-group:not(:last-child) {
+    margin-right: 1rem;
+  }
+
   > :first-child {
     border-bottom-left-radius: 0.25rem;
     border-top-left-radius: 0.25rem;
@@ -16,26 +37,13 @@
   }
 
   > :not(:first-child) {
-    border-left-color: $light-grey;
-    border-left-style: solid;
-    border-left-width: 0.1rem;
     flex-grow: 1;
-  }
 
-  > label {
-    background-color: $white;
-    padding: 0.5rem 1rem;
-  }
-
-  > input {
-    background-color: $white;
-    flex-shrink: 1;
-  }
-
-  > button {
-    border-radius: 0;
-    padding-bottom: 0;
-    padding-top: 0;
+    &:not(.input-group) {
+      border-left-color: $light-grey;
+      border-left-style: solid;
+      border-left-width: 0.1rem;
+    }
   }
 
   .squishable {
