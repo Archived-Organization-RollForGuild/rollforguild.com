@@ -9,6 +9,7 @@ import React from 'react'
 // Component imports
 import { Link } from '../../routes'
 import { convertObjectToQueryParams } from '../../helpers'
+import ShareableLink from '../ShareableLink'
 
 
 
@@ -44,6 +45,8 @@ const GroupDetailsPanel = ({ group }) => {
               <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
             </a>
           </Link>
+
+          <ShareableLink link={permalink} />
         </div>
       </section>
     </React.Fragment>
