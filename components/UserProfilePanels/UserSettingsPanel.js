@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 // import PropTypes from 'prop-types'
 import React from 'react'
-// import Switch from 'rc-switch'
 
 
 
@@ -13,7 +12,8 @@ import React from 'react'
 // Component imports
 import { actions } from '../../store'
 import Component from '../Component'
-import ValidatedInput from '../ValidatedInput'
+// import ValidatedInput from '../ValidatedInput'
+import PasswordInput from '../PasswordInput'
 
 
 
@@ -117,7 +117,7 @@ class GroupSettingsPanel extends Component {
     } = this.state
     const newChanges = { ...changes }
 
-    if (value === user.attributes[key]) {
+    if (value === (user.attributes[key] || '')) {
       delete newChanges[key]
     } else {
       newChanges[key] = value
@@ -220,30 +220,33 @@ class GroupSettingsPanel extends Component {
             </fieldset>*/}
 
             <fieldset>
-              <label htmlFor="name">
+              <label htmlFor="currentPassword">
                 Change Password
               </label>
-              <ValidatedInput
+              <PasswordInput
                 data-required-explainer="Both password fields are required to change your password."
                 disabled={submitting}
                 id="currentPassword"
                 name="currentPassword"
-                onChange={this._handleChange}
+                onInput={this._handleChange}
+                onValidate={this._handleChange}
                 placeholder="Current Password"
-                required={password.length}
-                type="password"
+                required={!!password.length}
                 value={currentPassword} />
 
-              <ValidatedInput
+              <PasswordInput
                 data-required-explainer="Both password fields are required to change your password."
                 disabled={submitting}
                 id="password"
                 name="password"
-                onChange={this._handleChange}
+                onInput={this._handleChange}
+                onValidate={this._handleChange}
                 minLength={8}
                 placeholder="New Password"
-                required={currentPassword.length}
-                type="password"
+                showStrength
+                showSuggestions
+                showWarnings
+                required={!!currentPassword.length}
                 value={password} />
             </fieldset>
 
