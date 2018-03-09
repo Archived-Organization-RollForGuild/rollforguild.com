@@ -1,7 +1,7 @@
 // Module imports
 import React from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-
+import { orderBy } from 'lodash'
 
 
 
@@ -32,7 +32,7 @@ class ValidatedInput extends Component {
     if (!valid) {
       if (badInput || typeMismatch) {
         messages.push({
-          icon: 'exclamation-circle',
+          icon: 'exclamation-triangle',
           message: this._el.getAttribute('data-badinput-explainer') || 'Doesn\'t match field type',
         })
       }
@@ -41,7 +41,7 @@ class ValidatedInput extends Component {
         const message = this._el.getAttribute('data-pattern-explainer')
         if (message) {
           messages.push({
-            icon: 'exclamation-circle',
+            icon: 'exclamation-triangle',
             message,
           })
         }
@@ -49,27 +49,27 @@ class ValidatedInput extends Component {
 
       if (tooLong) {
         messages.push({
-          icon: 'exclamation-circle',
+          icon: 'exclamation-triangle',
           message: this._el.getAttribute('data-maxlength-explainer') || `Must be fewer than ${this._el.getAttribute('maxlength')} characters`,
         })
       }
 
       if (tooShort) {
         messages.push({
-          icon: 'exclamation-circle',
+          icon: 'exclamation-triangle',
           message: this._el.getAttribute('data-minlength-explainer') || `Must be longer than ${this._el.getAttribute('minlength')} characters`,
         })
       }
 
       if (valueMissing) {
         messages.push({
-          icon: 'exclamation-circle',
+          icon: 'exclamation-triangle',
           message: this._el.getAttribute('data-required-explainer') || 'This field is required',
         })
       }
     }
 
-    this.setState({ messages })
+    this.setState({ messages: orderBy(messages, ['priority'], ['desc']) })
 
     if (this.props.onValidate) {
       this.props.onValidate({
@@ -128,8 +128,8 @@ class ValidatedInput extends Component {
         <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
 
         <ul className="messages">
-          {messages.map(({ icon, message, level }) => (
-            <li key={message} className={`${level || 'error'} message`}>
+          {messages.map(({ icon, message, type }) => (
+            <li key={message} className={`${type || 'error'} message`}>
               <FontAwesomeIcon icon={icon} fixedWidth />
               {message}
             </li>
@@ -154,9 +154,6 @@ class ValidatedInput extends Component {
         <input
           {...inputProps}
           ref={_el => this._el = _el} />
-
-
-
         {this.renderMessages()}
       </div>
     )

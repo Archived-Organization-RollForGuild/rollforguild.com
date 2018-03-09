@@ -34,6 +34,7 @@ class PasswordInput extends ValidatedInput {
       messages.push({
         icon: 'exclamation-triangle',
         message: passwordEvaluation.feedback.warning,
+        priority: 99,
       })
       isValid = false
     }
@@ -42,7 +43,9 @@ class PasswordInput extends ValidatedInput {
       for (const suggestion of passwordEvaluation.feedback.suggestions) {
         messages.push({
           icon: 'exclamation-circle',
-          message: suggestion,
+          type: 'info',
+          message: `Suggestion: ${suggestion}`,
+          priority: -1,
         })
       }
       isValid = false
