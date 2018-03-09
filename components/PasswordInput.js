@@ -79,11 +79,11 @@ class PasswordInput extends ValidatedInput {
       isValid: true,
     }
   }
+
   render() {
     const {
       showPassword,
       passwordStrength,
-      messages,
       isValid,
     } = this.state
 
@@ -133,14 +133,7 @@ class PasswordInput extends ValidatedInput {
 
         <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
 
-        <ul className="messages">
-          {messages.map(({ icon, message }) => (
-            <li key={message}>
-              <FontAwesomeIcon icon={icon} fixedWidth />
-              {message}
-            </li>
-          ))}
-        </ul>
+        {this.renderMessages()}
       </div>
     )
   }

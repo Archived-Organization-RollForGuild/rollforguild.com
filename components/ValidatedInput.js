@@ -1,4 +1,5 @@
 // Module imports
+import React from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 
@@ -117,11 +118,28 @@ class ValidatedInput extends Component {
     }
   }
 
-  render () {
+  renderMessages() {
     const {
       messages,
     } = this.state
 
+    return (
+      <React.Fragment>
+        <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
+
+        <ul className="messages">
+          {messages.map(({ icon, message, level }) => (
+            <li key={message} className={`${level || 'error'} message`}>
+              <FontAwesomeIcon icon={icon} fixedWidth />
+              {message}
+            </li>
+          ))}
+        </ul>
+      </React.Fragment>
+    )
+  }
+
+  render () {
     const classNames = [
       'validated-input',
       (this.props.className || ''),
@@ -137,16 +155,9 @@ class ValidatedInput extends Component {
           {...inputProps}
           ref={_el => this._el = _el} />
 
-        <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
 
-        <ul className="messages">
-          {messages.map(({ icon, message }) => (
-            <li key={message}>
-              <FontAwesomeIcon icon={icon} fixedWidth />
-              {message}
-            </li>
-          ))}
-        </ul>
+
+        {this.renderMessages()}
       </div>
     )
   }
