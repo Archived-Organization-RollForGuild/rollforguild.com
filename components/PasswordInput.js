@@ -134,8 +134,6 @@ class PasswordInput extends ValidatedInput {
             value={passwordStrength} />
         )}
 
-        <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
-
         {this.renderMessages()}
       </div>
     )
