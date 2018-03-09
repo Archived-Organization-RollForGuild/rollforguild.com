@@ -17,6 +17,7 @@ import {
   convertSlugToUUID,
   isUUID,
 } from '../../helpers'
+import { actions } from '../../store'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
@@ -273,6 +274,18 @@ class GroupProfile extends Component {
       loaded: group && group.attributes.member_status,
       requestingToJoin: false,
     }
+  }
+
+  static async getInitialProps ({ query, store }) {
+    let { id } = query
+
+    if (!isUUID(id)) {
+      id = convertSlugToUUID(id, 'groups')
+    }
+
+    await actions.getGroup(id)(store.dispatch)
+
+    return {}
   }
 
   render () {

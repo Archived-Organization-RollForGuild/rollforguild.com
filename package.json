@@ -19,6 +19,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.8",
     "@fortawesome/react-fontawesome": "^0.0.17",
     "autoprefixer": "^8.1.0",
+    "axios": "^0.18.0",
     "babel-plugin-inline-react-svg": "^0.5.2",
     "babel-plugin-module-resolver": "^3.1.0",
     "babel-plugin-preval": "^1.6.4",

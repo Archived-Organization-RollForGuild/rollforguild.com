@@ -37,6 +37,7 @@ import {
   initStore,
 } from '../store'
 import { Router } from '../routes'
+import apiService from '../services/api'
 import Banner from './Banner'
 import Head from './Head'
 
@@ -104,6 +105,10 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         name: 'Roll for Guild',
         storeName: 'webStore',
       })
+
+      if (props.accessToken) {
+        apiService.defaults.headers.common.Authorization = `Bearer ${props.accessToken}`
+      }
     }
 
     static async getInitialProps(ctx) {
@@ -117,6 +122,10 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         userId,
       } = Cookies(ctx)
       let props = {}
+
+      if (accessToken) {
+        apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+      }
 
       if (typeof Component.getInitialProps === 'function') {
         props = await Component.getInitialProps(ctx)
