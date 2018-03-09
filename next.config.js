@@ -37,7 +37,7 @@ module.exports = {
         ],
       }))
 
-      config.optimization.minimizer.push(new UglifyJsPlugin())
+      config.plugins.push(new UglifyJsPlugin())
     }
 
     config.module.rules.unshift({
