@@ -56,23 +56,6 @@ initStore()
 
 export default (Component, title = 'Untitled', reduxOptions = {}, authenticationRequired = false) => {
   class Page extends React.Component {
-    componentWillMount () {
-      const {
-        accessToken,
-        asPath,
-      } = this.props
-
-      if (authenticationRequired && !accessToken) {
-        return Router.replace(`/login?destination=${encodeURIComponent(asPath)}`)
-      }
-
-      if (Component.componentWillMount) {
-        Component.componentWillMount()
-      }
-
-      return true
-    }
-
     constructor (props) {
       super(props)
 
@@ -116,9 +99,23 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       } = Cookies(ctx)
       let props = {}
 
+      if (authenticationRequired && !accessToken) {
+        if (ctx.res) {
+          ctx.res.writeHead(302, {
+            Location: `/login?destination=${encodeURIComponent(asPath)}`,
+          })
+        } else {
+          Router.replace(`/login?destination=${encodeURIComponent(asPath)}`)
+        }
+
+        return {}
+      }
+
       if (typeof Component.getInitialProps === 'function') {
         props = await Component.getInitialProps(ctx)
       }
+
+
 
       return {
         accessToken,
