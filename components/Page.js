@@ -92,6 +92,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         asPath,
         isServer,
         query,
+        res,
       } = ctx
       const {
         accessToken,
@@ -100,10 +101,12 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       let props = {}
 
       if (authenticationRequired && !accessToken) {
-        if (ctx.res) {
-          ctx.res.writeHead(302, {
+        if (res) {
+          res.writeHead(302, {
             Location: `/login?destination=${encodeURIComponent(asPath)}`,
           })
+          res.end()
+          res.finished = true
         } else {
           Router.replace(`/login?destination=${encodeURIComponent(asPath)}`)
         }
