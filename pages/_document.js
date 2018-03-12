@@ -48,16 +48,38 @@ export default class extends Document {
                   var j = d.createElement(s)
                   var dl = l != 'dataLayer' ? '&l=' + l : ''
                   j.async=true
-                  j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+                  j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl
                   f.parentNode.insertBefore(j,f)
                 })(window, document, 'script', 'dataLayer', '${gatmId}');
+              `,
+            }
+          } />
+          <script dangerouslySetInnerHTML={
+            {
+              __html: `
+                window.twttr = (function(d, s, id) {
+                  var js, fjs = d.getElementsByTagName(s)[0],
+                    t = window.twttr || {};
+                  if (d.getElementById(id)) return t;
+                  js = d.createElement(s);
+                  js.id = id;
+                  js.src = "//platform.twitter.com/widgets.js";
+                  fjs.parentNode.insertBefore(js, fjs);
+
+                  t._e = [];
+                  t.ready = function(f) {
+                    t._e.push(f);
+                  };
+
+                  return t;
+                }(document, "script", "twitter-wjs"));
               `,
             }
           } />
         </Head>
 
         <body>
-          <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gatmId}X" height="0" width="0" style="display:none; visibility:hidden;" />` }} />
+          <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="//www.googletagmanager.com/ns.html?id=${gatmId}X" height="0" width="0" style="display:none; visibility:hidden;" />` }} />
 
           <noscript>Javascript is required to view this site.</noscript>
 
