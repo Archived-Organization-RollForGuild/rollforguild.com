@@ -13,6 +13,9 @@ routes
   .add('group profile', '/groups/:id', '/groups/group')
   .add('group search', '/groups/search', '/groups/search')
 
+  // Password reset
+  .add('password reset', '/reset(-password)?/:token?', '/reset-password')
+
   // Users
   .add('user profile', '/users/:id', '/users/user')
   .add('user profile current', '/my/profile', '/users/user')
