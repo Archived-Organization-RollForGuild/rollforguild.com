@@ -58,10 +58,12 @@ class CreateGroup extends Component {
       name,
       slug: slug || convertStringToSlug(name),
     })
-    const groupId = payload.data.id
+    const {
+      id,
+    } = payload.data
 
-    if (groupId) {
-      return Router.push(`/groups/?id=${groupId}`, `/groups/${groupId}`)
+    if (id) {
+      return Router.pushRoute('group profile', { id })
     }
 
     return this.setState({ submitting: false })

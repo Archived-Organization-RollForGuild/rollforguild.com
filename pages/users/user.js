@@ -244,8 +244,8 @@ class UserProfile extends Component {
                             type="toolbar">
                             <div className="primary">
                               <Link
-                                href={`/groups/group?id=${group.id}`}
-                                as={`/groups/${group.id}`}>
+                                route="group profile"
+                                params={{ id: group.id }}>
                                 <button
                                   className="small success" >
                                   View

@@ -109,7 +109,7 @@ class GroupCard extends Component {
         <footer>
           <menu type="toolbar">
             <div className="primary">
-              <Link href={`/groups/?id=${id}`} as={`/groups/${id}`}>
+              <Link route="group profile" params={{ id }}>
                 <a className="button info">
                   Learn more
                 </a>

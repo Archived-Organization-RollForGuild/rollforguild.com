@@ -72,8 +72,7 @@ const navItems = [
       //   title: 'Activity Feed',
       // },
       {
-        as: '/my/profile',
-        href: '/users/user',
+        route: 'user profile current',
         title: 'My Profile',
       },
       {
@@ -199,11 +198,11 @@ class Nav extends Component {
 
     const key = item.key || renderedItemTitle.toLowerCase().replace(/\s/g, '-')
 
-    Object.keys(item).forEach(itemKey => {
-      if (/^href|as$/gi.test(itemKey)) {
-        itemWithOnlyLinkProps[itemKey] = item[itemKey]
+    for (const [itemKey, itemValue] of Object.entries(item)) {
+      if (/^href|as|route|params$/gi.test(itemKey)) {
+        itemWithOnlyLinkProps[itemKey] = itemValue
       }
-    })
+    }
 
     if (subnav) {
       renderedItemTitle = (
@@ -259,4 +258,3 @@ const mapStateToProps = state => ({
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Nav)
-
