@@ -8,6 +8,7 @@ import fontawesome from '@fortawesome/fontawesome'
 import {
   faBars,
   faCheck,
+  faCopy,
   faEnvelope,
   faEye,
   faEyeSlash,
@@ -36,11 +37,12 @@ import {
   initStore,
 } from '../store'
 import { Router } from '../routes'
+import apiService from '../services/api'
 import Banner from './Banner'
 import Head from './Head'
 
 /* eslint-disable no-unused-expressions */
-preval`if (process.env.NODE_ENV === 'production') require('../helpers/offline')`
+preval`if (process.env.NODE_ENV === 'production') require('../workers/offline')`
 /* eslint-enable */
 
 
@@ -63,6 +65,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         // Solids
         faBars,
         faCheck,
+        faCopy,
         faEnvelope,
         faEye,
         faEyeSlash,
@@ -85,6 +88,10 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         name: 'Roll for Guild',
         storeName: 'webStore',
       })
+
+      if (props.accessToken) {
+        apiService.defaults.headers.common.Authorization = `Bearer ${props.accessToken}`
+      }
     }
 
     static async getInitialProps(ctx) {
@@ -100,7 +107,11 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       } = Cookies(ctx)
       let props = {}
 
-      if (authenticationRequired && !accessToken) {
+      if (accessToken) {
+        apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+      }
+      
+      if (!accessToken && authenticationRequired) {
         if (res) {
           res.writeHead(302, {
             Location: `/login?destination=${encodeURIComponent(asPath)}`,
@@ -117,9 +128,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       if (typeof Component.getInitialProps === 'function') {
         props = await Component.getInitialProps(ctx)
       }
-
-
-
+        
       return {
         accessToken,
         asPath,
