@@ -8,11 +8,11 @@ routes
   .add('character profile', '/my/characters/:id', '/my/character')
 
   // Groups
-  .add('create group', '/groups/create', '/groups/create')
-  .add('manage group', '/groups/manage', '/groups/manage')
-  .add('group search', '/groups/search', '/groups/search')
+  .add('group create', '/groups/create', '/groups/create')
+  .add('group manage', '/groups/manage', '/groups/manage')
   .add('group profile', '/groups/:id', '/groups/group')
+  .add('group search', '/groups/search', '/groups/search')
 
   // Users
-  .add('view user', '/users/:id', '/users/user')
-  .add('view current user', '/my/profile', '/users/user')
+  .add('user profile', '/users/:id', '/users/user')
+  .add('user profile current', '/my/profile', '/users/user')
