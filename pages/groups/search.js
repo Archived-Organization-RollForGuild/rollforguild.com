@@ -7,13 +7,13 @@ import React from 'react'
 
 
 // Component imports
+import { convertObjectToQueryParams } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
 import Component from '../../components/Component'
 import Dropdown from '../../components/Dropdown'
 import GroupCard from '../../components/GroupCard'
 import Page from '../../components/Page'
 import Pagination from '../../components/Pagination'
-import convertObjectToQueryParams from '../../helpers/convertObjectToQueryParams'
 
 
 

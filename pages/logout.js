@@ -1,5 +1,6 @@
 // Component imports
 import { Router } from '../routes'
+import apiService from '../services/api'
 import Component from '../components/Component'
 import Page from '../components/Page'
 
@@ -23,6 +24,8 @@ class Logout extends Component {
     const { logout } = this.props
 
     await logout()
+
+    delete apiService.defaults.headers.common.Authorization
 
     Router.push('/')
   }
