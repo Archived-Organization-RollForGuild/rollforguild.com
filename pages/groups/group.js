@@ -179,17 +179,23 @@ class GroupProfile extends Component {
     await this._handleJoinRequest(userId, 'ignored')
   }
 
-  async _leaveGroup () {
+  async _removeMember(userId) {
     const {
       group,
-      leaveGroup,
+      removeGroupMember,
     } = this.props
 
-    this.setState({ leaving: true })
+    this.setState({
+      leaving: {
+        [userId]: true,
+      },
+    })
 
-    await leaveGroup(group.id)
+    const { status } = await removeGroupMember(group.id, userId)
 
-    window.location.reload()
+    if (status === 'success') {
+      window.location.reload()
+    }
   }
 
   async _requestToJoin () {
@@ -260,7 +266,7 @@ class GroupProfile extends Component {
     this._bindMethods([
       '_acceptJoinRequest',
       '_ignoreJoinRequest',
-      '_leaveGroup',
+      '_removeMember',
       '_requestToJoin',
       '_requestToJoin',
     ])
@@ -271,6 +277,7 @@ class GroupProfile extends Component {
       gettingJoinRequests: false,
       joinRequests: [],
       joinRequestSent: group && (group.attributes.member_status === 'pending'),
+      leaving: {},
       loaded: group && group.attributes.member_status,
       requestingToJoin: false,
     }
@@ -290,6 +297,7 @@ class GroupProfile extends Component {
 
   render () {
     const {
+      currentUserId,
       members,
       group,
     } = this.props
@@ -372,11 +380,11 @@ class GroupProfile extends Component {
               {currentUserIsMember && (
                 <button
                   className="danger"
-                  disabled={leaving}
-                  onClick={this._leaveGroup}>
-                  {!leaving && 'Leave group'}
+                  disabled={leaving[currentUserId]}
+                  onClick={() => this._removeMember(currentUserId)}>
+                  {!leaving[currentUserId] && 'Leave group'}
 
-                  {leaving && (
+                  {leaving[currentUserId] && (
                     <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
                   )}
                 </button>
@@ -461,11 +469,20 @@ class GroupProfile extends Component {
                                   </a>
                                 </div>
 
-                                {/* <div className="secondary">
-                                  <button className="secondary small">
-                                    Remove
-                                  </button>
-                                </div> */}
+                                { currentUserIsAdmin && (
+                                  <div className="secondary">
+                                    <button
+                                      disabled={leaving[id]}
+                                      className="secondary small"
+                                      onClick={() => this._removeMember(id)}>
+                                      {!leaving[id] && 'Remove'}
+
+                                      {leaving[id] && (
+                                        <span><FontAwesomeIcon icon="spinner" pulse /> Removing...</span>
+                                      )}
+                                    </button>
+                                  </div>
+                                )}
                               </menu>
                             </footer>
                           </li>
@@ -524,7 +541,7 @@ const mapDispatchToProps = [
   'getGroup',
   'getJoinRequests',
   'handleJoinRequest',
-  'leaveGroup',
+  'removeGroupMember',
   'requestToJoinGroup',
 ]
 
@@ -554,6 +571,7 @@ const mapStateToProps = (state, ownProps) => {
     group,
     id,
     members,
+    currentUserId: ownProps.userId || null,
   }
 }
 
