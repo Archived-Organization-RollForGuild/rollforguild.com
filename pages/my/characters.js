@@ -1,4 +1,5 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { Fragment } from 'react'
 
 
@@ -59,8 +60,8 @@ class MyCharacters extends Component {
             {Object.values(characters || {}).map(character => (
               <li key={character.id}>
                 <Link
-                  as={`/my/characters/${encodeURIComponent(character.id)}`}
-                  href={`/my/character?id=${encodeURIComponent(character.id)}`}>
+                  route="character profile"
+                  params={{ id: character.id }}>
                   <a style={{ backgroundImage: `url(//api.adorable.io/avatars/500/${encodeURIComponent(character.id)})` }}>
                     <div className="name">{character.description.name}</div>
                     <div className="short-description">Lvl {character.level} {character.race} {character.class}</div>
@@ -72,7 +73,7 @@ class MyCharacters extends Component {
             <li className="create">
               <Link href="/character-builder">
                 <a>
-                  <i className="fa fa-fw fa-plus" />
+                  <FontAwesomeIcon icon="plus" fixedWidth />
                   Add New
                 </a>
               </Link>

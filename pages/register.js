@@ -1,4 +1,5 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
@@ -25,6 +26,12 @@ class Register extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
+
+  static _anonymizeEmail (email) {
+    const [user, host] = email.split('@')
+
+    return `${user.split('').fill('*', 1).join('')}@${host}`
+  }
 
   async _onSubmit (event) {
     const {
@@ -96,7 +103,7 @@ class Register extends Component {
             <fieldset>
               <div className="input-group">
                 <label htmlFor="email">
-                  <i className="fas fa-fw fa-envelope" />
+                  <FontAwesomeIcon icon="envelope" fixedWidth />
                 </label>
 
                 <input
@@ -114,7 +121,7 @@ class Register extends Component {
             <fieldset>
               <div className="input-group">
                 <label htmlFor="username">
-                  <i className="fas fa-fw fa-user" />
+                  <FontAwesomeIcon icon="user" fixedWidth />
                 </label>
 
                 <input
@@ -132,7 +139,7 @@ class Register extends Component {
             <fieldset>
               <div className="input-group">
                 <label htmlFor="password">
-                  <i className="fas fa-fw fa-lock" />
+                  <FontAwesomeIcon icon="lock" fixedWidth />
                 </label>
 
                 <input
@@ -167,11 +174,9 @@ class Register extends Component {
 
         {(status === 'success') && (
           <React.Fragment>
-            <p>Now that you've given the password to the towering hulk of a creature at the entrance to The Guild's headquarters, it lumbers towards a strange, magical box. It points to the box, then grunts at you. You can only assume it intends for you to come closer. The creature steps out of your way and you lean in for a closer look. The box is clearly some strange product of gnomish tinkering. On the front of it you read the words...</p>
+            <p>At this very moment, there are a million tiny imps running about, using the information you provided to create your account.</p>
 
-            <blockquote>Check your email for a confirmation code.</blockquote>
-
-            <p>Unsure of what this may mean, you feel an overwhelming urge to step out-of-character and do as the box commands.</p>
+            <p><strong>Check your inbox at {Register._anonymizeEmail(email)} for a confirmation email.</strong></p>
           </React.Fragment>
         )}
       </React.Fragment>

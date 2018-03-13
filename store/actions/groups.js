@@ -7,8 +7,9 @@ import 'isomorphic-fetch'
 
 
 // Component imports
+import { convertObjectToQueryParams } from '../../helpers'
 import actionTypes from '../actionTypes'
-import convertObjectToQueryParams from '../../helpers/convertObjectToQueryParams'
+import apiService from '../../services/api'
 
 
 
@@ -55,28 +56,26 @@ export const createGroup = group => async dispatch => {
 
 
 export const getGroup = groupId => async dispatch => {
-  const accessToken = Cookies.get('accessToken')
+  // const accessToken = Cookies.get('accessToken')
   let response = null
   let success = false
 
   dispatch({ type: actionTypes.GET_GROUP })
 
   try {
-    response = await fetch(`/api/groups/${groupId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
+    response = await apiService.get(`/api/groups/${groupId}`)
 
-    success = response.ok
+    success = true
 
-    response = await response.json()
+    // response = await response.json()
   } catch (error) {
     success = false
   }
 
+  // console.log('response', response.data)
+
   return dispatch({
-    payload: response || null,
+    payload: response ? response.data : null,
     status: success ? 'success' : 'error',
     type: actionTypes.GET_GROUP,
   })
@@ -154,13 +153,8 @@ export const handleJoinRequest = (groupId, userId, status) => async dispatch => 
   })
 }
 
-
-
-
-
-export const leaveGroup = groupId => async dispatch => {
+export const removeGroupMember = (groupId, userId) => async dispatch => {
   const accessToken = Cookies.get('accessToken')
-  const userId = Cookies.get('userId')
   let response = null
   let success = false
 

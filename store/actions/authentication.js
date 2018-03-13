@@ -145,6 +145,76 @@ export const register = (username, email, password) => async dispatch => {
 
 
 
+export const requestPasswordReset = email => async dispatch => {
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.REQUEST_PASSWORD_RESET })
+
+  try {
+    response = await fetch('/api/resets', {
+      body: JSON.stringify({
+        data: {
+          type: 'resets',
+          attributes: { email },
+        },
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'post',
+    })
+
+    success = response.ok
+  } catch (error) {
+    success = false
+  }
+
+  return dispatch({
+    status: success ? 'success' : 'error',
+    type: actionTypes.REQUEST_PASSWORD_RESET,
+  })
+}
+
+
+
+
+
 export const resetAuthenticationState = () => dispatch => {
   dispatch({ type: actionTypes.RESET_AUTHENTICATION_STATE })
+}
+
+
+
+
+
+export const resetPassword = (password, token) => async dispatch => {
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.RESET_PASSWORD })
+
+  try {
+    response = await fetch(`/api/resets/${token}`, {
+      body: JSON.stringify({
+        data: {
+          type: 'user',
+          attributes: { password },
+        },
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'put',
+    })
+
+    success = response.ok
+  } catch (error) {
+    success = false
+  }
+
+  return dispatch({
+    status: success ? 'success' : 'error',
+    type: actionTypes.RESET_PASSWORD,
+  })
 }

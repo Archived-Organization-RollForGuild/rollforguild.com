@@ -8,9 +8,9 @@ import Switch from 'rc-switch'
 
 // Component imports
 import { Router } from '../../routes'
+import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
 import Component from '../../components/Component'
-import convertStringToSlug from '../../helpers/convertStringToSlug'
 import Page from '../../components/Page'
 
 
@@ -58,10 +58,12 @@ class CreateGroup extends Component {
       name,
       slug: slug || convertStringToSlug(name),
     })
-    const groupId = payload.data.id
+    const {
+      id,
+    } = payload.data
 
-    if (groupId) {
-      return Router.push(`/groups/?id=${groupId}`, `/groups/${groupId}`)
+    if (id) {
+      return Router.pushRoute('group profile', { id })
     }
 
     return this.setState({ submitting: false })

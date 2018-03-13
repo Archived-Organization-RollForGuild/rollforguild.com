@@ -1,4 +1,5 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
@@ -68,7 +69,7 @@ class Login extends Component {
       }
       /* eslint-enable */
 
-      Router.push(searchParams.destination ? decodeURIComponent(searchParams.destination) : '/')
+      Router.pushRoute(searchParams.destination ? decodeURIComponent(searchParams.destination) : '/')
     }
   }
 
@@ -106,7 +107,7 @@ class Login extends Component {
           <fieldset>
             <div className="input-group">
               <label htmlFor="email">
-                <i className="fas fa-fw fa-user" />
+                <FontAwesomeIcon icon="user" fixedWidth />
               </label>
 
               <input
@@ -124,7 +125,7 @@ class Login extends Component {
           <fieldset>
             <div className="input-group">
               <label htmlFor="password">
-                <i className="fas fa-fw fa-lock" />
+                <FontAwesomeIcon icon="lock" fixedWidth />
               </label>
 
               <input
@@ -149,8 +150,14 @@ class Login extends Component {
             </div>
 
             <div className="secondary">
-              <Link href="/register">
+              <Link href="/forgot-password">
                 <a className="button link">
+                  Forgot Password?
+                </a>
+              </Link>
+
+              <Link href="/register">
+                <a className="button secondary">
                   Sign Up
                 </a>
               </Link>

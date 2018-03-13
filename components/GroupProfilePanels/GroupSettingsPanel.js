@@ -1,9 +1,10 @@
 // Module imports
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 // import PropTypes from 'prop-types'
 import React from 'react'
-// import Switch from 'rc-switch'
+import Switch from 'rc-switch'
 
 
 
@@ -11,9 +12,9 @@ import React from 'react'
 
 // Component imports
 import { actions } from '../../store'
+import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../AddressInput'
 import Component from '../Component'
-import convertStringToSlug from '../../helpers/convertStringToSlug'
 import ValidatedInput from '../ValidatedInput'
 
 
@@ -39,6 +40,10 @@ class GroupSettingsPanel extends Component {
     this._setChanges(name, value, validity.valid)
   }
 
+  _handleDiscoverabilityChange (value) {
+    this._setChanges('discoverable', value)
+  }
+
   _handleSlugChange (event) {
     this._setChanges('slug', convertStringToSlug(event.target.value))
   }
@@ -60,22 +65,30 @@ class GroupSettingsPanel extends Component {
   }
 
   _isValid () {
-    const { validity } = this.state
-
-    return !Object.values(validity).includes(false)
-  }
-
-  _setChanges (key, value, isValid = true) {
     const {
       changes,
       validity,
     } = this.state
 
+    return Object.keys(changes) && !Object.values(validity).includes(false)
+  }
+
+  _setChanges (key, value, isValid = true) {
+    const { group } = this.props
+    const {
+      changes,
+      validity,
+    } = this.state
+    const newChanges = { ...changes }
+
+    if (value === group.attributes[key]) {
+      delete newChanges[key]
+    } else {
+      newChanges[key] = value
+    }
+
     this.setState({
-      changes: {
-        ...changes,
-        [key]: value,
-      },
+      changes: newChanges,
       validity: {
         ...validity,
         [key]: isValid,
@@ -97,6 +110,7 @@ class GroupSettingsPanel extends Component {
     this._bindMethods([
       '_handleAddressChange',
       '_handleChange',
+      '_handleDiscoverabilityChange',
       '_handleSlugChange',
       '_handleSubmit',
     ])
@@ -121,11 +135,11 @@ class GroupSettingsPanel extends Component {
       submitting,
     } = this.state
 
-    const address = changes.address || group.attributes.address
-    const description = changes.description || group.attributes.description
-    // const discoverable = changes.discoverable || group.attributes.discoverable
-    const name = changes.name || group.attributes.name
-    // const slug = changes.slug || group.attributes.slug
+    const address = typeof changes.address === 'string' ? changes.address : group.attributes.address
+    const description = typeof changes.description === 'string' ? changes.description : group.attributes.description
+    const discoverable = changes.discoverable || group.attributes.discoverable
+    const name = typeof changes.name === 'string' ? changes.name : group.attributes.name
+    // const slug = typeof changes.slug === 'string' ? changes.slug : group.attributes.slug
 
     return (
       <section className="settings">
@@ -199,7 +213,7 @@ class GroupSettingsPanel extends Component {
               value={address} />
           </fieldset>
 
-          {/* <fieldset className="horizontal">
+          <fieldset className="horizontal">
             <label htmlFor="discoverable">
               Should your group show up in searches?
             </label>
@@ -208,8 +222,8 @@ class GroupSettingsPanel extends Component {
               disabled={submitting}
               checked={discoverable}
               id="discoverable"
-              onChange={isChecked => this.setState({ discoverable: isChecked })} />
-          </fieldset> */}
+              onChange={this._handleDiscoverabilityChange} />
+          </fieldset>
 
           <menu type="toolbar">
             <div className="primary">
@@ -219,7 +233,7 @@ class GroupSettingsPanel extends Component {
                 {!submitting && 'Save'}
 
                 {submitting && (
-                  <span><i className="fas fa-pulse fa-spinner" /> Saving...</span>
+                  <span><FontAwesomeIcon icon="spinner" pulse /> Saving...</span>
                 )}
               </button>
             </div>

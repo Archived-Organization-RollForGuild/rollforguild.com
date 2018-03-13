@@ -1,9 +1,9 @@
 // Module imports
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+// import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import React from 'react'
-
 
 
 
@@ -109,7 +109,7 @@ class GroupCard extends Component {
         <footer>
           <menu type="toolbar">
             <div className="primary">
-              <Link href={`/groups/?id=${id}`} as={`/groups/${id}`}>
+              <Link route="group profile" params={{ id }}>
                 <a className="button info">
                   Learn more
                 </a>
@@ -124,11 +124,11 @@ class GroupCard extends Component {
                 {(!requestingToJoin && !joinRequestSent && !(memberStatus === 'pending')) && 'Join'}
 
                 {((!requestingToJoin && joinRequestSent) || (memberStatus === 'pending')) && (
-                  <span><i className="fas fa-check" /> Request Sent</span>
+                  <span><FontAwesomeIcon icon="check"/> Request Sent</span>
                 )}
 
                 {requestingToJoin && (
-                  <span><i className="fas fa-pulse fa-spinner" /> Sending request...</span>
+                  <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
                 )}
               </button>
             </div> */}

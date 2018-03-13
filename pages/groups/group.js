@@ -1,4 +1,6 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import Head from 'next/head'
 import React from 'react'
 // import Switch from 'rc-switch'
 
@@ -11,8 +13,14 @@ import {
   Tab,
   TabPanel,
 } from '../../components/TabPanel'
+import {
+  convertSlugToUUID,
+  isUUID,
+} from '../../helpers'
+import { actions } from '../../store'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
+import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
 import StaticMap from '../../components/StaticMap'
 
@@ -171,17 +179,23 @@ class GroupProfile extends Component {
     await this._handleJoinRequest(userId, 'ignored')
   }
 
-  async _leaveGroup () {
+  async _removeMember(userId) {
     const {
       group,
-      leaveGroup,
+      removeGroupMember,
     } = this.props
 
-    this.setState({ leaving: true })
+    this.setState({
+      leaving: {
+        [userId]: true,
+      },
+    })
 
-    await leaveGroup(group.id)
+    const { status } = await removeGroupMember(group.id, userId)
 
-    window.location.reload()
+    if (status === 'success') {
+      window.location.reload()
+    }
   }
 
   async _requestToJoin () {
@@ -214,8 +228,8 @@ class GroupProfile extends Component {
     const {
       getGroup,
       getJoinRequests,
+      id,
     } = this.props
-    const { id } = this.props.query
     let { group } = this.props
     let memberStatus = null
     let joinRequests = []
@@ -252,7 +266,7 @@ class GroupProfile extends Component {
     this._bindMethods([
       '_acceptJoinRequest',
       '_ignoreJoinRequest',
-      '_leaveGroup',
+      '_removeMember',
       '_requestToJoin',
       '_requestToJoin',
     ])
@@ -263,13 +277,27 @@ class GroupProfile extends Component {
       gettingJoinRequests: false,
       joinRequests: [],
       joinRequestSent: group && (group.attributes.member_status === 'pending'),
+      leaving: {},
       loaded: group && group.attributes.member_status,
       requestingToJoin: false,
     }
   }
 
+  static async getInitialProps ({ query, store }) {
+    let { id } = query
+
+    if (!isUUID(id)) {
+      id = convertSlugToUUID(id, 'groups')
+    }
+
+    await actions.getGroup(id)(store.dispatch)
+
+    return {}
+  }
+
   render () {
     const {
+      currentUserId,
       members,
       group,
     } = this.props
@@ -313,10 +341,20 @@ class GroupProfile extends Component {
       games,
       geo,
       name,
+      slug,
     } = group.attributes
 
     return (
       <React.Fragment>
+        <Head>
+          <meta property="og:description" content={description} />
+          <meta property="og:image" content={`https://api.adorable.io/avatars/500/${group.id}`} />
+          <meta property="og:site_name" content="Roll For Guild" />
+          <meta property="og:title" content={name} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={`https://rfg.group/${slug}`} />
+        </Head>
+
         <header>
           <h1>{name}</h1>
 
@@ -330,11 +368,11 @@ class GroupProfile extends Component {
                   {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
                   {(!requestingToJoin && joinRequestSent) && (
-                    <span><i className="fas fa-check" /> Request sent</span>
+                    <span><FontAwesomeIcon icon="check" /> Request sent</span>
                   )}
 
                   {requestingToJoin && (
-                    <span><i className="fas fa-pulse fa-spinner" /> Sending request...</span>
+                    <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
                   )}
                 </button>
               )}
@@ -342,12 +380,12 @@ class GroupProfile extends Component {
               {currentUserIsMember && (
                 <button
                   className="danger"
-                  disabled={leaving}
-                  onClick={this._leaveGroup}>
-                  {!leaving && 'Leave group'}
+                  disabled={leaving[currentUserId]}
+                  onClick={() => this._removeMember(currentUserId)}>
+                  {!leaving[currentUserId] && 'Leave group'}
 
-                  {leaving && (
-                    <span><i className="fas fa-pulse fa-spinner" /> Leaving group...</span>
+                  {leaving[currentUserId] && (
+                    <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
                   )}
                 </button>
               )}
@@ -384,10 +422,7 @@ class GroupProfile extends Component {
 
           <TabPanel className="details">
             <Tab title="Details">
-              <section className="description">
-                <h4>Description</h4>
-                <p>{description || 'No description.'}</p>
-              </section>
+              <GroupDetailsPanel group={group} />
             </Tab>
 
             {currentUserIsMember && (
@@ -434,11 +469,20 @@ class GroupProfile extends Component {
                                   </a>
                                 </div>
 
-                                {/* <div className="secondary">
-                                  <button className="secondary small">
-                                    Remove
-                                  </button>
-                                </div> */}
+                                { currentUserIsAdmin && (
+                                  <div className="secondary">
+                                    <button
+                                      disabled={leaving[id]}
+                                      className="secondary small"
+                                      onClick={() => this._removeMember(id)}>
+                                      {!leaving[id] && 'Remove'}
+
+                                      {leaving[id] && (
+                                        <span><FontAwesomeIcon icon="spinner" pulse /> Removing...</span>
+                                      )}
+                                    </button>
+                                  </div>
+                                )}
                               </menu>
                             </footer>
                           </li>
@@ -497,14 +541,20 @@ const mapDispatchToProps = [
   'getGroup',
   'getJoinRequests',
   'handleJoinRequest',
-  'leaveGroup',
+  'removeGroupMember',
   'requestToJoinGroup',
 ]
 
 const mapStateToProps = (state, ownProps) => {
-  const group = state.groups[ownProps.query.id] || null
+  let { id } = ownProps.query
   let currentUserIsMember = false
   let members = []
+
+  if (!isUUID(id)) {
+    id = convertSlugToUUID(id, 'groups')
+  }
+
+  const group = state.groups[id] || null
 
   if (group) {
     const memberStatus = group.attributes.member_status
@@ -519,7 +569,9 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     group,
+    id,
     members,
+    currentUserId: ownProps.userId || null,
   }
 }
 

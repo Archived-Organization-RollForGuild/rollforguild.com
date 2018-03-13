@@ -1,0 +1,19 @@
+.settings-panel {
+
+  .error-box {
+    max-width: 80rem;
+    margin-bottom: 2rem;
+  }
+
+  fieldset {
+    > *:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+
+    > input,
+    > textarea,
+    > .validated-input {
+      margin-left: 1rem;
+    }
+  }
+}

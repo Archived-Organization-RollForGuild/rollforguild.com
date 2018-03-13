@@ -1,4 +1,5 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
@@ -6,13 +7,13 @@ import React from 'react'
 
 
 // Component imports
+import { convertObjectToQueryParams } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
 import Component from '../../components/Component'
 import Dropdown from '../../components/Dropdown'
 import GroupCard from '../../components/GroupCard'
 import Page from '../../components/Page'
 import Pagination from '../../components/Pagination'
-import convertObjectToQueryParams from '../../helpers/convertObjectToQueryParams'
 
 
 
@@ -233,7 +234,7 @@ class GroupSearch extends Component {
         <fieldset>
           <div className="input-group">
             <label>
-              <i className="fas fa-fw fa-search" />
+              <FontAwesomeIcon icon="search" fixedWidth />
             </label>
 
             <AddressInput
@@ -270,7 +271,7 @@ class GroupSearch extends Component {
                     className="binary button inline"
                     data-on={useCurrentLocation}
                     htmlFor="use-current-location">
-                    <i className="fas fa-fw fa-map-marker" />
+                    <FontAwesomeIcon icon="map-marker" fixedWidth />
                     Use my current location
                   </label>
                 </li>
@@ -299,7 +300,7 @@ class GroupSearch extends Component {
 
         {searching && (
           <div>
-            <i className="fas fa-pulse fa-spinner" /> Searching...
+            <FontAwesomeIcon icon="spinner" pulse /> Searching...
           </div>
         )}
 

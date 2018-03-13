@@ -4,6 +4,29 @@ import Cookies from 'next-cookies'
 import LocalForage from 'localforage'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
+import fontawesome from '@fortawesome/fontawesome'
+import {
+  faBars,
+  faCheck,
+  faCopy,
+  faEnvelope,
+  faEye,
+  faEyeSlash,
+  faTimes,
+  faExclamationCircle,
+  faExclamationTriangle,
+  faLock,
+  faKey,
+  faMapMarker,
+  faSpinner,
+  faSearch,
+  faUser,
+} from '@fortawesome/fontawesome-free-solid'
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+} from '@fortawesome/fontawesome-free-brands'
 
 
 
@@ -15,11 +38,12 @@ import {
   initStore,
 } from '../store'
 import { Router } from '../routes'
+import apiService from '../services/api'
 import Banner from './Banner'
 import Head from './Head'
 
 /* eslint-disable no-unused-expressions */
-preval`if (process.env.NODE_ENV === 'production') require('../helpers/offline')`
+preval`if (process.env.NODE_ENV === 'production') require('../workers/offline')`
 /* eslint-enable */
 
 
@@ -35,30 +59,41 @@ initStore()
 
 export default (Component, title = 'Untitled', reduxOptions = {}, authenticationRequired = false) => {
   class Page extends React.Component {
-    componentWillMount () {
-      const {
-        accessToken,
-        asPath,
-      } = this.props
-
-      if (authenticationRequired && !accessToken) {
-        return Router.replace(`/login?destination=${encodeURIComponent(asPath)}`)
-      }
-
-      if (Component.componentWillMount) {
-        Component.componentWillMount()
-      }
-
-      return true
-    }
-
     constructor (props) {
       super(props)
+
+      fontawesome.library.add(
+        // Solids
+        faBars,
+        faCheck,
+        faCopy,
+        faEnvelope,
+        faEye,
+        faEyeSlash,
+        faKey,
+        faTimes,
+        faExclamationCircle,
+        faExclamationTriangle,
+        faLock,
+        faMapMarker,
+        faSpinner,
+        faSearch,
+        faUser,
+
+        // Brands
+        faFacebook,
+        faInstagram,
+        faTwitter,
+      )
 
       LocalForage.config({
         name: 'Roll for Guild',
         storeName: 'webStore',
       })
+
+      if (props.accessToken) {
+        apiService.defaults.headers.common.Authorization = `Bearer ${props.accessToken}`
+      }
     }
 
     static async getInitialProps(ctx) {
@@ -66,12 +101,31 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         asPath,
         isServer,
         query,
+        res,
       } = ctx
       const {
         accessToken,
         userId,
       } = Cookies(ctx)
       let props = {}
+
+      if (accessToken) {
+        apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+      }
+
+      if (!accessToken && authenticationRequired) {
+        if (res) {
+          res.writeHead(302, {
+            Location: `/login?destination=${encodeURIComponent(asPath)}`,
+          })
+          res.end()
+          res.finished = true
+        } else {
+          Router.replace(`/login?destination=${encodeURIComponent(asPath)}`)
+        }
+
+        return {}
+      }
 
       if (typeof Component.getInitialProps === 'function') {
         props = await Component.getInitialProps(ctx)

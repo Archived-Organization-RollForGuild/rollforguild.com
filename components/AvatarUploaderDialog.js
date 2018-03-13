@@ -7,46 +7,23 @@ import ReactCrop, { makeAspectCrop } from 'react-image-crop'
 
 
 // Component Imports
+import { getBase64FromFileInput } from '../helpers'
 import Component from './Component'
-import getBase64FromFileInput from '../helpers/getBase64FromFileInput'
 
 
 
 
 
 export default class AvatarUploaderDialog extends Component {
-  constructor(params) {
-    super(params)
+  /***************************************************************************\
+    Private Methods
+  \***************************************************************************/
 
-    this.stages = {
-      CHOOSE: 0,
-      CROP: 1,
-      CONFIRM: 2,
-      UPLOAD: 3,
-    }
-
-    this._bindMethods([
-      'handleFileInputChange',
-      'handleChooseSubmit',
-      'handleReactCropImageLoad',
-      'handleReactCropChange',
-      'handleCropSubmit',
-      'handleConfirm',
-    ])
-
-    this.state = {
-      crop: null,
-      dragActive: false,
-      error: null,
-      file: null,
-      fileBase64: null,
-      fileCropped: null,
-      pixelCrop: null,
-      stage: this.stages.CHOOSE,
-    }
+  _handleFileInputDrag (dragActive) {
+    this.setState({ dragActive })
   }
 
-  async handleFileInputChange (event) {
+  async _handleFileInputChange (event) {
     if (event.target.files[0]) {
       const file = event.target.files[0]
       const fileBase64 = await getBase64FromFileInput(file)
@@ -63,7 +40,7 @@ export default class AvatarUploaderDialog extends Component {
     }
   }
 
-  handleChooseSubmit (event) {
+  _handleFileInputSubmit (event) {
     const {
       name,
     } = event.target
@@ -77,16 +54,12 @@ export default class AvatarUploaderDialog extends Component {
         error: null,
         stage: this.stages.CROP,
       })
-    } else {
+    } else if (typeof onCancel === 'function') {
       onCancel()
     }
   }
 
-  handleDrag(dragActive) {
-    this.setState({ dragActive })
-  }
-
-  handleReactCropImageLoad (image) {
+  _handleReactCropLoad (image) {
     const aspectRatio = image.width / image.height
     let crop = {
       x: 0,
@@ -125,14 +98,14 @@ export default class AvatarUploaderDialog extends Component {
     })
   }
 
-  handleReactCropChange(crop, pixelCrop) {
+  _handleReactCropChange (crop, pixelCrop) {
     this.setState({
       crop,
       pixelCrop,
     })
   }
 
-  async handleCropSubmit(event) {
+  async _handleCropSubmit (event) {
     const {
       pixelCrop,
       fileBase64,
@@ -179,12 +152,11 @@ export default class AvatarUploaderDialog extends Component {
         fileBase64: null,
         fileCropped: null,
         pixelCrop: null,
-        stage: this.stages.CHOOSE,
+        stage: this.stages.INPUT,
       })
     }
   }
-
-  async handleConfirm (event) {
+  async _handleConfirm (event) {
     const {
       name,
     } = event.target
@@ -213,7 +185,7 @@ export default class AvatarUploaderDialog extends Component {
       if (typeof response === 'string') {
         this.setState({
           error: response,
-          stage: this.stages.CHOOSE,
+          stage: this.stages.INPUT,
         })
       }
     } else {
@@ -224,14 +196,54 @@ export default class AvatarUploaderDialog extends Component {
     }
   }
 
-  renderImageChoose () {
+
+
+
+
+  /***************************************************************************\
+    Public Methods
+  \***************************************************************************/
+
+  constructor(params) {
+    super(params)
+
+    this.stages = {
+      INPUT: 0,
+      CROP: 1,
+      CONFIRM: 2,
+      UPLOAD: 3,
+    }
+
+    this._bindMethods([
+      '_handleFileInputDrag',
+      '_handleFileInputChange',
+      '_handleFileInputSubmit',
+      '_handleReactCropLoad',
+      '_handleReactCropChange',
+      '_handleCropSubmit',
+      '_handleConfirm',
+    ])
+
+    this.state = {
+      crop: null,
+      dragActive: false,
+      error: null,
+      file: null,
+      fileBase64: null,
+      fileCropped: null,
+      pixelCrop: null,
+      stage: this.stages.INPUT,
+    }
+  }
+
+  renderImageInput () {
     const {
       file,
       dragActive,
     } = this.state
 
     return (
-      <div className="stage image-choose">
+      <div className="stage image-input">
 
         <label
           htmlFor="file"
@@ -243,10 +255,10 @@ export default class AvatarUploaderDialog extends Component {
           type="file"
           id="file"
           name="file"
-          onDragEnter={() => this.handleDrag(true)}
-          onDragLeave={() => this.handleDrag(false)}
-          onDrop={() => this.handleDrag(false)}
-          onChange={this.handleFileInputChange} />
+          onDragEnter={() => this._handleFileInputDrag(true)}
+          onDragLeave={() => this._handleFileInputDrag(false)}
+          onDrop={() => this._handleFileInputDrag(false)}
+          onChange={this._handleFileInputChange} />
 
         <menu
           className="compact"
@@ -256,7 +268,7 @@ export default class AvatarUploaderDialog extends Component {
             <button
               className="danger"
               name="no"
-              onClick={this.handleChooseSubmit}>
+              onClick={this._handleFileInputSubmit}>
               Cancel
             </button>
           ) : (<div className="i-exist-to-put-the-next-button-on-the-right" />)}
@@ -265,7 +277,7 @@ export default class AvatarUploaderDialog extends Component {
             className="success"
             disabled={!file}
             name="yes"
-            onClick={this.handleChooseSubmit}>
+            onClick={this._handleFileInputSubmit}>
             Next
           </button>
 
@@ -273,7 +285,6 @@ export default class AvatarUploaderDialog extends Component {
       </div>
     )
   }
-
   renderImageCrop () {
     const {
       crop,
@@ -290,8 +301,8 @@ export default class AvatarUploaderDialog extends Component {
         <ReactCrop
           src={fileBase64}
           keepSelection
-          onImageLoaded={this.handleReactCropImageLoad}
-          onChange={this.handleReactCropChange}
+          onImageLoaded={this._handleReactCropLoad}
+          onChange={this._handleReactCropChange}
           crop={crop} />
 
         <menu
@@ -301,14 +312,14 @@ export default class AvatarUploaderDialog extends Component {
           <button
             className="danger"
             name="no"
-            onClick={this.handleCropSubmit}>
+            onClick={this._handleCropSubmit}>
             Back
           </button>
 
           <button
             className="success"
             name="yes"
-            onClick={this.handleCropSubmit}>
+            onClick={this._handleCropSubmit}>
             Next
           </button>
 
@@ -339,14 +350,14 @@ export default class AvatarUploaderDialog extends Component {
           <button
             className="danger"
             name="no"
-            onClick={this.handleConfirm}>
+            onClick={this._handleConfirm}>
             Back
           </button>
 
           <button
             className="success"
             name="yes"
-            onClick={this.handleConfirm}>
+            onClick={this._handleConfirm}>
             Upload
           </button>
 
@@ -372,7 +383,7 @@ export default class AvatarUploaderDialog extends Component {
             </div>
           )}
 
-          {stage === this.stages.CHOOSE && this.renderImageChoose()}
+          {stage === this.stages.INPUT && this.renderImageInput()}
 
           {stage === this.stages.CROP && this.renderImageCrop()}
 

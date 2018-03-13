@@ -36,21 +36,6 @@ export const getUser = userId => async dispatch => {
 
     response = await response.json()
 
-    /*******************************************************\
-    |* REMOVE THESE ONCE THEY ARE IMPLEMENTED INTO THE API *|
-    \*******************************************************/
-
-    response.data.attributes.gamesHistory = [
-      'D&D 5e',
-      'Battlestar Galactica: The Board Game',
-      'Zork',
-    ]
-
-    response.data.attributes.gamesInterest = [
-      'Kingdom Death: Monsters',
-      'Something completely different',
-    ]
-
     success = true
   } catch (err) {
     // Do nothing
