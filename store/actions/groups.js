@@ -153,13 +153,8 @@ export const handleJoinRequest = (groupId, userId, status) => async dispatch => 
   })
 }
 
-
-
-
-
-export const leaveGroup = groupId => async dispatch => {
+export const removeGroupMember = (groupId, userId) => async dispatch => {
   const accessToken = Cookies.get('accessToken')
-  const userId = Cookies.get('userId')
   let response = null
   let success = false
 

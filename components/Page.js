@@ -112,7 +112,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       if (accessToken) {
         apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`
       }
-      
+
       if (!accessToken && authenticationRequired) {
         if (res) {
           res.writeHead(302, {
@@ -130,7 +130,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       if (typeof Component.getInitialProps === 'function') {
         props = await Component.getInitialProps(ctx)
       }
-        
+
       return {
         accessToken,
         asPath,
