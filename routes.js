@@ -16,6 +16,9 @@ routes
   // Password reset
   .add('password reset', '/reset(-password)?/:token?', '/reset-password')
 
+  // Forums
+  .add('forum create', '/forums/create', '/forums/create')
+
   // Users
   .add('user profile', '/users/:id', '/users/user')
   .add('user profile current', '/my/profile', '/users/user')

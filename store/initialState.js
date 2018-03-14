@@ -16,5 +16,7 @@ export default {
 
   rulesets: {},
 
+  threads: {},
+
   users: {},
 }
