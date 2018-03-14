@@ -83,11 +83,11 @@ export default class extends Document {
 
           <noscript>Javascript is required to view this site.</noscript>
 
+          <Main className="next-wrapper" />
+
           <div id="alert-container" />
 
           <div id="dialog-container" />
-
-          <Main className="next-wrapper" />
 
           <NextScript />
 

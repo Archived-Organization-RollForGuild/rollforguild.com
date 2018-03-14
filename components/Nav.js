@@ -11,6 +11,7 @@ import React from 'react'
 // Module imports
 import { actions } from '../store'
 import { Link } from '../routes'
+import Avatar from './Avatar'
 import Component from './Component'
 
 
@@ -50,15 +51,10 @@ const navItems = [
     title: ({ user }) => {
       if (user) {
         const { username } = user.attributes
-        const avatarSrc = user.attributes.avatar ? `/api/users/${user.id}/avatar` : `//api.adorable.io/avatars/20/${user.id}`
 
         return (
           <React.Fragment>
-            <div
-              aria-label={`${username}'s Avatar`}
-              className="avatar tiny"
-              role="img"
-              style={{ backgroundImage: `url(${avatarSrc})` }} />
+            <Avatar src={user} size="tiny" />
             <span>{username}</span>
           </React.Fragment>
         )

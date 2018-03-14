@@ -26,14 +26,27 @@ html {
   font-size: 10px;
 }
 
-[role=application] {
-  align-content: stretch;
-  align-items: stretch;
-  background-color: $dark-grey;
+[role=application],
+div#dialog-container,
+div#alert-container {
   color: $white;
-  display: flex;
   font-family: Lora, serif;
   font-size: 16px;
   letter-spacing: 1px;
   line-height: 2;
+}
+
+[role=application] {
+  align-content: stretch;
+  align-items: stretch;
+  background-color: $dark-grey;
+  display: flex;
+}
+
+div#dialog-container {
+  z-index: 1000;
+}
+
+div#alert-container {
+  z-index: 2000;
 }

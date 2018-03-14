@@ -18,6 +18,7 @@ import {
   isUUID,
 } from '../../helpers'
 import { actions } from '../../store'
+import Avatar from '../../components/Avatar'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
@@ -89,7 +90,6 @@ class JoinRequestCard extends Component {
 
   render () {
     const { user } = this.props
-    const { attributes, id } = user
     const {
       accepting,
       ignoring,
@@ -98,19 +98,16 @@ class JoinRequestCard extends Component {
     const {
       email,
       username,
-    } = attributes
+    } = user.attributes
 
     return (
       <div className="card">
         <header>
-          {attributes.username}
+          {username}
         </header>
 
         <div className="content">
-          <div
-            aria-label={`${username}'s Avatar`}
-            className="avatar small"
-            style={{ backgroundImage: `url(//api.adorable.io/avatars/50/${id})` }} />
+          <Avatar src={user} size="small" />
 
           {(!accepting && !ignoring) && (
             <menu
@@ -395,10 +392,7 @@ class GroupProfile extends Component {
 
         <div className="profile">
           <header>
-            <div
-              aria-label={`${name}'s avatar`}
-              className="avatar large"
-              style={{ backgroundImage: `url(//api.adorable.io/avatars/150/${group.id})` }} />
+            <Avatar src={group} />
 
             <section className="games">
               <h4>Games</h4>
@@ -434,27 +428,28 @@ class GroupProfile extends Component {
 
                   {!!members.length && (
                     <ul className="">
-                      {members.map(({ attributes, id }) => {
+                      {members.map(user => {
+                        const {
+                          id,
+                        } = user
+
                         const {
                           email,
                           username,
-                        } = attributes
+                        } = user.attributes
 
                         return (
                           <li
                             className="card"
                             key={id}>
                             <header>
-                              {attributes.username}
+                              {username}
                             </header>
 
                             <div className="content">
-                              <div
-                                aria-label={`${username}'s Avatar`}
-                                className="avatar small pull-left"
-                                style={{ backgroundImage: `url(//api.adorable.io/avatars/50/${id})` }} />
+                              <Avatar src={user} size="small" className="pull-left" />
 
-                              <h4>{attributes.username}</h4>
+                              <h4>{username}</h4>
                             </div>
 
                             <footer>
