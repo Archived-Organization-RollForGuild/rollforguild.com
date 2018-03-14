@@ -16,6 +16,7 @@ import reducer from './store/reducers/index'
 
 /* actions */
 import * as authenticationActions from './store/actions/authentication'
+import * as avatarsActions from './store/actions/avatars'
 import * as charactersActions from './store/actions/characters'
 import * as groupsActions from './store/actions/groups'
 import * as rulesetsActions from './store/actions/rulesets'
@@ -27,6 +28,7 @@ import * as usersActions from './store/actions/users'
 
 export const actions = {
   ...authenticationActions,
+  ...avatarsActions,
   ...charactersActions,
   ...groupsActions,
   ...rulesetsActions,
