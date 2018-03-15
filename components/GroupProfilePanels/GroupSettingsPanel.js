@@ -70,7 +70,7 @@ class GroupSettingsPanel extends Component {
       validity,
     } = this.state
 
-    return Object.keys(changes) && !Object.values(validity).includes(false)
+    return Object.keys(changes).length && !Object.values(validity).includes(false)
   }
 
   _setChanges (key, value, isValid = true) {

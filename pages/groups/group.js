@@ -18,6 +18,7 @@ import {
   isUUID,
 } from '../../helpers'
 import { actions } from '../../store'
+import Avatar from '../../components/Avatar'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
@@ -89,7 +90,6 @@ class JoinRequestCard extends Component {
 
   render () {
     const { user } = this.props
-    const { attributes, id } = user
     const {
       accepting,
       ignoring,
@@ -98,19 +98,16 @@ class JoinRequestCard extends Component {
     const {
       email,
       username,
-    } = attributes
+    } = user.attributes
 
     return (
       <div className="card">
         <header>
-          {attributes.username}
+          {username}
         </header>
 
         <div className="content">
-          <div
-            aria-label={`${username}'s Avatar`}
-            className="avatar small"
-            style={{ backgroundImage: `url(//api.adorable.io/avatars/50/${id})` }} />
+          <Avatar src={user} size="small" />
 
           {(!accepting && !ignoring) && (
             <menu
@@ -179,17 +176,23 @@ class GroupProfile extends Component {
     await this._handleJoinRequest(userId, 'ignored')
   }
 
-  async _leaveGroup () {
+  async _removeMember(userId) {
     const {
       group,
-      leaveGroup,
+      removeGroupMember,
     } = this.props
 
-    this.setState({ leaving: true })
+    this.setState({
+      leaving: {
+        [userId]: true,
+      },
+    })
 
-    await leaveGroup(group.id)
+    const { status } = await removeGroupMember(group.id, userId)
 
-    window.location.reload()
+    if (status === 'success') {
+      window.location.reload()
+    }
   }
 
   async _requestToJoin () {
@@ -260,7 +263,7 @@ class GroupProfile extends Component {
     this._bindMethods([
       '_acceptJoinRequest',
       '_ignoreJoinRequest',
-      '_leaveGroup',
+      '_removeMember',
       '_requestToJoin',
       '_requestToJoin',
     ])
@@ -271,6 +274,7 @@ class GroupProfile extends Component {
       gettingJoinRequests: false,
       joinRequests: [],
       joinRequestSent: group && (group.attributes.member_status === 'pending'),
+      leaving: {},
       loaded: group && group.attributes.member_status,
       requestingToJoin: false,
     }
@@ -290,6 +294,7 @@ class GroupProfile extends Component {
 
   render () {
     const {
+      currentUserId,
       members,
       group,
     } = this.props
@@ -372,11 +377,11 @@ class GroupProfile extends Component {
               {currentUserIsMember && (
                 <button
                   className="danger"
-                  disabled={leaving}
-                  onClick={this._leaveGroup}>
-                  {!leaving && 'Leave group'}
+                  disabled={leaving[currentUserId]}
+                  onClick={() => this._removeMember(currentUserId)}>
+                  {!leaving[currentUserId] && 'Leave group'}
 
-                  {leaving && (
+                  {leaving[currentUserId] && (
                     <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
                   )}
                 </button>
@@ -387,10 +392,7 @@ class GroupProfile extends Component {
 
         <div className="profile">
           <header>
-            <div
-              aria-label={`${name}'s avatar`}
-              className="avatar large"
-              style={{ backgroundImage: `url(//api.adorable.io/avatars/150/${group.id})` }} />
+            <Avatar src={group} />
 
             <section className="games">
               <h4>Games</h4>
@@ -426,27 +428,28 @@ class GroupProfile extends Component {
 
                   {!!members.length && (
                     <ul className="">
-                      {members.map(({ attributes, id }) => {
+                      {members.map(user => {
+                        const {
+                          id,
+                        } = user
+
                         const {
                           email,
                           username,
-                        } = attributes
+                        } = user.attributes
 
                         return (
                           <li
                             className="card"
                             key={id}>
                             <header>
-                              {attributes.username}
+                              {username}
                             </header>
 
                             <div className="content">
-                              <div
-                                aria-label={`${username}'s Avatar`}
-                                className="avatar small pull-left"
-                                style={{ backgroundImage: `url(//api.adorable.io/avatars/50/${id})` }} />
+                              <Avatar src={user} size="small" className="pull-left" />
 
-                              <h4>{attributes.username}</h4>
+                              <h4>{username}</h4>
                             </div>
 
                             <footer>
@@ -461,11 +464,20 @@ class GroupProfile extends Component {
                                   </a>
                                 </div>
 
-                                {/* <div className="secondary">
-                                  <button className="secondary small">
-                                    Remove
-                                  </button>
-                                </div> */}
+                                { currentUserIsAdmin && (
+                                  <div className="secondary">
+                                    <button
+                                      disabled={leaving[id]}
+                                      className="secondary small"
+                                      onClick={() => this._removeMember(id)}>
+                                      {!leaving[id] && 'Remove'}
+
+                                      {leaving[id] && (
+                                        <span><FontAwesomeIcon icon="spinner" pulse /> Removing...</span>
+                                      )}
+                                    </button>
+                                  </div>
+                                )}
                               </menu>
                             </footer>
                           </li>
@@ -524,7 +536,7 @@ const mapDispatchToProps = [
   'getGroup',
   'getJoinRequests',
   'handleJoinRequest',
-  'leaveGroup',
+  'removeGroupMember',
   'requestToJoinGroup',
 ]
 
@@ -554,6 +566,7 @@ const mapStateToProps = (state, ownProps) => {
     group,
     id,
     members,
+    currentUserId: ownProps.userId || null,
   }
 }
 

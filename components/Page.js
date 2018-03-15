@@ -16,6 +16,7 @@ import {
   faExclamationCircle,
   faExclamationTriangle,
   faLock,
+  faKey,
   faMapMarker,
   faSpinner,
   faSearch,
@@ -58,23 +59,6 @@ initStore()
 
 export default (Component, title = 'Untitled', reduxOptions = {}, authenticationRequired = false) => {
   class Page extends React.Component {
-    componentWillMount () {
-      const {
-        accessToken,
-        asPath,
-      } = this.props
-
-      if (authenticationRequired && !accessToken) {
-        return Router.replace(`/login?destination=${encodeURIComponent(asPath)}`)
-      }
-
-      if (Component.componentWillMount) {
-        Component.componentWillMount()
-      }
-
-      return true
-    }
-
     constructor (props) {
       super(props)
 
@@ -86,6 +70,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         faEnvelope,
         faEye,
         faEyeSlash,
+        faKey,
         faTimes,
         faExclamationCircle,
         faExclamationTriangle,
@@ -116,6 +101,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         asPath,
         isServer,
         query,
+        res,
       } = ctx
       const {
         accessToken,
@@ -125,6 +111,20 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
 
       if (accessToken) {
         apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+      }
+
+      if (!accessToken && authenticationRequired) {
+        if (res) {
+          res.writeHead(302, {
+            Location: `/login?destination=${encodeURIComponent(asPath)}`,
+          })
+          res.end()
+          res.finished = true
+        } else {
+          Router.replace(`/login?destination=${encodeURIComponent(asPath)}`)
+        }
+
+        return {}
       }
 
       if (typeof Component.getInitialProps === 'function') {

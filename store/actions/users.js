@@ -91,37 +91,6 @@ export const updateUserPassword = (userId, attributes) => async dispatch => {
 }
 /* eslint-enable camelcase */
 
-export const updateUserAvatar = (userId, file) => async dispatch => {
-  dispatch({ type: actionTypes.UPDATE_USER_AVATAR })
-
-  let success = false
-
-  try {
-    const body = new FormData()
-    const token = await Cookies.get('accessToken')
-
-    body.append('file', file)
-
-    const response = await fetch(`/api/users/${userId}/avatar`, {
-      body,
-      headers: new Headers({
-        Authorization: `Bearer ${token}`,
-      }),
-      method: 'post',
-    })
-
-    success = response.ok
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    payload: null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.UPDATE_USER_AVATAR,
-  })
-}
-
 export const updateUser = (userId, changedAttributes) => async dispatch => {
   dispatch({ type: actionTypes.UPDATE_USER })
 

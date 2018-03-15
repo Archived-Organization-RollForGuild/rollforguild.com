@@ -9,7 +9,7 @@ import {
   Tab,
   TabPanel,
 } from '../../components/TabPanel'
-import AvatarUploader from '../../components/AvatarUploaderDialog'
+import Avatar from '../../components/Avatar'
 import Component from '../../components/Component'
 import { Link } from '../../routes'
 import Page from '../../components/Page'
@@ -27,45 +27,6 @@ const title = 'User Profile'
 
 
 class UserProfile extends Component {
-  /***************************************************************************\
-    Private Methods
-  \***************************************************************************/
-
-  _toggleAvatarDialogState (show) {
-    this.setState({ showAvatarEdit: typeof show === 'boolean' ? show : !this.state.showAvatarEdit })
-  }
-
-  async _handleAvatarDialogComplete (_fileBlob) {
-    const {
-      updateUserAvatar,
-    } = this.props
-
-    const {
-      user,
-    } = this.state
-
-    const fileBlob = _fileBlob
-
-    fileBlob.name = `${user.id}-avatar`
-
-    const response = await updateUserAvatar(user.id, fileBlob)
-
-    if (response.status !== 'success') {
-      return 'File Upload Error. Please Try again.'
-    }
-
-    this.setState({
-      userAvatar: URL.createObjectURL(fileBlob),
-      showAvatarEdit: false,
-    })
-
-    return null
-  }
-
-
-
-
-
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
@@ -107,12 +68,9 @@ class UserProfile extends Component {
       userSharesGroup = currentUserGroups.some(group => displayedUserGroups.includes(group))
     }
 
-    const userAvatar = displayedUser && displayedUser.attributes.avatar ? `/api/users/${displayedUser.id}/avatar` : `//api.adorable.io/avatars/500/${displayedUser.id}`
-
     this.setState({
       loaded: true,
       user: displayedUser,
-      userAvatar,
       userSharesGroup,
       userIsCurrentUser,
     })
@@ -121,16 +79,9 @@ class UserProfile extends Component {
   constructor (props) {
     super(props)
 
-    this._bindMethods([
-      '_toggleAvatarDialogState',
-      '_handleAvatarDialogComplete',
-    ])
-
     this.state = {
       loaded: false,
-      showAvatarEdit: false,
       user: null,
-      userAvatar: null,
       userIsCurrentUser: false,
       userSharesGroup: false,
     }
@@ -139,9 +90,7 @@ class UserProfile extends Component {
   render () {
     const {
       loaded,
-      showAvatarEdit,
       user,
-      userAvatar,
       userIsCurrentUser,
       userSharesGroup,
     } = this.state
@@ -198,16 +147,7 @@ class UserProfile extends Component {
 
         <div className="profile">
           <header>
-            <div
-              aria-label={`${username}'s avatar`}
-              className="avatar large"
-              style={{ backgroundImage: `url(${userAvatar})` }}>
-              {userIsCurrentUser && (
-                <button className="avatar-edit-overlay" onClick={this._toggleAvatarDialogState}>
-                  <h4>Edit</h4>
-                </button>
-              )}
-            </div>
+            <Avatar src={user} editable={userIsCurrentUser} />
           </header>
 
           <TabPanel className="details">
@@ -232,10 +172,7 @@ class UserProfile extends Component {
                           {group.attributes.name}
                         </header>
                         <div className="content">
-                          <div
-                            aria-label={`${group.attributes.name} Avatar`}
-                            className="avatar small pull-left"
-                            style={{ backgroundImage: `url(${group.attributes.avatar ? `/api/groups/${group.id}/avatar` : `//api.adorable.io/avatars/50/${group.id}`})` }} />
+                          <Avatar src={group} size="small" className="pull-left" />
                           <h4>{group.attributes.name}</h4>
                         </div>
                         <footer>
@@ -244,8 +181,8 @@ class UserProfile extends Component {
                             type="toolbar">
                             <div className="primary">
                               <Link
-                                href={`/groups/group?id=${group.id}`}
-                                as={`/groups/${group.id}`}>
+                                route="group profile"
+                                params={{ id: group.id }}>
                                 <button
                                   className="small success" >
                                   View
@@ -270,12 +207,6 @@ class UserProfile extends Component {
 
 
         </div>
-
-        {showAvatarEdit && (
-          <AvatarUploader
-            onComplete={this._handleAvatarDialogComplete}
-            onCancel={() => this._toggleAvatarDialogState(false)} />
-        )}
       </React.Fragment>
     )
   }
@@ -287,7 +218,6 @@ class UserProfile extends Component {
 
 const mapDispatchToProps = [
   'getUser',
-  'updateUserAvatar',
 ]
 
 const mapStateToProps = (state, ownProps) => {
