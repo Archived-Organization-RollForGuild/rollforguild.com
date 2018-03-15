@@ -9,52 +9,93 @@ import React from 'react'
 // Component imports
 import { Link } from '../../routes'
 import { convertObjectToQueryParams } from '../../helpers'
+import Component from '../Component'
 import ShareableLink from '../ShareableLink'
 
 
 
 
 
-const GroupDetailsPanel = ({ group }) => {
-  const { description, name, slug } = group.attributes
-  const permalink = `https://rfg.group/${slug}`
+class GroupDetailsPanel extends Component {
+  /***************************************************************************\
+    Private Methods
+  \***************************************************************************/
 
-  const twitterShareParams = {
-    // hashtags: 'lfg,rfg',
-    related: 'RollForGuild',
-    text: encodeURIComponent(`Come join my group, ${name}!`),
-    url: encodeURIComponent(permalink),
-    via: 'RollForGuild',
+  // _showFacebookDialog () {
+  //   window.FB.ui({
+  //     method: 'share',
+  //     // href: `https://rollforguild.com/groups/${this.props.group.attributes.slug}`,
+  //     href: 'https://rollforguild.com/',
+  //   })
+  //   console.log('success?', this)
+  // }
+
+
+
+
+
+  /***************************************************************************\
+    Public Methods
+  \***************************************************************************/
+
+  render () {
+    const { group } = this.props
+    const { description, name } = group.attributes
+
+    const twitterShareParams = {
+      related: 'RollForGuild',
+      text: encodeURIComponent(`Come join my group, ${name}!`),
+      url: encodeURIComponent(this.permalink),
+      via: 'RollForGuild',
+    }
+
+    return (
+      <React.Fragment>
+        <section className="description">
+          <h4>Description</h4>
+
+          <div className="section-content">
+            <p>{description || 'No description.'}</p>
+          </div>
+        </section>
+
+        <section className="sharing">
+          <h4>Sharing</h4>
+          <div className="section-content">
+            <div className="input-group">
+              <div className="input-group">
+                <Link href={`//twitter.com/intent/tweet${convertObjectToQueryParams(twitterShareParams)}`}>
+                  <a className="button secondary">
+                    <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
+                  </a>
+                </Link>
+
+                {/* <button
+                  className="secondary"
+                  onClick={this._showFacebookDialog}>
+                  <FontAwesomeIcon icon={['fab', 'facebook']} fixedWidth />
+                </button> */}
+              </div>
+
+              <ShareableLink link={this.permalink} />
+            </div>
+          </div>
+        </section>
+      </React.Fragment>
+    )
   }
 
-  return (
-    <React.Fragment>
-      <section className="description">
-        <h4>Description</h4>
 
-        <div className="section-content">
-          <p>{description || 'No description.'}</p>
-        </div>
-      </section>
 
-      <section className="sharing">
-        <h4>Sharing</h4>
-        <div className="section-content">
-          <div className="input-group">
-            <div className="input-group">
-              <Link href={`//twitter.com/intent/tweet${convertObjectToQueryParams(twitterShareParams)}`}>
-                <a className="button secondary">
-                  <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
-                </a>
-              </Link>
-            </div>
 
-            <ShareableLink link={permalink} />
-          </div>
-        </div>
-      </section>
-    </React.Fragment>
-  )
+
+  /***************************************************************************\
+    Getters
+  \***************************************************************************/
+
+  get permalink () {
+    return `https://rfg.group/${this.props.group.attributes.slug}`
+  }
 }
 
 
