@@ -42,9 +42,14 @@ class GroupDetailsPanel extends Component {
     const { group } = this.props
     const { description, name } = group.attributes
 
+    const emailShareParams = {
+      body: encodeURIComponent(`Hey friend,\n\nCome join my group, ${name}, on Roll For Guild!\n\n${this.permalink}`),
+      subject: encodeURIComponent(`Come join my group, ${name}, on Roll For Guild!`),
+    }
+
     const twitterShareParams = {
       related: 'RollForGuild',
-      text: encodeURIComponent(`Come join my group, ${name}!`),
+      text: encodeURIComponent(`Come join my group, ${name}, on @RollForGuild!`),
       url: encodeURIComponent(this.permalink),
       via: 'RollForGuild',
     }
@@ -69,6 +74,12 @@ class GroupDetailsPanel extends Component {
                     <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
                   </a>
                 </Link>
+
+                <a
+                  className="button secondary"
+                  href={`mailto:${convertObjectToQueryParams(emailShareParams)}`}>
+                  <FontAwesomeIcon icon="envelope" fixedWidth />
+                </a>
 
                 {/* <button
                   className="secondary"

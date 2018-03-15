@@ -553,6 +553,7 @@ const mapStateToProps = (state, ownProps) => {
 
   if (group) {
     const memberStatus = group.attributes.member_status
+
     if (memberStatus) {
       currentUserIsMember = (memberStatus === 'member') || (memberStatus === 'admin')
     }
