@@ -14,6 +14,7 @@ import Switch from 'rc-switch'
 import { actions } from '../../store'
 import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../AddressInput'
+import Form from '../Form'
 import Component from '../Component'
 import ValidatedInput from '../ValidatedInput'
 
@@ -143,7 +144,11 @@ class GroupSettingsPanel extends Component {
 
     return (
       <section className="settings">
-        <form onSubmit={this._handleSubmit}>
+        <Form
+          action="update"
+          category="Groups"
+          label="Settings"
+          onSubmit={this._handleSubmit}>
           <fieldset>
             <label htmlFor="name">
               Group name
@@ -229,7 +234,8 @@ class GroupSettingsPanel extends Component {
             <div className="primary">
               <button
                 className="success"
-                disabled={submitting || !this._isValid()}>
+                disabled={submitting || !this._isValid()}
+                type="submit">
                 {!submitting && 'Save'}
 
                 {submitting && (
@@ -238,7 +244,7 @@ class GroupSettingsPanel extends Component {
               </button>
             </div>
           </menu>
-        </form>
+        </Form>
       </section>
     )
   }
