@@ -1,9 +1,11 @@
+// Module imports
 import Document, { Head, Main, NextScript } from 'next/document'
 
 
 
 
 
+// Component constants
 const fonts = ['Lora', 'Montserrat:400,700']
 const gatmId = process.env.RFG_GOOGLE_TAG_MANAGER_API_KEY
 

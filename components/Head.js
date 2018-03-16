@@ -27,7 +27,7 @@ Router.onRouteChangeError = () => {
 }
 
 Router.onRouteChangeComplete = () => {
-  if (window.twttr) {
+  if ('twttr' in window) {
     window.twttr.widgets.load()
   }
 
