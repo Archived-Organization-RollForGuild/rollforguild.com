@@ -79,10 +79,7 @@ class TrackableComponent extends Component {
 
 
 
-TrackableComponent.defaultProps = {
-  label: null,
-  value: null,
-}
+TrackableComponent.defaultProps = { value: null }
 
 // We have to disable react/no-unused-prop-types here because these props are
 // used, just not in a way that ESLint can recognize.
@@ -90,7 +87,7 @@ TrackableComponent.defaultProps = {
 TrackableComponent.propTypes = {
   action: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
-  label: PropTypes.string,
+  label: PropTypes.string.isRequired,
   value: PropTypes.number,
 }
 /* eslint-enable */
