@@ -7,7 +7,7 @@ import React from 'react'
 
 
 // Component imports
-import { Link } from '../routes'
+import Link from '../components/Link'
 import Component from '../components/Component'
 import Page from '../components/Page'
 
@@ -120,7 +120,10 @@ class Login extends Component {
               </div>
 
               <div className="secondary">
-                <Link href="/login">
+                <Link
+                  category="Sign Up"
+                  label="Return to Login"
+                  route="/login">
                   <a className="button link">
                     Return to Login
                   </a>

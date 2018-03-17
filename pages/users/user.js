@@ -11,7 +11,7 @@ import {
 } from '../../components/TabPanel'
 import Avatar from '../../components/Avatar'
 import Component from '../../components/Component'
-import { Link } from '../../routes'
+import Link from '../../components/Link'
 import Page from '../../components/Page'
 import UserSettingsPanel from '../../components/UserProfilePanels/UserSettingsPanel'
 
@@ -181,6 +181,8 @@ class UserProfile extends Component {
                             type="toolbar">
                             <div className="primary">
                               <Link
+                                category="User Profile"
+                                label="Group Card"
                                 route="group profile"
                                 params={{ id: group.id }}>
                                 <button

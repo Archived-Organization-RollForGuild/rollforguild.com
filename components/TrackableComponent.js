@@ -7,13 +7,14 @@ import PropTypes from 'prop-types'
 
 // Component imports
 import Component from './Component'
+import { pushTrackableEventToDataLayer } from '../helpers'
 
 
 
 
 
 // Component constants
-const gaEventProps = ['action', 'category', 'label', 'rating']
+const gaEventProps = ['action', 'category', 'label', 'value']
 
 
 
@@ -25,7 +26,7 @@ class TrackableComponent extends Component {
   \***************************************************************************/
 
   _fireEvent () {
-    const eventData = { event: 'trackable' }
+    const eventData = {}
 
     for (const key of gaEventProps) {
       const value = this.props[key]
@@ -36,7 +37,7 @@ class TrackableComponent extends Component {
       }
     }
 
-    TrackableComponent.dataLayer.push(eventData)
+    pushTrackableEventToDataLayer(eventData)
   }
 
 
@@ -60,10 +61,6 @@ class TrackableComponent extends Component {
   /***************************************************************************\
     Getters
   \***************************************************************************/
-
-  static get dataLayer () {
-    return window.dataLayer || (window.dataLayer = [])
-  }
 
   get renderProps () {
     const renderProps = {}

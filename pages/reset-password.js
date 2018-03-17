@@ -7,7 +7,7 @@ import React from 'react'
 
 
 // Component imports
-import { Link } from '../routes'
+import Link from '../components/Link'
 import Component from '../components/Component'
 import Page from '../components/Page'
 
@@ -88,7 +88,7 @@ class Login extends Component {
         </header>
 
         {(status === 'success') && (
-          <p><span aria-label="Key emoji" role="img">🗝</span> Your password has been reset! Now take your newly minted key and go <Link href="/login"><a>login</a></Link>!</p>
+          <p><span aria-label="Key emoji" role="img">🗝</span> Your password has been reset! Now take your newly minted key and go <Link category="Reset Password" label="Login" route="/login"><a>login</a></Link>!</p>
         )}
 
         {['error', null].includes(status) && (
@@ -142,7 +142,10 @@ class Login extends Component {
               </div>
 
               <div className="secondary">
-                <Link href="/login">
+                <Link
+                  category="Reset Password"
+                  label="Login"
+                  route="/login">
                   <a className="button link">
                     Return to Login
                   </a>

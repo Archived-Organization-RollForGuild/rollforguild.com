@@ -6,7 +6,7 @@ import React from 'react'
 
 
 // Component imports
-import { Link } from '../routes'
+import Link from './Link'
 import Nav from './Nav'
 
 
@@ -37,7 +37,10 @@ export default (props) => (
         Close
       </label>
 
-      <Link href="/">
+      <Link
+        category="Navigation"
+        route="/"
+        label="Brand">
         <a><div className="brand" /></a>
       </Link>
 

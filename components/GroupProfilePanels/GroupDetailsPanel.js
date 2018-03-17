@@ -7,7 +7,7 @@ import React from 'react'
 
 
 // Component imports
-import { Link } from '../../routes'
+import Link from '../Link'
 import { convertObjectToQueryParams } from '../../helpers'
 import Component from '../Component'
 import ShareableLink from '../ShareableLink'
@@ -69,7 +69,11 @@ class GroupDetailsPanel extends Component {
           <div className="section-content">
             <div className="input-group">
               <div className="input-group">
-                <Link href={`//twitter.com/intent/tweet${convertObjectToQueryParams(twitterShareParams)}`}>
+                <Link
+                  category="Group Profile"
+                  href={`//twitter.com/intent/tweet${convertObjectToQueryParams(twitterShareParams)}`}
+                  label="Twitter Share"
+                  value={group.id}>
                   <a className="button secondary">
                     <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
                   </a>

@@ -8,7 +8,7 @@ import React from 'react'
 
 // Component imports
 import { actions } from '../store'
-import { Link } from '../routes'
+import Link from './Link'
 
 
 
@@ -30,6 +30,8 @@ const GroupCard = (props) => {
       <header>
         <h2 title={name}>
           <Link
+            category="Group Search"
+            label="Group Card"
             route="group profile"
             params={{ id: slug }}>
             <a>{name}</a>

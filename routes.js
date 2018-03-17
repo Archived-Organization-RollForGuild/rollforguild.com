@@ -1,4 +1,8 @@
-const routes = (module.exports = require('next-routes')())
+const routes = require('next-routes')()
+
+
+
+
 
 routes
   // Account
@@ -19,3 +23,9 @@ routes
   // Users
   .add('user profile', '/users/:id', '/users/user')
   .add('user profile current', '/my/profile', '/users/user')
+
+
+
+
+
+module.exports = routes

@@ -7,10 +7,8 @@ import React from 'react'
 
 
 // Component imports
-import {
-  Link,
-  Router,
-} from '../routes'
+import { Router } from '../routes'
+import Link from '../components/Link'
 import Component from '../components/Component'
 import Page from '../components/Page'
 
@@ -150,13 +148,19 @@ class Login extends Component {
             </div>
 
             <div className="secondary">
-              <Link href="/forgot-password">
+              <Link
+                category="Login"
+                label="Forgot Password"
+                route="/forgot-password">
                 <a className="button link">
                   Forgot Password?
                 </a>
               </Link>
 
-              <Link href="/register">
+              <Link
+                category="Login"
+                label="Sign Up"
+                route="/register">
                 <a className="button secondary">
                   Sign Up
                 </a>
