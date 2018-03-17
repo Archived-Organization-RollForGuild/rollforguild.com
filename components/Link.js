@@ -43,8 +43,6 @@ class TrackableLink extends TrackableComponent {
     super(props)
 
     this._bindMethods(['_handleClick'])
-
-    console.log(this)
   }
 
   render () {

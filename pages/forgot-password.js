@@ -7,8 +7,9 @@ import React from 'react'
 
 
 // Component imports
-import Link from '../components/Link'
+import Button from '../components/Button'
 import Component from '../components/Component'
+import Link from '../components/Link'
 import Page from '../components/Page'
 
 
@@ -111,12 +112,14 @@ class Login extends Component {
 
             <menu type="toolbar">
               <div className="primary">
-                <button
+                <Button
+                  category="Forgot Password"
                   className="success"
                   disabled={requestingReset}
+                  label="Submit Email"
                   type="submit">
                   Submit
-                </button>
+                </Button>
               </div>
 
               <div className="secondary">

@@ -19,6 +19,7 @@ import {
 } from '../../helpers'
 import { actions } from '../../store'
 import Avatar from '../../components/Avatar'
+import Button from '../../components/Button'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
@@ -120,21 +121,23 @@ class JoinRequestCard extends Component {
                   Message
                 </a>
 
-                <button
+                <Button
+                  action="accept"
+                  category="Group Profile"
                   className="small success"
+                  label="Membership"
                   onClick={this._accept}>
                   Accept
-                </button>
+                </Button>
 
-                <button
+                <Button
+                  action="ignore"
+                  category="Group Profile"
                   className="small danger"
+                  label="Membership"
                   onClick={this._ignore}>
                   Ignore
-                </button>
-
-                {/* <button className="danger small">
-                  Remove
-                </button> */}
+                </Button>
               </div>
             </menu>
           )}
@@ -358,9 +361,12 @@ class GroupProfile extends Component {
           {!currentUserIsAdmin && (
             <menu type="toolbar">
               {!currentUserIsMember && (
-                <button
+                <Button
+                  action="request"
+                  category="Group Profile"
                   className="success"
                   disabled={requestingToJoin || joinRequestSent}
+                  label="Membership"
                   onClick={this._requestToJoin}>
                   {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
@@ -371,20 +377,23 @@ class GroupProfile extends Component {
                   {requestingToJoin && (
                     <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
                   )}
-                </button>
+                </Button>
               )}
 
               {currentUserIsMember && (
-                <button
+                <Button
+                  action="cancel"
+                  category="Group Profile"
                   className="danger"
                   disabled={leaving[currentUserId]}
+                  label="Membership"
                   onClick={() => this._removeMember(currentUserId)}>
                   {!leaving[currentUserId] && 'Leave group'}
 
                   {leaving[currentUserId] && (
                     <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
                   )}
-                </button>
+                </Button>
               )}
             </menu>
           )}
@@ -414,7 +423,9 @@ class GroupProfile extends Component {
             )}
           </header>
 
-          <TabPanel className="details">
+          <TabPanel
+            category="Group Profile"
+            className="details">
             <Tab title="Details">
               <GroupDetailsPanel group={group} />
             </Tab>
@@ -466,16 +477,19 @@ class GroupProfile extends Component {
 
                                 { currentUserIsAdmin && (
                                   <div className="secondary">
-                                    <button
-                                      disabled={leaving[id]}
+                                    <Button
+                                      action="remove"
+                                      category="Group Profile"
                                       className="secondary small"
+                                      disabled={leaving[id]}
+                                      label="Membership"
                                       onClick={() => this._removeMember(id)}>
                                       {!leaving[id] && 'Remove'}
 
                                       {leaving[id] && (
                                         <span><FontAwesomeIcon icon="spinner" pulse /> Removing...</span>
                                       )}
-                                    </button>
+                                    </Button>
                                   </div>
                                 )}
                               </menu>

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
+import Button from './Button'
 import Component from './Component'
 
 
@@ -19,6 +20,7 @@ class Pagination extends Component {
 
   _renderPageLinks () {
     const {
+      category,
       currentPage,
       onPageChange,
       pagesToRender,
@@ -45,12 +47,15 @@ class Pagination extends Component {
 
         pageLinks.push((
           <li key={pageNumber}>
-            <button
+            <Button
+              category={category}
               className={classes.join(', ')}
               disabled={isCurrentPage}
-              onClick={() => onPageChange(pageNumber)}>
+              label="Go To Page"
+              onClick={() => onPageChange(pageNumber)}
+              value={pageNumber}>
               {pageNumber}
-            </button>
+            </Button>
           </li>
         ))
       }
@@ -77,6 +82,7 @@ class Pagination extends Component {
 
   render () {
     const {
+      category,
       currentPage,
       onPageChange,
       showPageLinks,
@@ -85,12 +91,15 @@ class Pagination extends Component {
 
     return (
       <nav className="pagination">
-        <button
+        <Button
+          category={category}
           className="previous secondary"
           disabled={currentPage === 1}
-          onClick={() => onPageChange(currentPage - 1)}>
+          label="Previous Page"
+          onClick={() => onPageChange(currentPage - 1)}
+          value={currentPage - 1}>
           Previous
-        </button>
+        </Button>
 
         {showPageLinks && (
           <ul className="inline">
@@ -98,12 +107,15 @@ class Pagination extends Component {
           </ul>
         )}
 
-        <button
+        <Button
+          category={category}
           className="next secondary"
           disabled={currentPage === totalPageCount}
-          onClick={() => onPageChange(currentPage + 1)}>
+          label="Next Page"
+          onClick={() => onPageChange(currentPage + 1)}
+          value={currentPage + 1}>
           Next
-        </button>
+        </Button>
       </nav>
     )
   }
@@ -120,6 +132,7 @@ Pagination.defaultProps = {
 }
 
 Pagination.propTypes = {
+  category: PropTypes.string.isRequired,
   currentPage: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
   pagesToRender: PropTypes.number,
