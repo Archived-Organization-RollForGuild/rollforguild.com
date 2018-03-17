@@ -8,8 +8,9 @@ import React from 'react'
 
 // Component imports
 import { Router } from '../routes'
-import Link from '../components/Link'
 import Component from '../components/Component'
+import Form from '../components/Form'
+import Link from '../components/Link'
 import Page from '../components/Page'
 
 
@@ -101,7 +102,10 @@ class Login extends Component {
           <h1>Login</h1>
         </header>
 
-        <form onSubmit={this._onSubmit}>
+        <Form
+          category="Authentication"
+          label="Login"
+          onSubmit={this._onSubmit}>
           <fieldset>
             <div className="input-group">
               <label htmlFor="email">
@@ -149,8 +153,9 @@ class Login extends Component {
 
             <div className="secondary">
               <Link
-                category="Login"
-                label="Forgot Password"
+                action="exit::forgot-password"
+                category="Authentication"
+                label="Login"
                 route="/forgot-password">
                 <a className="button link">
                   Forgot Password?
@@ -158,8 +163,9 @@ class Login extends Component {
               </Link>
 
               <Link
-                category="Login"
-                label="Sign Up"
+                action="exit::register"
+                category="Authentication"
+                label="Login"
                 route="/register">
                 <a className="button secondary">
                   Sign Up
@@ -173,7 +179,7 @@ class Login extends Component {
               <p>There seems to have been an error when trying to log in to your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
             </React.Fragment>
           )}
-        </form>
+        </Form>
       </React.Fragment>
     )
   }

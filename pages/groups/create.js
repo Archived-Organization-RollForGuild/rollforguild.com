@@ -10,6 +10,7 @@ import Switch from 'rc-switch'
 import { Router } from '../../routes'
 import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
+import Form from '../../components/Form'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
 
@@ -123,7 +124,11 @@ class CreateGroup extends Component {
           <h1>Create a Group</h1>
         </header>
 
-        <form onSubmit={this._handleSubmit}>
+        <Form
+          action="create"
+          category="Groups"
+          label="New Group"
+          onSubmit={this._handleSubmit}>
           <fieldset>
             <label htmlFor="group-name">
               Group name
@@ -280,7 +285,7 @@ class CreateGroup extends Component {
               </button>
             </div>
           </menu>
-        </form>
+        </Form>
       </React.Fragment>
     )
   }

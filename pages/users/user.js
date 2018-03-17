@@ -151,7 +151,7 @@ class UserProfile extends Component {
           </header>
 
           <TabPanel
-            category="User Profile"
+            category="Users"
             className="details">
             <Tab title="Details">
               <section className="bio">
@@ -183,8 +183,9 @@ class UserProfile extends Component {
                             type="toolbar">
                             <div className="primary">
                               <Link
-                                category="User Profile"
-                                label="Group Card"
+                                action="view-group"
+                                category="Users"
+                                label="Group"
                                 route="group profile"
                                 params={{ id: group.id }}>
                                 <a className="button small success" >

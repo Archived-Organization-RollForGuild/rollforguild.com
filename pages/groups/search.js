@@ -290,10 +290,10 @@ class GroupSearch extends Component {
               <React.Fragment>
                 &nbsp;Perhaps you should try&nbsp;
                 <Button
-                  action="expand"
-                  category="Group Search"
+                  action="expand-distance"
+                  category="Groups"
                   className="inline link"
-                  label="Search Distance"
+                  label="Search"
                   onClick={this._incrementSearchDistance}>
                   expanding your search
                 </Button>.
@@ -310,7 +310,7 @@ class GroupSearch extends Component {
 
         {(!searching && !!groups.length) && (
           <Pagination
-            category="Group Search"
+            category="Groups"
             currentPage={pagination.currentPage}
             onPageChange={this._search}
             totalPageCount={pagination.totalPageCount} />

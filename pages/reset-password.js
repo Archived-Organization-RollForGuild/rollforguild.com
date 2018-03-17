@@ -7,8 +7,9 @@ import React from 'react'
 
 
 // Component imports
-import Link from '../components/Link'
 import Component from '../components/Component'
+import Form from '../components/Form'
+import Link from '../components/Link'
 import Page from '../components/Page'
 
 
@@ -88,11 +89,14 @@ class Login extends Component {
         </header>
 
         {(status === 'success') && (
-          <p><span aria-label="Key emoji" role="img">🗝</span> Your password has been reset! Now take your newly minted key and go <Link category="Reset Password" label="Login" route="/login"><a>login</a></Link>!</p>
+          <p><span aria-label="Key emoji" role="img">🗝</span> Your password has been reset! Now take your newly minted key and go <Link action="exit::login" category="Authentication" label="Reset Password" route="/login"><a>login</a></Link>!</p>
         )}
 
         {['error', null].includes(status) && (
-          <form onSubmit={this._onSubmit}>
+          <Form
+            category="Authentication"
+            label="Reset Password"
+            onSubmit={this._onSubmit}>
             {!this.props.query.token && (
               <fieldset>
                 <div className="input-group">
@@ -143,8 +147,9 @@ class Login extends Component {
 
               <div className="secondary">
                 <Link
-                  category="Reset Password"
-                  label="Login"
+                  action="exit::login"
+                  category="Authentication"
+                  label="Reset Password"
                   route="/login">
                   <a className="button link">
                     Return to Login
@@ -158,7 +163,7 @@ class Login extends Component {
                 <p>There seems to have been an error while trying to reset your password. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
               </React.Fragment>
             )}
-          </form>
+          </Form>
         )}
       </React.Fragment>
     )

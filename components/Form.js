@@ -49,4 +49,10 @@ class Form extends TrackableComponent {
 
 
 
+Form.defaultProps = { action: 'submit' }
+
+
+
+
+
 export default Form

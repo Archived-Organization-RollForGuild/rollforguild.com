@@ -30,8 +30,9 @@ const GroupCard = (props) => {
       <header>
         <h2 title={name}>
           <Link
-            category="Group Search"
-            label="Group Card"
+            action="view-result"
+            category="Groups"
+            label="Search"
             route="group profile"
             params={{ id: slug }}>
             <a>{name}</a>

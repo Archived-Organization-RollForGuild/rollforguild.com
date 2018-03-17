@@ -9,6 +9,8 @@ import React from 'react'
 // Component imports
 import { Router } from '../routes'
 import Component from '../components/Component'
+import Form from '../components/Form'
+import Link from '../components/Link'
 import Page from '../components/Page'
 
 
@@ -99,7 +101,11 @@ class Register extends Component {
         </header>
 
         {(!status && status !== 'error') && (
-          <form onSubmit={this._onSubmit}>
+          <Form
+            action="register"
+            category="Authentication"
+            label="Register"
+            onSubmit={this._onSubmit}>
             <fieldset>
               <div className="input-group">
                 <label htmlFor="email">
@@ -162,6 +168,18 @@ class Register extends Component {
                   Register
                 </button>
               </div>
+
+              <div className="secondary">
+                <Link
+                  action="exit::login"
+                  category="Authentication"
+                  label="Register"
+                  route="/login">
+                  <a className="button link">
+                    Return to Login
+                  </a>
+                </Link>
+              </div>
             </menu>
 
             {(status === 'error') && (
@@ -169,7 +187,7 @@ class Register extends Component {
                 <p>There seems to have been an error registering your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
               </React.Fragment>
             )}
-          </form>
+          </Form>
         )}
 
         {(status === 'success') && (

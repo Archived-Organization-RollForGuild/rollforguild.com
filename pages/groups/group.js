@@ -123,7 +123,7 @@ class JoinRequestCard extends Component {
 
                 <Button
                   action="accept"
-                  category="Group Profile"
+                  category="Groups"
                   className="small success"
                   label="Membership"
                   onClick={this._accept}>
@@ -132,7 +132,7 @@ class JoinRequestCard extends Component {
 
                 <Button
                   action="ignore"
-                  category="Group Profile"
+                  category="Groups"
                   className="small danger"
                   label="Membership"
                   onClick={this._ignore}>
@@ -363,7 +363,7 @@ class GroupProfile extends Component {
               {!currentUserIsMember && (
                 <Button
                   action="request"
-                  category="Group Profile"
+                  category="Groups"
                   className="success"
                   disabled={requestingToJoin || joinRequestSent}
                   label="Membership"
@@ -383,7 +383,7 @@ class GroupProfile extends Component {
               {currentUserIsMember && (
                 <Button
                   action="cancel"
-                  category="Group Profile"
+                  category="Groups"
                   className="danger"
                   disabled={leaving[currentUserId]}
                   label="Membership"
@@ -424,7 +424,7 @@ class GroupProfile extends Component {
           </header>
 
           <TabPanel
-            category="Group Profile"
+            category="Groups"
             className="details">
             <Tab title="Details">
               <GroupDetailsPanel group={group} />
@@ -479,7 +479,7 @@ class GroupProfile extends Component {
                                   <div className="secondary">
                                     <Button
                                       action="remove"
-                                      category="Group Profile"
+                                      category="Groups"
                                       className="secondary small"
                                       disabled={leaving[id]}
                                       label="Membership"

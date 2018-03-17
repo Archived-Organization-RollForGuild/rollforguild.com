@@ -70,9 +70,10 @@ class GroupDetailsPanel extends Component {
             <div className="input-group">
               <div className="input-group">
                 <Link
-                  category="Group Profile"
+                  action="share::twitter"
+                  category="Groups"
                   href={`//twitter.com/intent/tweet${convertObjectToQueryParams(twitterShareParams)}`}
-                  label="Twitter Share"
+                  label="Profile"
                   value={group.id}>
                   <a className="button secondary">
                     <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />

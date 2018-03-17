@@ -12,6 +12,7 @@ import React from 'react'
 // Component imports
 import { actions } from '../../store'
 import Component from '../Component'
+import Form from '../Form'
 // import ValidatedInput from '../ValidatedInput'
 import PasswordInput from '../PasswordInput'
 
@@ -184,7 +185,11 @@ class GroupSettingsPanel extends Component {
             </div>
           )}
 
-          <form onSubmit={this._handleSubmit}>
+          <Form
+            action="update"
+            category="Users"
+            label="Settings"
+            onSubmit={this._handleSubmit}>
             <fieldset>
               <label htmlFor="description">
                 Bio
@@ -265,7 +270,7 @@ class GroupSettingsPanel extends Component {
                 </button>
               </div>
             </menu>
-          </form>
+          </Form>
         </div>
       </section>
     )
