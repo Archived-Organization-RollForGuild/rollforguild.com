@@ -27,6 +27,34 @@ class ValidatedInput extends Component {
     Private Methods
   \***************************************************************************/
 
+  _handleBlur (event) {
+    const { onBlur } = this.props
+
+    this._handleInteraction()
+
+    if (onBlur) {
+      onBlur(event)
+    }
+  }
+
+  _handleInput (event) {
+    const { onInput } = this.props
+
+    this._handleInteraction()
+
+    if (onInput) {
+      onInput(event)
+    }
+  }
+
+  _handleInteraction () {
+    const { hasBeenFocused } = this.state
+
+    if (!hasBeenFocused) {
+      this.setState({ hasBeenFocused: true })
+    }
+  }
+
   _renderMessages () {
     const {
       messages,
@@ -144,35 +172,20 @@ class ValidatedInput extends Component {
   constructor (props) {
     super(props)
 
+    this._bindMethods([
+      '_handleBlur',
+      '_handleInput',
+    ])
     this._debounceMethods(['_validate'])
 
     this.state = {
+      hasBeenFocused: false,
       messages: [],
     }
   }
 
-  renderMessages() {
-    const {
-      messages,
-    } = this.state
-
-    return (
-      <React.Fragment>
-        <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
-
-        <ul className="messages">
-          {messages.map(({ icon, message, type }) => (
-            <li key={message} className={`${type || 'error'} message`}>
-              <FontAwesomeIcon icon={icon} fixedWidth />
-              {message}
-            </li>
-          ))}
-        </ul>
-      </React.Fragment>
-    )
-  }
-
   render () {
+    const { hasBeenFocused } = this.state
     const classNames = [
       'validated-input',
       (this.props.className || ''),
@@ -186,8 +199,11 @@ class ValidatedInput extends Component {
       <div className={classNames.join(' ')}>
         <input
           {...inputProps}
+          onBlur={this._handleBlur}
+          onInput={this._handleInput}
           ref={_el => this._el = _el} />
-        {this.renderMessages()}
+
+        {hasBeenFocused && this._renderMessages()}
       </div>
     )
   }
