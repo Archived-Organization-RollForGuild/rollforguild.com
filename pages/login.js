@@ -13,6 +13,8 @@ import {
 } from '../routes'
 import Component from '../components/Component'
 import Page from '../components/Page'
+import PasswordInput from '../components/PasswordInput'
+import ValidatedInput from '../components/ValidatedInput'
 
 
 
@@ -110,7 +112,7 @@ class Login extends Component {
                 <FontAwesomeIcon icon="user" fixedWidth />
               </label>
 
-              <input
+              <ValidatedInput
                 aria-label="Email"
                 disabled={loggingIn}
                 id="email"
@@ -128,14 +130,13 @@ class Login extends Component {
                 <FontAwesomeIcon icon="lock" fixedWidth />
               </label>
 
-              <input
+              <PasswordInput
                 aria-label="Password"
                 disabled={loggingIn}
                 id="password"
                 name="password"
                 onChange={this._handleChange}
                 placeholder="Password"
-                type="password"
                 value={password} />
             </div>
           </fieldset>

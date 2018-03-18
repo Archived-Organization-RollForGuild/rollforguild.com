@@ -10,6 +10,7 @@ import React from 'react'
 import { Link } from '../routes'
 import Component from '../components/Component'
 import Page from '../components/Page'
+import ValidatedInput from '../components/ValidatedInput'
 
 
 
@@ -97,13 +98,14 @@ class Login extends Component {
                   <FontAwesomeIcon icon="user" fixedWidth />
                 </label>
 
-                <input
+                <ValidatedInput
                   aria-label="Email"
                   disabled={loggingIn}
                   id="email"
                   name="email"
                   onChange={this._handleChange}
                   placeholder="Email"
+                  required
                   type="email"
                   value={email} />
               </div>
