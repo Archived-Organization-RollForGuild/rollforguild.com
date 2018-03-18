@@ -141,7 +141,7 @@ class ForumList extends Component {
         </header>
 
         <div className="thread-list">
-          <span className="">Displaying threads {offset + 1}-{Math.min(count + offset, limit + offset)} of {total} threads, {totalPages} pages exist</span>
+          <span className="list-stats">Displaying threads {offset + 1}-{Math.min(count + offset, limit + offset)} of {total} threads, {totalPages} pages exist</span>
           {threads.map(thread => (
             <ForumThreadCard thread={thread} key={thread.id} />
           ))}
