@@ -17,7 +17,9 @@ routes
   .add('password reset', '/reset(-password)?/:token?', '/reset-password')
 
   // Forums
-  .add('forum create', '/forums/create', '/forums/create')
+  .add('forum list', '/forums/:page?', '/forums/list')
+  .add('forum thread create', '/forums/create', '/forums/create')
+  .add('forum thread view', '/forums/:id', '/forums/view')
 
   // Users
   .add('user profile', '/users/:id', '/users/user')
