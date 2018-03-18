@@ -55,27 +55,6 @@ class ValidatedInput extends Component {
     }
   }
 
-  _renderMessages () {
-    const {
-      messages,
-    } = this.state
-
-    return (
-      <React.Fragment>
-        <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
-
-        <ul className="messages">
-          {messages.map(({ icon, message, type }) => (
-            <li key={message} className={`${type || 'error'} message`}>
-              <FontAwesomeIcon icon={icon} fixedWidth />
-              {message}
-            </li>
-          ))}
-        </ul>
-      </React.Fragment>
-    )
-  }
-
   _validate (messages = []) {
     const {
       badInput,
@@ -129,6 +108,8 @@ class ValidatedInput extends Component {
         })
       }
     }
+
+    console.log('messages', messages)
 
     this.setState({ messages: orderBy(messages, ['priority'], ['desc']) })
 
@@ -185,27 +166,66 @@ class ValidatedInput extends Component {
   }
 
   render () {
-    const { hasBeenFocused } = this.state
     const classNames = [
       'validated-input',
       (this.props.className || ''),
     ]
 
-    const inputProps = { ...this.props }
-    delete inputProps.onValidate
-    delete inputProps.className
-
     return (
       <div className={classNames.join(' ')}>
-        <input
-          {...inputProps}
-          onBlur={this._handleBlur}
-          onInput={this._handleInput}
-          ref={_el => this._el = _el} />
+        <input {...this.renderProps} />
 
-        {hasBeenFocused && this._renderMessages()}
+        {this.renderMessages()}
       </div>
     )
+  }
+
+  renderMessages () {
+    const {
+      hasBeenFocused,
+      messages,
+    } = this.state
+
+    if (hasBeenFocused) {
+      return (
+        <React.Fragment>
+          <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
+
+          <ul className="messages">
+            {messages.map(({ icon, message, type }) => (
+              <li key={message} className={`${type || 'error'} message`}>
+                <FontAwesomeIcon icon={icon} fixedWidth />
+                {message}
+              </li>
+            ))}
+          </ul>
+        </React.Fragment>
+      )
+    }
+
+    return null
+  }
+
+
+
+
+
+  /***************************************************************************\
+    Getters
+  \***************************************************************************/
+
+  get renderProps () {
+    const renderProps = {
+      ...this.props,
+      onBlur: this._handleBlur,
+      onInput: this._handleInput,
+      ref: _el => this._el = _el,
+    }
+
+    delete renderProps.onValidate
+    delete renderProps.className
+
+    return renderProps
   }
 }
 
