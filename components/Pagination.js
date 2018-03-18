@@ -22,6 +22,7 @@ class Pagination extends Component {
     const {
       category,
       currentPage,
+      label,
       onPageChange,
       pagesToRender,
       totalPageCount,
@@ -48,12 +49,12 @@ class Pagination extends Component {
         pageLinks.push((
           <li key={pageNumber}>
             <Button
+              action={`page::${pageNumber}`}
               category={category}
               className={classes.join(', ')}
               disabled={isCurrentPage}
-              label="Go To Page"
-              onClick={() => onPageChange(pageNumber)}
-              value={pageNumber}>
+              label={label}
+              onClick={() => onPageChange(pageNumber)}>
               {pageNumber}
             </Button>
           </li>
@@ -84,6 +85,7 @@ class Pagination extends Component {
     const {
       category,
       currentPage,
+      label,
       onPageChange,
       showPageLinks,
       totalPageCount,
@@ -92,10 +94,11 @@ class Pagination extends Component {
     return (
       <nav className="pagination">
         <Button
+          action="page::previous"
           category={category}
           className="previous secondary"
           disabled={currentPage === 1}
-          label="Previous Page"
+          label={label}
           onClick={() => onPageChange(currentPage - 1)}
           value={currentPage - 1}>
           Previous
@@ -108,10 +111,11 @@ class Pagination extends Component {
         )}
 
         <Button
+          action="page::next"
           category={category}
           className="next secondary"
           disabled={currentPage === totalPageCount}
-          label="Next Page"
+          label={label}
           onClick={() => onPageChange(currentPage + 1)}
           value={currentPage + 1}>
           Next
@@ -134,6 +138,7 @@ Pagination.defaultProps = {
 Pagination.propTypes = {
   category: PropTypes.string.isRequired,
   currentPage: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
   onPageChange: PropTypes.func.isRequired,
   pagesToRender: PropTypes.number,
   showPageLinks: PropTypes.bool,
