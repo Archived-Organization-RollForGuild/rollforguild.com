@@ -10,6 +10,8 @@ import React from 'react'
 import { Link } from '../routes'
 import Component from '../components/Component'
 import Page from '../components/Page'
+import PasswordInput from '../components/PasswordInput'
+import ValidatedInput from '../components/ValidatedInput'
 
 
 
@@ -100,7 +102,7 @@ class Login extends Component {
                     <FontAwesomeIcon icon="key" fixedWidth />
                   </label>
 
-                  <input
+                  <ValidatedInput
                     aria-label="Reset token"
                     disabled={resetting}
                     id="token"
@@ -119,14 +121,16 @@ class Login extends Component {
                   <FontAwesomeIcon icon="user" fixedWidth />
                 </label>
 
-                <input
+                <PasswordInput
                   aria-label="Password"
                   disabled={resetting}
                   id="password"
                   name="password"
                   onChange={this._handleChange}
                   placeholder="New Password"
-                  type="password"
+                  showWarnings
+                  showSuggestions
+                  showStrength
                   value={password} />
               </div>
             </fieldset>

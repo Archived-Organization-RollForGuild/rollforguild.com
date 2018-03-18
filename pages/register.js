@@ -10,6 +10,8 @@ import React from 'react'
 import { Router } from '../routes'
 import Component from '../components/Component'
 import Page from '../components/Page'
+import PasswordInput from '../components/PasswordInput'
+import ValidatedInput from '../components/ValidatedInput'
 
 
 
@@ -106,13 +108,14 @@ class Register extends Component {
                   <FontAwesomeIcon icon="envelope" fixedWidth />
                 </label>
 
-                <input
+                <ValidatedInput
                   aria-label="Email"
                   disabled={registering}
                   id="email"
                   name="email"
                   onChange={this._handleChange}
                   placeholder="Email"
+                  required
                   type="email"
                   value={email} />
               </div>
@@ -124,13 +127,14 @@ class Register extends Component {
                   <FontAwesomeIcon icon="user" fixedWidth />
                 </label>
 
-                <input
+                <ValidatedInput
                   aria-label="Username"
                   disabled={registering}
                   id="username"
                   name="username"
                   onChange={this._handleChange}
                   placeholder="Username"
+                  required
                   type="username"
                   value={username} />
               </div>
@@ -142,14 +146,17 @@ class Register extends Component {
                   <FontAwesomeIcon icon="lock" fixedWidth />
                 </label>
 
-                <input
+                <PasswordInput
                   aria-label="Password"
                   disabled={registering}
                   id="password"
                   name="password"
                   onChange={this._handleChange}
                   placeholder="Password"
-                  type="password"
+                  required
+                  showWarnings
+                  showSuggestions
+                  showStrength
                   value={password} />
               </div>
             </fieldset>

@@ -12,6 +12,7 @@ import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
+import ValidatedInput from '../../components/ValidatedInput'
 
 
 
@@ -129,7 +130,7 @@ class CreateGroup extends Component {
               Group name
             </label>
 
-            <input
+            <ValidatedInput
               disabled={submitting}
               id="group-name"
               onChange={({ target }) => this.setState({ name: target.value })}
@@ -148,7 +149,7 @@ class CreateGroup extends Component {
                 https://rollforguild.com/groups/
               </label>
 
-              <input
+              <ValidatedInput
                 disabled={submitting}
                 id="permalink"
                 onChange={({ target }) => this.setState({ slug: convertStringToSlug(target.value) })}
@@ -181,7 +182,7 @@ class CreateGroup extends Component {
               What games will you be playing?
             </label>
 
-            <input
+            <ValidatedInput
               disabled={submitting}
               id="games"
               onChange={({ target }) => this.setState({ games: target.value })}
