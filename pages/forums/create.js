@@ -6,6 +6,7 @@ import React from 'react'
 
 
 // Component imports
+import { Router } from '../../routes'
 import Component from '../../components/Component'
 import Page from '../../components/Page'
 import ValidatedInput from '../../components/ValidatedInput'
@@ -39,18 +40,18 @@ class CreateThread extends Component {
       submitting: true,
     })
 
-    await createForumThread({
+    const { payload, status } = await createForumThread({
       title,
       body,
     })
-    //
-    // if (status === 'success') {
-    //   const {
-    //     id,
-    //   } = payload.data
-    //
-    //   return Router.pushRoute('forum thread', { id })
-    // }
+
+    if (status === 'success') {
+      const {
+        id,
+      } = payload.data
+
+      return Router.pushRoute('forum thread view', { id })
+    }
 
     return this.setState({ submitting: false })
   }
