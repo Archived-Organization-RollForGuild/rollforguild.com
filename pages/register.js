@@ -154,6 +154,9 @@ class Register extends Component {
                   onChange={this._handleChange}
                   placeholder="Password"
                   required
+                  showWarnings
+                  showSuggestions
+                  showStrength
                   value={password} />
               </div>
             </fieldset>
