@@ -14,7 +14,12 @@ import { pushTrackableEventToDataLayer } from '../helpers'
 
 
 // Component constants
-const gaEventProps = ['action', 'category', 'label', 'value']
+const gaEventProps = [
+  ['action', 'eventAction'],
+  ['category', 'eventCategory'],
+  ['label', 'eventLabel'],
+  ['value', 'eventValue'],
+]
 
 
 
@@ -28,9 +33,8 @@ class TrackableComponent extends Component {
   _fireEvent () {
     const eventData = {}
 
-    for (const key of gaEventProps) {
+    for (const [key, propName] of gaEventProps) {
       const value = this.props[key]
-      const propName = key.split('').reduce((accumulator, character, index) => `${accumulator}${index === 0 ? character.toUpperCase() : character}`, 'event')
 
       if (value) {
         eventData[propName] = value
