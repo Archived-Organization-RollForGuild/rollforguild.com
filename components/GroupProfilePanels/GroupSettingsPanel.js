@@ -14,6 +14,7 @@ import Switch from 'rc-switch'
 import { actions } from '../../store'
 import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../AddressInput'
+import Form from '../Form'
 import Component from '../Component'
 import ValidatedInput from '../ValidatedInput'
 
@@ -137,13 +138,17 @@ class GroupSettingsPanel extends Component {
 
     const address = typeof changes.address === 'string' ? changes.address : group.attributes.address
     const description = typeof changes.description === 'string' ? changes.description : group.attributes.description
-    const discoverable = changes.discoverable || group.attributes.discoverable
+    const discoverable = typeof changes.discoverable === 'boolean' ? changes.discoverable : group.attributes.discoverable
     const name = typeof changes.name === 'string' ? changes.name : group.attributes.name
     // const slug = typeof changes.slug === 'string' ? changes.slug : group.attributes.slug
 
     return (
       <section className="settings">
-        <form onSubmit={this._handleSubmit}>
+        <Form
+          action="update"
+          category="Groups"
+          label="Settings"
+          onSubmit={this._handleSubmit}>
           <fieldset>
             <label htmlFor="name">
               Group name
@@ -229,7 +234,8 @@ class GroupSettingsPanel extends Component {
             <div className="primary">
               <button
                 className="success"
-                disabled={submitting || !this._isValid()}>
+                disabled={submitting || !this._isValid()}
+                type="submit">
                 {!submitting && 'Save'}
 
                 {submitting && (
@@ -238,7 +244,7 @@ class GroupSettingsPanel extends Component {
               </button>
             </div>
           </menu>
-        </form>
+        </Form>
       </section>
     )
   }

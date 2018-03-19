@@ -19,7 +19,7 @@ class PasswordInput extends ValidatedInput {
     Private Methods
   \***************************************************************************/
 
-  _validate() {
+  _validate () {
     const {
       showWarnings,
       showSuggestions,
@@ -65,10 +65,15 @@ class PasswordInput extends ValidatedInput {
     this._el.focus()
   }
 
+
+
+
+
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
-  constructor(props) {
+
+  constructor (props) {
     super(props)
 
     this._bindMethods([
@@ -83,11 +88,10 @@ class PasswordInput extends ValidatedInput {
     }
   }
 
-  render() {
+  render () {
     const {
       showPassword,
       passwordStrength,
-      isValid,
     } = this.state
 
     const {
@@ -100,23 +104,9 @@ class PasswordInput extends ValidatedInput {
       (this.props.className || ''),
     ]
 
-    const inputProps = { ...this.props }
-    delete inputProps.onValidate
-    delete inputProps.className
-    delete inputProps.showStrength
-    delete inputProps.showWarnings
-    delete inputProps.showSuggestions
-
-    if (!isValid) {
-      inputProps.pattern = '$.^'
-    }
-
     return (
       <div className={classNames.join(' ')}>
-        <input
-          {...inputProps}
-          ref={_el => this._el = _el}
-          type={showPassword ? 'text' : 'password'} />
+        <input {...this.renderProps} />
 
         <button
           className="show-password"
@@ -138,7 +128,39 @@ class PasswordInput extends ValidatedInput {
       </div>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Getters
+  \***************************************************************************/
+
+  get renderProps () {
+    const {
+      isValid,
+      showPassword,
+    } = this.state
+    const renderProps = {
+      ...super.renderProps,
+      type: showPassword ? 'text' : 'password',
+    }
+
+    delete renderProps.onValidate
+    delete renderProps.className
+    delete renderProps.showStrength
+    delete renderProps.showWarnings
+    delete renderProps.showSuggestions
+
+    if (!isValid) {
+      renderProps.pattern = '$.^'
+    }
+
+    return renderProps
+  }
 }
+
 
 
 

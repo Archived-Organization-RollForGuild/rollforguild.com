@@ -11,7 +11,7 @@ import {
 } from '../../components/TabPanel'
 import Avatar from '../../components/Avatar'
 import Component from '../../components/Component'
-import { Link } from '../../routes'
+import Link from '../../components/Link'
 import Page from '../../components/Page'
 import UserSettingsPanel from '../../components/UserProfilePanels/UserSettingsPanel'
 
@@ -150,7 +150,9 @@ class UserProfile extends Component {
             <Avatar src={user} editable={userIsCurrentUser} />
           </header>
 
-          <TabPanel className="details">
+          <TabPanel
+            category="Users"
+            className="details">
             <Tab title="Details">
               <section className="bio">
                 <h4>Bio</h4>
@@ -181,12 +183,14 @@ class UserProfile extends Component {
                             type="toolbar">
                             <div className="primary">
                               <Link
+                                action="view-group"
+                                category="Users"
+                                label="Group"
                                 route="group profile"
                                 params={{ id: group.id }}>
-                                <button
-                                  className="small success" >
+                                <a className="button small success" >
                                   View
-                                </button>
+                                </a>
                               </Link>
                             </div>
                           </menu>

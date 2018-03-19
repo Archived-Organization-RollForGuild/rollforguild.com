@@ -1,9 +1,11 @@
+// Module imports
 import Document, { Head, Main, NextScript } from 'next/document'
 
 
 
 
 
+// Component constants
 const fonts = ['Lora', 'Montserrat:400,700']
 const gatmId = process.env.RFG_GOOGLE_TAG_MANAGER_API_KEY
 
@@ -51,28 +53,6 @@ export default class extends Document {
                   j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl
                   f.parentNode.insertBefore(j,f)
                 })(window, document, 'script', 'dataLayer', '${gatmId}');
-              `,
-            }
-          } />
-          <script dangerouslySetInnerHTML={
-            {
-              __html: `
-                window.twttr = (function(d, s, id) {
-                  var js, fjs = d.getElementsByTagName(s)[0],
-                    t = window.twttr || {};
-                  if (d.getElementById(id)) return t;
-                  js = d.createElement(s);
-                  js.id = id;
-                  js.src = "//platform.twitter.com/widgets.js";
-                  fjs.parentNode.insertBefore(js, fjs);
-
-                  t._e = [];
-                  t.ready = function(f) {
-                    t._e.push(f);
-                  };
-
-                  return t;
-                }(document, "script", "twitter-wjs"));
               `,
             }
           } />

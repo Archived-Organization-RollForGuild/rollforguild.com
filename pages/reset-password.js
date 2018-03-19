@@ -7,9 +7,12 @@ import React from 'react'
 
 
 // Component imports
-import { Link } from '../routes'
 import Component from '../components/Component'
+import Form from '../components/Form'
+import Link from '../components/Link'
 import Page from '../components/Page'
+import PasswordInput from '../components/PasswordInput'
+import ValidatedInput from '../components/ValidatedInput'
 
 
 
@@ -88,11 +91,14 @@ class Login extends Component {
         </header>
 
         {(status === 'success') && (
-          <p><span aria-label="Key emoji" role="img">🗝</span> Your password has been reset! Now take your newly minted key and go <Link href="/login"><a>login</a></Link>!</p>
+          <p><span aria-label="Key emoji" role="img">🗝</span> Your password has been reset! Now take your newly minted key and go <Link action="exit::login" category="Authentication" label="Reset Password" route="/login"><a>login</a></Link>!</p>
         )}
 
         {['error', null].includes(status) && (
-          <form onSubmit={this._onSubmit}>
+          <Form
+            category="Authentication"
+            label="Reset Password"
+            onSubmit={this._onSubmit}>
             {!this.props.query.token && (
               <fieldset>
                 <div className="input-group">
@@ -100,7 +106,7 @@ class Login extends Component {
                     <FontAwesomeIcon icon="key" fixedWidth />
                   </label>
 
-                  <input
+                  <ValidatedInput
                     aria-label="Reset token"
                     disabled={resetting}
                     id="token"
@@ -119,14 +125,16 @@ class Login extends Component {
                   <FontAwesomeIcon icon="user" fixedWidth />
                 </label>
 
-                <input
+                <PasswordInput
                   aria-label="Password"
                   disabled={resetting}
                   id="password"
                   name="password"
                   onChange={this._handleChange}
                   placeholder="New Password"
-                  type="password"
+                  showWarnings
+                  showSuggestions
+                  showStrength
                   value={password} />
               </div>
             </fieldset>
@@ -142,7 +150,11 @@ class Login extends Component {
               </div>
 
               <div className="secondary">
-                <Link href="/login">
+                <Link
+                  action="exit::login"
+                  category="Authentication"
+                  label="Reset Password"
+                  route="/login">
                   <a className="button link">
                     Return to Login
                   </a>
@@ -155,7 +167,7 @@ class Login extends Component {
                 <p>There seems to have been an error while trying to reset your password. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
               </React.Fragment>
             )}
-          </form>
+          </Form>
         )}
       </React.Fragment>
     )

@@ -12,11 +12,48 @@ import Component from './Component'
 
 
 
+// Component constants
+const invalidTypeMessages = {
+  email: 'Not a valid email address',
+  url: 'Not a valid URL',
+}
+
+
+
+
 
 class ValidatedInput extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
+
+  _handleBlur (event) {
+    const { onBlur } = this.props
+
+    this._handleInteraction()
+
+    if (onBlur) {
+      onBlur(event)
+    }
+  }
+
+  _handleInput (event) {
+    const { onInput } = this.props
+
+    this._handleInteraction()
+
+    if (onInput) {
+      onInput(event)
+    }
+  }
+
+  _handleInteraction () {
+    const { hasBeenFocused } = this.state
+
+    if (!hasBeenFocused) {
+      this.setState({ hasBeenFocused: true })
+    }
+  }
 
   _validate (messages = []) {
     const {
@@ -31,14 +68,17 @@ class ValidatedInput extends Component {
 
     if (!valid) {
       if (badInput || typeMismatch) {
+        const defaultMessage = invalidTypeMessages[this._el.type] || `Doesn't match field type (${this._el.type})`
+
         messages.push({
           icon: 'exclamation-triangle',
-          message: this._el.getAttribute('data-badinput-explainer') || 'Doesn\'t match field type',
+          message: this._el.getAttribute('data-badinput-explainer') || defaultMessage,
         })
       }
 
       if (patternMismatch) {
         const message = this._el.getAttribute('data-pattern-explainer')
+
         if (message) {
           messages.push({
             icon: 'exclamation-triangle',
@@ -68,6 +108,8 @@ class ValidatedInput extends Component {
         })
       }
     }
+
+    console.log('messages', messages)
 
     this.setState({ messages: orderBy(messages, ['priority'], ['desc']) })
 
@@ -111,32 +153,16 @@ class ValidatedInput extends Component {
   constructor (props) {
     super(props)
 
+    this._bindMethods([
+      '_handleBlur',
+      '_handleInput',
+    ])
     this._debounceMethods(['_validate'])
 
     this.state = {
+      hasBeenFocused: false,
       messages: [],
     }
-  }
-
-  renderMessages() {
-    const {
-      messages,
-    } = this.state
-
-    return (
-      <React.Fragment>
-        <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
-
-        <ul className="messages">
-          {messages.map(({ icon, message, type }) => (
-            <li key={message} className={`${type || 'error'} message`}>
-              <FontAwesomeIcon icon={icon} fixedWidth />
-              {message}
-            </li>
-          ))}
-        </ul>
-      </React.Fragment>
-    )
   }
 
   render () {
@@ -145,18 +171,61 @@ class ValidatedInput extends Component {
       (this.props.className || ''),
     ]
 
-    const inputProps = { ...this.props }
-    delete inputProps.onValidate
-    delete inputProps.className
-
     return (
       <div className={classNames.join(' ')}>
-        <input
-          {...inputProps}
-          ref={_el => this._el = _el} />
+        <input {...this.renderProps} />
+
         {this.renderMessages()}
       </div>
     )
+  }
+
+  renderMessages () {
+    const {
+      hasBeenFocused,
+      messages,
+    } = this.state
+
+    if (hasBeenFocused) {
+      return (
+        <React.Fragment>
+          <FontAwesomeIcon className="validity-indicator" icon="exclamation-triangle" fixedWidth />
+
+          <ul className="messages">
+            {messages.map(({ icon, message, type }) => (
+              <li key={message} className={`${type || 'error'} message`}>
+                <FontAwesomeIcon icon={icon} fixedWidth />
+                {message}
+              </li>
+            ))}
+          </ul>
+        </React.Fragment>
+      )
+    }
+
+    return null
+  }
+
+
+
+
+
+  /***************************************************************************\
+    Getters
+  \***************************************************************************/
+
+  get renderProps () {
+    const renderProps = {
+      ...this.props,
+      onBlur: this._handleBlur,
+      onInput: this._handleInput,
+      ref: _el => this._el = _el,
+    }
+
+    delete renderProps.onValidate
+    delete renderProps.className
+
+    return renderProps
   }
 }
 

@@ -9,7 +9,11 @@ import React from 'react'
 // Component imports
 import { Router } from '../routes'
 import Component from '../components/Component'
+import Form from '../components/Form'
+import Link from '../components/Link'
 import Page from '../components/Page'
+import PasswordInput from '../components/PasswordInput'
+import ValidatedInput from '../components/ValidatedInput'
 
 
 
@@ -99,20 +103,25 @@ class Register extends Component {
         </header>
 
         {(!status && status !== 'error') && (
-          <form onSubmit={this._onSubmit}>
+          <Form
+            action="register"
+            category="Authentication"
+            label="Register"
+            onSubmit={this._onSubmit}>
             <fieldset>
               <div className="input-group">
                 <label htmlFor="email">
                   <FontAwesomeIcon icon="envelope" fixedWidth />
                 </label>
 
-                <input
+                <ValidatedInput
                   aria-label="Email"
                   disabled={registering}
                   id="email"
                   name="email"
                   onChange={this._handleChange}
                   placeholder="Email"
+                  required
                   type="email"
                   value={email} />
               </div>
@@ -124,13 +133,14 @@ class Register extends Component {
                   <FontAwesomeIcon icon="user" fixedWidth />
                 </label>
 
-                <input
+                <ValidatedInput
                   aria-label="Username"
                   disabled={registering}
                   id="username"
                   name="username"
                   onChange={this._handleChange}
                   placeholder="Username"
+                  required
                   type="username"
                   value={username} />
               </div>
@@ -142,14 +152,17 @@ class Register extends Component {
                   <FontAwesomeIcon icon="lock" fixedWidth />
                 </label>
 
-                <input
+                <PasswordInput
                   aria-label="Password"
                   disabled={registering}
                   id="password"
                   name="password"
                   onChange={this._handleChange}
                   placeholder="Password"
-                  type="password"
+                  required
+                  showWarnings
+                  showSuggestions
+                  showStrength
                   value={password} />
               </div>
             </fieldset>
@@ -162,6 +175,18 @@ class Register extends Component {
                   Register
                 </button>
               </div>
+
+              <div className="secondary">
+                <Link
+                  action="exit::login"
+                  category="Authentication"
+                  label="Register"
+                  route="/login">
+                  <a className="button link">
+                    Return to Login
+                  </a>
+                </Link>
+              </div>
             </menu>
 
             {(status === 'error') && (
@@ -169,7 +194,7 @@ class Register extends Component {
                 <p>There seems to have been an error registering your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
               </React.Fragment>
             )}
-          </form>
+          </Form>
         )}
 
         {(status === 'success') && (
