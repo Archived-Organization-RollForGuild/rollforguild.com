@@ -1,94 +1,77 @@
+// Module Imports
+import NextLink from 'next/link'
+import PropTypes from 'prop-types'
+
+
+
 // Component Imports
-import React from 'react'
+import { pushTrackableEventToDataLayer } from '../helpers'
+import NextRoutes, { getLink } from '../routes'
 
 
 
 
 
-// Component Imports
-import { Router } from '../routes'
-import TrackableComponent from './TrackableComponent'
+// Component constants
+const gaEventProps = [
+  ['action', 'eventAction'],
+  ['category', 'eventCategory'],
+  ['label', 'eventLabel'],
+  ['value', 'eventValue'],
+]
 
 
 
 
 
-class TrackableLink extends TrackableComponent {
+class Link extends NextLink {
   /***************************************************************************\
-    Private Methods
+    Public Methods
   \***************************************************************************/
 
-  _handleClick (event) {
-    const {
-      params,
-      route,
-    } = this.props
+  linkClicked (event) {
+    const eventData = {}
 
-    event.preventDefault()
+    for (const [key, propName] of gaEventProps) {
+      const value = this.props[key]
 
-    this._fireEvent()
-
-    Router.pushRoute(route, params)
-  }
-
-
-
-
-
-  /***************************************************************************\
-   Public Methods
-   \***************************************************************************/
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods(['_handleClick'])
-  }
-
-  render () {
-    return (
-      <React.Fragment>
-        {this.renderProps.children}
-      </React.Fragment>
-    )
-  }
-
-
-
-
-
-  /***************************************************************************\
-    Getters
-  \***************************************************************************/
-
-  get renderProps () {
-    const renderProps = super.renderProps
-    const { children } = renderProps
-
-    const newProps = { onClick: this._handleClick }
-
-    if (children.type === 'a') {
-      newProps.href = renderProps.route
+      if (value) {
+        eventData[propName] = value
+      }
     }
 
-    return {
-      ...renderProps,
-      children: React.cloneElement(children, newProps),
-    }
+    pushTrackableEventToDataLayer(eventData)
+
+    super.linkClicked(event)
   }
 }
 
 
 
 
-
-TrackableLink.defaultProps = {
+Link.defaultProps = {
   action: 'click',
+  value: null,
 }
 
 
 
 
 
-export default TrackableLink
-export { TrackableLink }
+// We have to disable react/no-unused-prop-types here because these props are
+// used, just not in a way that ESLint can recognize.
+/* eslint-disable react/no-unused-prop-types */
+Link.propTypes = {
+  ...NextLink.propTypes,
+  action: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.number,
+}
+/* eslint-enable */
+
+
+
+
+// Link is ran through next-link's getLink function so we can retain the 'route' prop functionality.
+export default getLink.apply(NextRoutes, [Link])
