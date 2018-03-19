@@ -6,6 +6,15 @@ h4, h5, h6 {
   position: relative;
   text-transform: uppercase;
 
+  a {
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   sup {
     font-size: 0.5em;
     pointer-events: none;

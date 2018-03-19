@@ -9,6 +9,7 @@ import React from 'react'
 // Component imports
 import { convertObjectToQueryParams } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
+import Button from '../../components/Button'
 import Component from '../../components/Component'
 import Dropdown from '../../components/Dropdown'
 import GroupCard from '../../components/GroupCard'
@@ -288,11 +289,14 @@ class GroupSearch extends Component {
             {searchDistance !== GroupSearch.searchDistances[GroupSearch.searchDistances.length - 1] && (
               <React.Fragment>
                 &nbsp;Perhaps you should try&nbsp;
-                <button
+                <Button
+                  action="expand-distance"
+                  category="Groups"
                   className="inline link"
+                  label="Search"
                   onClick={this._incrementSearchDistance}>
                   expanding your search
-                </button>.
+                </Button>.
               </React.Fragment>
             )}
           </p>
@@ -306,6 +310,7 @@ class GroupSearch extends Component {
 
         {(!searching && !!groups.length) && (
           <Pagination
+            category="Groups"
             currentPage={pagination.currentPage}
             onPageChange={this._search}
             totalPageCount={pagination.totalPageCount} />

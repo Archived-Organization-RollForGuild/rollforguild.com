@@ -6,6 +6,7 @@ import findAndEvaluateModifiers from './findAndEvaluateModifiers'
 import getBase64FromFileInput from './getBase64FromFileInput'
 import isUUID from './isUUID'
 import parseJSONAPIResponseForEntityType from './parseJSONAPIResponseForEntityType'
+import pushTrackableEventToDataLayer from './pushTrackableEventToDataLayer'
 
 
 
@@ -20,4 +21,5 @@ export {
   getBase64FromFileInput,
   isUUID,
   parseJSONAPIResponseForEntityType,
+  pushTrackableEventToDataLayer,
 }

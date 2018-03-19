@@ -1,4 +1,5 @@
 // Module imports
+import Button from './Button'
 import Component from './Component'
 
 
@@ -26,6 +27,7 @@ const Tab = (props) => {
 
 const TabHeader = (props) => {
   const {
+    category,
     children,
     selectTab,
   } = props
@@ -40,12 +42,14 @@ const TabHeader = (props) => {
           } = tab.props
 
           return (
-            <button
+            <Button
+              category={category}
               className={active ? 'active' : null}
               key={title}
+              label={title}
               onClick={() => selectTab(index)}>
               {title}
-            </button>
+            </Button>
           )
         }
 

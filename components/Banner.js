@@ -6,7 +6,7 @@ import React from 'react'
 
 
 // Component imports
-import { Link } from '../routes'
+import Link from './Link'
 import Nav from './Nav'
 
 
@@ -23,7 +23,7 @@ export default (props) => (
     <header role="banner">
       <label
         className="button success"
-        data-openNav
+        data-opennav
         htmlFor="application-banner-control">
         <FontAwesomeIcon icon="bars" fixedWidth />
         Menu
@@ -31,13 +31,16 @@ export default (props) => (
 
       <label
         className="button secondary"
-        data-closeNav
+        data-closenav
         htmlFor="application-banner-control">
         <FontAwesomeIcon icon="times" fixedWidth />
         Close
       </label>
 
-      <Link href="/">
+      <Link
+        category="Navigation"
+        route="/"
+        label="Brand">
         <a><div className="brand" /></a>
       </Link>
 

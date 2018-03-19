@@ -1,3 +1,4 @@
+// Module imports
 import NextHead from 'next/head'
 import NProgress from 'nprogress'
 import React from 'react'
@@ -6,6 +7,7 @@ import React from 'react'
 
 
 
+// Component imports
 import { Router } from '../routes'
 import appStylesheet from '../scss/app.scss'
 import libStylesheet from '../scss/lib.scss'
@@ -25,7 +27,7 @@ Router.onRouteChangeError = () => {
 }
 
 Router.onRouteChangeComplete = () => {
-  if (window.twttr) {
+  if ('twttr' in window) {
     window.twttr.widgets.load()
   }
 

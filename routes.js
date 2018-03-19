@@ -1,4 +1,8 @@
-const routes = (module.exports = require('next-routes')())
+const routes = require('next-routes')()
+
+
+
+
 
 routes
   // Account
@@ -10,8 +14,8 @@ routes
   // Groups
   .add('group create', '/groups/create', '/groups/create')
   .add('group manage', '/groups/manage', '/groups/manage')
-  .add('group profile', '/groups/:id', '/groups/group')
   .add('group search', '/groups/search', '/groups/search')
+  .add('group profile', '/groups/:id', '/groups/group')
 
   // Password reset
   .add('password reset', '/reset(-password)?/:token?', '/reset-password')
@@ -19,3 +23,9 @@ routes
   // Users
   .add('user profile', '/users/:id', '/users/user')
   .add('user profile current', '/my/profile', '/users/user')
+
+
+
+
+
+module.exports = routes

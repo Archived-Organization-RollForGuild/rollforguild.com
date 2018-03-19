@@ -7,8 +7,9 @@ import React from 'react'
 
 
 // Component imports
-import { Link } from '../routes'
 import Component from '../components/Component'
+import Form from '../components/Form'
+import Link from '../components/Link'
 import Page from '../components/Page'
 import ValidatedInput from '../components/ValidatedInput'
 
@@ -89,7 +90,11 @@ class Login extends Component {
         )}
 
         {(['error', null].includes(status)) && (
-          <form onSubmit={this._onSubmit}>
+          <Form
+            action="reset-password"
+            category="Authentication"
+            label="Password Reset"
+            onSubmit={this._onSubmit}>
             <p><span aria-label="Castle emoji" role="img">🏰</span> Alas, traveller, we've all forgotten the keys to the castle on occasion. Enter your email address and a courier will arrive shortly with the information you need.</p>
 
             <fieldset>
@@ -122,7 +127,11 @@ class Login extends Component {
               </div>
 
               <div className="secondary">
-                <Link href="/login">
+                <Link
+                  action="exit::login"
+                  category="Authentication"
+                  label="Password Reset"
+                  route="/login">
                   <a className="button link">
                     Return to Login
                   </a>
@@ -135,7 +144,7 @@ class Login extends Component {
                 <p>There seems to have been an error when trying to reset your password. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
               </React.Fragment>
             )}
-          </form>
+          </Form>
         )}
       </React.Fragment>
     )
