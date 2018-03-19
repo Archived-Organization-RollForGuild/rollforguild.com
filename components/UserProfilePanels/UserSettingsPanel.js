@@ -191,12 +191,11 @@ class GroupSettingsPanel extends Component {
             label="Settings"
             onSubmit={this._handleSubmit}>
             <fieldset>
-              <label htmlFor="description">
+              <label htmlFor="bio">
                 Bio
               </label>
 
               <textarea
-                aria-describedby="bio"
                 disabled={submitting}
                 id="bio"
                 maxLength={1000}
@@ -207,12 +206,11 @@ class GroupSettingsPanel extends Component {
             </fieldset>
 
             <fieldset>
-              <label htmlFor="name">
+              <label htmlFor="email">
                 Email
               </label>
 
               <ValidatedInput
-                aria-label="Email"
                 disabled={submitting}
                 id="email"
                 name="email"
@@ -224,9 +222,10 @@ class GroupSettingsPanel extends Component {
             </fieldset>
 
             <fieldset>
-              <label htmlFor="currentPassword">
+              <label>
                 Change Password
               </label>
+
               <PasswordInput
                 aria-label="Current Password"
                 data-required-explainer="Both password fields are required to change your password."
