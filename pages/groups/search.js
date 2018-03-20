@@ -294,7 +294,7 @@ class GroupSearch extends Component {
             No groups found.
             {searchDistance !== GroupSearch.searchDistances[GroupSearch.searchDistances.length - 1] && (
               <React.Fragment>
-                {' '}Perhaps you should try{' '}
+                &nbsp;Perhaps you should try&nbsp;
                 <Button
                   action="expand-distance"
                   category="Groups"

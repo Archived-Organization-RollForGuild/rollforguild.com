@@ -110,7 +110,9 @@ class PasswordInput extends ValidatedInput {
 
         <button
           className="show-password"
-          onClick={this._handleShowPasswordClick}>
+          onClick={this._handleShowPasswordClick}
+          tabIndex={-1}
+          type="button">
           <FontAwesomeIcon icon={showPassword ? 'eye-slash' : 'eye'} fixedWidth />
         </button>
 
