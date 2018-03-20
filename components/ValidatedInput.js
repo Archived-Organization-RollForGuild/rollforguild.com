@@ -109,8 +109,6 @@ class ValidatedInput extends Component {
       }
     }
 
-    console.log('messages', messages)
-
     this.setState({ messages: orderBy(messages, ['priority'], ['desc']) })
 
     if (this.props.onValidate) {
