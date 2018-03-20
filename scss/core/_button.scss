@@ -41,6 +41,22 @@ button,
     outline: none;
   }
 
+  > [role=tooltip]:not([hidden]) {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  &:focus,
+  &:hover {
+    > [role=tooltip]:not([hidden]) {
+      opacity: 1;
+    }
+  }
+
+
+
+
+
   // Button styles
 
   &.danger,

@@ -14,19 +14,25 @@ fieldset {
   }
 
   > footer {
+    align-items: center;
     color: $light-grey;
     display: flex;
     font-family: Montserrat, sans-serif;
     font-size: 0.7em;
     justify-content: space-between;
     letter-spacing: initial;
+    margin-top: 1rem;
 
-    .options {
-      display: flex;
+    > .options {
+      margin-right: auto;
 
       li {
         margin-left: 1rem;
       }
+    }
+
+    > .filters {
+      margin-left: auto;
     }
   }
 }
