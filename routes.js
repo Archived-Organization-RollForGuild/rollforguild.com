@@ -11,6 +11,10 @@ routes
   // Characters
   .add('character profile', '/my/characters/:id', '/my/character')
 
+  // Email Updates
+  .add('email update confirm', '/email-update-confirmation/:token', '/confirmations/email-update-confirm')
+  .add('email update reject', '/email-rollback/:token', '/confirmations/email-update-confirm')
+
   // Groups
   .add('group create', '/groups/create', '/groups/create')
   .add('group manage', '/groups/manage', '/groups/manage')

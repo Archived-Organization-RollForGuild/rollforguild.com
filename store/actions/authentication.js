@@ -41,6 +41,36 @@ export const confirmAccount = token => async dispatch => {
   })
 }
 
+export const confirmEmailUpdate = (confirmationToken, accept = true) => async dispatch => {
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.CONFIRM_EMAIL_UPDATE })
+
+  try {
+    const token = Cookies.get('accessToken')
+
+    response = await fetch(`/api/email/${confirmationToken}?response=${accept ? 'accept' : 'reject'}`, {
+      headers: new Headers({
+        Authorization: `Bearer ${token}`,
+      }),
+      method: 'post',
+    })
+
+    success = response.ok
+    if (success) {
+      response = await response.json()
+    }
+  } catch (error) {
+    success = false
+  }
+
+  return dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.CONFIRM_EMAIL_UPDATE,
+  })
+}
 
 
 
