@@ -6,7 +6,7 @@ const routes = require('next-routes')()
 
 routes
   // Account
-  .add('account confirmation', '/confirmation/:token', '/confirmation')
+  .add('account confirm', '/confirmation/:token', '/confirmations/account-confirm')
 
   // Characters
   .add('character profile', '/my/characters/:id', '/my/character')
