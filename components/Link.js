@@ -62,13 +62,13 @@ Link.defaultProps = {
 // used, just not in a way that ESLint can recognize.
 /* eslint-disable react/no-unused-prop-types */
 Link.propTypes = {
-  ...NextLink.propTypes,
-  action: PropTypes.string.isRequired,
+  action: PropTypes.string,
   category: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   value: PropTypes.number,
 }
 /* eslint-enable */
+
 
 
 
