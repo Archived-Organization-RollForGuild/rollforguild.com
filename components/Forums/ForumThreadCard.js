@@ -11,7 +11,7 @@ import React from 'react'
 
 // Component imports
 import { actions } from '../../store'
-import { Link } from '../../routes'
+import Link from '../Link'
 import Avatar from '../Avatar'
 import Component from '../Component'
 
@@ -182,8 +182,12 @@ class ForumThreadCard extends Component {
             className="compact"
             type="toolbar">
             <div className="primary">
-              <Link route="forum thread view" params={{ id: thread.id }}>
-                <a className="button secondary">
+              <Link
+                category="Forums"
+                action=""
+                route="forum thread view"
+                params={{ id: thread.id }}>
+                <a className="button">
                   View Thread
                 </a>
               </Link>
@@ -216,10 +220,6 @@ const mapStateToProps = (state, ownProps) => {
 
 
   const currentUserIsPoster = posterId && currentUserId && posterId === currentUserId
-
-  console.log('USERID', currentUserId)
-  console.log('POSTERID', posterId)
-  console.log('USERISPOSTER', currentUserIsPoster)
 
   return {
     currentUserIsPoster,
