@@ -8,10 +8,12 @@ import Switch from 'rc-switch'
 
 // Component imports
 import { Router } from '../../routes'
+import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
+import Form from '../../components/Form'
 import Component from '../../components/Component'
-import convertStringToSlug from '../../helpers/convertStringToSlug'
 import Page from '../../components/Page'
+import ValidatedInput from '../../components/ValidatedInput'
 
 
 
@@ -58,10 +60,12 @@ class CreateGroup extends Component {
       name,
       slug: slug || convertStringToSlug(name),
     })
-    const groupId = payload.data.id
+    const {
+      id,
+    } = payload.data
 
-    if (groupId) {
-      return Router.push(`/groups/?id=${groupId}`, `/groups/${groupId}`)
+    if (id) {
+      return Router.pushRoute('group profile', { id })
     }
 
     return this.setState({ submitting: false })
@@ -121,13 +125,17 @@ class CreateGroup extends Component {
           <h1>Create a Group</h1>
         </header>
 
-        <form onSubmit={this._handleSubmit}>
+        <Form
+          action="create"
+          category="Groups"
+          label="New Group"
+          onSubmit={this._handleSubmit}>
           <fieldset>
             <label htmlFor="group-name">
               Group name
             </label>
 
-            <input
+            <ValidatedInput
               disabled={submitting}
               id="group-name"
               onChange={({ target }) => this.setState({ name: target.value })}
@@ -146,7 +154,7 @@ class CreateGroup extends Component {
                 https://rollforguild.com/groups/
               </label>
 
-              <input
+              <ValidatedInput
                 disabled={submitting}
                 id="permalink"
                 onChange={({ target }) => this.setState({ slug: convertStringToSlug(target.value) })}
@@ -179,7 +187,7 @@ class CreateGroup extends Component {
               What games will you be playing?
             </label>
 
-            <input
+            <ValidatedInput
               disabled={submitting}
               id="games"
               onChange={({ target }) => this.setState({ games: target.value })}
@@ -278,7 +286,7 @@ class CreateGroup extends Component {
               </button>
             </div>
           </menu>
-        </form>
+        </Form>
       </React.Fragment>
     )
   }

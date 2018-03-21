@@ -1,12 +1,12 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
 
 
-
 // Component imports
-import { Link } from '../routes'
+import Link from './Link'
 import Nav from './Nav'
 
 
@@ -23,21 +23,24 @@ export default (props) => (
     <header role="banner">
       <label
         className="button success"
-        data-openNav
+        data-opennav
         htmlFor="application-banner-control">
-        <i className="fas fa-fw fa-bars" />
+        <FontAwesomeIcon icon="bars" fixedWidth />
         Menu
       </label>
 
       <label
         className="button secondary"
-        data-closeNav
+        data-closenav
         htmlFor="application-banner-control">
-        <i className="fas fa-fw fa-times" />
+        <FontAwesomeIcon icon="times" fixedWidth />
         Close
       </label>
 
-      <Link href="/">
+      <Link
+        category="Navigation"
+        route="/"
+        label="Brand">
         <a><div className="brand" /></a>
       </Link>
 
@@ -50,24 +53,15 @@ export default (props) => (
 
         <nav className="social">
           <a href="//twitter.com/RollForGuild">
-            <i
-              aria-label="Twitter Icon"
-              role="img"
-              className="fab fa-fw fa-twitter" />
+            <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
           </a>
 
           <a href="//instagram.com/RollForGuild">
-            <i
-              aria-label="Instagram Icon"
-              role="img"
-              className="fab fa-fw fa-instagram" />
+            <FontAwesomeIcon icon={['fab', 'instagram']} fixedWidth />
           </a>
 
           <a href="//facebook.com/RollForGuild">
-            <i
-              aria-label="Facebook Icon"
-              role="img"
-              className="fab fa-fw fa-facebook" />
+            <FontAwesomeIcon icon={['fab', 'facebook']} fixedWidth />
           </a>
         </nav>
       </footer>

@@ -2,6 +2,7 @@ $border-color: $green;
 
 button,
 .button {
+  align-items: center;
   background-color: transparent;
   border-color: transparent;
   border-radius: 0.25rem;
@@ -9,11 +10,13 @@ button,
   border-width: 0.1rem;
   color: $white;
   cursor: pointer;
+  display: flex;
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
   padding: 1rem 2rem;
+  position: relative;
   text-decoration: none;
   transition:
     background-color 0.2s,
@@ -37,6 +40,22 @@ button,
   &:focus {
     outline: none;
   }
+
+  > [role=tooltip]:not([hidden]) {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  &:focus,
+  &:hover {
+    > [role=tooltip]:not([hidden]) {
+      opacity: 1;
+    }
+  }
+
+
+
+
 
   // Button styles
 
@@ -85,7 +104,7 @@ button,
   &.link {
     background-color: transparent;
     border-color: transparent;
-    color: $light-blue;
+    color: $green;
     text-decoration: underline;
     text-decoration-color: transparent;
     transition: text-decoration-color 0.2s;

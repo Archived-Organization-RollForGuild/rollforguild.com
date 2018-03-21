@@ -1,4 +1,5 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
@@ -6,13 +7,15 @@ import React from 'react'
 
 
 // Component imports
+import { convertObjectToQueryParams } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
+import Button from '../../components/Button'
 import Component from '../../components/Component'
 import Dropdown from '../../components/Dropdown'
 import GroupCard from '../../components/GroupCard'
 import Page from '../../components/Page'
 import Pagination from '../../components/Pagination'
-import convertObjectToQueryParams from '../../helpers/convertObjectToQueryParams'
+import Tooltip from '../../components/Tooltip'
 
 
 
@@ -150,14 +153,18 @@ class GroupSearch extends Component {
   }
 
   async _toggleUseCurrentLocation ({ target }) {
+    const { useCurrentLocation } = this.state
+
+    target.blur()
+
     this.setState({
       location: null,
-      useCurrentLocation: target.checked,
-      waitingForLocation: target.checked,
-      watchingLocation: target.checked,
+      useCurrentLocation: !useCurrentLocation,
+      waitingForLocation: !useCurrentLocation,
+      watchingLocation: !useCurrentLocation,
     })
 
-    if (target.checked) {
+    if (!useCurrentLocation) {
       this.wpid = navigator.geolocation.watchPosition(this._handleGeolocationUpdate, this._handleGeolocationError, {
         enableHighAccuracy: true,
         maximumAge: 30000,
@@ -233,48 +240,49 @@ class GroupSearch extends Component {
         <fieldset>
           <div className="input-group">
             <label>
-              <i className="fas fa-fw fa-search" />
+              <FontAwesomeIcon icon="search" fixedWidth />
             </label>
 
             <AddressInput
               onChange={this._handleAddressChange}
               disabled={waitingForLocation}
-              placeholder={waitingForLocation ? 'Loading...' : 'Enter an address...'}
+              placeholder={waitingForLocation ? 'Retrieving your location...' : 'Enter an address...'}
               readOnly={watchingLocation}
               value={location ? location.address : ''} />
 
-            <Dropdown
-              className="squishable"
-              onChange={this._handleSearchDistanceChange}
-              options={GroupSearch.searchDistances}
-              renderValue={value => `Search within ${value} miles`}
-              value={searchDistance} />
+            <button
+              className="binary"
+              data-on={useCurrentLocation}
+              onClick={this._toggleUseCurrentLocation}
+              type="button">
+              {waitingForLocation && (
+                <FontAwesomeIcon icon="spinner" fixedWidth pulse />
+              )}
+
+              {!waitingForLocation && (
+                <FontAwesomeIcon icon="map-marker" fixedWidth />
+              )}
+
+              <Tooltip
+                alignment="center"
+                attachment="left">
+                {waitingForLocation && 'Retrieving location'}
+
+                {(!waitingForLocation && useCurrentLocation) && 'Stop using your current location'}
+
+                {(!waitingForLocation && !useCurrentLocation) && 'Use your current location'}
+              </Tooltip>
+            </button>
           </div>
 
           <footer>
-            <p>Use your location to search for nearby groups</p>
-
-            <div className="options">
-              Options:
-
-              <ul>
-                <li>
-                  <input
-                    id="use-current-location"
-                    hidden
-                    onChange={this._toggleUseCurrentLocation}
-                    type="checkbox"
-                    value={useCurrentLocation} />
-
-                  <label
-                    className="binary button inline"
-                    data-on={useCurrentLocation}
-                    htmlFor="use-current-location">
-                    <i className="fas fa-fw fa-map-marker" />
-                    Use my current location
-                  </label>
-                </li>
-              </ul>
+            <div className="filters">
+              <Dropdown
+                className="squishable"
+                onChange={this._handleSearchDistanceChange}
+                options={GroupSearch.searchDistances}
+                renderValue={value => `Search within ${value} miles`}
+                value={searchDistance} />
             </div>
           </footer>
         </fieldset>
@@ -287,11 +295,14 @@ class GroupSearch extends Component {
             {searchDistance !== GroupSearch.searchDistances[GroupSearch.searchDistances.length - 1] && (
               <React.Fragment>
                 &nbsp;Perhaps you should try&nbsp;
-                <button
+                <Button
+                  action="expand-distance"
+                  category="Groups"
                   className="inline link"
+                  label="Search"
                   onClick={this._incrementSearchDistance}>
                   expanding your search
-                </button>.
+                </Button>.
               </React.Fragment>
             )}
           </p>
@@ -299,12 +310,13 @@ class GroupSearch extends Component {
 
         {searching && (
           <div>
-            <i className="fas fa-pulse fa-spinner" /> Searching...
+            <FontAwesomeIcon icon="spinner" pulse /> Searching...
           </div>
         )}
 
         {(!searching && !!groups.length) && (
           <Pagination
+            category="Groups"
             currentPage={pagination.currentPage}
             onPageChange={this._search}
             totalPageCount={pagination.totalPageCount} />

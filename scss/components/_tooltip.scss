@@ -1,0 +1,131 @@
+[role=tooltip] {
+  background-color: $green;
+  color: $white;
+  font-family: Montserrat, sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  pointer-events: none;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 1002;
+
+  &:after {
+    border-color: $transparent;
+    border-style: solid;
+    border-width: 0.5rem;
+    content: '';
+    position: absolute;
+  }
+
+
+
+
+
+  // attachments
+  &[data-attachment=left] {
+    right: 100%;
+    margin-right: 1rem;
+
+    &:after {
+      border-left-color: $green;
+      border-right-width: 0;
+      left: 100%;
+    }
+  }
+
+  &[data-attachment=right] {
+    left: 100%;
+    margin-left: 1rem;
+
+    &:after {
+      border-right-color: $green;
+      border-left-width: 0;
+      right: 100%;
+    }
+  }
+
+  &[data-attachment=bottom] {
+    top: 100%;
+    margin-top: 1rem;
+
+    &:after {
+      border-bottom-color: $green;
+      border-top-width: 0;
+      bottom: 100%;
+    }
+  }
+
+  &[data-attachment=top] {
+    bottom: 100%;
+    margin-bottom: 1rem;
+
+    &:after {
+      border-top-color: $green;
+      border-bottom-width: 0;
+      top: 100%;
+    }
+  }
+
+
+
+
+
+  // alignments
+  &[data-attachment=left],
+  &[data-attachment=right] {
+    &[data-alignment=center] {
+      &,
+      &:after {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    &[data-alignment=bottom] {
+      bottom: 0;
+
+      &:after {
+        margin-bottom: 1rem;
+        bottom: 0;
+      }
+    }
+
+    &[data-alignment=top] {
+      top: 0;
+
+      &:after {
+        margin-top: 1rem;
+        top: 0;
+      }
+    }
+  }
+
+  &[data-attachment=bottom],
+  &[data-attachment=top] {
+    &[data-alignment=center] {
+      &,
+      &:after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    &[data-alignment=left] {
+      left: 0;
+
+      &:after {
+        margin-left: 1rem;
+        left: 0;
+      }
+    }
+
+    &[data-alignment=right] {
+      right: 0;
+
+      &:after {
+        margin-right: 1rem;
+        right: 0;
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@ import actionTypes from '../actionTypes'
 
 
 
-import findAndEvaluateModifiers from '../../helpers/findAndEvaluateModifiers'
+import { findAndEvaluateModifiers } from '../../helpers'
 
 
 

@@ -5,6 +5,11 @@ export default {
     loggedIn: !!Cookies.get('accessToken'),
   },
 
+  avatars: {
+    groups: {},
+    users: {},
+  },
+
   characters: {},
 
   groups: {},
@@ -13,4 +18,3 @@ export default {
 
   users: {},
 }
-

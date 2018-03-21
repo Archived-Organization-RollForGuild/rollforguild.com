@@ -14,7 +14,7 @@ label[for=application-banner-control] {
   z-index: 1;
 
   @media (max-width: 1000px) {
-    &[data-openNav] {
+    &[data-opennav] {
       opacity: 1;
       pointer-events: initial;
     }
@@ -35,7 +35,7 @@ label[for=application-banner-control] {
     &:checked ~ [role=banner] {
       transform: translateX(100%);
 
-      [data-closeNav] {
+      [data-closenav] {
         margin-left: 2rem;
         opacity: 1;
         pointer-events: initial;
@@ -45,13 +45,13 @@ label[for=application-banner-control] {
     &:checked ~ [role=banner] {
       transform: translateX(100%);
 
-      [data-openNav] {
+      [data-opennav] {
         margin-left: 2rem;
         opacity: 0;
         pointer-events: none;
       }
 
-      [data-closeNav] {
+      [data-closenav] {
         opacity: 1;
         pointer-events: initial;
       }

@@ -5,6 +5,7 @@
   border-width: 0.2rem;
   border-radius: 50%;
   overflow: hidden;
+  position: relative;
 
   &.tiny {
     height: 2rem;
@@ -24,5 +25,24 @@
   &.large {
     height: 20rem;
     width: 20rem;
+  }
+
+  button.avatar-edit-overlay {
+    align-items: center;
+    background: rgba($black, .75);
+    color: $white;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    position: absolute;
+    transition: opacity .2s ease;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }

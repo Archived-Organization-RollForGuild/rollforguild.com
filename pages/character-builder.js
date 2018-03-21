@@ -253,7 +253,7 @@ class CharacterBuilder extends Component {
 
     this.setState({ saving: true })
     const id = await createCharacter(character)
-    Router.push(`/my/character?id=${id}`, `/my/characters/${id}`)
+    Router.pushRoute('character profile', { id })
   }
 
   _validateBackgroundChooser () {

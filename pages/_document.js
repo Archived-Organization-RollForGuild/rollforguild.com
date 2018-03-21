@@ -1,9 +1,11 @@
+// Module imports
 import Document, { Head, Main, NextScript } from 'next/document'
 
 
 
 
 
+// Component constants
 const fonts = ['Lora', 'Montserrat:400,700']
 const gatmId = process.env.RFG_GOOGLE_TAG_MANAGER_API_KEY
 
@@ -34,8 +36,6 @@ export default class extends Document {
 
           <link rel="manifest" href="/static/manifest.json" />
 
-          <script defer src="//use.fontawesome.com/releases/v5.0.6/js/all.js" />
-
           <script src="//cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js" />
           <script dangerouslySetInnerHTML={
             {
@@ -50,7 +50,7 @@ export default class extends Document {
                   var j = d.createElement(s)
                   var dl = l != 'dataLayer' ? '&l=' + l : ''
                   j.async=true
-                  j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+                  j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl
                   f.parentNode.insertBefore(j,f)
                 })(window, document, 'script', 'dataLayer', '${gatmId}');
               `,
@@ -59,15 +59,15 @@ export default class extends Document {
         </Head>
 
         <body>
-          <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gatmId}X" height="0" width="0" style="display:none; visibility:hidden;" />` }} />
+          <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="//www.googletagmanager.com/ns.html?id=${gatmId}X" height="0" width="0" style="display:none; visibility:hidden;" />` }} />
 
           <noscript>Javascript is required to view this site.</noscript>
+
+          <Main className="next-wrapper" />
 
           <div id="alert-container" />
 
           <div id="dialog-container" />
-
-          <Main className="next-wrapper" />
 
           <NextScript />
 

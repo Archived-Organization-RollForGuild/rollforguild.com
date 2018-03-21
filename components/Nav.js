@@ -10,7 +10,8 @@ import React from 'react'
 
 // Module imports
 import { actions } from '../store'
-import { Link } from '../routes'
+import Link from './Link'
+import Avatar from './Avatar'
 import Component from './Component'
 
 
@@ -23,26 +24,16 @@ const navItems = [
     title: 'Groups',
     subnav: [
       {
-        href: '/my/groups',
+        route: '/my/groups',
         title: 'My Groups',
       },
 
       {
-        href: '/groups/search',
+        route: '/groups/search',
         title: 'Search',
       },
     ],
   },
-
-  // {
-  //   title: 'Content',
-  //   subnav: [
-  //     {
-  //       href: '/my/characters',
-  //       title: 'Characters',
-  //     },
-  //   ],
-  // },
 
   {
     condition: ({ loggedIn }) => loggedIn && (loggedIn !== 'error'),
@@ -50,15 +41,10 @@ const navItems = [
     title: ({ user }) => {
       if (user) {
         const { username } = user.attributes
-        const avatarSrc = user.attributes.avatar ? `/api/users/${user.id}/avatar` : `//api.adorable.io/avatars/20/${user.id}`
 
         return (
           <React.Fragment>
-            <div
-              aria-label={`${username}'s Avatar`}
-              className="avatar tiny"
-              role="img"
-              style={{ backgroundImage: `url(${avatarSrc})` }} />
+            <Avatar src={user} size="tiny" />
             <span>{username}</span>
           </React.Fragment>
         )
@@ -67,80 +53,20 @@ const navItems = [
       return 'Loading...'
     },
     subnav: [
-      // {
-      //   href: '/my/activity-feed',
-      //   title: 'Activity Feed',
-      // },
       {
-        as: '/my/profile',
-        href: '/users/user',
+        route: 'user profile current',
         title: 'My Profile',
       },
       {
-        href: '/logout',
+        route: '/logout',
         title: 'Logout',
       },
     ],
   },
 
-  // {
-  //   title: 'GM Tools',
-  //   subnav: [
-  //     {
-  //       href: '/roadmap#3005240', // '/groups/manage',
-  //       title: 'Groups',
-  //     },
-
-  //     {
-  //       href: '/roadmap#3005241', // '/gm/dungeons',
-  //       title: 'Dungeons',
-  //     },
-
-  //     {
-  //       href: '/roadmap#3005245', // '/gm/encounters',
-  //       title: 'Encounters',
-  //     },
-
-  //     // {
-  //     //   href: '/roadmap#3005240', // '/gm/monsters',
-  //     //   title: 'Monsters',
-  //     // },
-
-  //     {
-  //       href: '/roadmap#3005248', // '/gm/npcs',
-  //       title: 'NPCs',
-  //     },
-
-  //     {
-  //       href: '/roadmap#3005243', // '/gm/treasure',
-  //       title: 'Treasure',
-  //     },
-  //   ],
-  // },
-
-  // {
-  //   title: 'About',
-  //   subnav: [
-  //     // {
-  //     //   href: '/mission-statement',
-  //     //   title: 'Our Mission',
-  //     // },
-
-  //     {
-  //       href: '/roadmap',
-  //       title: 'Roadmap',
-  //     },
-
-  //     {
-  //       href: '/contact',
-  //       title: 'Contact Us',
-  //     },
-  //   ],
-  // },
-
   {
     condition: props => !props.loggedIn || (props.loggedIn === 'error'),
-    href: '/login',
+    route: '/login',
     title: 'Login/Sign Up',
   },
 ]
@@ -199,11 +125,11 @@ class Nav extends Component {
 
     const key = item.key || renderedItemTitle.toLowerCase().replace(/\s/g, '-')
 
-    Object.keys(item).forEach(itemKey => {
-      if (/^href|as$/gi.test(itemKey)) {
-        itemWithOnlyLinkProps[itemKey] = item[itemKey]
+    for (const [itemKey, itemValue] of Object.entries(item)) {
+      if (/^label|route|params$/gi.test(itemKey)) {
+        itemWithOnlyLinkProps[itemKey] = itemValue
       }
-    })
+    }
 
     if (subnav) {
       renderedItemTitle = (
@@ -228,7 +154,14 @@ class Nav extends Component {
           type="radio" />
       )
     } else {
-      renderedItemTitle = (<Link {...itemWithOnlyLinkProps}><a>{renderedItemTitle}</a></Link>)
+      renderedItemTitle = (
+        <Link
+          {...itemWithOnlyLinkProps}
+          category="Navigation"
+          label={renderedItemTitle}>
+          <a>{renderedItemTitle}</a>
+        </Link>
+      )
     }
 
     return (
@@ -259,4 +192,3 @@ const mapStateToProps = state => ({
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Nav)
-

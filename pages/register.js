@@ -1,4 +1,5 @@
 // Module imports
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
@@ -8,7 +9,11 @@ import React from 'react'
 // Component imports
 import { Router } from '../routes'
 import Component from '../components/Component'
+import Form from '../components/Form'
+import Link from '../components/Link'
 import Page from '../components/Page'
+import PasswordInput from '../components/PasswordInput'
+import ValidatedInput from '../components/ValidatedInput'
 
 
 
@@ -25,6 +30,12 @@ class Register extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
+
+  static _anonymizeEmail (email) {
+    const [user, host] = email.split('@')
+
+    return `${user.split('').fill('*', 1).join('')}@${host}`
+  }
 
   async _onSubmit (event) {
     const {
@@ -92,20 +103,25 @@ class Register extends Component {
         </header>
 
         {(!status && status !== 'error') && (
-          <form onSubmit={this._onSubmit}>
+          <Form
+            action="register"
+            category="Authentication"
+            label="Register"
+            onSubmit={this._onSubmit}>
             <fieldset>
               <div className="input-group">
                 <label htmlFor="email">
-                  <i className="fas fa-fw fa-envelope" />
+                  <FontAwesomeIcon icon="envelope" fixedWidth />
                 </label>
 
-                <input
+                <ValidatedInput
                   aria-label="Email"
                   disabled={registering}
                   id="email"
                   name="email"
                   onChange={this._handleChange}
                   placeholder="Email"
+                  required
                   type="email"
                   value={email} />
               </div>
@@ -114,16 +130,17 @@ class Register extends Component {
             <fieldset>
               <div className="input-group">
                 <label htmlFor="username">
-                  <i className="fas fa-fw fa-user" />
+                  <FontAwesomeIcon icon="user" fixedWidth />
                 </label>
 
-                <input
+                <ValidatedInput
                   aria-label="Username"
                   disabled={registering}
                   id="username"
                   name="username"
                   onChange={this._handleChange}
                   placeholder="Username"
+                  required
                   type="username"
                   value={username} />
               </div>
@@ -132,17 +149,20 @@ class Register extends Component {
             <fieldset>
               <div className="input-group">
                 <label htmlFor="password">
-                  <i className="fas fa-fw fa-lock" />
+                  <FontAwesomeIcon icon="lock" fixedWidth />
                 </label>
 
-                <input
+                <PasswordInput
                   aria-label="Password"
                   disabled={registering}
                   id="password"
                   name="password"
                   onChange={this._handleChange}
                   placeholder="Password"
-                  type="password"
+                  required
+                  showWarnings
+                  showSuggestions
+                  showStrength
                   value={password} />
               </div>
             </fieldset>
@@ -155,6 +175,18 @@ class Register extends Component {
                   Register
                 </button>
               </div>
+
+              <div className="secondary">
+                <Link
+                  action="exit::login"
+                  category="Authentication"
+                  label="Register"
+                  route="/login">
+                  <a className="button link">
+                    Return to Login
+                  </a>
+                </Link>
+              </div>
             </menu>
 
             {(status === 'error') && (
@@ -162,16 +194,14 @@ class Register extends Component {
                 <p>There seems to have been an error registering your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
               </React.Fragment>
             )}
-          </form>
+          </Form>
         )}
 
         {(status === 'success') && (
           <React.Fragment>
-            <p>Now that you've given the password to the towering hulk of a creature at the entrance to The Guild's headquarters, it lumbers towards a strange, magical box. It points to the box, then grunts at you. You can only assume it intends for you to come closer. The creature steps out of your way and you lean in for a closer look. The box is clearly some strange product of gnomish tinkering. On the front of it you read the words...</p>
+            <p>At this very moment, there are a million tiny imps running about, using the information you provided to create your account.</p>
 
-            <blockquote>Check your email for a confirmation code.</blockquote>
-
-            <p>Unsure of what this may mean, you feel an overwhelming urge to step out-of-character and do as the box commands.</p>
+            <p><strong>Check your inbox at {Register._anonymizeEmail(email)} for a confirmation email.</strong></p>
           </React.Fragment>
         )}
       </React.Fragment>
