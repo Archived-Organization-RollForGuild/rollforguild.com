@@ -90,7 +90,7 @@ class ForumThreadCard extends Component {
   }
 
 
-  renderDeleteButtons() {
+  renderDeleteButtons () {
     const {
       confirmingRemove,
       removing,
@@ -127,7 +127,7 @@ class ForumThreadCard extends Component {
     )
   }
 
-  render() {
+  render () {
     const {
       currentUserIsPoster,
       thread,
