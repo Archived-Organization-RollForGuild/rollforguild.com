@@ -54,7 +54,7 @@ export const confirmEmailUpdate = (confirmationToken, accept = true) => async di
       headers: new Headers({
         Authorization: `Bearer ${token}`,
       }),
-      method: 'post',
+      method: 'put',
     })
 
     success = response.ok
