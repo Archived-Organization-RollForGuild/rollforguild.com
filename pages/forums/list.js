@@ -27,7 +27,8 @@ class ForumList extends Component {
     Private Methods
   \***************************************************************************/
 
-  async _getThreads(page, oldPage) {
+  async _getThreads (page, oldPage) {
+    let newState = { ...this.state }
     const { getForumThreads } = this.props
 
     if (page !== oldPage) {
@@ -36,19 +37,21 @@ class ForumList extends Component {
       const { payload, status } = await getForumThreads(page)
 
       if (status === 'success') {
-        this.setState({
+        newState = ({
+          ...newState,
           ...payload.meta,
           loaded: true,
-          threads: payload.data,
-          totalPages: Math.ceil(payload.meta.count / payload.meta.limit),
+          threads: payload.data || [],
+          totalPages: Math.ceil(payload.meta.total / payload.meta.limit),
         })
-        return
+      } else {
+        newState.threads = []
       }
     }
 
     this.setState({
+      ...newState,
       loaded: true,
-      threads: null,
     })
   }
 
