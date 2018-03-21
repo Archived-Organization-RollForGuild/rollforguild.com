@@ -40,7 +40,7 @@ class Confirmation extends Component {
     })
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -48,7 +48,7 @@ class Confirmation extends Component {
     }
   }
 
-  render() {
+  render () {
     const {
       confirming,
       error,

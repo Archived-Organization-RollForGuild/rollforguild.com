@@ -26,7 +26,7 @@ class Confirmation extends Component {
     Public Methods
   \***************************************************************************/
 
-  async _confirmAccount() {
+  async _confirmAccount () {
     const {
       confirmAccount,
       query,
@@ -48,7 +48,7 @@ class Confirmation extends Component {
     Public Methods
   \***************************************************************************/
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     const { loggedIn } = this.props
 
     if (loggedIn) {
@@ -56,7 +56,7 @@ class Confirmation extends Component {
     }
   }
 
-  async componentWillMount() {
+  async componentWillMount () {
     const { loggedIn } = this.props
 
     if (loggedIn && (loggedIn !== 'error')) {
@@ -66,7 +66,7 @@ class Confirmation extends Component {
     }
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -74,7 +74,7 @@ class Confirmation extends Component {
     }
   }
 
-  render() {
+  render () {
     const { confirming } = this.state
     const { loggedIn } = this.props
 

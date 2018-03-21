@@ -1,4 +1,4 @@
-export default function deepMergeJSONAPIObjectCollections(curObjects, _newObjects) {
+export default function deepMergeJSONAPIObjectCollections (curObjects, _newObjects) {
   let newObjects = _newObjects
 
   if (!Array.isArray(newObjects)) {
