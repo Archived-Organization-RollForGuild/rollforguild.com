@@ -23,16 +23,10 @@ const pageTitle = 'Public Forums'
 
 class ForumList extends Component {
   /***************************************************************************\
-    Private Methods
-  \***************************************************************************/
-
-
-
-  /***************************************************************************\
     Public Methods
   \***************************************************************************/
 
-  async componentDidMount() {
+  async componentDidMount () {
     const {
       getForumThread,
       query,
@@ -56,7 +50,7 @@ class ForumList extends Component {
     })
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -65,7 +59,7 @@ class ForumList extends Component {
     }
   }
 
-  render() {
+  render () {
     const {
       loaded,
       thread,
