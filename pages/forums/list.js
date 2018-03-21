@@ -9,6 +9,7 @@ import React from 'react'
 import Component from '../../components/Component'
 import ForumThreadCard from '../../components/Forums/ForumThreadCard'
 import Page from '../../components/Page'
+import Link from '../../components/Link'
 
 
 
@@ -26,49 +27,13 @@ class ForumList extends Component {
     Private Methods
   \***************************************************************************/
 
+  async _getThreads(page, oldPage) {
+    const { getForumThreads } = this.props
 
-
-  /***************************************************************************\
-    Public Methods
-  \***************************************************************************/
-
-  async componentDidMount () {
-    const {
-      getForumThreads,
-      page,
-    } = this.props
-
-    if (page && typeof page !== 'number') {
-      this.setState({ loaded: true })
-      return
-    }
-
-    const { payload, status } = await getForumThreads(page)
-
-    if (status === 'success') {
-      this.setState({
-        ...payload.meta,
-        loaded: true,
-        threads: payload.data,
-        totalPages: Math.ceil(payload.meta.count / payload.meta.limit),
-      })
-    } else {
-      this.setState({
-        loaded: true,
-      })
-    }
-  }
-
-  async componentWillReceiveProps(newProps) {
-    const {
-      getForumThreads,
-      page,
-    } = this.props
-
-    if (newProps.page && typeof newProps.page === 'number' && newProps.page !== page) {
+    if (page !== oldPage) {
       this.setState({ loaded: false })
 
-      const { payload, status } = await getForumThreads(newProps.page)
+      const { payload, status } = await getForumThreads(page)
 
       if (status === 'success') {
         this.setState({
@@ -77,12 +42,38 @@ class ForumList extends Component {
           threads: payload.data,
           totalPages: Math.ceil(payload.meta.count / payload.meta.limit),
         })
+        return
       }
     }
+
+    this.setState({
+      loaded: true,
+      threads: null,
+    })
+  }
+
+  /***************************************************************************\
+    Public Methods
+  \***************************************************************************/
+
+  componentDidMount () {
+    const {
+      page,
+    } = this.props
+
+    this._getThreads(page, null)
+  }
+
+  componentWillReceiveProps(newProps) {
+    this._getThreads(newProps.page, this.props.page)
   }
 
   constructor(props) {
     super(props)
+
+    this._bindMethods([
+      '_getThreads',
+    ])
 
     this.state = {
       count: 0,
@@ -96,18 +87,7 @@ class ForumList extends Component {
   }
 
   render() {
-    const {
-      count,
-      limit,
-      loaded,
-      offset,
-      threads,
-      total,
-      totalPages,
-    } = this.state
-
-
-    if (!loaded) {
+    if (!this.state.loaded) {
       return (
         <React.Fragment>
           <header>
@@ -120,46 +100,109 @@ class ForumList extends Component {
       )
     }
 
+    const {
+      count,
+      limit,
+      offset,
+      threads,
+      total,
+      totalPages,
+    } = this.state
 
-    if (loaded && !threads.length) {
-      return (
-        <React.Fragment>
-          <header>
-            <h1>Public Forums</h1>
-          </header>
-
-          <span>There is nothing here. (yet!!)</span>
-
-        </React.Fragment>
-      )
-    }
+    const { page } = this.props
 
     return (
       <React.Fragment>
         <header>
           <h1>Public Forums</h1>
+
+          <menu type="toolbar">
+            <Link
+              action="create"
+              category="Forums"
+              label="Thread"
+              route="forum thread create">
+              <a
+                className="button success" >
+                New Thread
+              </a>
+            </Link>
+          </menu>
         </header>
 
-        <div className="thread-list">
-          <span className="list-stats">Displaying threads {offset + 1}-{Math.min(count + offset, limit + offset)} of {total} threads, {totalPages} pages exist</span>
-          {threads.map(thread => (
-            <ForumThreadCard thread={thread} key={thread.id} />
-          ))}
-        </div>
 
+        {!threads.length && (
+          <span>There is nothing here. (yet!!)</span>
+        )}
+
+        {!!threads.length && (
+          <div className="thread-list">
+            <span className="list-stats">Displaying threads {offset + 1} - {Math.min(count + offset, limit + offset)} of {total} threads</span>
+            {threads.map(thread => (
+              <ForumThreadCard thread={thread} key={thread.id} />
+            ))}
+          </div>
+        )}
+
+        <menu type="toolbar">
+          <div className="primary">
+            {(page > 1) && (
+              <Link
+                action="prev-page"
+                category="Forums"
+                label="List"
+                route="forum list"
+                params={{ page: page > 2 ? page - 1 : null }}>
+                <a className="button success">
+                  Previous Page
+                </a>
+              </Link>
+            )}
+          </div>
+          <div className="secondary">
+            {(page < (totalPages)) && (
+              <Link
+                action="next-page"
+                category="Forums"
+                label="List"
+                route="forum list"
+                params={{ page: page + 1 }}>
+                <a className="button success">
+                  Next Page
+                </a>
+              </Link>
+            )}
+          </div>
+
+        </menu>
       </React.Fragment>
     )
   }
+}
+
+ForumList.defaultProps = {
+  page: 1,
+}
+
+
+
+const mapDispatchToProps = ['getForumThreads']
+const mapStateToProps = (state, ownProps) => {
+  let page = ownProps.query.page || 1
+
+  if (typeof page !== 'number') {
+    page = Number.parseInt(ownProps.query.page, 10)
+  }
+
+  if (page < 1) {
+    page = 1
+  }
+
+  return { page }
 }
 
 
 
 
 
-const mapDispatchToProps = ['getForumThreads']
-
-
-
-
-
-export default Page(ForumList, pageTitle, { mapDispatchToProps }, true)
+export default Page(ForumList, pageTitle, { mapDispatchToProps, mapStateToProps }, true)
