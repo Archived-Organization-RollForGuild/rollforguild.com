@@ -20,7 +20,7 @@ export const getForumThreads = page => async dispatch => {
   try {
     const accessToken = Cookies.get('accessToken')
 
-    response = await fetch(`/api/threads${page && typeof page === 'number' ? `?page=${page}` : ''}`, {
+    response = await fetch(`/api/threads${page ? `?page=${page}` : ''}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -36,6 +36,34 @@ export const getForumThreads = page => async dispatch => {
     payload: response || null,
     status: success ? 'success' : 'error',
     type: actionTypes.GET_FORUM_THREADS,
+  })
+}
+
+export const getForumThread = id => async dispatch => {
+  dispatch({ type: actionTypes.GET_FORUM_THREAD })
+
+  let response = null
+  let success = false
+
+  try {
+    const accessToken = Cookies.get('accessToken')
+
+    response = await fetch(`/api/threads/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+
+    success = response.ok
+    response = await response.json()
+  } catch (error) {
+    success = false
+  }
+
+  return dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.GET_FORUM_THREAD,
   })
 }
 
@@ -100,7 +128,10 @@ export const deleteForumThread = () => async dispatch => {
 
     // success = response.ok
     // response = await response.json()
-    await new Promise(resolve => setTimeout(() => resolve(null), 2000))
+
+    // Placeholder timer to immitate the server doing something.
+    await new Promise(resolve => setTimeout(() => resolve(null), 750))
+    success = true
   } catch (error) {
     success = false
     response = error
