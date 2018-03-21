@@ -6,10 +6,12 @@ import React from 'react'
 
 
 // Component imports
+import { Router } from '../../routes'
 import Component from '../../components/Component'
 import ForumThreadCard from '../../components/Forums/ForumThreadCard'
 import Page from '../../components/Page'
 import Link from '../../components/Link'
+import Pagination from '../../components/Pagination'
 
 
 
@@ -67,11 +69,11 @@ class ForumList extends Component {
     this._getThreads(page, null)
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps (newProps) {
     this._getThreads(newProps.page, this.props.page)
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this._bindMethods([
@@ -89,7 +91,7 @@ class ForumList extends Component {
     }
   }
 
-  render() {
+  render () {
     if (!this.state.loaded) {
       return (
         <React.Fragment>
@@ -147,37 +149,13 @@ class ForumList extends Component {
           </div>
         )}
 
-        <menu type="toolbar">
-          <div className="primary">
-            {(page > 1) && (
-              <Link
-                action="prev-page"
-                category="Forums"
-                label="List"
-                route="forum list"
-                params={{ page: page > 2 ? page - 1 : null }}>
-                <a className="button success">
-                  Previous Page
-                </a>
-              </Link>
-            )}
-          </div>
-          <div className="secondary">
-            {(page < (totalPages)) && (
-              <Link
-                action="next-page"
-                category="Forums"
-                label="List"
-                route="forum list"
-                params={{ page: page + 1 }}>
-                <a className="button success">
-                  Next Page
-                </a>
-              </Link>
-            )}
-          </div>
-
-        </menu>
+        <Pagination
+          category="Forums"
+          currentPage={page}
+          label="list"
+          onPageChange={(newPage) => Router.pushRoute('forum list', { page: newPage > 1 ? newPage : null })}
+          showPageLinks
+          totalPageCount={totalPages} />
       </React.Fragment>
     )
   }

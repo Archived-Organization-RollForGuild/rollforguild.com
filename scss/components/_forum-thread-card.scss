@@ -1,4 +1,6 @@
 .card.forum-thread {
+  margin-bottom: 2rem;
+
   header{
     padding: 0 1rem;
 
@@ -37,9 +39,5 @@
 
   footer menu button {
     margin-left: .5rem;
-  }
-
-  &:not(:last-child) {
-    margin-bottom: 2rem;
   }
 }
