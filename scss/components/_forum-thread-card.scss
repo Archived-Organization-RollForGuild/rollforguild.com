@@ -1,6 +1,19 @@
 .card.forum-thread {
+  header{
+    padding: 0 1rem;
+
+    h2 {
+      display: flex;
+      align-items: center;
+
+      div.avatar {
+        margin-right: 1rem;
+      }
+    }
+  }
   .content {
     padding: 1rem;
+    display: flex;
     align-items: flex-start;
     line-height: 2rem;
 
@@ -11,15 +24,19 @@
       padding-left: 1rem;
 
       .thread-body {
-        padding: 1rem 0 0 1rem;
+        padding: 1rem;
       }
     }
 
     .thread-details {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
+      align-self: flex-end;
+      white-space: nowrap;
     }
+  }
+
+  footer menu button {
+    margin-left: .5rem;
   }
 
   &:not(:last-child) {

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import moment from 'moment'
+import PropTypes from 'prop-types'
 import React from 'react'
 
 
@@ -34,8 +35,6 @@ class ForumThreadCard extends Component {
       onDelete,
       thread,
     } = this.props
-
-    console.log(event.target)
 
     if (confirmingRemove && name === 'confirm') {
       this.setState({ confirmingRemove: false, removing: true })
@@ -95,6 +94,7 @@ class ForumThreadCard extends Component {
     const {
       confirmingRemove,
       removing,
+      removed,
     } = this.state
 
     return (
@@ -113,8 +113,9 @@ class ForumThreadCard extends Component {
         <button
           className={confirmingRemove ? 'success' : 'danger'}
           name="confirm"
+          disabled={removing || removed}
           onClick={this._handleRemoveButtonClick}>
-          {!removing && !confirmingRemove && 'Delete'}
+          {!removing && !confirmingRemove && (removed ? 'This doesn\'t do anything yet!' : 'Delete')}
 
           {!removing && confirmingRemove && 'Yes'}
 
@@ -130,6 +131,7 @@ class ForumThreadCard extends Component {
     const {
       currentUserIsPoster,
       thread,
+      fullBody,
     } = this.props
 
     const {
@@ -161,42 +163,49 @@ class ForumThreadCard extends Component {
 
     return (
       <div className={`card forum-thread ${removed ? 'removed' : ''}`}>
-        <div className="content">
-          {user && (<Avatar src={user} size="small" />)}
-          <div className="thread-contents">
-            <h4>{title}</h4>
-            <small>by {user ? user.attributes.username : 'Unknown'}</small>
-            <p className="thread-body">{body.length > 100 ? `${body.substring(0, 97)}...` : body}</p>
-          </div>
-          <div className="thread-details">
+        <header>
+          <h2 title={title}>
+            {user && (<Avatar src={user} size="small" />)}
+            <Link
+              action="view"
+              category="Forums"
+              label="Thread"
+              route="forum thread view"
+              params={{ id: thread.id }}>
+              <a>{title}</a>
+            </Link>
+          </h2>
+
+          <span className="post-time">
             <time
               dateTime={instertedAtMoment.toISOString()}
               data-friendlydatetime={instertedAtMoment.format('YYYY-MM-DD HH:mm')}>
               {instertedAtMoment.fromNow()}
             </time>
+          </span>
+        </header>
+
+        <div className="content">
+          <div className="thread-contents">
+            <p className="thread-body">{!fullBody && body.length > 300 ? `${body.substring(0, 297)}...` : body}</p>
+          </div>
+          <div className="thread-details">
             <small>{commentString}</small>
           </div>
         </div>
-        <footer>
-          <menu
-            className="compact"
-            type="toolbar">
-            <div className="primary">
-              <Link
-                category="Forums"
-                action=""
-                route="forum thread view"
-                params={{ id: thread.id }}>
-                <a className="button">
-                  View Thread
-                </a>
-              </Link>
-            </div>
-            <div className="secondary">
-              {currentUserIsPoster && this.renderDeleteButtons()}
-            </div>
-          </menu>
-        </footer>
+
+        {currentUserIsPoster && (
+          <footer>
+            <menu
+              className="compact"
+              type="toolbar">
+              <div className="primary" />
+              <div className="secondary">
+                {this.renderDeleteButtons()}
+              </div>
+            </menu>
+          </footer>
+        )}
       </div>
     )
   }
@@ -219,7 +228,7 @@ const mapStateToProps = (state, ownProps) => {
   const currentUserId = Cookies.get('userId') || null
 
 
-  const currentUserIsPoster = posterId && currentUserId && posterId === currentUserId
+  const currentUserIsPoster = Boolean(posterId && currentUserId && posterId === currentUserId)
 
   return {
     currentUserIsPoster,
@@ -228,7 +237,19 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
+ForumThreadCard.defaultProps = {
+  currentUserIsPoster: false,
+  fullBody: false,
+  user: null,
+}
 
+ForumThreadCard.propTypes = {
+  currentUserIsPoster: PropTypes.bool,
+  fullBody: PropTypes.bool,
+  posterId: PropTypes.string.isRequired,
+  thread: PropTypes.object.isRequired,
+  user: PropTypes.object,
+}
 
 
 
