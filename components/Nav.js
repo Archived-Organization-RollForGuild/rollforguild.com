@@ -34,7 +34,6 @@ const navItems = [
       },
     ],
   },
-
   {
     condition: ({ loggedIn }) => loggedIn && (loggedIn !== 'error'),
     key: 'my-profile',
@@ -63,11 +62,14 @@ const navItems = [
       },
     ],
   },
-
   {
     condition: props => !props.loggedIn || (props.loggedIn === 'error'),
     route: '/login',
     title: 'Login/Sign Up',
+  },
+  {
+    route: 'forum list',
+    title: 'Forums',
   },
 ]
 
