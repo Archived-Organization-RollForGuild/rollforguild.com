@@ -5,6 +5,13 @@ import PropTypes from 'prop-types'
 
 
 
+// Component imports
+import Link from './Link'
+
+
+
+
+
 // Component constants
 const googleMapsAPIKey = preval`module.exports = process.env.RFG_GOOGLE_MAPS_API_KEY`
 
@@ -15,6 +22,7 @@ const googleMapsAPIKey = preval`module.exports = process.env.RFG_GOOGLE_MAPS_API
 const StaticMap = props => {
   const {
     address,
+    category,
     location,
     markers,
     size,
@@ -58,15 +66,19 @@ const StaticMap = props => {
   }, []).join('&')
 
   return (
-    <a
+    <Link
+      action="get-directions"
+      category={category}
       href={`//www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`}
-      target="_blank">
-      <div
-        aria-label={`Map to ${address}`}
-        className="static-map"
-        role="img"
-        style={{ backgroundImage: `url(${imgSrc})` }} />
-    </a>
+      label="Map">
+      <a target="_blank">
+        <div
+          aria-label={`Map to ${address}`}
+          className="static-map"
+          role="img"
+          style={{ backgroundImage: `url(${imgSrc})` }} />
+      </a>
+    </Link>
   )
 }
 
@@ -87,6 +99,7 @@ StaticMap.defaultProps = {
 
 StaticMap.propTypes = {
   address: PropTypes.string,
+  category: PropTypes.string.isRequired,
   location: PropTypes.object,
   markers: PropTypes.array,
   size: PropTypes.string,
