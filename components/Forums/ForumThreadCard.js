@@ -18,8 +18,8 @@ import Component from '../Component'
 
 class ForumThreadCard extends Component {
   /***************************************************************************\
-  Private Methods
-\***************************************************************************/
+    Private Methods
+  \***************************************************************************/
 
   async _handleRemoveButtonClick (event) {
     const {
