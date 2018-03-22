@@ -8,6 +8,7 @@ import Cookies from 'js-cookie'
 
 // Component imports
 import actionTypes from '../actionTypes'
+import apiService from '../../services/api'
 
 
 
@@ -38,6 +39,33 @@ export const confirmAccount = token => async dispatch => {
     payload: response || null,
     status: success ? 'success' : 'error',
     type: actionTypes.CONFIRM_ACCOUNT,
+  })
+}
+
+
+
+
+
+export const confirmEmailUpdate = (confirmationToken, accept = true) => async dispatch => {
+  let response = null
+  let success = false
+
+  dispatch({ type: actionTypes.CONFIRM_EMAIL_UPDATE })
+
+  try {
+    response = await apiService.put(`/api/email/${confirmationToken}?response=${accept ? 'accept' : 'reject'}`)
+    response = response.data
+
+    success = true
+  } catch (error) {
+    response = error.data
+    success = false
+  }
+
+  return dispatch({
+    payload: response || null,
+    status: success ? 'success' : 'error',
+    type: actionTypes.CONFIRM_EMAIL_UPDATE,
   })
 }
 

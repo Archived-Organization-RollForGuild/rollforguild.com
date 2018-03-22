@@ -205,7 +205,7 @@ export default class AvatarUploaderDialog extends Component {
     Public Methods
   \***************************************************************************/
 
-  constructor(params) {
+  constructor (params) {
     super(params)
 
     this.stages = {
@@ -367,7 +367,7 @@ export default class AvatarUploaderDialog extends Component {
     )
   }
 
-  render() {
+  render () {
     const {
       error,
       stage,

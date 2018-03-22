@@ -179,7 +179,7 @@ class GroupProfile extends Component {
     await this._handleJoinRequest(userId, 'ignored')
   }
 
-  async _removeMember(userId) {
+  async _removeMember (userId) {
     const {
       group,
       removeGroupMember,

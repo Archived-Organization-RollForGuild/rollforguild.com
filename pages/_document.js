@@ -14,7 +14,7 @@ const gatmId = process.env.RFG_GOOGLE_TAG_MANAGER_API_KEY
 
 
 export default class extends Document {
-  render() {
+  render () {
     /* eslint-disable react/no-danger */
     return (
       <html lang="en">
