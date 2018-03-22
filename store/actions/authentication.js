@@ -8,6 +8,7 @@ import Cookies from 'js-cookie'
 
 // Component imports
 import actionTypes from '../actionTypes'
+import apiService from '../../services/api'
 
 
 
@@ -41,6 +42,10 @@ export const confirmAccount = token => async dispatch => {
   })
 }
 
+
+
+
+
 export const confirmEmailUpdate = (confirmationToken, accept = true) => async dispatch => {
   let response = null
   let success = false
@@ -48,20 +53,12 @@ export const confirmEmailUpdate = (confirmationToken, accept = true) => async di
   dispatch({ type: actionTypes.CONFIRM_EMAIL_UPDATE })
 
   try {
-    const token = Cookies.get('accessToken')
+    response = await apiService.put(`/api/email/${confirmationToken}?response=${accept ? 'accept' : 'reject'}`)
+    response = response.data
 
-    response = await fetch(`/api/email/${confirmationToken}?response=${accept ? 'accept' : 'reject'}`, {
-      headers: new Headers({
-        Authorization: `Bearer ${token}`,
-      }),
-      method: 'put',
-    })
-
-    success = response.ok
-    if (success) {
-      response = await response.json()
-    }
+    success = true
   } catch (error) {
+    response = error.data
     success = false
   }
 
@@ -71,6 +68,7 @@ export const confirmEmailUpdate = (confirmationToken, accept = true) => async di
     type: actionTypes.CONFIRM_EMAIL_UPDATE,
   })
 }
+
 
 
 
