@@ -337,6 +337,7 @@ class GroupProfile extends Component {
     }
 
     const {
+      address,
       description,
       games,
       geo,
@@ -417,6 +418,7 @@ class GroupProfile extends Component {
                 <h4>Location</h4>
 
                 <StaticMap
+                  address={address}
                   location={geo}
                   markers={[{ ...geo }]} />
               </section>
