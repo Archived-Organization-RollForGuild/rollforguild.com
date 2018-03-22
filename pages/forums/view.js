@@ -6,6 +6,7 @@ import React from 'react'
 
 
 // Component imports
+import { actions } from '../../store'
 import Component from '../../components/Component'
 import ForumThreadCard from '../../components/Forums/ForumThreadCard'
 import Page from '../../components/Page'
@@ -53,10 +54,16 @@ class ViewThread extends Component {
   constructor (props) {
     super(props)
 
+    const { thread } = props
     this.state = {
-      loaded: false,
-      thread: null,
+      loaded: !!thread,
+      thread,
     }
+  }
+
+  static async getInitialProps ({ query, store }) {
+    await actions.getForumThread(query.id)(store.dispatch)
+    return {}
   }
 
   render () {
