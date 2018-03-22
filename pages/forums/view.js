@@ -21,7 +21,7 @@ const pageTitle = 'Public Forums'
 
 
 
-class ForumList extends Component {
+class ViewThread extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
@@ -122,4 +122,4 @@ const mapStateToProps = (state, ownProps) => ({ thread: state.threads[ownProps.q
 
 
 
-export default Page(ForumList, pageTitle, { mapDispatchToProps, mapStateToProps }, true)
+export default Page(ViewThread, pageTitle, { mapDispatchToProps, mapStateToProps }, true)
