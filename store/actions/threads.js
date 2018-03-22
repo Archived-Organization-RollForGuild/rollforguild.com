@@ -1,10 +1,3 @@
-// Module imports
-import 'isomorphic-fetch'
-
-
-
-
-
 // Component imports
 import actionTypes from '../actionTypes'
 import apiService from '../../services/api'
@@ -43,7 +36,6 @@ export const getForumThread = id => async dispatch => {
 
   try {
     response = await apiService.get(`/api/threads/${id}`)
-    console.log(response)
     response = response.data
 
     success = true
