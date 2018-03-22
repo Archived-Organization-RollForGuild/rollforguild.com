@@ -6,7 +6,8 @@
   padding: 0.5rem 1rem;
   pointer-events: none;
   position: absolute;
-  z-index: 1;
+  white-space: nowrap;
+  z-index: 1002;
 
   &:after {
     border-color: $transparent;

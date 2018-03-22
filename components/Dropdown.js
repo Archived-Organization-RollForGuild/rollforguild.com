@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 
 // Component imports
 import Component from './Component'
+import ValidatedInput from './ValidatedInput'
 
 
 
@@ -170,11 +171,7 @@ class Dropdown extends Component {
   render () {
     const {
       className,
-      disabled,
-      id,
-      name,
       getOptionId,
-      placeholder,
       readOnly,
       renderOption,
       renderValue,
@@ -204,16 +201,13 @@ class Dropdown extends Component {
 
     return (
       <div className={classes.join(' ')}>
-        <input
+        <ValidatedInput
+          {...this.renderProps}
           autoComplete="off"
-          disabled={disabled}
-          id={id}
-          name={name}
           onChange={this._handleChange}
           onBlur={this._handleBlur}
           onFocus={this._handleFocus}
           onKeyDown={this._handleKeyDown}
-          placeholder={placeholder}
           readOnly={readOnly || !searchable}
           ref={_input => this._input = _input}
           value={renderValue(value)} />
@@ -256,6 +250,18 @@ class Dropdown extends Component {
     const { value } = this.state
 
     return filter(options, value) || []
+  }
+
+  get renderProps () {
+    const renderProps = { ...this.props }
+
+    delete renderProps.className
+    delete renderProps.getOptionId
+    delete renderProps.renderOption
+    delete renderProps.renderValue
+    delete renderProps.searchable
+
+    return renderProps
   }
 }
 

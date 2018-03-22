@@ -13,7 +13,7 @@ import React from 'react'
 import { actions } from '../../store'
 import Component from '../Component'
 import Form from '../Form'
-// import ValidatedInput from '../ValidatedInput'
+import ValidatedInput from '../ValidatedInput'
 import PasswordInput from '../PasswordInput'
 
 
@@ -171,7 +171,7 @@ class GroupSettingsPanel extends Component {
     } = this.state
 
     const bio = typeof changes.bio === 'string' ? changes.bio : user.attributes.bio
-    // const email = typeof changes.email === 'string' ? changes.email : user.attributes.email
+    const email = typeof changes.email === 'string' ? changes.email : user.attributes.email
     const currentPassword = typeof changes.currentPassword === 'string' ? changes.currentPassword : ''
     const password = typeof changes.password === 'string' ? changes.password : ''
 
@@ -191,12 +191,11 @@ class GroupSettingsPanel extends Component {
             label="Settings"
             onSubmit={this._handleSubmit}>
             <fieldset>
-              <label htmlFor="description">
+              <label htmlFor="bio">
                 Bio
               </label>
 
               <textarea
-                aria-describedby="bio"
                 disabled={submitting}
                 id="bio"
                 maxLength={1000}
@@ -206,29 +205,29 @@ class GroupSettingsPanel extends Component {
                 value={bio} />
             </fieldset>
 
-            {/*<fieldset>
-              <label htmlFor="name">
+            <fieldset>
+              <label htmlFor="email">
                 Email
               </label>
 
               <ValidatedInput
-                data-pattern-explainer="Please make sure your email is valid. e.g. user@emailprovider.com"
                 disabled={submitting}
                 id="email"
                 name="email"
                 onChange={this._handleChange}
-                pattern="[\w\s_-]+"
-                placeholder={email}
+                placeholder="Email"
                 required
                 type="email"
                 value={email} />
-            </fieldset>*/}
+            </fieldset>
 
             <fieldset>
-              <label htmlFor="currentPassword">
+              <label>
                 Change Password
               </label>
+
               <PasswordInput
+                aria-label="Current Password"
                 data-required-explainer="Both password fields are required to change your password."
                 disabled={submitting}
                 id="currentPassword"
@@ -240,6 +239,7 @@ class GroupSettingsPanel extends Component {
                 value={currentPassword} />
 
               <PasswordInput
+                aria-label="New Password"
                 data-required-explainer="Both password fields are required to change your password."
                 disabled={submitting}
                 id="password"

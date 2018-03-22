@@ -43,6 +43,11 @@
     }
   }
 
+  &.squishable {
+    flex-shrink: 1;
+    width: initial;
+  }
+
   &:not(.focus) {
     ul {
       display: none;
