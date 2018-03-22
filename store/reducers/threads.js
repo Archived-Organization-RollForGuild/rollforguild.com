@@ -18,9 +18,11 @@ export default function (state = initialState.groups, action) {
 
   switch (type) {
     case actionTypes.CREATE_FORUM_THREAD:
+    case actionTypes.GET_FORUM_THREAD:
+    case actionTypes.GET_FORUM_THREADS:
       if (status === 'success') {
-        const newGroups = parseJSONAPIResponseForEntityType(payload, 'threads', true)
-        return deepMergeJSONAPIObjectCollections(state, newGroups)
+        const newThreads = parseJSONAPIResponseForEntityType(payload, 'threads', true)
+        return deepMergeJSONAPIObjectCollections(state, newThreads)
       }
       return { ...state }
 

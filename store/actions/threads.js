@@ -1,5 +1,4 @@
-// Module imp
-import Cookies from 'js-cookie'
+// Module imports
 import 'isomorphic-fetch'
 
 
@@ -8,6 +7,7 @@ import 'isomorphic-fetch'
 
 // Component imports
 import actionTypes from '../actionTypes'
+import apiService from '../../services/api'
 
 
 
@@ -18,18 +18,14 @@ export const getForumThreads = page => async dispatch => {
   let success = false
 
   try {
-    const accessToken = Cookies.get('accessToken')
+    response = await apiService.get(`/api/threads${page ? `?page=${page}` : ''}`)
+    response = response.data
 
-    response = await fetch(`/api/threads${page ? `?page=${page}` : ''}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
 
-    success = response.ok
-    response = await response.json()
+    success = true
   } catch (error) {
     success = false
+    response = error.data
   }
 
   return dispatch({
@@ -46,18 +42,14 @@ export const getForumThread = id => async dispatch => {
   let success = false
 
   try {
-    const accessToken = Cookies.get('accessToken')
+    response = await apiService.get(`/api/threads/${id}`)
+    console.log(response)
+    response = response.data
 
-    response = await fetch(`/api/threads/${id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-
-    success = response.ok
-    response = await response.json()
+    success = true
   } catch (error) {
     success = false
+    response = error.data
   }
 
   return dispatch({
@@ -74,26 +66,18 @@ export const createForumThread = thread => async dispatch => {
   let success = false
 
   try {
-    const accessToken = Cookies.get('accessToken')
-
-    response = await fetch('/api/threads', {
-      body: JSON.stringify({
-        data: {
-          type: 'threads',
-          attributes: thread,
-        },
-      }),
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
+    response = await apiService.post('/api/threads', {
+      data: {
+        type: 'threads',
+        attributes: thread,
       },
-      method: 'post',
     })
+    response = response.data
 
-    success = response.ok
-    response = await response.json()
+    success = true
   } catch (error) {
     success = false
+    response = error.data
   }
 
   return dispatch({
@@ -110,25 +94,6 @@ export const deleteForumThread = () => async dispatch => {
   let success = false
 
   try {
-    // const accessToken = Cookies.get('accessToken')
-
-    // response = await fetch('/api/threads', {
-    //   body: JSON.stringify({
-    //     data: {
-    //       type: 'threads',
-    //       attributes: thread,
-    //     },
-    //   }),
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`,
-    //     'Content-Type': 'application/json',
-    //   },
-    //   method: 'post',
-    // })
-
-    // success = response.ok
-    // response = await response.json()
-
     // Placeholder timer to immitate the server doing something.
     await new Promise(resolve => setTimeout(() => resolve(null), 750))
     success = true
