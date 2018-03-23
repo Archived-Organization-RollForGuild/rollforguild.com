@@ -1,102 +1,69 @@
 // Component imports
 import actionTypes from '../actionTypes'
-import apiService from '../../services/api'
+import createAction, { createTimeoutAction } from '../actionCreators'
 
 
 
-export const getForumThreads = page => async dispatch => {
-  dispatch({ type: actionTypes.GET_FORUM_THREADS })
-
-  let response = null
-  let success = false
-
-  try {
-    response = await apiService.get(`/api/threads${page ? `?page=${page}` : ''}`)
-    response = response.data
 
 
-    success = true
-  } catch (error) {
-    success = false
-    response = error.data
-  }
+export const createForumThread = thread => createAction({
+  actionType: actionTypes.CREATE_FORUM_THREAD,
+  url: '/api/threads',
+  method: 'post',
+  data: {
+    data: {
+      type: 'threads',
+      attributes: thread,
+    },
+  },
+})
 
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.GET_FORUM_THREADS,
-  })
-}
-
-export const getForumThread = id => async dispatch => {
-  dispatch({ type: actionTypes.GET_FORUM_THREAD })
-
-  let response = null
-  let success = false
-
-  try {
-    response = await apiService.get(`/api/threads/${id}`)
-    response = response.data
-
-    success = true
-  } catch (error) {
-    success = false
-    response = error.data
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.GET_FORUM_THREAD,
-  })
-}
-
-export const createForumThread = thread => async dispatch => {
-  dispatch({ type: actionTypes.CREATE_FORUM_THREAD })
-
-  let response = null
-  let success = false
-
-  try {
-    response = await apiService.post('/api/threads', {
-      data: {
-        type: 'threads',
-        attributes: thread,
+export const createThreadComment = (threadId, comment) => createAction({
+  actionType: actionTypes.CREATE_THREAD_COMMENT,
+  url: `/api/threads/${threadId}/comments`,
+  method: 'post',
+  data: {
+    data: {
+      type: 'thread-comments',
+      attributes: {
+        comment,
       },
-    })
-    response = response.data
+    },
+  },
+})
 
-    success = true
-  } catch (error) {
-    success = false
-    response = error.data
-  }
+// WHEN ENDPOINT IS READY:
+// Turn this to a normal createAction, remove timeout, and uncomment remaining params.
+export const deleteForumThread = () => createTimeoutAction({
+  actionType: actionTypes.DELETE_FORUM_THREAD,
+  // url: `/api/threads/${id}`,
+  // method: 'delete',
+  timeout: 750,
+})
 
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.CREATE_FORUM_THREAD,
-  })
-}
+// WHEN ENDPOINT IS READY:
+// Turn this to a normal createAction, remove timeout, and uncomment remaining params.
+export const deleteThreadComment = () => createTimeoutAction({
+  actionType: actionTypes.DELETE_THREAD_COMMENT,
+  // url: `/api/threads/${threadId}/comments/${commentId}`,
+  // method: 'delete',
+  timeout: 750,
+})
 
-export const deleteForumThread = () => async dispatch => {
-  dispatch({ type: actionTypes.DELETE_FORUM_THREAD })
+export const getForumThread = threadId => createAction({
+  actionType: actionTypes.GET_FORUM_THREAD,
+  url: `/api/threads/${threadId}`,
+})
 
-  let response = null
-  let success = false
+export const getForumThreads = page => createAction({
+  actionType: actionTypes.GET_FORUM_THREADS,
+  url: '/api/threads',
+  params: {
+    page: page || '1',
+  },
+})
 
-  try {
-    // Placeholder timer to immitate the server doing something.
-    await new Promise(resolve => setTimeout(() => resolve(null), 750))
-    success = true
-  } catch (error) {
-    success = false
-    response = error
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.DELETE_FORUM_THREAD,
-  })
-}
+export const getThreadComments = threadId => createAction({
+  actionType: actionTypes.GET_THREAD_COMMENTS,
+  url: `/api/threads/${threadId}/comments`,
+})
