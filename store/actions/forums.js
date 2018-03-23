@@ -63,7 +63,11 @@ export const getForumThreads = page => createAction({
   },
 })
 
-export const getThreadComments = threadId => createAction({
+export const getThreadComments = (threadId, page) => createAction({
   actionType: actionTypes.GET_THREAD_COMMENTS,
   url: `/api/threads/${threadId}/comments`,
+  params: {
+    page,
+    limit: 5,
+  },
 })

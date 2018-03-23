@@ -27,7 +27,7 @@ routes
   // Forums
   .add('forum list', '/forums/:page?', '/forums/list')
   .add('forum thread create', '/forums/create', '/forums/create')
-  .add('forum thread view', '/forums/thread/:id', '/forums/view')
+  .add('forum thread view', '/forums/thread/:id/:page?', '/forums/view')
 
   // Users
   .add('user profile', '/users/:id', '/users/user')

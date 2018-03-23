@@ -4,7 +4,8 @@
   header{
     padding: 0 1rem;
 
-    h2 {
+    h2,
+    span {
       display: flex;
       align-items: center;
 
@@ -27,6 +28,7 @@
 
       .thread-body {
         padding: 1rem;
+        white-space: pre-wrap;
       }
     }
 
@@ -39,5 +41,17 @@
 
   footer menu button {
     margin-left: .5rem;
+  }
+
+  &.comment {
+    margin: 2rem 2rem 0 2rem;
+
+    &:last-child {
+      margin: 2rem;
+    }
+  }
+
+  &.removed {
+    opacity: .4;
   }
 }
