@@ -138,13 +138,7 @@ class ThreadCommentCard extends Component {
       removed,
     } = this.state
 
-    /* eslint-disable camelcase  */
-    const {
-      inserted_at,
-    } = comment.attributes
-    /* eslint-enable camelcase  */
-
-    const instertedAtMoment = moment.utc(inserted_at)
+    const instertedAtMoment = moment.utc(comment.attributes.inserted_at)
 
     return (
       <div id={id} className={`card forum-thread comment ${removed ? 'removed' : ''}`}>
