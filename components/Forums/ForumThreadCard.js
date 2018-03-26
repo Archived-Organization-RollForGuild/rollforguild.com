@@ -139,14 +139,11 @@ class ForumThreadCard extends Component {
       removed,
     } = this.state
 
-    /* eslint-disable camelcase  */
     const {
       title,
-      inserted_at,
       comments,
       body,
     } = thread.attributes
-    /* eslint-enable camelcase  */
 
 
     let commentString = ''
@@ -159,7 +156,7 @@ class ForumThreadCard extends Component {
       commentString = 'No comments...'
     }
 
-    const instertedAtMoment = moment.utc(inserted_at)
+    const instertedAtMoment = moment.utc(thread.attributes.inserted_at)
 
     return (
       <div className={`card forum-thread ${removed ? 'removed' : ''}`}>
@@ -211,6 +208,23 @@ class ForumThreadCard extends Component {
   }
 }
 
+ForumThreadCard.defaultProps = {
+  currentUserIsPoster: false,
+  fullBody: false,
+  user: null,
+}
+
+ForumThreadCard.propTypes = {
+  currentUserIsPoster: PropTypes.bool,
+  fullBody: PropTypes.bool,
+  posterId: PropTypes.string.isRequired,
+  thread: PropTypes.object.isRequired,
+  user: PropTypes.object,
+}
+
+
+
+
 
 const mapDispatchToProps = dispatch => ({
   getUser: bindActionCreators(actions.getUser, dispatch),
@@ -237,19 +251,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-ForumThreadCard.defaultProps = {
-  currentUserIsPoster: false,
-  fullBody: false,
-  user: null,
-}
 
-ForumThreadCard.propTypes = {
-  currentUserIsPoster: PropTypes.bool,
-  fullBody: PropTypes.bool,
-  posterId: PropTypes.string.isRequired,
-  thread: PropTypes.object.isRequired,
-  user: PropTypes.object,
-}
 
 
 
