@@ -16,6 +16,7 @@ export const createForumThread = thread => createAction({
       attributes: thread,
     },
   },
+  onError: 'Thread post failed.\nPlease try again in a few moments.',
 })
 
 export const createThreadComment = (threadId, comment) => createAction({
@@ -30,6 +31,7 @@ export const createThreadComment = (threadId, comment) => createAction({
       },
     },
   },
+  onError: 'Comment post failed.\nPlease try again in a few moments.',
 })
 
 // WHEN ENDPOINT IS READY:
@@ -39,6 +41,7 @@ export const deleteForumThread = () => createTimeoutAction({
   // url: `/api/threads/${id}`,
   // method: 'delete',
   timeout: 750,
+  onError: 'Thread deletion failed.\nPlease try again in a few moments, or attempt to refresh the page.',
 })
 
 // WHEN ENDPOINT IS READY:
@@ -48,11 +51,13 @@ export const deleteThreadComment = () => createTimeoutAction({
   // url: `/api/threads/${threadId}/comments/${commentId}`,
   // method: 'delete',
   timeout: 750,
+  onError: 'Comment deletion failed.\nPlease try again in a few moments, or attempt to refresh the page.',
 })
 
 export const getForumThread = threadId => createAction({
   actionType: actionTypes.GET_FORUM_THREAD,
   url: `/api/threads/${threadId}`,
+  onError: 'Failed to load thread.\nPlease refresh the page in a few moments and try again.',
 })
 
 export const getForumThreads = page => createAction({
@@ -61,6 +66,7 @@ export const getForumThreads = page => createAction({
   params: {
     page: page || '1',
   },
+  onError: 'Failed to load the forums.\nPlease refresh the page in a few moments and try again.',
 })
 
 export const getThreadComments = (threadId, page) => createAction({
@@ -70,4 +76,5 @@ export const getThreadComments = (threadId, page) => createAction({
     page,
     limit: 5,
   },
+  onError: 'Failed to load thread comments.\nPlease refresh the page in a few moments and try again.',
 })
