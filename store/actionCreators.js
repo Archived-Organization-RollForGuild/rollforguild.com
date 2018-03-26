@@ -1,12 +1,15 @@
 // Component imports
+import {
+  createAlertObject,
+  isRequired,
+} from '../helpers'
 import apiService from '../services/api'
-import { isRequired } from '../helpers'
 
 
 
 
 
-const onFetchResult = response => response.data
+const onResult = response => response.data
 
 const getServiceRequestPayload = options => {
   const payload = { ...options }
@@ -45,8 +48,11 @@ const getServiceRequestPayload = options => {
  *   // Called directly after either event happens. passes the direct response from the apiService.
  *   // By default, these functions will return the data body of the response.
  *   // Note that these functions directly set the resulting payload, which is sent to the reducers and calling function.
- *   onFetchError: function (response) { return response.data }, // default
- *   onFetchSuccess: function (response) { return response.data }, // default
+ *   //
+ *   // Additionally, a string may be passed to these functions to denote that an alert should be displayed to the user.
+ *   // The string will determine the body of the alert.
+ *   onError: function (response) { return response.data }, // default
+ *   onSuccess: function (response) { return response.data }, // default
  *
  *   // Axios service to use when performing the request. By default, this is set to apiService under /services/api
  *   service: apiService, // default
@@ -75,21 +81,41 @@ const getServiceRequestPayload = options => {
  *   params: {
  *     foo: 'bar',
  *   },
- *
- *   // Any additional options to send to the axios service can be put into this object
- *
- *   requestOptions: {
- *     timeout: 5000,
- *   },
- *
  * }
  */
 
 function createBasicAction (options = isRequired('options')) {
   const type = options.actionType || isRequired('options.actionType')
 
-  const onFetchError = typeof options.onFetchError === 'function' ? options.onFetchError : onFetchResult
-  const onFetchSuccess = typeof options.onFetchSuccess === 'function' ? options.onFetchSuccess : onFetchResult
+  let onError = null
+  switch (typeof options.onError) {
+    case 'function':
+      ({ onError } = options)
+      break
+
+    case 'string':
+      onError = () => createAlertObject(options.onError)
+      break
+
+    default:
+      onError = onResult
+      break
+  }
+
+  let onSuccess = null
+  switch (typeof options.onSuccess) {
+    case 'function':
+      ({ onSuccess } = options)
+      break
+
+    case 'string':
+      onSuccess = () => createAlertObject(options.onSuccess, 'success')
+      break
+
+    default:
+      onSuccess = onResult
+      break
+  }
 
   return async dispatch => {
     let response = null
@@ -102,10 +128,10 @@ function createBasicAction (options = isRequired('options')) {
 
     try {
       response = await (options.service || apiService).request(getServiceRequestPayload(options))
-      response = onFetchSuccess(response)
+      response = onSuccess(response)
       success = true
     } catch (error) {
-      response = onFetchError(error)
+      response = onError(error)
       success = false
     }
 
@@ -122,8 +148,8 @@ function createTimeoutAction (options = isRequired('options')) {
   const type = options.actionType || isRequired('options.actionType')
   const data = options.data || {}
 
-  const onFetchError = typeof options.onFetchError === 'function' ? options.onFetchError : onFetchResult
-  const onFetchSuccess = typeof options.onFetchSuccess === 'function' ? options.onFetchSuccess : onFetchResult
+  const onError = typeof options.onError === 'function' ? options.onError : onResult
+  const onSuccess = typeof options.onSuccess === 'function' ? options.onSuccess : onResult
 
   return async dispatch => {
     let response = null
@@ -136,10 +162,10 @@ function createTimeoutAction (options = isRequired('options')) {
 
     try {
       response = await new Promise((resolve, reject) => setTimeout(() => (options.fail ? reject(data) : resolve(data)), options.timeout || 1000))
-      response = onFetchSuccess(response)
+      response = onSuccess(response)
       success = true
     } catch (error) {
-      response = onFetchError(error)
+      response = onError(error)
       success = false
     }
 
