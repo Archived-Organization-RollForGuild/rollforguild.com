@@ -105,7 +105,9 @@ class GroupSearch extends Component {
     const { groups } = this.state
 
     return (
-      <ol>{groups.map(GroupSearch._renderGroup)}</ol>
+      <ol className="card-list">
+        {groups.map(GroupSearch._renderGroup)}
+      </ol>
     )
   }
 
