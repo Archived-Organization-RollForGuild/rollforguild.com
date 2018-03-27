@@ -2,4 +2,16 @@
   footer menu button {
     margin-left: .5rem;
   }
+
+  &.comment {
+    margin: 2rem 2rem 0 2rem;
+
+    &:last-child {
+      margin: 2rem;
+    }
+  }
+
+  &.removed {
+    opacity: .4;
+  }
 }

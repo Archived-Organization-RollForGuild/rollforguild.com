@@ -5,6 +5,7 @@ import deepMergeJSONAPIObjectCollections from './deepMergeJSONAPIObjectCollectio
 import findAndEvaluateModifiers from './findAndEvaluateModifiers'
 import getBase64FromFileInput from './getBase64FromFileInput'
 import isUUID from './isUUID'
+import isRequired from './isRequired'
 import parseJSONAPIResponseForEntityType from './parseJSONAPIResponseForEntityType'
 import pushTrackableEventToDataLayer from './pushTrackableEventToDataLayer'
 
@@ -20,6 +21,7 @@ export {
   findAndEvaluateModifiers,
   getBase64FromFileInput,
   isUUID,
+  isRequired,
   parseJSONAPIResponseForEntityType,
   pushTrackableEventToDataLayer,
 }

@@ -12,11 +12,10 @@ import React from 'react'
 
 // Component imports
 import { actions } from '../../store'
-import Link from '../Link'
 import Avatar from '../Avatar'
 import Component from '../Component'
 
-class ForumThreadCard extends Component {
+class ThreadCommentCard extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -31,21 +30,21 @@ class ForumThreadCard extends Component {
     } = this.state
 
     const {
-      deleteForumThread,
+      deleteThreadComment,
       onDelete,
-      thread,
+      comment,
     } = this.props
 
     if (confirmingRemove && name === 'confirm') {
       this.setState({ confirmingRemove: false, removing: true })
 
-      const { status } = await deleteForumThread(thread.id)
+      const { status } = await deleteThreadComment(comment.id)
 
       if (status === 'success') {
         this.setState({ removing: false, removed: true })
 
         if (typeof onDelete === 'function') {
-          onDelete(thread)
+          onDelete(comment)
         }
       } else {
         this.setState({ removing: false })
@@ -130,8 +129,8 @@ class ForumThreadCard extends Component {
   render () {
     const {
       currentUserIsPoster,
-      thread,
-      fullBody,
+      comment,
+      id,
     } = this.props
 
     const {
@@ -139,57 +138,36 @@ class ForumThreadCard extends Component {
       removed,
     } = this.state
 
-    const {
-      title,
-      comments,
-      body,
-    } = thread.attributes
-
-
-    let commentString = ''
-
-    if (comments > 1) {
-      commentString = `${comments} Comments`
-    } else if (comments > 0) {
-      commentString = '1 Comment'
-    } else {
-      commentString = 'No comments...'
-    }
-
-    const instertedAtMoment = moment.utc(thread.attributes.inserted_at)
+    const instertedAtMoment = moment.utc(comment.attributes.inserted_at)
 
     return (
-      <div className={`card forum-thread ${removed ? 'removed' : ''}`}>
+      <div id={id} className={`card forum-thread comment ${removed ? 'removed' : ''}`}>
         <header>
-          {user && (<Avatar src={user} size="small" />)}
 
-          <h2 title={title}>
-            <Link
-              action="view"
-              category="Forums"
-              label="Thread"
-              route="forum thread view"
-              params={{ id: thread.id }}>
-              <a>{title}</a>
-            </Link>
-          </h2>
-        </header>
+          {user ? (
+            <span title={user.attributes.username}>
+              <Avatar src={user} size="tiny" />
+              <span>
+                {user.attributes.username}
+              </span>
+            </span>
+          ) : (
+            <span title="unknown">Unknown</span>
+          )}
 
-        <div className="meta">
-          <small>
-            Posted&nbsp;
+          <span className="post-time">
             <time
               dateTime={instertedAtMoment.toISOString()}
               data-friendlydatetime={instertedAtMoment.format('YYYY-MM-DD HH:mm')}>
               {instertedAtMoment.fromNow()}
             </time>
-          </small>
-
-          <small>{commentString}</small>
-        </div>
+          </span>
+        </header>
 
         <div className="content">
-          <p className="thread-body">{!fullBody && body.length > 300 ? `${body.substring(0, 297)}...` : body}</p>
+          <div className="thread-contents">
+            <p className="thread-body">{comment.attributes.comment}</p>
+          </div>
         </div>
 
         {currentUserIsPoster && (
@@ -209,35 +187,32 @@ class ForumThreadCard extends Component {
   }
 }
 
-ForumThreadCard.defaultProps = {
+ThreadCommentCard.defaultProps = {
   currentUserIsPoster: false,
-  fullBody: false,
+  id: null,
   user: null,
 }
 
-ForumThreadCard.propTypes = {
+ThreadCommentCard.propTypes = {
+  comment: PropTypes.object.isRequired,
   currentUserIsPoster: PropTypes.bool,
-  fullBody: PropTypes.bool,
+  id: PropTypes.string,
   posterId: PropTypes.string.isRequired,
-  thread: PropTypes.object.isRequired,
   user: PropTypes.object,
 }
 
 
-
-
-
 const mapDispatchToProps = dispatch => ({
   getUser: bindActionCreators(actions.getUser, dispatch),
-  deleteForumThread: bindActionCreators(actions.deleteForumThread, dispatch),
+  deleteThreadComment: bindActionCreators(actions.deleteThreadComment, dispatch),
 })
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    thread,
+    comment,
   } = ownProps
 
-  const posterId = thread && thread.relationships && thread.relationships.users && thread.relationships.users.id
+  const posterId = comment && comment.relationships && comment.relationships.users && comment.relationships.users.id
   const user = state.users[posterId] || null
 
   const currentUserId = Cookies.get('userId') || null
@@ -256,4 +231,4 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForumThreadCard)
+export default connect(mapStateToProps, mapDispatchToProps)(ThreadCommentCard)
