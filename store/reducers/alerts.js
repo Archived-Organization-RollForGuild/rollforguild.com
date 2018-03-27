@@ -40,8 +40,7 @@ export default function (state = initialState.alerts, action) {
       break
 
     default:
-      if (status !== 'success'
-        && payload
+      if (payload
         && typeof payload.type === 'string'
         && payload.type === 'website-alerts'
       ) {

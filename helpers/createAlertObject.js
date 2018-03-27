@@ -27,8 +27,8 @@ const ALERT_LEVELS = {
 export default function (body, level, title, duration) {
   const id = UUIDv4()
 
-  if (!Object.keys(ALERT_LEVELS).includes(level)) {
-    throw new Error('options.level must be one of: [info, warn, error].')
+  if (level && !Object.keys(ALERT_LEVELS).includes(level)) {
+    throw new Error(`options.level must be one of: ${JSON.stringify(Object.keys(ALERT_LEVELS))}`)
   }
 
   return {
@@ -39,7 +39,7 @@ export default function (body, level, title, duration) {
       createdAt: Date.now(),
       duration: typeof duration === 'number' ? duration : 10000,
       level: level || 'error',
-      title: title || ALERT_LEVELS[level],
+      title: title || ALERT_LEVELS[(level || 'error')],
     },
   }
 }
