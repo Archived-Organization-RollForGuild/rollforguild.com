@@ -7,6 +7,10 @@
     background-color: #444;
     font-family: Montserrat, sans-serif;
     padding: 0 2rem;
+
+    > *:not(:last-child) {
+      margin-right: 2rem;
+    }
   }
 
   > .content {
