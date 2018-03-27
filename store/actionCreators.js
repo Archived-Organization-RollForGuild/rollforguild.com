@@ -1,3 +1,5 @@
+import { isPlainObject } from 'lodash'
+
 // Component imports
 import {
   createAlertObject,
@@ -9,84 +11,24 @@ import apiService from '../services/api'
 
 
 
-const onResult = response => response.data
-
-const getServiceRequestPayload = options => {
+const getCleanedPayload = options => {
   const payload = { ...options }
 
+  delete payload.actionFunction
+  delete payload.actionPayload
   delete payload.actionType
-  delete payload.onFetchError
-  delete payload.onFetchSuccess
-  delete payload.service
+  delete payload.onError
+  delete payload.onSuccess
+  delete payload.onUnhandledError
+  delete payload.onUnhandledSuccess
   delete payload.preDispatch
   delete payload.postDispatch
-
-  if (!payload.url) {
-    isRequired('options.url')
-  }
 
   return payload
 }
 
 
-
-
-
-/*
- * Example Options:
- *
- * Note that by default, the only required fields are 'actionType' and 'url'.
- * Using only the required options will result in an action which will perform a basic GET on the url, and return the data within the payload property of the returning object.
- *
- * {
- *   // action name to include in the calls to redux dispatch.
- *   actionType: actionTypes.ACTION_NAME, // REQUIRED
- *
- *   // server URL which will be used in the request.
- *   url: '/api/endpoint', // REQUIRED
- *
- *   // Called directly after either event happens. passes the direct response from the apiService.
- *   // By default, these functions will return the data body of the response.
- *   // Note that these functions directly set the resulting payload, which is sent to the reducers and calling function.
- *   //
- *   // Additionally, a string may be passed to these functions to denote that an alert should be displayed to the user.
- *   // The string will determine the body of the alert.
- *   onError: function (response) { return response.data }, // default
- *   onSuccess: function (response) { return response.data }, // default
- *
- *   // Axios service to use when performing the request. By default, this is set to apiService under /services/api
- *   service: apiService, // default
- *
- *   // Additional properties to send with the pre-request and post-request dispatch calls.
- *   preDispatch: {}, // default
- *   postDispatch: {}, // default
- *
- *   // ** All other options are sent to the service request **
- *   // Below are some common examples. for a full list see: https://github.com/axios/axios#request-config
- *
- *   // request method to be used
- *   method: 'get', // default
- *
- *   // Any additional custom headers
- *   headers: {
- *     'X-A-Header': 'hello world!',
- *   },
- *
- *   // Data body to be sent. This only applies to 'PUT', 'POST', and 'PATCH' methods.
- *   data: {
- *     foob: 'foobar',
- *   },
- *
- *   // Additional query parameters to be used in the request
- *   params: {
- *     foo: 'bar',
- *   },
- * }
- */
-
-function createBasicAction (options = isRequired('options')) {
-  const type = options.actionType || isRequired('options.actionType')
-
+const getActionOptions = (options = isRequired('options')) => {
   let onError = null
   switch (typeof options.onError) {
     case 'function':
@@ -98,7 +40,7 @@ function createBasicAction (options = isRequired('options')) {
       break
 
     default:
-      onError = onResult
+      onError = () => undefined
       break
   }
 
@@ -113,75 +55,160 @@ function createBasicAction (options = isRequired('options')) {
       break
 
     default:
-      onSuccess = onResult
+      onSuccess = () => undefined
       break
   }
 
-  return async dispatch => {
-    let response = null
-    let success = false
+  const {
+    actionFunction,
+  } = options
 
-    dispatch({
-      type,
-      ...options.preDispatch,
-    })
+  let {
+    onUnhandledResult,
+    onUnhandledResult: onUnhandledError,
+    onUnhandledResult: onUnhandledSuccess,
+    actionPayload,
+  } = options
 
-    try {
-      response = await (options.service || apiService).request(getServiceRequestPayload(options))
-      response = onSuccess(response)
-      success = true
-    } catch (error) {
-      response = onError(error)
-      success = false
-    }
-
-    return dispatch({
-      payload: response || null,
-      status: success ? 'success' : 'error',
-      type,
-      ...options.postDispatch,
-    })
+  if (typeof actionFunction !== 'function') {
+    isRequired('options.actionFunction')
   }
-}
 
-function createTimeoutAction (options = isRequired('options')) {
-  const type = options.actionType || isRequired('options.actionType')
-  const data = options.data || {}
+  if (typeof onUnhandledResult === 'function') {
+    ({ onUnhandledResult } = options)
+  }
 
-  const onError = typeof options.onError === 'function' ? options.onError : onResult
-  const onSuccess = typeof options.onSuccess === 'function' ? options.onSuccess : onResult
+  if (typeof options.onUnhandledError === 'function') {
+    ({ onUnhandledError } = options)
+  }
 
-  return async dispatch => {
-    let response = null
-    let success = false
+  if (typeof options.onUnhandledSuccess === 'function') {
+    ({ onUnhandledSuccess } = options)
+  }
 
-    dispatch({
-      type,
-      ...options.preDispatch,
-    })
+  if (typeof actionPayload === 'undefined') {
+    actionPayload = getCleanedPayload(options)
+  } else if (typeof actionPayload === 'function') {
+    actionPayload = actionPayload(options)
+  }
 
-    try {
-      response = await new Promise((resolve, reject) => setTimeout(() => (options.fail ? reject(data) : resolve(data)), options.timeout || 1000))
-      response = onSuccess(response)
-      success = true
-    } catch (error) {
-      response = onError(error)
-      success = false
-    }
+  if (!Array.isArray(actionPayload)) {
+    actionPayload = [actionPayload]
+  }
 
-    return dispatch({
-      payload: response || null,
-      status: success ? 'success' : 'error',
-      type,
-      ...options.postDispatch,
-    })
+  return {
+    actionFunction,
+    actionPayload,
+    actionType: options.actionType || isRequired('options.actionType'),
+    onError,
+    onSuccess,
+    onUnhandledError,
+    onUnhandledSuccess,
+    preDispatch: isPlainObject(options.preDispatch) ? options.preDispatch : {},
+    postDispatch: isPlainObject(options.postDispatch) ? options.postDispatch : {},
   }
 }
 
 
 
-export default createBasicAction
+
+/**
+ * Constructs a new redux action function.
+ *
+ * @param   {Object.<string, *>} options                      Object containing configuration settings for the action.
+ * @param   {Function}           options.actionFunction       The main action to perform.
+ * @param   {*}                  [options.actionPayload]      Arguments to be sent to the actionFunction.
+ * @param   {String}             options.actionType           Redux action type.
+ * @param   {Function}           [options.onError]            Called immediately after catching an error thrown by the action.
+ * @param   {Function}           [options.onSuccess]          Called immediately after the action completes.
+ * @param   {Function}           [options.onUnhandledResult]  Convenience option to populate both onUnhandledError/Success.
+ * @param   {Function}           [options.onUnhandledError]   Called if onError either is or returns undefined.
+ * @param   {Function}           [options.onUnhandledSuccess] Called if onSuccess either is or returns undefined.
+ * @param   {Object.<string, *>} [options.preDispatch]        Object of extra properties to include in the pre-action redux dispatch call.
+ * @param   {Object.<string, *>} [options.postDispatch]       Object of extra properties to include in the post-action redux dispatch call.
+ * @param   {*}                  [options.any]                All other entries of the options object are passed to the actionFunction by default.
+ * @returns {Function}                                        Function which performs a redux action defined by the given configuration.
+ */
+function createAction (options) {
+  const {
+    actionFunction,
+    actionPayload,
+    actionType,
+    onError,
+    onSuccess,
+    onUnhandledError,
+    onUnhandledSuccess,
+    preDispatch,
+    postDispatch,
+  } = getActionOptions(options)
+
+  return async dispatch => {
+    let response = null
+    let success = false
+
+    dispatch({
+      ...preDispatch,
+      type: actionType,
+    })
+
+    try {
+      response = await actionFunction(...actionPayload)
+
+      const eventResponse = onSuccess(response)
+
+      if (typeof eventResponse !== 'undefined') {
+        response = eventResponse
+      } else if (onUnhandledSuccess) {
+        response = onUnhandledSuccess(response)
+      }
+
+      success = true
+    } catch (error) {
+      const eventResponse = onError(error)
+
+      if (typeof eventResponse !== 'undefined') {
+        response = eventResponse
+      } else if (onUnhandledError) {
+        response = onUnhandledError(error)
+      }
+
+      success = false
+    }
+
+    return dispatch({
+      ...postDispatch,
+      payload: response || null,
+      status: success ? 'success' : 'error',
+      type: actionType,
+    })
+  }
+}
+
+const createApiAction = options => createAction({
+  ...options,
+  actionFunction: apiService.request,
+  onUnhandledResult: result => result.data,
+})
+
+const createTimeoutAction = options => createAction({
+  ...options,
+  actionFunction: opts => {
+    const data = { data: opts.data }
+
+    return new Promise((resolve, reject) =>
+      setTimeout(
+        () => (opts.fail ? reject(data) : resolve(data)),
+        opts.timeout || 1000
+      ))
+  },
+})
+
+
+
+
+export default createAction
 export {
-  createBasicAction,
+  createAction,
+  createApiAction,
   createTimeoutAction,
 }
