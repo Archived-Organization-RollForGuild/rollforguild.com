@@ -32,13 +32,12 @@ class ThreadCommentForm extends Component {
       submitting: true,
     })
 
-    const { payload, status } = await createThreadComment(threadId, comment)
+    const response = await createThreadComment(threadId, comment)
 
-    this.props.onComment(payload)
+    this.props.onComment(response)
 
     return this.setState({
       comment: '',
-      error: status !== 'success',
       submitting: false,
     })
   }
@@ -70,7 +69,6 @@ class ThreadCommentForm extends Component {
 
     this.state = {
       comment: '',
-      error: false,
       submitting: false,
     }
   }
@@ -78,7 +76,6 @@ class ThreadCommentForm extends Component {
   render () {
     const {
       comment,
-      error,
       submitting,
     } = this.state
 
@@ -102,9 +99,9 @@ class ThreadCommentForm extends Component {
           <div className="secondary" />
           <div className="primary">
             <button
-              className={error ? 'danger' : 'success'}
+              className="success"
               disabled={submitting || !this._isValid()}>
-              {error ? 'Error while submitting' : 'Post'}
+              Post
             </button>
           </div>
         </menu>

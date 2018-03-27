@@ -31,10 +31,14 @@ class ViewThread extends Component {
     Private  Methods
   \***************************************************************************/
 
-  _handleNewComment (comment) {
-    this.setState({
-      comments: [...this.state.comments, comment.data],
-    })
+  _handleNewComment ({ payload, status }) {
+    if (status === 'success') {
+      const newComment = payload.data
+
+      this.setState({
+        comments: [...this.state.comments, newComment],
+      })
+    }
   }
 
   async _getComments (page, oldPage) {
