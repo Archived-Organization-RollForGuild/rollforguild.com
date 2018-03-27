@@ -419,6 +419,7 @@ class GroupProfile extends Component {
 
                 <StaticMap
                   address={address}
+                  category="Groups"
                   location={geo}
                   markers={[{ ...geo }]} />
               </section>
