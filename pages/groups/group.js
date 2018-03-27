@@ -360,43 +360,45 @@ class GroupProfile extends Component {
           <h1>{name}</h1>
 
           {!currentUserIsAdmin && (
-            <menu type="toolbar">
-              {!currentUserIsMember && (
-                <Button
-                  action="request"
-                  category="Groups"
-                  className="success"
-                  disabled={requestingToJoin || joinRequestSent}
-                  label="Membership"
-                  onClick={this._requestToJoin}>
-                  {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
+            <aside>
+              <menu type="toolbar">
+                {!currentUserIsMember && (
+                  <Button
+                    action="request"
+                    category="Groups"
+                    className="success"
+                    disabled={requestingToJoin || joinRequestSent}
+                    label="Membership"
+                    onClick={this._requestToJoin}>
+                    {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
-                  {(!requestingToJoin && joinRequestSent) && (
-                    <span><FontAwesomeIcon icon="check" /> Request sent</span>
-                  )}
+                    {(!requestingToJoin && joinRequestSent) && (
+                      <span><FontAwesomeIcon icon="check" /> Request sent</span>
+                    )}
 
-                  {requestingToJoin && (
-                    <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
-                  )}
-                </Button>
-              )}
+                    {requestingToJoin && (
+                      <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
+                    )}
+                  </Button>
+                )}
 
-              {currentUserIsMember && (
-                <Button
-                  action="cancel"
-                  category="Groups"
-                  className="danger"
-                  disabled={leaving[currentUserId]}
-                  label="Membership"
-                  onClick={() => this._removeMember(currentUserId)}>
-                  {!leaving[currentUserId] && 'Leave group'}
+                {currentUserIsMember && (
+                  <Button
+                    action="cancel"
+                    category="Groups"
+                    className="danger"
+                    disabled={leaving[currentUserId]}
+                    label="Membership"
+                    onClick={() => this._removeMember(currentUserId)}>
+                    {!leaving[currentUserId] && 'Leave group'}
 
-                  {leaving[currentUserId] && (
-                    <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
-                  )}
-                </Button>
-              )}
-            </menu>
+                    {leaving[currentUserId] && (
+                      <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
+                    )}
+                  </Button>
+                )}
+              </menu>
+            </aside>
           )}
         </header>
 
