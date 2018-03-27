@@ -1,6 +1,7 @@
 // Module imports
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import Head from 'next/head'
+import marked from 'marked'
 import React from 'react'
 // import Switch from 'rc-switch'
 
@@ -21,6 +22,7 @@ import { actions } from '../../store'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
+import Link from '../../components/Link'
 import Page from '../../components/Page'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
@@ -97,6 +99,7 @@ class JoinRequestCard extends Component {
     } = this.state
 
     const {
+      bio,
       email,
       username,
     } = user.attributes
@@ -109,43 +112,53 @@ class JoinRequestCard extends Component {
           <h2>{username}</h2>
         </header>
 
-        <div className="content">
-          {(!accepting && !ignoring) && (
-            <menu
-              className="compact"
-              type="toolbar">
-              <div className="primary">
-                <a
-                  className="button small secondary"
-                  href={`mailto:${email}`}>
-                  Message
-                </a>
+        {/* eslint-disable react/no-danger */}
+        {!!bio && (
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{ __html: marked(bio) }} />
+        )}
+        {/* eslint-enable */}
 
-                <Button
-                  action="accept"
-                  category="Groups"
-                  className="small success"
-                  label="Membership"
-                  onClick={this._accept}>
-                  Accept
-                </Button>
+        {!bio && (
+          <div className="content">
+            <em>No bio available</em>
+          </div>
+        )}
 
-                <Button
-                  action="ignore"
-                  category="Groups"
-                  className="small danger"
-                  label="Membership"
-                  onClick={this._ignore}>
-                  Ignore
-                </Button>
-              </div>
-            </menu>
-          )}
+        <footer>
+          <menu
+            className="compact"
+            type="toolbar">
+            <div className="primary">
+              <Link href={`mailto:${email}`}>
+                <a className="button small success">Message</a>
+              </Link>
+            </div>
 
-          {accepting && 'Accepting...'}
+            <div className="secondary">
+              <Button
+                action="accept"
+                category="Groups"
+                className="small success"
+                disabled={accepting || ignoring}
+                label="Membership"
+                onClick={this._accept}>
+                {!accepting ? 'Accept' : 'Accepting...'}
+              </Button>
 
-          {ignoring && 'Ignoring...'}
-        </div>
+              <Button
+                action="ignore"
+                category="Groups"
+                className="small danger"
+                disabled={accepting || ignoring}
+                label="Membership"
+                onClick={this._ignore}>
+                {!ignoring ? 'Ignore' : 'Ignoring...'}
+              </Button>
+            </div>
+          </menu>
+        </footer>
       </div>
     )
   }
@@ -444,13 +457,14 @@ class GroupProfile extends Component {
                   )}
 
                   {!!members.length && (
-                    <ul className="">
+                    <ul className="card-list">
                       {members.map(user => {
                         const {
                           id,
                         } = user
 
                         const {
+                          bio,
                           email,
                           username,
                         } = user.attributes
@@ -460,14 +474,24 @@ class GroupProfile extends Component {
                             className="card"
                             key={id}>
                             <header>
-                              {username}
-                            </header>
-
-                            <div className="content">
                               <Avatar src={user} size="small" className="pull-left" />
 
-                              <h4>{username}</h4>
-                            </div>
+                              <h2>{username}</h2>
+                            </header>
+
+                            {/* eslint-disable react/no-danger */}
+                            {!!bio && (
+                              <div
+                                className="content"
+                                dangerouslySetInnerHTML={{ __html: marked(bio) }} />
+                            )}
+                            {/* eslint-enable */}
+
+                            {!bio && (
+                              <div className="content">
+                                <em>No bio available</em>
+                              </div>
+                            )}
 
                             <footer>
                               <menu
