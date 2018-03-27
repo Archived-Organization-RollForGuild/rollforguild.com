@@ -1,16 +1,25 @@
 .card {
+  --padding-width: 2rem;
   background-color: #303030;
   border-radius: 0.25rem;
   overflow: hidden;
 
+  &.compact {
+    --padding-width: 1rem;
+  }
+
   > header {
     background-color: #444;
     font-family: Montserrat, sans-serif;
-    padding: 0 2rem;
+    padding: 0 var(--padding-width);
+
+    .title *:not(:first-child) {
+      padding-left: calc(var(--padding-width) / 2);
+    }
   }
 
   > .content {
-    padding: 2rem;
+    padding: var(--padding-width);
     align-items: center;
   }
 
