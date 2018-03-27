@@ -104,12 +104,12 @@ class JoinRequestCard extends Component {
     return (
       <div className="card">
         <header>
-          {username}
+          <Avatar src={user} size="small" />
+
+          <h2>{username}</h2>
         </header>
 
         <div className="content">
-          <Avatar src={user} size="small" />
-
           {(!accepting && !ignoring) && (
             <menu
               className="compact"
@@ -408,6 +408,7 @@ class GroupProfile extends Component {
 
             <section className="games">
               <h4>Games</h4>
+
               <ul className="group">
                 {games.map(game => (
                   <li key={game}>{game}</li>
