@@ -164,8 +164,9 @@ class ForumThreadCard extends Component {
     return (
       <div className={`card forum-thread ${removed ? 'removed' : ''}`}>
         <header>
+          {user && (<Avatar src={user} size="small" />)}
+
           <h2 title={title}>
-            {user && (<Avatar src={user} size="small" />)}
             <Link
               action="view"
               category="Forums"
@@ -175,23 +176,23 @@ class ForumThreadCard extends Component {
               <a>{title}</a>
             </Link>
           </h2>
+        </header>
 
-          <span className="post-time">
+        <div className="meta">
+          <small>
+            Posted&nbsp;
             <time
               dateTime={instertedAtMoment.toISOString()}
               data-friendlydatetime={instertedAtMoment.format('YYYY-MM-DD HH:mm')}>
               {instertedAtMoment.fromNow()}
             </time>
-          </span>
-        </header>
+          </small>
+
+          <small>{commentString}</small>
+        </div>
 
         <div className="content">
-          <div className="thread-contents">
-            <p className="thread-body">{!fullBody && body.length > 300 ? `${body.substring(0, 297)}...` : body}</p>
-          </div>
-          <div className="thread-details">
-            <small>{commentString}</small>
-          </div>
+          <p className="thread-body">{!fullBody && body.length > 300 ? `${body.substring(0, 297)}...` : body}</p>
         </div>
 
         {currentUserIsPoster && (
