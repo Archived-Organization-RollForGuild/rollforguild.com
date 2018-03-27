@@ -96,7 +96,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       }
     }
 
-    static async getInitialProps(ctx) {
+    static async getInitialProps (ctx) {
       const {
         asPath,
         isServer,

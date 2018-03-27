@@ -21,11 +21,11 @@ class Avatar extends Component {
     Private Methods
   \***************************************************************************/
 
-  _toggleUploaderDisplay(show) {
+  _toggleUploaderDisplay (show) {
     this.setState({ displayUploader: typeof show === 'boolean' ? show : !this.state.showAvatarEdit })
   }
 
-  async _handleUploaderComplete(_fileBlob) {
+  async _handleUploaderComplete (_fileBlob) {
     const {
       updateAvatar,
     } = this.props
@@ -56,7 +56,7 @@ class Avatar extends Component {
     Public Methods
   \***************************************************************************/
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (!nextProps.src) {
       throw new ReferenceError('props.src is not defined')
     }
@@ -78,7 +78,7 @@ class Avatar extends Component {
     })
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.type = {
@@ -132,7 +132,7 @@ class Avatar extends Component {
     }
   }
 
-  render() {
+  render () {
     const {
       avatarUrl,
       displayUploader,
@@ -153,6 +153,7 @@ class Avatar extends Component {
         <div
           aria-label={`${id}'s avatar`}
           className={`avatar ${size.name}${className ? ` ${className}` : ''}`}
+          role="img"
           style={{ backgroundImage: `url(${avatar})` }}>
           {editable && (
             <button className="avatar-edit-overlay" onClick={this._toggleUploaderDisplay}>

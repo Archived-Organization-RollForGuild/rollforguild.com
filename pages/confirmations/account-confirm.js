@@ -6,9 +6,9 @@ import React from 'react'
 
 
 // Component imports
-import { Router } from '../routes'
-import Component from '../components/Component'
-import Page from '../components/Page'
+import { Router } from '../../routes'
+import Component from '../../components/Component'
+import Page from '../../components/Page'
 
 
 
@@ -98,7 +98,7 @@ class Confirmation extends Component {
 
         {(loggedIn === 'error') && (
           <React.Fragment>
-            <p><span aria-label="Sad face emoji" role="img">😞</span> Uh oh... It seems there's a problem with your confirmation code. If you're still trying to activate your account, you may want to <a href="mailto:support@rollforguild.com">contact support</a>.</p>
+            <p><span aria-label="Sad face emoji" role="img">😞</span> Uh oh... It seems there's a problem with your confirmation code. If you're still trying to activate your account, you may want to <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1">contact support</a>.</p>
           </React.Fragment>
         )}
       </React.Fragment>

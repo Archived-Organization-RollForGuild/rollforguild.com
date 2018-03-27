@@ -16,5 +16,10 @@ export default {
 
   rulesets: {},
 
+  forums: {
+    threads: {},
+    comments: {},
+  },
+
   users: {},
 }

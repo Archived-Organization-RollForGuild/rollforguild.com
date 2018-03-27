@@ -5,8 +5,24 @@
 
   > header {
     background-color: #444;
-    font-family: Montserrat, sans-serif;
+    display: flex;
+    padding: 1rem 2rem;
+
+    > *:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+
+  .meta {
+    border-bottom-color: #444;
+    border-bottom-style: solid;
+    border-bottom-width: 0.1rem;
     padding: 0 2rem;
+
+    > *:not(:last-child):after {
+      content: '·';
+      margin: 0 0.5rem;
+    }
   }
 
   > .content {
@@ -16,6 +32,7 @@
 
   > footer {
     background-color: #444;
+
     menu {
       .button,
       button {

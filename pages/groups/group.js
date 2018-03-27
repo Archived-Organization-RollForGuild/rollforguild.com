@@ -1,6 +1,7 @@
 // Module imports
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import Head from 'next/head'
+import marked from 'marked'
 import React from 'react'
 // import Switch from 'rc-switch'
 
@@ -21,6 +22,7 @@ import { actions } from '../../store'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
+import Link from '../../components/Link'
 import Page from '../../components/Page'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
@@ -97,6 +99,7 @@ class JoinRequestCard extends Component {
     } = this.state
 
     const {
+      bio,
       email,
       username,
     } = user.attributes
@@ -104,48 +107,58 @@ class JoinRequestCard extends Component {
     return (
       <div className="card">
         <header>
-          {username}
-        </header>
-
-        <div className="content">
           <Avatar src={user} size="small" />
 
-          {(!accepting && !ignoring) && (
-            <menu
-              className="compact"
-              type="toolbar">
-              <div className="primary">
-                <a
-                  className="button small secondary"
-                  href={`mailto:${email}`}>
-                  Message
-                </a>
+          <h2>{username}</h2>
+        </header>
 
-                <Button
-                  action="accept"
-                  category="Groups"
-                  className="small success"
-                  label="Membership"
-                  onClick={this._accept}>
-                  Accept
-                </Button>
+        {/* eslint-disable react/no-danger */}
+        {!!bio && (
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{ __html: marked(bio) }} />
+        )}
+        {/* eslint-enable */}
 
-                <Button
-                  action="ignore"
-                  category="Groups"
-                  className="small danger"
-                  label="Membership"
-                  onClick={this._ignore}>
-                  Ignore
-                </Button>
-              </div>
-            </menu>
-          )}
+        {!bio && (
+          <div className="content">
+            <em>No bio available</em>
+          </div>
+        )}
 
-          {accepting && 'Accepting...'}
+        <footer>
+          <menu
+            className="compact"
+            type="toolbar">
+            <div className="primary">
+              <Link href={`mailto:${email}`}>
+                <a className="button small success">Message</a>
+              </Link>
+            </div>
 
-          {ignoring && 'Ignoring...'}
-        </div>
+            <div className="secondary">
+              <Button
+                action="accept"
+                category="Groups"
+                className="small success"
+                disabled={accepting || ignoring}
+                label="Membership"
+                onClick={this._accept}>
+                {!accepting ? 'Accept' : 'Accepting...'}
+              </Button>
+
+              <Button
+                action="ignore"
+                category="Groups"
+                className="small danger"
+                disabled={accepting || ignoring}
+                label="Membership"
+                onClick={this._ignore}>
+                {!ignoring ? 'Ignore' : 'Ignoring...'}
+              </Button>
+            </div>
+          </menu>
+        </footer>
       </div>
     )
   }
@@ -179,7 +192,7 @@ class GroupProfile extends Component {
     await this._handleJoinRequest(userId, 'ignored')
   }
 
-  async _removeMember(userId) {
+  async _removeMember (userId) {
     const {
       group,
       removeGroupMember,
@@ -337,6 +350,7 @@ class GroupProfile extends Component {
     }
 
     const {
+      address,
       description,
       games,
       geo,
@@ -359,43 +373,45 @@ class GroupProfile extends Component {
           <h1>{name}</h1>
 
           {!currentUserIsAdmin && (
-            <menu type="toolbar">
-              {!currentUserIsMember && (
-                <Button
-                  action="request"
-                  category="Groups"
-                  className="success"
-                  disabled={requestingToJoin || joinRequestSent}
-                  label="Membership"
-                  onClick={this._requestToJoin}>
-                  {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
+            <aside>
+              <menu type="toolbar">
+                {!currentUserIsMember && (
+                  <Button
+                    action="request"
+                    category="Groups"
+                    className="success"
+                    disabled={requestingToJoin || joinRequestSent}
+                    label="Membership"
+                    onClick={this._requestToJoin}>
+                    {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
-                  {(!requestingToJoin && joinRequestSent) && (
-                    <span><FontAwesomeIcon icon="check" /> Request sent</span>
-                  )}
+                    {(!requestingToJoin && joinRequestSent) && (
+                      <span><FontAwesomeIcon icon="check" /> Request sent</span>
+                    )}
 
-                  {requestingToJoin && (
-                    <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
-                  )}
-                </Button>
-              )}
+                    {requestingToJoin && (
+                      <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
+                    )}
+                  </Button>
+                )}
 
-              {currentUserIsMember && (
-                <Button
-                  action="cancel"
-                  category="Groups"
-                  className="danger"
-                  disabled={leaving[currentUserId]}
-                  label="Membership"
-                  onClick={() => this._removeMember(currentUserId)}>
-                  {!leaving[currentUserId] && 'Leave group'}
+                {currentUserIsMember && (
+                  <Button
+                    action="cancel"
+                    category="Groups"
+                    className="danger"
+                    disabled={leaving[currentUserId]}
+                    label="Membership"
+                    onClick={() => this._removeMember(currentUserId)}>
+                    {!leaving[currentUserId] && 'Leave group'}
 
-                  {leaving[currentUserId] && (
-                    <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
-                  )}
-                </Button>
-              )}
-            </menu>
+                    {leaving[currentUserId] && (
+                      <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
+                    )}
+                  </Button>
+                )}
+              </menu>
+            </aside>
           )}
         </header>
 
@@ -405,6 +421,7 @@ class GroupProfile extends Component {
 
             <section className="games">
               <h4>Games</h4>
+
               <ul className="group">
                 {games.map(game => (
                   <li key={game}>{game}</li>
@@ -417,6 +434,8 @@ class GroupProfile extends Component {
                 <h4>Location</h4>
 
                 <StaticMap
+                  address={address}
+                  category="Groups"
                   location={geo}
                   markers={[{ ...geo }]} />
               </section>
@@ -438,13 +457,14 @@ class GroupProfile extends Component {
                   )}
 
                   {!!members.length && (
-                    <ul className="">
+                    <ul className="card-list">
                       {members.map(user => {
                         const {
                           id,
                         } = user
 
                         const {
+                          bio,
                           email,
                           username,
                         } = user.attributes
@@ -454,14 +474,24 @@ class GroupProfile extends Component {
                             className="card"
                             key={id}>
                             <header>
-                              {username}
-                            </header>
-
-                            <div className="content">
                               <Avatar src={user} size="small" className="pull-left" />
 
-                              <h4>{username}</h4>
-                            </div>
+                              <h2>{username}</h2>
+                            </header>
+
+                            {/* eslint-disable react/no-danger */}
+                            {!!bio && (
+                              <div
+                                className="content"
+                                dangerouslySetInnerHTML={{ __html: marked(bio) }} />
+                            )}
+                            {/* eslint-enable */}
+
+                            {!bio && (
+                              <div className="content">
+                                <em>No bio available</em>
+                              </div>
+                            )}
 
                             <footer>
                               <menu
