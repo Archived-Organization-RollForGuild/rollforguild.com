@@ -1,7 +1,6 @@
 // Module imports
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import Head from 'next/head'
-import marked from 'marked'
 import React from 'react'
 // import Switch from 'rc-switch'
 
@@ -23,6 +22,7 @@ import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
 import Link from '../../components/Link'
+import Markdown from '../../components/Markdown'
 import Page from '../../components/Page'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
@@ -112,19 +112,15 @@ class JoinRequestCard extends Component {
           <h2>{username}</h2>
         </header>
 
-        {/* eslint-disable react/no-danger */}
-        {!!bio && (
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{ __html: marked(bio) }} />
-        )}
-        {/* eslint-enable */}
+        <div className="content">
+          {!!bio && (
+            <Markdown input={bio} />
+          )}
 
-        {!bio && (
-          <div className="content">
+          {!bio && (
             <em>No bio available</em>
-          </div>
-        )}
+          )}
+        </div>
 
         <footer>
           <menu
@@ -352,7 +348,7 @@ class GroupProfile extends Component {
     const {
       address,
       description,
-      games,
+      // games,
       geo,
       name,
       slug,
@@ -423,9 +419,9 @@ class GroupProfile extends Component {
               <h4>Games</h4>
 
               <ul className="group">
-                {games.map(game => (
+                {/* {games.map(game => (
                   <li key={game}>{game}</li>
-                ))}
+                ))} */}
               </ul>
             </section>
 
@@ -479,19 +475,15 @@ class GroupProfile extends Component {
                               <h2>{username}</h2>
                             </header>
 
-                            {/* eslint-disable react/no-danger */}
-                            {!!bio && (
-                              <div
-                                className="content"
-                                dangerouslySetInnerHTML={{ __html: marked(bio) }} />
-                            )}
-                            {/* eslint-enable */}
+                            <div className="content">
+                              {!!bio && (
+                                <Markdown input={bio} />
+                              )}
 
-                            {!bio && (
-                              <div className="content">
+                              {!bio && (
                                 <em>No bio available</em>
-                              </div>
-                            )}
+                              )}
+                            </div>
 
                             <footer>
                               <menu

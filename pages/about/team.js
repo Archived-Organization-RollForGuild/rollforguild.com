@@ -1,5 +1,4 @@
 // Module imports
-import marked from 'marked'
 import React from 'react'
 
 
@@ -9,6 +8,7 @@ import React from 'react'
 // Component imports
 import wordpressService from '../../services/wordpress'
 import Component from '../../components/Component'
+import Markdown from '../../components/Markdown'
 import Page from '../../components/Page'
 
 
@@ -66,11 +66,7 @@ class Team extends Component {
                   </aside>
                 </header>
 
-                {/* eslint-disable react/no-danger */}
-                <div
-                  className="content"
-                  dangerouslySetInnerHTML={{ __html: marked(description) }} />
-                {/* eslint-enable */}
+                <Markdown input={description} />
               </li>
             )
           })}
