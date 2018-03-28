@@ -22,13 +22,17 @@ menu {
     margin-right: auto;
     order: 1;
 
-    > *:not(:first-child) {
-      margin-left: 2rem
+    > *:not(:last-child) {
+      margin-right: 1rem
     }
   }
 
   > .secondary {
     margin-left: auto;
     order: 2;
+
+    > *:not(:first-child) {
+      margin-left: 1rem
+    }
   }
 }

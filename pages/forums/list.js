@@ -121,18 +121,20 @@ class ForumList extends Component {
         <header>
           <h1>Public Forums</h1>
 
-          <menu type="toolbar">
-            <Link
-              action="create"
-              category="Forums"
-              label="Thread"
-              route="forum thread create">
-              <a
-                className="button success" >
-                New Thread
-              </a>
-            </Link>
-          </menu>
+          <aside>
+            <menu type="toolbar">
+              <Link
+                action="create"
+                category="Forums"
+                label="Thread"
+                route="forum thread create">
+                <a
+                  className="button success" >
+                  New Thread
+                </a>
+              </Link>
+            </menu>
+          </aside>
         </header>
 
 
@@ -141,12 +143,15 @@ class ForumList extends Component {
         )}
 
         {!!threads.length && (
-          <div className="thread-list">
+          <React.Fragment>
             <span className="list-stats">Displaying threads {offset + 1} - {Math.min(count + offset, limit + offset)} of {total} threads</span>
-            {threads.map(thread => (
-              <ForumThreadCard thread={thread} key={thread.id} />
-            ))}
-          </div>
+
+            <ol className="card-list">
+              {threads.map(thread => (
+                <ForumThreadCard thread={thread} key={thread.id} />
+              ))}
+            </ol>
+          </React.Fragment>
         )}
 
         <Pagination
