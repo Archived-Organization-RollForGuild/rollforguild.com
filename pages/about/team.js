@@ -66,7 +66,9 @@ class Team extends Component {
                   </aside>
                 </header>
 
-                <Markdown input={description} />
+                <Markdown
+                  className="content"
+                  input={description} />
               </li>
             )
           })}
