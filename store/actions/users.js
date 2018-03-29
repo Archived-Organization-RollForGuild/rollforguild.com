@@ -16,6 +16,7 @@ import actionTypes from '../actionTypes'
 export const getUser = userId => createApiAction({
   actionType: actionTypes.GET_USER,
   url: `/api/users/${userId}`,
+  onError: 'Failed to retrieve user.\nPlease try again in a few moments.',
 })
 
 
@@ -32,6 +33,7 @@ export const updateUserPassword = (userId, attributes) => createApiAction({
       attributes,
     },
   },
+  onError: 'Failed to update password.\nMake sure the current password is correct!',
 })
 
 
@@ -45,6 +47,7 @@ export const updateUserGamesList = (userId, gamesHistory) => createApiAction({
   data: {
     data: gamesHistory,
   },
+  onError: 'Failed to update game lists.\nPlease try again in a few moments.',
 })
 
 
@@ -60,6 +63,7 @@ export const updateUserProfile = (userId, attributes) => createApiAction({
       attributes,
     },
   },
+  onError: 'Failed to update user.\nPlease try again in a few moments.',
 })
 
 
