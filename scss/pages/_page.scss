@@ -16,7 +16,7 @@
     margin-left: calc(-2rem - env(safe-area-inset-left));
     margin-right: -2rem;
     margin-right: calc(-2rem - env(safe-area-inset-right));
-    padding: 0 2rem;
+    padding: 1rem 2rem;
     padding-left: calc(2rem + env(safe-area-inset-left));
     padding-right: calc(2rem + env(safe-area-inset-right));
   }

@@ -78,7 +78,7 @@
 
 
 /*****************************************************************************\
-components
+  components
 \*****************************************************************************/
 
 @import 'components/ability-score';
@@ -91,6 +91,7 @@ components
 @import 'components/brand';
 @import 'components/card';
 @import 'components/alert-card';
+@import 'components/card-list';
 @import 'components/character-list';
 @import 'components/character-review';
 @import 'components/chooser';
@@ -145,4 +146,3 @@ components
 @import 'pages/manage-group';
 @import 'pages/manage-groups';
 @import 'pages/roadmap';
-@import 'pages/search-groups';

@@ -38,9 +38,11 @@ const GroupCard = (props) => {
             <a>{name}</a>
           </Link>
         </h2>
-
-        <small>{members} members</small>
       </header>
+
+      <div className="meta">
+        <small>{members} members</small>
+      </div>
 
       <div className="content">
         {!!description && (

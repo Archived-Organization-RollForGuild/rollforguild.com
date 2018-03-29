@@ -153,6 +153,7 @@ class Avatar extends Component {
         <div
           aria-label={`${id}'s avatar`}
           className={`avatar ${size.name}${className ? ` ${className}` : ''}`}
+          role="img"
           style={{ backgroundImage: `url(${avatar})` }}>
           {editable && (
             <button className="avatar-edit-overlay" onClick={this._toggleUploaderDisplay}>
