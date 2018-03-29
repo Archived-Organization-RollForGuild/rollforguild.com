@@ -69,7 +69,7 @@ export const updateUserProfile = (userId, attributes) => createApiAction({
 
 
 
-export const newUpdateUser = (userId, _attributes) => {
+export const updateUser = (userId, _attributes) => {
   const actions = []
 
   const {
