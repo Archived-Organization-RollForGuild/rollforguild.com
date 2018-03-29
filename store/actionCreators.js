@@ -205,9 +205,49 @@ const createTimeoutAction = options => createAction({
 
 
 
+/**
+ * Performs a series of specified redux actions
+ *
+ * @param   {String}       actions      List of actions to take
+ * @param   {Boolean}      [silentFail] Determines if the action chain should ignore actions which return with an error
+ * @param   {Boolean}      [returnLast] Determines if the last response or the entire array of responses should be returned
+ * @returns {Array|Object}              Array of responses from the actions performed, or the last response in the chain depending on returnLast
+ */
+/* eslint-disable no-await-in-loop */
+function actionSeries (actions = isRequired('actions'), silentFail, returnLast) {
+  return async dispatch => {
+    const responses = []
+
+    if (Array.isArray(actions) && actions.length) {
+      for (const action of actions) {
+        if (typeof action === 'function') {
+          const response = await action(dispatch)
+
+          responses.push(response)
+
+          if (!silentFail && response && response.status && response.status !== 'success') {
+            break
+          }
+        }
+      }
+    }
+
+    if (returnLast) {
+      if (responses.length) {
+        return responses[responses.length - 1]
+      }
+      return null
+    }
+
+    return responses
+  }
+}
+/* eslint-enable no-await-in-loop */
+
 
 export default createAction
 export {
+  actionSeries,
   createAction,
   createApiAction,
   createTimeoutAction,
