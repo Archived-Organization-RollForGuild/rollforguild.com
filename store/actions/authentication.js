@@ -22,7 +22,7 @@ export const confirmAccount = token => createApiAction({
     Cookies.set('accessToken', data.data.attributes.token, { expires: 365 })
     Cookies.set('userId', data.data.attributes.user_id, { expires: 365 })
   },
-  onError: 'Error while confirming your account.\nPlease make sure your token is correct.',
+  onError: 'Failed to confirm account.\nPlease make sure your token is correct.',
 })
 
 
@@ -36,7 +36,7 @@ export const confirmEmailUpdate = (confirmationToken, accept = true) => createAp
   params: {
     response: accept ? 'accept' : 'reject',
   },
-  onError: `Error while ${accept ? 'confirming' : 'rejecting'} email change.\nPlease make sure your token is correct.`,
+  onError: `Failed to ${accept ? 'confirm' : 'reject'} email change.\nPlease make sure your token is correct.`,
 })
 
 
@@ -60,11 +60,15 @@ export const login = (email, password) => createApiAction({
     Cookies.set('accessToken', data.data.attributes.token, { expires: 365 })
     Cookies.set('userId', data.data.attributes.user_id, { expires: 365 })
   },
-  onError: () => {
+  onError: (error) => {
     Cookies.remove('accessToken')
     Cookies.remove('userId')
 
-    return createAlertObject('Make sure your email and password are correct!', 'error', 'Login Failure!')
+    if (error.response.status === 401) {
+      return createAlertObject('Make sure your email and password are correct!', 'error', 'Login Failure!', null, true)
+    }
+
+    return createAlertObject('Failed to login.\nPlease try again in a few moments.')
   },
 })
 
