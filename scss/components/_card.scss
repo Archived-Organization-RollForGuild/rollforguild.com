@@ -1,13 +1,18 @@
 .card {
+  --padding-width: 2rem;
   background-color: #303030;
   border-radius: 0.25rem;
   overflow: hidden;
 
+  &.compact {
+    --padding-width: 1rem;
+  }
+
   > header {
     background-color: #444;
     display: flex;
-    padding: 1rem 2rem;
-
+    padding: calc(var(--padding-width) / 2) var(--padding-width);
+    
     > *:not(:last-child) {
       margin-right: 1rem;
     }
@@ -17,7 +22,7 @@
     border-bottom-color: #444;
     border-bottom-style: solid;
     border-bottom-width: 0.1rem;
-    padding: 0 2rem;
+    padding: 0 var(--padding-width);
 
     > *:not(:last-child):after {
       content: '·';
@@ -26,7 +31,7 @@
   }
 
   > .content {
-    padding: 2rem;
+    padding: var(--padding-width);
     align-items: center;
   }
 

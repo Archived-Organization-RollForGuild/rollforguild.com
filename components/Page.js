@@ -12,6 +12,8 @@ import {
   faEnvelope,
   faEye,
   faEyeSlash,
+  faInfoCircle,
+  faThumbsUp,
   faTimes,
   faExclamationCircle,
   faExclamationTriangle,
@@ -38,6 +40,7 @@ import {
   initStore,
 } from '../store'
 import { Router } from '../routes'
+import AlertsController from './AlertsController'
 import apiService from '../services/api'
 import Banner from './Banner'
 import Head from './Head'
@@ -71,6 +74,8 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         faEye,
         faEyeSlash,
         faKey,
+        faInfoCircle,
+        faThumbsUp,
         faTimes,
         faExclamationCircle,
         faExclamationTriangle,
@@ -153,6 +158,8 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
           <main className={mainClasses}>
             <Component {...this.props} />
           </main>
+
+          <AlertsController />
         </div>
       )
     }

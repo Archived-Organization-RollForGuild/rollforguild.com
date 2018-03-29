@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import alerts from './alerts'
 import authentication from './authentication'
 import avatars from './avatars'
 import characters from './characters'
@@ -12,6 +13,7 @@ import users from './users'
 
 
 export default combineReducers({
+  alerts,
   authentication,
   avatars,
   characters,

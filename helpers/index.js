@@ -1,6 +1,7 @@
 import convertObjectToQueryParams from './convertObjectToQueryParams'
 import convertSlugToUUID from './convertSlugToUUID'
 import convertStringToSlug from './convertStringToSlug'
+import createAlertObject from './createAlertObject'
 import deepMergeJSONAPIObjectCollections from './deepMergeJSONAPIObjectCollections'
 import findAndEvaluateModifiers from './findAndEvaluateModifiers'
 import getBase64FromFileInput from './getBase64FromFileInput'
@@ -17,6 +18,7 @@ export {
   convertObjectToQueryParams,
   convertSlugToUUID,
   convertStringToSlug,
+  createAlertObject,
   deepMergeJSONAPIObjectCollections,
   findAndEvaluateModifiers,
   getBase64FromFileInput,

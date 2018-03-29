@@ -1,0 +1,72 @@
+.alert-card-container {
+  position: absolute;
+  top: 2rem;
+  right: 3rem;
+  width: 400px;
+  white-space: pre-wrap;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  .alert:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  .overflow-counter {
+    background: $red;
+    border-radius: 2rem;
+    padding: 0 1rem;
+    line-height: 2rem;
+  }
+}
+
+
+.card.alert {
+  --accent-color: $green;
+
+  border: 1px solid var(--accent-color);
+  transition:
+    opacity .25s,
+    max-height .25s,
+    margin .25s ease;
+  opacity: 0;
+  max-height: 0;
+
+  &.mounted {
+    opacity: 1;
+    max-height: 800px;
+  }
+
+  &.info {
+    --accent-color: $blue;
+  }
+  &.warn {
+    --accent-color: $orange;
+  }
+  &.error {
+    --accent-color: $red;
+  }
+
+  > header {
+    padding: 0;
+    color: var(--accent-color);
+
+    .title {
+      padding-left: 1rem;
+    }
+
+    button,
+    .button {
+      border-radius: 0 0 0 0.25rem;
+      color: var(--accent-color);
+      display: block;
+      height: 100%;
+      padding: 0 1rem;
+
+      &:hover {
+        color: $white;
+        background: var(--accent-color);
+      }
+    }
+  }
+}

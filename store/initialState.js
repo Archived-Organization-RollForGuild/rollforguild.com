@@ -1,6 +1,9 @@
 import Cookies from 'js-cookie'
 
 export default {
+
+  alerts: {},
+
   authentication: {
     loggedIn: !!Cookies.get('accessToken'),
   },
