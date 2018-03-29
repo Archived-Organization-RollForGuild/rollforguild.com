@@ -9,6 +9,7 @@ import Cookies from 'js-cookie'
 // Component imports
 import { createApiAction } from '../actionCreators'
 import actionTypes from '../actionTypes'
+import { createAlertObject } from '../../helpers'
 
 
 
@@ -21,6 +22,7 @@ export const confirmAccount = token => createApiAction({
     Cookies.set('accessToken', data.data.attributes.token, { expires: 365 })
     Cookies.set('userId', data.data.attributes.user_id, { expires: 365 })
   },
+  onError: 'Error while confirming your account.\nPlease make sure your token is correct.',
 })
 
 
@@ -34,6 +36,7 @@ export const confirmEmailUpdate = (confirmationToken, accept = true) => createAp
   params: {
     response: accept ? 'accept' : 'reject',
   },
+  onError: `Error while ${accept ? 'confirming' : 'rejecting'} email change.\nPlease make sure your token is correct.`,
 })
 
 
@@ -60,6 +63,8 @@ export const login = (email, password) => createApiAction({
   onError: () => {
     Cookies.remove('accessToken')
     Cookies.remove('userId')
+
+    return createAlertObject('Make sure your email and password are correct!', 'error', 'Login Failure!')
   },
 })
 
@@ -91,6 +96,7 @@ export const register = (username, email, password) => createApiAction({
       },
     },
   },
+  onError: 'An error occured while registering.\nPlease try again in a few moments.',
 })
 
 
@@ -107,6 +113,7 @@ export const requestPasswordReset = email => createApiAction({
       attributes: { email },
     },
   },
+  onError: 'Failed to request password reset.\nPlease try again in a few moments.',
 })
 
 
@@ -130,4 +137,5 @@ export const resetPassword = (password, token) => createApiAction({
       attributes: { password },
     },
   },
+  onError: 'Password reset failed.\nMake sure your reset token is correct.',
 })
