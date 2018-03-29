@@ -1,5 +1,4 @@
-// Module imp
-import Cookies from 'js-cookie'
+// Module imports
 import 'isomorphic-fetch'
 
 
@@ -7,188 +6,91 @@ import 'isomorphic-fetch'
 
 
 // Component imports
+import { actionSeries, createApiAction } from '../actionCreators'
 import actionTypes from '../actionTypes'
 
 
 
 
 
-export const getUser = userId => async dispatch => {
-  dispatch({ type: actionTypes.GET_USER })
+export const getUser = userId => createApiAction({
+  actionType: actionTypes.GET_USER,
+  url: `/api/users/${userId}`,
+})
 
-  let response = null
-  let success = false
 
-  try {
-    const token = await Cookies.get('accessToken')
 
-    response = await fetch(`/api/users/${userId}`, {
-      headers: new Headers({
-        Authorization: `Bearer ${token}`,
-      }),
-      method: 'get',
-    })
 
-    if (!response.ok) {
-      response = await response.json()
-      throw new Error('Api returned error.')
-    }
 
-    response = await response.json()
+export const updateUserPassword = (userId, attributes) => createApiAction({
+  actionType: actionTypes.UPDATE_USER_PASSWORD,
+  url: `/api/users/${userId}/password`,
+  method: 'put',
+  data: {
+    data: {
+      type: 'users',
+      attributes,
+    },
+  },
+})
 
-    success = true
-  } catch (err) {
-    // Do nothing
+
+
+
+
+export const updateUserGamesList = (userId, gamesHistory) => createApiAction({
+  actionType: actionTypes.UPDATE_USER_GAMES_HISTORY,
+  url: `/api/users/${userId}/relationships/games-history`,
+  method: 'patch',
+  data: {
+    data: gamesHistory,
+  },
+})
+
+
+
+
+export const updateUserProfile = (userId, attributes) => createApiAction({
+  actionType: actionTypes.UPDATE_USER,
+  url: `/api/users/${userId}`,
+  method: 'put',
+  data: {
+    data: {
+      type: 'users',
+      attributes,
+    },
+  },
+})
+
+
+
+
+export const newUpdateUser = (userId, _attributes) => {
+  const actions = []
+
+  const {
+    currentPassword,
+    gamesList,
+    password,
+    ...attributes
+  } = _attributes
+
+  if (gamesList) {
+    actions.push(updateUserGamesList(userId, gamesList))
   }
 
-  return dispatch({
-    payload: response,
-    status: success ? 'success' : 'error',
-    type: actionTypes.GET_USER,
-  })
-}
-
-/* eslint-disable camelcase */
-export const updateUserPassword = (userId, attributes) => async dispatch => {
-  dispatch({ type: actionTypes.UPDATE_USER })
-
-  let response = null
-  let success = false
-
-  try {
-    const token = await Cookies.get('accessToken')
-
-    response = await fetch(`/api/users/${userId}/password`, {
-      body: JSON.stringify({
-        data: {
-          type: 'users',
-          attributes,
-        },
-      }),
-      headers: new Headers({
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      }),
-      method: 'put',
-    })
-
-    if (!response.ok) {
-      response = await response.json()
-      throw new Error('Api returned error.')
-    }
-
-    response = await response.json()
-    success = true
-  } catch (error) {
-    // Do nothing.
+  if (currentPassword && password) {
+    actions.push(updateUserPassword(userId, {
+      current_password: currentPassword,
+      password,
+    }))
   }
 
-  return dispatch({
-    payload: response,
-    status: success ? 'success' : 'error',
-    type: actionTypes.UPDATE_USER,
-  })
-}
-/* eslint-enable camelcase */
-
-export const updateUser = (userId, changedAttributes) => async dispatch => {
-  dispatch({ type: actionTypes.UPDATE_USER })
-
-  const payload = { ...changedAttributes }
-  let response = null
-  let success = false
-
-  try {
-    const token = await Cookies.get('accessToken')
-
-    /* Disabled until gameLists are Ready API-side.
-
-    if (changedAttributes.gamesHistory) {
-      response = await fetch(`/api/users/${userId}/relationships/games-history`, {
-        body: JSON.stringify({
-          data: [...changedAttributes.gamesHistory],
-        }),
-        headers: new Headers({
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }),
-        method: 'patch',
-      })
-
-      if (!response.ok) {
-        response = await response.json()
-        throw new Error('Api returned error.')
-      }
-
-      delete payload.gamesHistory
-    }
-
-    if (changedAttributes.gamesInterest) {
-      response = await fetch(`/api/users/${userId}/relationships/games-interest`, {
-        body: JSON.stringify({
-          data: [...changedAttributes.gamesInterest],
-        }),
-        headers: new Headers({
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }),
-        method: 'patch',
-      })
-
-      if (!response.ok) {
-        response = await response.json()
-        throw new Error('Api returned error.')
-      }
-
-      delete payload.gamesInterest
-    }
-
-    */
-
-    if (Object.keys(payload).length) {
-      response = await fetch(`/api/users/${userId}`, {
-        body: JSON.stringify({
-          data: {
-            type: 'users',
-            attributes: {
-              ...payload,
-            },
-          },
-        }),
-        headers: new Headers({
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }),
-        method: 'put',
-      })
-
-      if (!response.ok) {
-        response = await response.json()
-        throw new Error('Api returned error.')
-      }
-    } else {
-      response = await fetch(`/api/users/${userId}`, {
-        headers: new Headers({
-          Authorization: `Bearer ${token}`,
-        }),
-        method: 'get',
-      })
-
-      if (!response.ok) {
-        response = await response.json()
-        throw new Error('Api returned error.')
-      }
-    }
-
-    response = await response.json()
-    success = true
-  } catch (error) {
-    // Do nothing.
+  if (Object.keys(attributes).length) {
+    actions.push(updateUserProfile(userId, attributes))
+  } else {
+    actions.push(getUser(userId))
   }
 
-  return dispatch({
-    payload: response,
-    status: success ? 'success' : 'error',
-    type: actionTypes.UPDATE_USER,
-  })
+  return actionSeries(actions, false, true)
 }
