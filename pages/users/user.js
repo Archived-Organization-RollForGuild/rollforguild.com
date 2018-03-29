@@ -165,38 +165,40 @@ class UserProfile extends Component {
             {(userIsCurrentUser && groups) && (
               <Tab title="Groups">
                 <section className="groups">
-                  <ul>
-                    {this.props.groups.map(group => (
-                      <li
-                        className="card"
-                        key={group.id}>
-                        <header>
-                          {group.attributes.name}
-                        </header>
-                        <div className="content">
-                          <Avatar src={group} size="small" className="pull-left" />
-                          <h4>{group.attributes.name}</h4>
-                        </div>
-                        <footer>
-                          <menu
-                            className="compact"
-                            type="toolbar">
-                            <div className="primary">
+                  <ul className="card-list">
+                    {this.props.groups.map(group => {
+                      const {
+                        description,
+                        name,
+                        slug,
+                      } = group.attributes
+
+                      return (
+                        <li
+                          className="card"
+                          key={group.id}>
+
+                          <header>
+                            <Avatar src={group} size="small" />
+
+                            <h2>
                               <Link
                                 action="view-group"
                                 category="Users"
                                 label="Group"
                                 route="group profile"
-                                params={{ id: group.id }}>
-                                <a className="button small success" >
-                                  View
-                                </a>
+                                params={{ id: slug }}>
+                                <a>{name}</a>
                               </Link>
-                            </div>
-                          </menu>
-                        </footer>
-                      </li>
-                    ))}
+                            </h2>
+                          </header>
+
+                          <div className="content">
+                            {description}
+                          </div>
+                        </li>
+                      )
+                    })}
                   </ul>
                 </section>
               </Tab>
