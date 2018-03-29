@@ -1,12 +1,12 @@
 .alert-card-container {
-  position: absolute;
-  top: 2rem;
-  right: 3rem;
-  width: 400px;
-  white-space: pre-wrap;
+  align-items: flex-end;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  position: absolute;
+  right: 3rem;
+  top: 2rem;
+  width: 300px;
+  white-space: pre-wrap;
 
   .alert:not(:last-child) {
     margin-bottom: 2rem;
@@ -17,6 +17,12 @@
     border-radius: 2rem;
     padding: 0 1rem;
     line-height: 2rem;
+  }
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    left: 0;
+    align-items: center;
   }
 }
 
@@ -50,6 +56,7 @@
   > header {
     padding: 0;
     color: var(--accent-color);
+    justify-content: space-between;
 
     .title {
       padding-left: 1rem;
@@ -68,5 +75,13 @@
         background: var(--accent-color);
       }
     }
+  }
+
+  > .content:not(:last-child) {
+    padding-bottom: .25rem;
+  }
+
+  > *:last-child:not(.content) {
+    padding-bottom: .5rem;
   }
 }

@@ -7,6 +7,7 @@ import withRedux from 'next-redux-wrapper'
 import fontawesome from '@fortawesome/fontawesome'
 import {
   faBars,
+  faBug,
   faCheck,
   faCopy,
   faEnvelope,
@@ -68,6 +69,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       fontawesome.library.add(
         // Solids
         faBars,
+        faBug,
         faCheck,
         faCopy,
         faEnvelope,

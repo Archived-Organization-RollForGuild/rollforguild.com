@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
-import Component from './Component'
 import Button from './Button'
+import Component from './Component'
 
 
 
@@ -110,17 +110,17 @@ class AlertCard extends Component {
 
 
     const {
-      title,
       body,
       level,
+      suppressMenu,
+      title,
     } = alert.attributes
 
     return (
       <div className={`alert card compact ${level} ${this.state.mounted ? 'mounted' : ''}`}>
         <header>
           <h4 className="title">
-            <FontAwesomeIcon icon={ALERT_LEVEL_ICONS[level]} fixedWidth />
-            <span>{title}</span>
+            <FontAwesomeIcon icon={ALERT_LEVEL_ICONS[level]} fixedWidth /> {title}
           </h4>
           <Button
             action="dismiss"
@@ -135,6 +135,21 @@ class AlertCard extends Component {
         <div className="content">
           {body}
         </div>
+        {(level === 'error' && !suppressMenu) && (
+          <menu type="toolbar" className="compact fulltext">
+            <div className="secondary">
+              <a
+                className="button inline link"
+                href="//rollforguild.atlassian.net/servicedesk/customer/portal/1"
+                rel="noopener noreferrer"
+                target="_blank">
+                <small>
+                  <FontAwesomeIcon icon="bug" fixedWidth /> Still experiencing issues?
+                </small>
+              </a>
+            </div>
+          </menu>
+        )}
       </div>
     )
   }

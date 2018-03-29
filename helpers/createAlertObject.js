@@ -24,7 +24,7 @@ const ALERT_LEVELS = {
 
 
 
-export default function (body, level, title, duration) {
+export default function (body, level, title, duration, suppressMenu) {
   const id = UUIDv4()
 
   if (level && !Object.keys(ALERT_LEVELS).includes(level)) {
@@ -39,6 +39,7 @@ export default function (body, level, title, duration) {
       createdAt: Date.now(),
       duration: typeof duration === 'number' ? duration : 10000,
       level: level || 'error',
+      suppressMenu,
       title: title || ALERT_LEVELS[(level || 'error')],
     },
   }
