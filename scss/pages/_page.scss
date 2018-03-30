@@ -19,6 +19,10 @@
     padding: 1rem 2rem;
     padding-left: calc(2rem + env(safe-area-inset-left));
     padding-right: calc(2rem + env(safe-area-inset-right));
+
+    + .hero {
+      margin-top: -2rem;
+    }
   }
 }
 

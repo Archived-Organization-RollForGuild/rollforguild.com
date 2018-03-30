@@ -1,16 +1,10 @@
 .page.home {
   .hero {
-    background-image:
-      url(/static/images/logomark.white.full.svg),
-      url(/static/images/dice.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 75%, cover;
-    flex-shrink: 0;
-    height: 50vh;
-    margin-left: -2rem;
-    margin-left: calc(-2rem - env(safe-area-inset-left));
-    margin-right: -2rem;
-    margin-right: calc(-2rem - env(safe-area-inset-right));
+    img {
+      position: absolute;
+      top: calc(50% - 5vh);
+      transform: translateY(-50%);
+      width: 75%;
+    }
   }
 }
