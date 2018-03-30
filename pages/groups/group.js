@@ -33,6 +33,8 @@ import StaticMap from '../../components/StaticMap'
 
 
 // Component constants
+const adminRoles = ['owner', 'admin']
+const memberRoles = ['owner', 'admin', 'member']
 const title = 'Group Profile'
 
 
@@ -252,14 +254,17 @@ class GroupProfile extends Component {
 
     memberStatus = group.attributes.member_status
 
-    if (memberStatus === 'admin') {
+    const currentUserIsAdmin = adminRoles.includes(memberStatus)
+    const currentUserIsMember = memberRoles.includes(memberStatus)
+
+    if (currentUserIsAdmin) {
       const { payload } = await getJoinRequests(id)
       joinRequests = (payload && payload.data) ? payload.data : []
     }
 
     this.setState({
-      currentUserIsAdmin: memberStatus === 'admin',
-      currentUserIsMember: memberStatus === 'admin' || memberStatus === 'member',
+      currentUserIsAdmin,
+      currentUserIsMember,
       gettingJoinRequests: false,
       joinRequests,
       joinRequestSent: memberStatus === 'pending',
@@ -281,8 +286,8 @@ class GroupProfile extends Component {
     ])
 
     this.state = {
-      currentUserIsAdmin: group && (group.attributes.member_status === 'admin'),
-      currentUserIsMember: group && ((group.attributes.member_status === 'member') || (group.attributes.member_status === 'admin')),
+      currentUserIsAdmin: group && adminRoles.includes(group.attributes.member_status),
+      currentUserIsMember: group && memberRoles.includes(group.attributes.member_status),
       gettingJoinRequests: false,
       joinRequests: [],
       joinRequestSent: group && (group.attributes.member_status === 'pending'),
@@ -591,7 +596,7 @@ const mapStateToProps = (state, ownProps) => {
     const memberStatus = group.attributes.member_status
 
     if (memberStatus) {
-      currentUserIsMember = (memberStatus === 'member') || (memberStatus === 'admin')
+      currentUserIsMember = memberRoles.includes(memberStatus)
     }
 
     if (group.relationships && currentUserIsMember) {
