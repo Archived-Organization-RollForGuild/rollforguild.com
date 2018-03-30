@@ -131,7 +131,7 @@ class ForumThreadCard extends Component {
     const {
       currentUserIsPoster,
       thread,
-      fullBody,
+      fullThread,
     } = this.props
 
     const {
@@ -164,14 +164,18 @@ class ForumThreadCard extends Component {
           {user && (<Avatar src={user} size="small" />)}
 
           <h2 title={title}>
-            <Link
-              action="view"
-              category="Forums"
-              label="Thread"
-              route="forum thread view"
-              params={{ id: thread.id }}>
-              <a>{title}</a>
-            </Link>
+            {fullThread ? (
+              title
+            ) : (
+              <Link
+                action="view"
+                category="Forums"
+                label="Thread"
+                route="forum thread view"
+                params={{ id: thread.id }}>
+                <a>{title}</a>
+              </Link>
+            )}
           </h2>
         </header>
 
@@ -189,7 +193,7 @@ class ForumThreadCard extends Component {
         </div>
 
         <div className="content">
-          <p className="thread-body">{!fullBody && body.length > 300 ? `${body.substring(0, 297)}...` : body}</p>
+          <p className="thread-body">{!fullThread && body.length > 300 ? `${body.substring(0, 297)}...` : body}</p>
         </div>
 
         {currentUserIsPoster && (
@@ -211,13 +215,13 @@ class ForumThreadCard extends Component {
 
 ForumThreadCard.defaultProps = {
   currentUserIsPoster: false,
-  fullBody: false,
+  fullThread: false,
   user: null,
 }
 
 ForumThreadCard.propTypes = {
   currentUserIsPoster: PropTypes.bool,
-  fullBody: PropTypes.bool,
+  fullThread: PropTypes.bool,
   posterId: PropTypes.string.isRequired,
   thread: PropTypes.object.isRequired,
   user: PropTypes.object,
