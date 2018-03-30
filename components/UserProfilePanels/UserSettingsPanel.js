@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import React from 'react'
 
 
@@ -20,7 +20,7 @@ import PasswordInput from '../PasswordInput'
 
 
 
-class GroupSettingsPanel extends Component {
+class UserSettingsPanel extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -36,9 +36,9 @@ class GroupSettingsPanel extends Component {
 
   async _handleSubmit (event) {
     const {
+      onSubmit,
       user,
       updateUser,
-      updateUserPassword,
     } = this.props
 
     const { changes } = this.state
@@ -50,55 +50,16 @@ class GroupSettingsPanel extends Component {
       error: null,
     })
 
-    if (changes.password && changes.currentPassword) {
-      const response = await updateUserPassword(user.id, {
-        current_password: changes.currentPassword,
-        password: changes.password,
-      })
-
-      if (response.status !== 'success') {
-        const error = (
-          response.payload &&
-          response.payload.errors &&
-          response.payload.errors[0] &&
-          response.payload.errors[0].detail
-        ) || 'Error while attempting to change your password.'
-
-        this.setState({
-          changes: {
-            ...changes,
-            currentPassword: '',
-          },
-          error,
-          submitting: false,
-        })
-        return
-      }
-
-      delete changes.password
-      delete changes.currentPassword
-    }
-
     const response = await updateUser(user.id, changes)
 
-    if (response.status !== 'success') {
-      const error = (
-        response.payload &&
-        response.payload.errors &&
-        response.payload.errors[0] &&
-        response.payload.errors[0].detail
-      ) || 'Error while attempting to update your profile.'
+    this.setState({
+      changes: {},
+      submitting: false,
+    })
 
-      this.setState({
-        changes: {},
-        error,
-        submitting: false,
-      })
-      return
+    if (typeof onSubmit === 'function') {
+      onSubmit(response, changes)
     }
-
-
-    window.location.reload()
   }
 
   _isValid () {
@@ -277,7 +238,15 @@ class GroupSettingsPanel extends Component {
   }
 }
 
-GroupSettingsPanel.propTypes = {}
+UserSettingsPanel.defaultProps = {
+  onSubmit: null,
+}
+
+UserSettingsPanel.propTypes = {
+  onSubmit: PropTypes.func,
+  user: PropTypes.object.isRequired,
+  updateUser: PropTypes.func.isRequired,
+}
 
 
 
@@ -285,11 +254,10 @@ GroupSettingsPanel.propTypes = {}
 
 const mapDispatchToProps = dispatch => ({
   updateUser: bindActionCreators(actions.updateUser, dispatch),
-  updateUserPassword: bindActionCreators(actions.updateUserPassword, dispatch),
 })
 
 
 
 
 
-export default connect(null, mapDispatchToProps)(GroupSettingsPanel)
+export default connect(null, mapDispatchToProps)(UserSettingsPanel)
