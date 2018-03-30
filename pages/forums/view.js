@@ -155,7 +155,7 @@ class ViewThread extends Component {
         </header>
 
         <div className="thread">
-          <ForumThreadCard thread={thread} fullBody />
+          <ForumThreadCard thread={thread} fullThread />
         </div>
 
         <Pagination
