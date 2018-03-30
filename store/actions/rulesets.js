@@ -6,52 +6,20 @@ import 'isomorphic-fetch'
 
 
 // Component imports
+import { createApiAction } from '../actionCreators'
 import actionTypes from '../actionTypes'
 
 
 
 
 
-export const getRuleset = ruleset => async dispatch => {
-  dispatch({ type: actionTypes.GET_RULESET })
-
-  try {
-    const response = await fetch(`/local-api/rulesets/${ruleset}`)
-    const payload = await response.json()
-
-    dispatch({
-      payload,
-      status: 'success',
-      type: actionTypes.GET_RULESET,
-    })
-  } catch (error) {
-    dispatch({
-      status: 'error',
-      type: actionTypes.GET_RULESET,
-    })
-  }
-}
+export const getRuleset = ruleset => createApiAction({
+  actionType: actionTypes.GET_RULESET,
+  url: `/local-api/rulesets/${ruleset}`,
+})
 
 
-
-
-
-export const getRulesets = () => async dispatch => {
-  dispatch({ type: actionTypes.GET_RULESETS })
-
-  try {
-    const response = await fetch('/local-api/rulesets')
-    const payload = await response.json()
-
-    dispatch({
-      payload,
-      status: 'success',
-      type: actionTypes.GET_RULESETS,
-    })
-  } catch (error) {
-    dispatch({
-      status: 'error',
-      type: actionTypes.GET_RULESETS,
-    })
-  }
-}
+export const getRulesets = () => createApiAction({
+  actionType: actionTypes.GET_RULESETS,
+  url: '/local-api/rulesets',
+})

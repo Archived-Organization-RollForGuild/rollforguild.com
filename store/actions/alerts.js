@@ -1,6 +1,7 @@
 // Component imports
-import actionTypes from '../actionTypes'
+import { createAction } from '../actionCreators'
 import { createAlertObject } from '../../helpers'
+import actionTypes from '../actionTypes'
 
 
 
@@ -11,32 +12,14 @@ import { createAlertObject } from '../../helpers'
 
 
 
-export const pushAlert = (...args) => async dispatch => {
-  dispatch({ type: actionTypes.CREATE_ALERT })
+export const pushAlert = (...args) => createAction({
+  actionType: actionTypes.CREATE_ALERT,
+  actionFunction: createAlertObject,
+  actionPayload: args,
+})
 
-  let response = null
-  let success = false
-
-  try {
-    response = createAlertObject(...args)
-    success = true
-  } catch (error) {
-    response = error
-    success = false
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.CREATE_ALERT,
-  })
-}
-
-export const deleteAlert = id => async dispatch => {
-  dispatch({ type: actionTypes.DELETE_ALERT })
-  return dispatch({
-    payload: typeof id === 'string' ? { id } : id,
-    status: 'success',
-    type: actionTypes.DELETE_ALERT,
-  })
-}
+export const deleteAlert = id => async dispatch => dispatch({
+  payload: typeof id === 'string' ? { id } : id,
+  status: 'success',
+  type: actionTypes.DELETE_ALERT,
+})

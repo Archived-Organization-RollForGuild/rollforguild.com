@@ -1,295 +1,113 @@
-// Module imports
-import Cookies from 'js-cookie'
-import 'isomorphic-fetch'
-
-
-
-
-
 // Component imports
-import { convertObjectToQueryParams } from '../../helpers'
 import actionTypes from '../actionTypes'
-import apiService from '../../services/api'
+import { createApiAction } from '../actionCreators'
 
 
 
 
 
-export const createGroup = group => async dispatch => {
-  const accessToken = Cookies.get('accessToken')
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.CREATE_GROUP })
-
-  try {
-    response = await fetch('/api/groups', {
-      body: JSON.stringify({
-        data: {
-          type: 'groups',
-          attributes: group,
-        },
-      }),
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      method: 'post',
-    })
-
-    success = response.ok
-
-    response = await response.json()
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.CREATE_GROUP,
-  })
-}
+export const createGroup = group => createApiAction({
+  actionType: actionTypes.CREATE_GROUP,
+  url: '/api/groups',
+  method: 'post',
+  data: {
+    data: {
+      type: 'groups',
+      attributes: group,
+    },
+  },
+  onError: 'Failed to create group.\nPlease try again in a few moments.',
+})
 
 
 
 
 
-export const getGroup = groupId => async dispatch => {
-  // const accessToken = Cookies.get('accessToken')
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.GET_GROUP })
-
-  try {
-    response = await apiService.get(`/api/groups/${groupId}`)
-
-    success = true
-
-    // response = await response.json()
-  } catch (error) {
-    success = false
-  }
-
-  // console.log('response', response.data)
-
-  return dispatch({
-    payload: response ? response.data : null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.GET_GROUP,
-  })
-}
+export const getGroup = groupId => createApiAction({
+  actionType: actionTypes.GET_GROUP,
+  url: `/api/groups/${groupId}`,
+  onError: 'Failed to load group.\nPlease try again in a few moments.',
+})
 
 
 
 
 
-export const getJoinRequests = groupId => async dispatch => {
-  const accessToken = Cookies.get('accessToken')
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.GET_JOIN_REQUESTS })
-
-  try {
-    response = await fetch(`/api/groups/${groupId}/join-requests`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-
-    success = response.ok
-
-    response = await response.json()
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.GET_JOIN_REQUESTS,
-  })
-}
+export const getJoinRequests = groupId => createApiAction({
+  actionType: actionTypes.GET_JOIN_REQUESTS,
+  url: `/api/groups/${groupId}/join-requests`,
+  onError: 'Failed to get join requests.\nPlease try again in a few moments.',
+})
 
 
 
 
 
-export const handleJoinRequest = (groupId, userId, status) => async dispatch => {
-  const accessToken = Cookies.get('accessToken')
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.HANDLE_JOIN_REQUESTS })
-
-  try {
-    response = await fetch(`/api/groups/${groupId}/join-requests/${userId}`, {
-      body: JSON.stringify({
-        data: {
-          type: 'join-requests',
-          attributes: { status },
-        },
-      }),
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      method: 'put',
-    })
-
-    success = response.ok
-
-    response = await response.json()
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.HANDLE_JOIN_REQUESTS,
-  })
-}
-
-export const removeGroupMember = (groupId, userId) => async dispatch => {
-  const accessToken = Cookies.get('accessToken')
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.LEAVE_GROUP })
-
-  try {
-    response = await fetch(`/api/groups/${groupId}/members/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      method: 'delete',
-    })
-
-    success = response.ok
-
-    response = await response.json()
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.LEAVE_GROUP,
-  })
-}
+export const handleJoinRequest = (groupId, userId, status) => createApiAction({
+  actionType: actionTypes.HANDLE_JOIN_REQUESTS,
+  url: `/api/groups/${groupId}/join-requests/${userId}`,
+  method: 'put',
+  data: {
+    data: {
+      type: 'join-requests',
+      attributes: { status },
+    },
+  },
+  onError: `Failed to ${status === 'accepted' ? 'accept' : 'reject'} user.\nPlease try again in a few moments.`,
+})
 
 
 
 
 
-export const requestToJoinGroup = groupId => async dispatch => {
-  const accessToken = Cookies.get('accessToken')
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.SEARCH_FOR_GROUPS })
-
-  try {
-    response = await fetch(`/api/groups/${groupId}/join-requests`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      method: 'post',
-    })
-
-    success = response.ok
-
-    response = await response.json()
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    status: success ? 'success' : 'error',
-    type: actionTypes.SEARCH_FOR_GROUPS,
-  })
-}
+export const removeGroupMember = (groupId, userId) => createApiAction({
+  actionType: actionTypes.LEAVE_GROUP,
+  url: `/api/groups/${groupId}/members/${userId}`,
+  method: 'delete',
+  onError: 'Failed to remove user.\nPlease try again in a few moments.',
+})
 
 
 
 
 
-export const searchForGroups = ({ lat, lng }, { distance, itemsPerPage, page }) => async dispatch => {
-  const accessToken = Cookies.get('accessToken')
-  let response = null
-  let success = false
+export const requestToJoinGroup = groupId => createApiAction({
+  actionType: actionTypes.LEAVE_GROUP,
+  url: `/api/groups/${groupId}/join-requests`,
+  method: 'post',
+  onError: 'Failed to request group memebership.\nPlease try again in a few moments.',
+})
 
-  const queryParams = {
+
+
+
+
+export const searchForGroups = ({ lat, lng }, { distance, itemsPerPage, page }) => createApiAction({
+  actionType: actionTypes.SEARCH_FOR_GROUPS,
+  url: '/api/groups',
+  params: {
     lat,
     lng,
     limit: itemsPerPage || 5,
     meters: (distance || 5) * 1609.34, // Convert distance to meters
     page: page || 1,
-  }
-
-  dispatch({ type: actionTypes.SEARCH_FOR_GROUPS })
-
-  try {
-    response = await fetch(`/api/groups/${convertObjectToQueryParams(queryParams)}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-
-    success = response.ok
-
-    response = await response.json()
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.SEARCH_FOR_GROUPS,
-  })
-}
+  },
+  onError: 'Group seardh failed.\nPlease try again in a few moments.',
+})
 
 
 
 
 
-export const updateGroup = (groupId, updates) => async dispatch => {
-  const accessToken = Cookies.get('accessToken')
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.UPDATE_GROUP })
-
-  try {
-    response = await fetch(`/api/groups/${groupId}`, {
-      body: JSON.stringify({
-        data: {
-          type: 'groups',
-          attributes: updates,
-        },
-      }),
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      method: 'put',
-    })
-
-    success = response.ok
-
-    response = await response.json()
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.UPDATE_GROUP,
-  })
-}
+export const updateGroup = (groupId, updates) => createApiAction({
+  actionType: actionTypes.UPDATE_GROUP,
+  url: `/api/groups/${groupId}`,
+  method: 'put',
+  data: {
+    data: {
+      type: 'groups',
+      attributes: updates,
+    },
+  },
+  onError: 'Failed to update group.\nPlease try again in a few moments.',
+})

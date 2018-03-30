@@ -7,117 +7,70 @@ import Cookies from 'js-cookie'
 
 
 // Component imports
+import { createApiAction } from '../actionCreators'
 import actionTypes from '../actionTypes'
-import apiService from '../../services/api'
+import { createAlertObject } from '../../helpers'
+
+
+
+
+export const confirmAccount = token => createApiAction({
+  actionType: actionTypes.CONFIRM_ACCOUNT,
+  url: `/api/confirmation/${token}`,
+  method: 'post',
+  onSuccess: ({ data }) => {
+    Cookies.set('accessToken', data.data.attributes.token, { expires: 365 })
+    Cookies.set('userId', data.data.attributes.user_id, { expires: 365 })
+  },
+  onError: 'Failed to confirm account.\nPlease make sure your token is correct.',
+})
 
 
 
 
 
-export const confirmAccount = token => async dispatch => {
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.CONFIRM_ACCOUNT })
-
-  try {
-    response = await fetch(`/api/confirmation/${token}`, { method: 'post' })
-
-    success = response.ok
-  } catch (error) {
-    success = false
-  }
-
-  if (success) {
-    response = await response.json()
-
-    Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
-    Cookies.set('userId', response.data.attributes.user_id, { expires: 365 })
-  }
-
-  dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.CONFIRM_ACCOUNT,
-  })
-}
+export const confirmEmailUpdate = (confirmationToken, accept = true) => createApiAction({
+  actionType: actionTypes.CONFIRM_EMAIL_UPDATE,
+  url: `/api/email/${confirmationToken}`,
+  method: 'put',
+  params: {
+    response: accept ? 'accept' : 'reject',
+  },
+  onError: `Failed to ${accept ? 'confirm' : 'reject'} email change.\nPlease make sure your token is correct.`,
+})
 
 
 
 
 
-export const confirmEmailUpdate = (confirmationToken, accept = true) => async dispatch => {
-  let response = null
-  let success = false
+export const login = (email, password) => createApiAction({
+  actionType: actionTypes.LOGIN,
+  url: '/api/login',
+  method: 'post',
+  data: {
+    data: {
+      type: 'auth',
+      attributes: {
+        email,
+        password,
+      },
+    },
+  },
+  onSuccess: ({ data }) => {
+    Cookies.set('accessToken', data.data.attributes.token, { expires: 365 })
+    Cookies.set('userId', data.data.attributes.user_id, { expires: 365 })
+  },
+  onError: (error) => {
+    Cookies.remove('accessToken')
+    Cookies.remove('userId')
 
-  dispatch({ type: actionTypes.CONFIRM_EMAIL_UPDATE })
-
-  try {
-    response = await apiService.put(`/api/email/${confirmationToken}?response=${accept ? 'accept' : 'reject'}`)
-    response = response.data
-
-    success = true
-  } catch (error) {
-    response = error.data
-    success = false
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.CONFIRM_EMAIL_UPDATE,
-  })
-}
-
-
-
-
-
-export const login = (email, password) => async dispatch => {
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.LOGIN })
-
-  try {
-    const token = Cookies.get('accessToken')
-
-    if (!token) {
-      response = await fetch('/api/login', {
-        body: JSON.stringify({
-          data: {
-            type: 'auth',
-            attributes: {
-              email,
-              password,
-            },
-          },
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'post',
-      })
-
-      success = response.ok
+    if (error.response.status === 401) {
+      return createAlertObject('Make sure your email and password are correct!', 'error', 'Login Failure!', null, true)
     }
-  } catch (error) {
-    success = false
-  }
 
-  if (success) {
-    response = await response.json()
-
-    Cookies.set('accessToken', response.data.attributes.token, { expires: 365 })
-    Cookies.set('userId', response.data.attributes.user_id, { expires: 365 })
-  }
-
-  return dispatch({
-    payload: response || null,
-    status: success ? 'success' : 'error',
-    type: actionTypes.LOGIN,
-  })
-}
+    return createAlertObject('Failed to login.\nPlease try again in a few moments.')
+  },
+})
 
 
 
@@ -126,7 +79,6 @@ export const login = (email, password) => async dispatch => {
 export const logout = () => async dispatch => {
   Cookies.remove('accessToken')
   Cookies.remove('userId')
-
   dispatch({ type: actionTypes.LOGOUT })
 }
 
@@ -134,75 +86,39 @@ export const logout = () => async dispatch => {
 
 
 
-export const register = (username, email, password) => async dispatch => {
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.REGISTER })
-
-  try {
-    response = await fetch('/api/register', {
-      body: JSON.stringify({
-        data: {
-          type: 'users',
-          attributes: {
-            email,
-            password,
-            username,
-          },
-        },
-      }),
-      headers: {
-        'Content-Type': 'application/json',
+export const register = (username, email, password) => createApiAction({
+  actionType: actionTypes.REGISTER,
+  url: '/api/register',
+  method: 'post',
+  data: {
+    data: {
+      type: 'users',
+      attributes: {
+        email,
+        password,
+        username,
       },
-      method: 'post',
-    })
-
-    success = response.ok
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    status: success ? 'success' : 'error',
-    type: actionTypes.REGISTER,
-  })
-}
+    },
+  },
+  onError: 'An error occured while registering.\nPlease try again in a few moments.',
+})
 
 
 
 
 
-export const requestPasswordReset = email => async dispatch => {
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.REQUEST_PASSWORD_RESET })
-
-  try {
-    response = await fetch('/api/resets', {
-      body: JSON.stringify({
-        data: {
-          type: 'resets',
-          attributes: { email },
-        },
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'post',
-    })
-
-    success = response.ok
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    status: success ? 'success' : 'error',
-    type: actionTypes.REQUEST_PASSWORD_RESET,
-  })
-}
+export const requestPasswordReset = email => createApiAction({
+  actionType: actionTypes.REQUEST_PASSWORD_RESET,
+  url: '/api/resets',
+  method: 'post',
+  data: {
+    data: {
+      type: 'resets',
+      attributes: { email },
+    },
+  },
+  onError: 'Failed to request password reset.\nPlease try again in a few moments.',
+})
 
 
 
@@ -216,33 +132,14 @@ export const resetAuthenticationState = () => dispatch => {
 
 
 
-export const resetPassword = (password, token) => async dispatch => {
-  let response = null
-  let success = false
-
-  dispatch({ type: actionTypes.RESET_PASSWORD })
-
-  try {
-    response = await fetch(`/api/resets/${token}`, {
-      body: JSON.stringify({
-        data: {
-          type: 'user',
-          attributes: { password },
-        },
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'put',
-    })
-
-    success = response.ok
-  } catch (error) {
-    success = false
-  }
-
-  return dispatch({
-    status: success ? 'success' : 'error',
-    type: actionTypes.RESET_PASSWORD,
-  })
-}
+export const resetPassword = (password, token) => createApiAction({
+  actionType: actionTypes.RESET_PASSWORD,
+  url: `/api/resets/${token}`,
+  data: {
+    data: {
+      type: 'users',
+      attributes: { password },
+    },
+  },
+  onError: 'Password reset failed.\nMake sure your reset token is correct.',
+})

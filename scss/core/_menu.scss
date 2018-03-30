@@ -4,8 +4,11 @@ menu {
   padding: 2rem;
 
   &.compact {
-    font-size: 0.8em;
     padding: 0;
+
+    &:not(.fulltext) {
+      font-size: .8em;
+    }
 
     button,
     .button {
