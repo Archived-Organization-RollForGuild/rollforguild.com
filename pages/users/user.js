@@ -28,6 +28,20 @@ const title = 'User Profile'
 
 class UserProfile extends Component {
   /***************************************************************************\
+    Private Methods
+  \***************************************************************************/
+
+  _handleUserUpdate (response, changes) {
+    if (response.status === 'success') {
+      this.setState({ user: response.payload.data })
+
+      if (changes.email) {
+        this.props.pushAlert('Check your new email for confirmation!', 'warn', 'action required')
+      }
+    }
+  }
+
+  /***************************************************************************\
     Public Methods
   \***************************************************************************/
   async componentDidMount () {
@@ -78,6 +92,10 @@ class UserProfile extends Component {
 
   constructor (props) {
     super(props)
+
+    this._bindMethods([
+      '_handleUserUpdate',
+    ])
 
     this.state = {
       loaded: false,
@@ -206,7 +224,7 @@ class UserProfile extends Component {
 
             {userIsCurrentUser && (
               <Tab title="Settings">
-                <UserSettingsPanel user={user} />
+                <UserSettingsPanel user={user} onSubmit={this._handleUserUpdate} />
               </Tab>
             )}
           </TabPanel>
@@ -224,6 +242,7 @@ class UserProfile extends Component {
 
 const mapDispatchToProps = [
   'getUser',
+  'pushAlert',
 ]
 
 const mapStateToProps = (state, ownProps) => {
