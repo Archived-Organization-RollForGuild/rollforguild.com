@@ -56,7 +56,7 @@ class Confirmation extends Component {
     }
   }
 
-  async componentWillMount () {
+  async componentDidMount () {
     const { loggedIn } = this.props
 
     if (loggedIn && (loggedIn !== 'error')) {
