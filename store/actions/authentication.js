@@ -90,6 +90,7 @@ export const register = (username, email, password) => createApiAction({
   actionType: actionTypes.REGISTER,
   url: '/api/register',
   method: 'post',
+  timeout: 60000,
   data: {
     data: {
       type: 'users',
@@ -135,6 +136,7 @@ export const resetAuthenticationState = () => dispatch => {
 export const resetPassword = (password, token) => createApiAction({
   actionType: actionTypes.RESET_PASSWORD,
   url: `/api/resets/${token}`,
+  method: 'put',
   data: {
     data: {
       type: 'users',
