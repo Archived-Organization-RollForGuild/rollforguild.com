@@ -4,7 +4,6 @@ const glob = require('glob')
 const path = require('path')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const webpack = require('webpack')
 
 const { ANALYZE } = process.env
 

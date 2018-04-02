@@ -18,6 +18,7 @@ export default function (state = initialState.groups, action) {
 
   switch (type) {
     case actionTypes.CREATE_FORUM_THREAD:
+    case actionTypes.DELETE_FORUM_THREAD:
     case actionTypes.GET_FORUM_THREAD:
     case actionTypes.GET_FORUM_THREADS:
       if (status === 'success') {
@@ -30,6 +31,7 @@ export default function (state = initialState.groups, action) {
       break
 
     case actionTypes.CREATE_THREAD_COMMENT:
+    case actionTypes.DELETE_THREAD_COMMENT:
     case actionTypes.GET_THREAD_COMMENTS:
       if (status === 'success') {
         let newComments = parseJSONAPIResponseForEntityType(payload, 'thread-comments')
