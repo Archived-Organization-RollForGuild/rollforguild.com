@@ -37,6 +37,7 @@ Make a copy of the `.env.example` file and rename it to `.env`. In that file, ch
 | `RFG_GOOGLE_MAPS_API_KEY`        | `true`   | This is the API key for Google Maps |
 | `RFG_GOOGLE_TAG_MANAGER_API_KEY` | `true`   | This is the ID for Google Tag Manager |
 | `RFG_LOCAL_API_URL`              | `false`  | This is the URL the application will use for the local API proxy |
+| `RFG_REPOSITORY_URL`             | `false`  | This is the URL that the build info in the header will lead to if not overridden by CircleCI variables |
 | `RFG_WORDPRESS_API_URL`          | `false`  | This is the URL the application will use to retrieve Wordpress data from |
 
 ### Debugging
