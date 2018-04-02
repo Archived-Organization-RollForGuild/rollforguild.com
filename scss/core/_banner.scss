@@ -124,6 +124,10 @@
     small {
       margin: 0 2rem;
       text-align: center;
+
+      &:last-child {
+        padding-bottom: 1rem;
+      }
     }
 
     .social {
