@@ -6,4 +6,10 @@
   overflow: hidden;
   position: relative;
   width: 100%;
+
+  + footer {
+    background-color: $black;
+    line-height: 1.5;
+    padding: 1rem;
+  }
 }

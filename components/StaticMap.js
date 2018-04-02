@@ -1,5 +1,6 @@
 // Module imports
 import PropTypes from 'prop-types'
+import React from 'react'
 
 
 
@@ -28,7 +29,8 @@ const StaticMap = props => {
     size,
     zoom,
   } = props
-  let imgSrc = 'https://maps.googleapis.com/maps/api/staticmap?'
+  const mapsLink = `//www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`
+  let imgSrc = '//maps.googleapis.com/maps/api/staticmap?'
 
   location.lng = location.lng || location.lon || location.long
 
@@ -66,19 +68,26 @@ const StaticMap = props => {
   }, []).join('&')
 
   return (
-    <Link
-      action="get-directions"
-      category={category}
-      href={`//www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`}
-      label="Map">
-      <a target="_blank">
-        <div
-          aria-label={`Map to ${address}`}
-          className="static-map"
-          role="img"
-          style={{ backgroundImage: `url(${imgSrc})` }} />
-      </a>
-    </Link>
+    <React.Fragment>
+      <Link
+        action="get-directions"
+        category={category}
+        href={mapsLink}
+        label="Map">
+        <a target="_blank">
+          <div
+            aria-label={`Map to ${address}`}
+            className="static-map"
+            role="img"
+            style={{ backgroundImage: `url(${imgSrc})` }}
+            title={`Map to ${address}`} />
+
+          <footer>
+            <small>{address}</small>
+          </footer>
+        </a>
+      </Link>
+    </React.Fragment>
   )
 }
 
