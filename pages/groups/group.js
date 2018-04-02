@@ -353,7 +353,6 @@ class GroupProfile extends Component {
     const {
       address,
       description,
-      // games,
       geo,
       name,
       slug,
@@ -419,16 +418,6 @@ class GroupProfile extends Component {
         <div className="profile">
           <header>
             <Avatar src={group} />
-
-            <section className="games">
-              <h4>Games</h4>
-
-              <ul className="group">
-                {/* {games.map(game => (
-                  <li key={game}>{game}</li>
-                ))} */}
-              </ul>
-            </section>
 
             {currentUserIsMember && (
               <section className="location">
