@@ -111,15 +111,16 @@ class ViewThread extends Component {
 
   render () {
     const {
+      loggedIn,
+      page,
+      thread,
+    } = this.props
+
+    const {
       comments,
       loaded,
       totalCommentPages,
     } = this.state
-
-    const {
-      thread,
-      page,
-    } = this.props
 
     if (!loaded) {
       return (
@@ -180,9 +181,11 @@ class ViewThread extends Component {
           <span>There are no Comments yet!</span>
         )}
 
-        <div className="comment-form">
-          <ThreadCommentForm threadId={thread.id} onComment={this._handleNewComment} />
-        </div>
+        {Boolean(loggedIn) && (
+          <div className="comment-form">
+            <ThreadCommentForm threadId={thread.id} onComment={this._handleNewComment} />
+          </div>
+        )}
 
       </React.Fragment>
     )
@@ -209,6 +212,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     page,
     thread: state.forums.threads[ownProps.query.id] || null,
+    loggedIn: state.authentication.loggedIn,
   }
 }
 
@@ -216,4 +220,4 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default Page(ViewThread, pageTitle, { mapDispatchToProps, mapStateToProps }, true)
+export default Page(ViewThread, pageTitle, { mapDispatchToProps, mapStateToProps })

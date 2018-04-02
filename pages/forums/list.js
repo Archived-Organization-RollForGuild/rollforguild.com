@@ -106,6 +106,10 @@ class ForumList extends Component {
     }
 
     const {
+      loggedIn,
+    } = this.props
+
+    const {
       count,
       limit,
       offset,
@@ -120,19 +124,20 @@ class ForumList extends Component {
       <React.Fragment>
         <header>
           <h1>Public Forums</h1>
-
           <aside>
             <menu type="toolbar">
-              <Link
-                action="create"
-                category="Forums"
-                label="Thread"
-                route="forum thread create">
-                <a
-                  className="button success" >
-                  New Thread
-                </a>
-              </Link>
+              {Boolean(loggedIn) && (
+                <Link
+                  action="create"
+                  category="Forums"
+                  label="Thread"
+                  route="forum thread create">
+                  <a
+                    className="button success" >
+                    New Thread
+                  </a>
+                </Link>
+              )}
             </menu>
           </aside>
         </header>
@@ -184,11 +189,14 @@ const mapStateToProps = (state, ownProps) => {
     page = 1
   }
 
-  return { page }
+  return {
+    page,
+    loggedIn: state.authentication.loggedIn,
+  }
 }
 
 
 
 
 
-export default Page(ForumList, pageTitle, { mapDispatchToProps, mapStateToProps }, true)
+export default Page(ForumList, pageTitle, { mapDispatchToProps, mapStateToProps })

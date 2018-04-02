@@ -62,9 +62,10 @@ class ForumThreadCard extends Component {
   \***************************************************************************/
 
   async componentDidMount () {
+    const { thread } = this.props
     let { user } = this.props
 
-    if (!user) {
+    if (!user && !thread.attributes.deleted) {
       const { payload, status } = await this.props.getUser(this.props.posterId)
 
       if (status === 'success') {
@@ -115,7 +116,7 @@ class ForumThreadCard extends Component {
           name="confirm"
           disabled={removing || removed}
           onClick={this._handleRemoveButtonClick}>
-          {!removing && !confirmingRemove && (removed ? 'This doesn\'t do anything yet!' : 'Delete')}
+          {!removing && !confirmingRemove && (removed ? 'Deleted' : 'Delete')}
 
           {!removing && confirmingRemove && 'Yes'}
 
@@ -140,9 +141,7 @@ class ForumThreadCard extends Component {
     } = this.state
 
     const {
-      title,
       comments,
-      body,
     } = thread.attributes
 
 
@@ -157,11 +156,13 @@ class ForumThreadCard extends Component {
     }
 
     const instertedAtMoment = moment.utc(thread.attributes.inserted_at)
+    const title = !removed ? thread.attributes.title : '[deleted]'
+    const body = !removed ? thread.attributes.body : '[deleted]'
 
     return (
-      <div className={`card forum-thread ${removed ? 'removed' : ''}`}>
+      <div className={`card forum-thread ${removed || thread.attributes.deleted ? 'removed' : ''}`}>
         <header>
-          {user && (<Avatar src={user} size="small" />)}
+          {(user && !removed) && (<Avatar src={user} size="small" />)}
 
           <h2 title={title}>
             {fullThread ? (

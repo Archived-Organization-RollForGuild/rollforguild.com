@@ -38,7 +38,9 @@ class ThreadCommentCard extends Component {
     if (confirmingRemove && name === 'confirm') {
       this.setState({ confirmingRemove: false, removing: true })
 
-      const { status } = await deleteThreadComment(comment.id)
+      const threadId = comment.relationships && comment.relationships.threads && comment.relationships.threads.id
+
+      const { status } = await deleteThreadComment(threadId, comment.id)
 
       if (status === 'success') {
         this.setState({ removing: false, removed: true })
@@ -61,9 +63,10 @@ class ThreadCommentCard extends Component {
   \***************************************************************************/
 
   async componentDidMount () {
+    const { comment } = this.props
     let { user } = this.props
 
-    if (!user) {
+    if (!user && !comment.attributes.deleted) {
       const { payload, status } = await this.props.getUser(this.props.posterId)
 
       if (status === 'success') {
@@ -114,7 +117,7 @@ class ThreadCommentCard extends Component {
           name="confirm"
           disabled={removing || removed}
           onClick={this._handleRemoveButtonClick}>
-          {!removing && !confirmingRemove && (removed ? 'This doesn\'t do anything yet!' : 'Delete')}
+          {!removing && !confirmingRemove && (removed ? 'Deleted' : 'Delete')}
 
           {!removing && confirmingRemove && 'Yes'}
 
@@ -139,12 +142,13 @@ class ThreadCommentCard extends Component {
     } = this.state
 
     const instertedAtMoment = moment.utc(comment.attributes.inserted_at)
+    const body = !removed ? comment.attributes.comment : '[deleted]'
 
     return (
       <div id={id} className={`card forum-thread comment ${removed ? 'removed' : ''}`}>
         <header>
 
-          {user ? (
+          {(user && !removed) ? (
             <span title={user.attributes.username}>
               <Avatar src={user} size="tiny" />
               <span>
@@ -166,7 +170,7 @@ class ThreadCommentCard extends Component {
 
         <div className="content">
           <div className="thread-contents">
-            <p className="thread-body">{comment.attributes.comment}</p>
+            <p className="thread-body">{body}</p>
           </div>
         </div>
 
@@ -196,6 +200,8 @@ ThreadCommentCard.defaultProps = {
 ThreadCommentCard.propTypes = {
   comment: PropTypes.object.isRequired,
   currentUserIsPoster: PropTypes.bool,
+  deleteThreadComment: PropTypes.func.isRequired,
+  getUser: PropTypes.func.isRequired,
   id: PropTypes.string,
   posterId: PropTypes.string.isRequired,
   user: PropTypes.object,
