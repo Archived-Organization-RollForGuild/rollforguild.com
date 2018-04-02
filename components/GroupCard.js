@@ -19,7 +19,6 @@ const GroupCard = (props) => {
 
   const {
     description,
-    games,
     members,
     name,
     slug,
@@ -51,20 +50,6 @@ const GroupCard = (props) => {
 
         {!description && (
           <p><em>No description</em></p>
-        )}
-
-        {games && (
-          <header>
-            <h3>Games:</h3>
-          </header>
-        )}
-
-        {games && (
-          <ul className="comma-separated inline">
-            {games.map(game => (
-              <li key={game}>{game}</li>
-            ))}
-          </ul>
         )}
       </div>
     </div>

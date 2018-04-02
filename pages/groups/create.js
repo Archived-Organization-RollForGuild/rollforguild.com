@@ -43,7 +43,6 @@ class CreateGroup extends Component {
       address,
       description,
       discoverable,
-      games,
       name,
       slug,
     } = this.state
@@ -56,7 +55,6 @@ class CreateGroup extends Component {
       address: address.formatted_address,
       description,
       discoverable,
-      games: games.split(',').map(game => game.trim()),
       name,
       slug: slug || convertStringToSlug(name),
     })
@@ -101,7 +99,6 @@ class CreateGroup extends Component {
       address: '',
       description: '',
       discoverable: true,
-      games: '',
       name: '',
       slug: '',
       submitting: false,
@@ -113,7 +110,6 @@ class CreateGroup extends Component {
       address,
       description,
       discoverable,
-      games,
       name,
       slug,
       submitting,
@@ -180,76 +176,6 @@ class CreateGroup extends Component {
               value={description} />
 
             <small>Tell your members what you'll be playing, or maybe a bit about your GM style.</small>
-          </fieldset>
-
-          <fieldset>
-            <label htmlFor="games">
-              What games will you be playing?
-            </label>
-
-            <ValidatedInput
-              disabled={submitting}
-              id="games"
-              onChange={({ target }) => this.setState({ games: target.value })}
-              placeholder="Use a comma-separated list for multiple games"
-              value={games} />
-
-            {/* <Dropdown
-              filter={CreateGroup._filterDropdownOptions}
-              id="games"
-              name="ruleset"
-              options={[
-                '7th Sea (1st Edition)',
-                '7th Sea (2nd Edition)',
-                'Advanced Dungeons & Dragons (1st Edition)',
-                'Advanced Dungeons & Dragons (2nd Edition)',
-                'Adventures in Middle-earth',
-                'Ars Magicka',
-                'Battletech',
-                'Call of Cthulhu',
-                'Champions',
-                'Changeling: The Dreaming',
-                'Changeling: The Lost',
-                'Cyberpunk 2020',
-                'Dark Heresy',
-                'Deadlands',
-                'Dungeons & Dragons (3.5 Edition)',
-                'Dungeons & Dragons (4th Edition)',
-                'Dungeons & Dragons (5th Edition)',
-                'Earthdawn',
-                'Exalted',
-                'Fate',
-                'Firefly',
-                'Gamma World',
-                'GURPS',
-                'Iron Kindoms',
-                'Legend of the Five Rings',
-                'Mage: The Ascension',
-                'Mage: The Awakening',
-                'Marvel Superheroes',
-                'MechWarrior',
-                'Mutants & Masterminds',
-                'Numenera',
-                'Palladium',
-                'Paranoia',
-                'Pendragon',
-                'Pathfinder',
-                'Rifts',
-                'Robotech',
-                'Rolemaster',
-                'RuneQuest',
-                'Savage Worlds',
-                'Shadowrun',
-                'Star Wars',
-                'Star Wars: Edge of the Empire',
-                'Traveller',
-                'Vampire: The Dark Ages',
-                'Vampire: The Masquerade',
-                'Warhammer',
-                'Warhammer 40,000',
-                'Werewolf: The Apocalypse',
-                'World of Darkness',
-              ]} /> */}
           </fieldset>
 
           <fieldset>
