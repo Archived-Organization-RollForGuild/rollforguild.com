@@ -29,7 +29,7 @@ label[for=application-banner-control] {
       right: 100%;
       top: 0;
       transition: transform 0.2s;
-      z-index: 1002;
+      z-index: 200;
     }
 
     &:checked ~ [role=banner] {
