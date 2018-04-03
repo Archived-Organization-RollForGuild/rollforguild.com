@@ -157,6 +157,8 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
 
           <Banner path={this.props.asPath} />
 
+          <header className="page" />
+
           <main className={mainClasses}>
             <Component {...this.props} />
           </main>

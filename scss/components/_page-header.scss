@@ -1,0 +1,7 @@
+header.page {
+  background-color: $black;
+  grid-area: page-header;
+  padding: 1rem 2rem;
+  padding-left: calc(2rem + env(safe-area-inset-left));
+  padding-right: calc(2rem + env(safe-area-inset-right));
+}
