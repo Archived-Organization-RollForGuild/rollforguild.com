@@ -151,11 +151,14 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
     render () {
       return (
         <div role="application">
+          <input
+            hidden
+            id="application-banner-control"
+            type="checkbox" />
+
           <Head title={title} />
 
           <Banner path={this.props.asPath} />
-
-          <header className="page" />
 
           <Component {...this.props} />
 

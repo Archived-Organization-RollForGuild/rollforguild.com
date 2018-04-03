@@ -49,8 +49,8 @@ div#alert-container {
 
   @media (max-width: 1000px) {
     grid-template-areas:
-    'page-header'
-    'page';
+      'page-header page-header'
+      'banner page';
   }
 }
 

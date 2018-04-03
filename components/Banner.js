@@ -22,60 +22,37 @@ const buildUrl = preval`module.exports = process.env.CIRCLE_COMPARE_URL || proce
 
 
 export default (props) => (
-  <React.Fragment>
-    <input
-      hidden
-      id="application-banner-control"
-      type="checkbox" />
+  <header role="banner">
+    <Link
+      category="Navigation"
+      route="/"
+      label="Brand">
+      <a><div className="brand" /></a>
+    </Link>
 
-    <header role="banner">
-      <label
-        className="button success"
-        data-opennav
-        htmlFor="application-banner-control">
-        <FontAwesomeIcon icon="bars" fixedWidth />
-        Menu
-      </label>
+    <Nav path={props.path} />
 
-      <label
-        className="button secondary"
-        data-closenav
-        htmlFor="application-banner-control">
-        <FontAwesomeIcon icon="times" fixedWidth />
-        Close
-      </label>
+    <footer>
+      <small>
+        Questions, comments, or concerns? <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1" rel="noopener noreferrer" target="_blank">Let us know!</a>
+      </small>
 
-      <Link
-        category="Navigation"
-        route="/"
-        label="Brand">
-        <a><div className="brand" /></a>
-      </Link>
+      <nav className="social">
+        <a href="//twitter.com/RollForGuild">
+          <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
+        </a>
 
-      <Nav path={props.path} />
+        <a href="//instagram.com/RollForGuild">
+          <FontAwesomeIcon icon={['fab', 'instagram']} fixedWidth />
+        </a>
 
-      <footer>
-        <small>
-          Questions, comments, or concerns? <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1" rel="noopener noreferrer" target="_blank">Let us know!</a>
-        </small>
-
-        <nav className="social">
-          <a href="//twitter.com/RollForGuild">
-            <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
-          </a>
-
-          <a href="//instagram.com/RollForGuild">
-            <FontAwesomeIcon icon={['fab', 'instagram']} fixedWidth />
-          </a>
-
-          <a href="//facebook.com/RollForGuild">
-            <FontAwesomeIcon icon={['fab', 'facebook']} fixedWidth />
-          </a>
-        </nav>
-        {isDevOrStaging && (
-          <small><a href={buildUrl} rel="noopener noreferrer" target="_blank">{buildCommitHash}</a></small>
-        )}
-      </footer>
-    </header>
-  </React.Fragment>
+        <a href="//facebook.com/RollForGuild">
+          <FontAwesomeIcon icon={['fab', 'facebook']} fixedWidth />
+        </a>
+      </nav>
+      {isDevOrStaging && (
+        <small><a href={buildUrl} rel="noopener noreferrer" target="_blank">{buildCommitHash}</a></small>
+      )}
+    </footer>
+  </header>
 )
