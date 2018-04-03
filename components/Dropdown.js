@@ -256,6 +256,7 @@ class Dropdown extends Component {
     const renderProps = { ...this.props }
 
     delete renderProps.className
+    delete renderProps.filter
     delete renderProps.getOptionId
     delete renderProps.renderOption
     delete renderProps.renderValue

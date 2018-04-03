@@ -107,6 +107,7 @@ class TabPanel extends Component {
 
   render () {
     const {
+      category,
       children,
       className,
     } = this.props
@@ -114,7 +115,9 @@ class TabPanel extends Component {
 
     return (
       <div className={['tab-panel', className].join(' ')}>
-        <TabHeader selectTab={this._selectTab}>
+        <TabHeader
+          category={category}
+          selectTab={this._selectTab}>
           {tabsWithActiveStatus}
         </TabHeader>
 

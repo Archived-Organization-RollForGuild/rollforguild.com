@@ -45,6 +45,10 @@ class Button extends TrackableComponent {
   }
 }
 
+Button.defaultProps = {
+  action: 'click',
+  value: null,
+}
 
 
 
