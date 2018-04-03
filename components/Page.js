@@ -149,8 +149,6 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
     }
 
     render () {
-      const mainClasses = ['fade-in', 'page', title.toLowerCase().replace(/\s/g, '-')].join(' ')
-
       return (
         <div role="application">
           <Head title={title} />
@@ -159,9 +157,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
 
           <header className="page" />
 
-          <main className={mainClasses}>
-            <Component {...this.props} />
-          </main>
+          <Component {...this.props} />
 
           <AlertsController />
         </div>

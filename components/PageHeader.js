@@ -1,21 +1,15 @@
 // Module imports
 // import PropTypes from 'prop-types'
-import ReactDom from 'react-dom'
 
 
 
 
 
-const PageHeader = (props) => {
-  if (typeof window === 'undefined') {
-    return null
-  }
-
-  return ReactDom.createPortal(
-    props.children,
-    document.querySelector('header.page')
-  )
-}
+const PageHeader = props => (
+  <header className="page">
+    {props.children}
+  </header>
+)
 
 
 
