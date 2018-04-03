@@ -8,6 +8,9 @@ header.page {
   padding: 1rem 2rem;
   padding-left: calc(2rem + env(safe-area-inset-left));
   padding-right: calc(2rem + env(safe-area-inset-right));
+  position: sticky;
+  top: 0;
+  z-index: 1;
 
   label[for=application-banner-control] {
     display: none;
