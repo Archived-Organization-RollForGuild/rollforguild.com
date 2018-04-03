@@ -73,8 +73,7 @@ class GroupDetailsPanel extends Component {
                   action="share::twitter"
                   category="Groups"
                   href={`//twitter.com/intent/tweet${convertObjectToQueryParams(twitterShareParams)}`}
-                  label="Profile"
-                  value={group.id}>
+                  label={`Profile-${group.id}`}>
                   <a className="button secondary">
                     <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
                   </a>

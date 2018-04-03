@@ -17,14 +17,6 @@ module.exports = {
       }))
     }
 
-    if (ENABLE_HMR_POLLING) {
-      /* eslint-disable no-param-reassign */
-      config.watchOptions = {
-        poll: 1000, // Check for changes every second
-        aggregateTimeout: 300, // delay before rebuilding
-      }
-    }
-
     if (!dev) {
       config.plugins.push(new SWPrecacheWebpackPlugin({
         cacheId: 'test-lighthouse',
@@ -82,6 +74,17 @@ module.exports = {
       }
     )
 
+    return config
+  },
+  webpackDevMiddleware: config => {
+    /* eslint-disable no-param-reassign */
+    if (ENABLE_HMR_POLLING) {
+      config.watchOptions = {
+        poll: 1000, // Check for changes every second
+        aggregateTimeout: 300, // delay before rebuilding
+        ignored: /node_modules/,
+      }
+    }
     return config
   },
 }

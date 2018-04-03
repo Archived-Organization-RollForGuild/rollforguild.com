@@ -5,11 +5,14 @@ web:
     - "9222:9222"
   command: sh -c "yarn install && yarn run dev"
   environment:
+    - ENABLE_HMR_POLLING
     - RFG_API_URL
+    - RFG_APP_PORT
     - RFG_FACEBOOK_APP_ID
-    - RFG_GOOGLE_TAG_MANAGER_API_KEY
     - RFG_GOOGLE_MAPS_API_KEY
+    - RFG_GOOGLE_TAG_MANAGER_API_KEY
     - RFG_LOCAL_API_URL
+    - RFG_REPOSITORY_URL
     - RFG_WORDPRESS_API_URL
   volumes:
     - .:/app
