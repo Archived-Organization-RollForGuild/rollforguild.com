@@ -9,7 +9,9 @@ import React from 'react'
 import wordpressService from '../../services/wordpress'
 import Component from '../../components/Component'
 import Hero from '../../components/Hero'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 
 
 
@@ -50,17 +52,19 @@ class About extends Component {
 
     return (
       <React.Fragment>
-        <header>
+        <PageHeader>
           <h1>{page.title.rendered}</h1>
-        </header>
+        </PageHeader>
 
-        <Hero
-          gravity={page.featured_media.gravity}
-          src={page.featured_media.url} />
+        <Main title={title}>
+          <Hero
+            gravity={page.featured_media.gravity}
+            src={page.featured_media.url} />
 
-        {/* eslint-disable react/no-danger */}
-        <div dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
-        {/* eslint-enable */}
+          {/* eslint-disable react/no-danger */}
+          <div dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
+          {/* eslint-enable */}
+        </Main>
       </React.Fragment>
     )
   }

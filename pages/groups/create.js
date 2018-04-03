@@ -12,7 +12,9 @@ import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
 import Form from '../../components/Form'
 import Component from '../../components/Component'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 import ValidatedInput from '../../components/ValidatedInput'
 
 
@@ -117,102 +119,104 @@ class CreateGroup extends Component {
 
     return (
       <React.Fragment>
-        <header>
+        <PageHeader>
           <h1>Create a Group</h1>
-        </header>
+        </PageHeader>
 
-        <Form
-          action="create"
-          category="Groups"
-          label="New Group"
-          onSubmit={this._handleSubmit}>
-          <fieldset>
-            <label htmlFor="group-name">
-              Group name
-            </label>
-
-            <ValidatedInput
-              disabled={submitting}
-              id="group-name"
-              onChange={({ target }) => this.setState({ name: target.value })}
-              pattern="[\w\s_-]+"
-              placeholder="Quigley's Tavern"
-              required
-              type="text"
-              value={name} />
-          </fieldset>
-
-          <fieldset>
-            <label htmlFor="permalink">Permalink</label>
-
-            <div className="input-group">
-              <label htmlFor="permalink">
-                https://rollforguild.com/groups/
+        <Main title={title}>
+          <Form
+            action="create"
+            category="Groups"
+            label="New Group"
+            onSubmit={this._handleSubmit}>
+            <fieldset>
+              <label htmlFor="group-name">
+                Group name
               </label>
 
               <ValidatedInput
                 disabled={submitting}
-                id="permalink"
-                onChange={({ target }) => this.setState({ slug: convertStringToSlug(target.value) })}
-                pattern="(\w|-)*"
-                placeholder={convertStringToSlug(name)}
+                id="group-name"
+                onChange={({ target }) => this.setState({ name: target.value })}
+                pattern="[\w\s_-]+"
+                placeholder="Quigley's Tavern"
+                required
                 type="text"
-                value={slug} />
-            </div>
-          </fieldset>
+                value={name} />
+            </fieldset>
 
-          <fieldset>
-            <label htmlFor="group-description">
-              Group description
-            </label>
+            <fieldset>
+              <label htmlFor="permalink">Permalink</label>
 
-            <textarea
-              aria-describedby="group-description"
-              disabled={submitting}
-              id="group-description"
-              maxLength={1000}
-              onChange={({ target }) => this.setState({ description: target.value })}
-              placeholder="Tell your members what you'll be playing, or maybe a bit about your GM style."
-              value={description} />
+              <div className="input-group">
+                <label htmlFor="permalink">
+                  https://rollforguild.com/groups/
+                </label>
 
-            <small>Tell your members what you'll be playing, or maybe a bit about your GM style.</small>
-          </fieldset>
+                <ValidatedInput
+                  disabled={submitting}
+                  id="permalink"
+                  onChange={({ target }) => this.setState({ slug: convertStringToSlug(target.value) })}
+                  pattern="(\w|-)*"
+                  placeholder={convertStringToSlug(name)}
+                  type="text"
+                  value={slug} />
+              </div>
+            </fieldset>
 
-          <fieldset>
-            <label htmlFor="address">
-              Where will you be playing?
-            </label>
+            <fieldset>
+              <label htmlFor="group-description">
+                Group description
+              </label>
 
-            <AddressInput
-              disabled={submitting}
-              id="address"
-              onChange={value => this.setState({ address: value })}
-              required
-              value={address} />
-          </fieldset>
+              <textarea
+                aria-describedby="group-description"
+                disabled={submitting}
+                id="group-description"
+                maxLength={1000}
+                onChange={({ target }) => this.setState({ description: target.value })}
+                placeholder="Tell your members what you'll be playing, or maybe a bit about your GM style."
+                value={description} />
 
-          <fieldset className="horizontal">
-            <label htmlFor="discoverable">
-              Should your group show up in searches?
-            </label>
+              <small>Tell your members what you'll be playing, or maybe a bit about your GM style.</small>
+            </fieldset>
 
-            <Switch
-              disabled={submitting}
-              checked={discoverable}
-              id="discoverable"
-              onChange={isChecked => this.setState({ discoverable: isChecked })} />
-          </fieldset>
+            <fieldset>
+              <label htmlFor="address">
+                Where will you be playing?
+              </label>
 
-          <menu type="toolbar">
-            <div className="primary">
-              <button
-                className="success"
-                disabled={submitting || !this._isValid()}>
-                Create
-              </button>
-            </div>
-          </menu>
-        </Form>
+              <AddressInput
+                disabled={submitting}
+                id="address"
+                onChange={value => this.setState({ address: value })}
+                required
+                value={address} />
+            </fieldset>
+
+            <fieldset className="horizontal">
+              <label htmlFor="discoverable">
+                Should your group show up in searches?
+              </label>
+
+              <Switch
+                disabled={submitting}
+                checked={discoverable}
+                id="discoverable"
+                onChange={isChecked => this.setState({ discoverable: isChecked })} />
+            </fieldset>
+
+            <menu type="toolbar">
+              <div className="primary">
+                <button
+                  className="success"
+                  disabled={submitting || !this._isValid()}>
+                  Create
+                </button>
+              </div>
+            </menu>
+          </Form>
+        </Main>
       </React.Fragment>
     )
   }

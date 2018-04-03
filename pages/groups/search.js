@@ -13,7 +13,9 @@ import Button from '../../components/Button'
 import Component from '../../components/Component'
 import Dropdown from '../../components/Dropdown'
 import GroupCard from '../../components/GroupCard'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 import Pagination from '../../components/Pagination'
 import Tooltip from '../../components/Tooltip'
 
@@ -235,94 +237,96 @@ class GroupSearch extends Component {
 
     return (
       <React.Fragment>
-        <header>
-          <h1>Search Groups</h1>
-        </header>
+        <PageHeader>
+          <h1>{title}</h1>
+        </PageHeader>
 
-        <fieldset>
-          <div className="input-group">
-            <label>
-              <FontAwesomeIcon icon="search" fixedWidth />
-            </label>
+        <Main title={title}>
+          <fieldset>
+            <div className="input-group">
+              <label>
+                <FontAwesomeIcon icon="search" fixedWidth />
+              </label>
 
-            <AddressInput
-              onChange={this._handleAddressChange}
-              disabled={waitingForLocation}
-              placeholder={waitingForLocation ? 'Retrieving your location...' : 'Enter an address...'}
-              readOnly={watchingLocation}
-              value={location ? location.address : ''} />
+              <AddressInput
+                onChange={this._handleAddressChange}
+                disabled={waitingForLocation}
+                placeholder={waitingForLocation ? 'Retrieving your location...' : 'Enter an address...'}
+                readOnly={watchingLocation}
+                value={location ? location.address : ''} />
 
-            <button
-              className="binary"
-              data-on={useCurrentLocation}
-              onClick={this._toggleUseCurrentLocation}
-              type="button">
-              {waitingForLocation && (
-                <FontAwesomeIcon icon="spinner" fixedWidth pulse />
-              )}
+              <button
+                className="binary"
+                data-on={useCurrentLocation}
+                onClick={this._toggleUseCurrentLocation}
+                type="button">
+                {waitingForLocation && (
+                  <FontAwesomeIcon icon="spinner" fixedWidth pulse />
+                )}
 
-              {!waitingForLocation && (
-                <FontAwesomeIcon icon="map-marker" fixedWidth />
-              )}
+                {!waitingForLocation && (
+                  <FontAwesomeIcon icon="map-marker" fixedWidth />
+                )}
 
-              <Tooltip
-                alignment="center"
-                attachment="left">
-                {waitingForLocation && 'Retrieving location'}
+                <Tooltip
+                  alignment="center"
+                  attachment="left">
+                  {waitingForLocation && 'Retrieving location'}
 
-                {(!waitingForLocation && useCurrentLocation) && 'Stop using your current location'}
+                  {(!waitingForLocation && useCurrentLocation) && 'Stop using your current location'}
 
-                {(!waitingForLocation && !useCurrentLocation) && 'Use your current location'}
-              </Tooltip>
-            </button>
-          </div>
-
-          <footer>
-            <div className="filters">
-              <Dropdown
-                className="squishable"
-                onChange={this._handleSearchDistanceChange}
-                options={GroupSearch.searchDistances}
-                renderValue={value => `Search within ${value} miles`}
-                value={searchDistance} />
+                  {(!waitingForLocation && !useCurrentLocation) && 'Use your current location'}
+                </Tooltip>
+              </button>
             </div>
-          </footer>
-        </fieldset>
 
-        {(!searching && !!groups.length) && this._renderGroups()}
+            <footer>
+              <div className="filters">
+                <Dropdown
+                  className="squishable"
+                  onChange={this._handleSearchDistanceChange}
+                  options={GroupSearch.searchDistances}
+                  renderValue={value => `Search within ${value} miles`}
+                  value={searchDistance} />
+              </div>
+            </footer>
+          </fieldset>
 
-        {(!searching && firstSearchInitiated && !groups.length) && (
-          <p>
-            No groups found.
-            {searchDistance !== GroupSearch.searchDistances[GroupSearch.searchDistances.length - 1] && (
-              <React.Fragment>
-                &nbsp;Perhaps you should try&nbsp;
-                <Button
-                  action="expand-distance"
-                  category="Groups"
-                  className="inline link"
-                  label="Search"
-                  onClick={this._incrementSearchDistance}>
-                  expanding your search
-                </Button>.
-              </React.Fragment>
-            )}
-          </p>
-        )}
+          {(!searching && !!groups.length) && this._renderGroups()}
 
-        {searching && (
-          <div>
-            <FontAwesomeIcon icon="spinner" pulse /> Searching...
-          </div>
-        )}
+          {(!searching && firstSearchInitiated && !groups.length) && (
+            <p>
+              No groups found.
+              {searchDistance !== GroupSearch.searchDistances[GroupSearch.searchDistances.length - 1] && (
+                <React.Fragment>
+                  &nbsp;Perhaps you should try&nbsp;
+                  <Button
+                    action="expand-distance"
+                    category="Groups"
+                    className="inline link"
+                    label="Search"
+                    onClick={this._incrementSearchDistance}>
+                    expanding your search
+                  </Button>.
+                </React.Fragment>
+              )}
+            </p>
+          )}
 
-        {(!searching && !!groups.length) && (
-          <Pagination
-            category="Groups"
-            currentPage={pagination.currentPage}
-            onPageChange={this._search}
-            totalPageCount={pagination.totalPageCount} />
-        )}
+          {searching && (
+            <div>
+              <FontAwesomeIcon icon="spinner" pulse /> Searching...
+            </div>
+          )}
+
+          {(!searching && !!groups.length) && (
+            <Pagination
+              category="Groups"
+              currentPage={pagination.currentPage}
+              onPageChange={this._search}
+              totalPageCount={pagination.totalPageCount} />
+          )}
+        </Main>
       </React.Fragment>
     )
   }

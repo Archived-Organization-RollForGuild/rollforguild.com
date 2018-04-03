@@ -8,7 +8,9 @@ import React from 'react'
 // Component imports
 import { Router } from '../../routes'
 import Component from '../../components/Component'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 
 
 
@@ -80,27 +82,29 @@ class Confirmation extends Component {
 
     return (
       <React.Fragment>
-        <header>
+        <PageHeader>
           <h1>Account Confirmation</h1>
-        </header>
+        </PageHeader>
 
-        {confirming && (
-          <React.Fragment>
-            <p>Confirming...</p>
-          </React.Fragment>
-        )}
+        <Main title={title}>
+          {confirming && (
+            <React.Fragment>
+              <p>Confirming...</p>
+            </React.Fragment>
+          )}
 
-        {(loggedIn === 'success') && (
-          <React.Fragment>
-            <p>Redirecting...</p>
-          </React.Fragment>
-        )}
+          {(loggedIn === 'success') && (
+            <React.Fragment>
+              <p>Redirecting...</p>
+            </React.Fragment>
+          )}
 
-        {(loggedIn === 'error') && (
-          <React.Fragment>
-            <p><span aria-label="Sad face emoji" role="img">😞</span> Uh oh... It seems there's a problem with your confirmation code. If you're still trying to activate your account, you may want to <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1">contact support</a>.</p>
-          </React.Fragment>
-        )}
+          {(loggedIn === 'error') && (
+            <React.Fragment>
+              <p><span aria-label="Sad face emoji" role="img">😞</span> Uh oh... It seems there's a problem with your confirmation code. If you're still trying to activate your account, you may want to <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1">contact support</a>.</p>
+            </React.Fragment>
+          )}
+        </Main>
       </React.Fragment>
     )
   }

@@ -12,7 +12,9 @@ import {
 import Avatar from '../../components/Avatar'
 import Component from '../../components/Component'
 import Link from '../../components/Link'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 import UserSettingsPanel from '../../components/UserProfilePanels/UserSettingsPanel'
 
 
@@ -40,6 +42,10 @@ class UserProfile extends Component {
       }
     }
   }
+
+
+
+
 
   /***************************************************************************\
     Public Methods
@@ -120,11 +126,13 @@ class UserProfile extends Component {
     if (!user && !loaded) {
       return (
         <React.Fragment>
-          <header>
+          <PageHeader>
             <h1>User</h1>
-          </header>
+          </PageHeader>
 
-          <p>Loading...</p>
+          <Main title={title}>
+            <p>Loading...</p>
+          </Main>
         </React.Fragment>
       )
     }
@@ -132,11 +140,13 @@ class UserProfile extends Component {
     if (!user) {
       return (
         <React.Fragment>
-          <header>
+          <PageHeader>
             <h1>User</h1>
-          </header>
+          </PageHeader>
 
-          <p>No user with that ID was found.</p>
+          <Main title={title}>
+            <p>No user with that ID was found.</p>
+          </Main>
         </React.Fragment>
       )
     }
@@ -149,7 +159,7 @@ class UserProfile extends Component {
 
     return (
       <React.Fragment>
-        <header>
+        <PageHeader>
           <h1>{userIsCurrentUser ? 'Your profile' : `${username}'s profile`}</h1>
 
           <menu type="toolbar">
@@ -161,76 +171,76 @@ class UserProfile extends Component {
               </a>
             )}
           </menu>
-        </header>
+        </PageHeader>
 
-        <div className="profile">
-          <header>
-            <Avatar src={user} editable={userIsCurrentUser} />
-          </header>
+        <Main title={title}>
+          <div className="profile">
+            <header>
+              <Avatar src={user} editable={userIsCurrentUser} />
+            </header>
 
-          <TabPanel
-            category="Users"
-            className="details">
-            <Tab title="Details">
-              <section className="bio">
-                <h4>Bio</h4>
-                <div className="section-content">
-                  <p>{bio || `${username} hasn't written their bio yet!`}</p>
-                </div>
-              </section>
-            </Tab>
-
-            {(userIsCurrentUser && groups) && (
-              <Tab title="Groups">
-                <section className="groups">
-                  <ul className="card-list">
-                    {this.props.groups.map(group => {
-                      const {
-                        description,
-                        name,
-                        slug,
-                      } = group.attributes
-
-                      return (
-                        <li
-                          className="card"
-                          key={group.id}>
-
-                          <header>
-                            <Avatar src={group} size="small" />
-
-                            <h2>
-                              <Link
-                                action="view-group"
-                                category="Users"
-                                label="Group"
-                                route="group profile"
-                                params={{ id: slug }}>
-                                <a>{name}</a>
-                              </Link>
-                            </h2>
-                          </header>
-
-                          <div className="content">
-                            {description}
-                          </div>
-                        </li>
-                      )
-                    })}
-                  </ul>
+            <TabPanel
+              category="Users"
+              className="details">
+              <Tab title="Details">
+                <section className="bio">
+                  <h4>Bio</h4>
+                  <div className="section-content">
+                    <p>{bio || `${username} hasn't written their bio yet!`}</p>
+                  </div>
                 </section>
               </Tab>
-            )}
 
-            {userIsCurrentUser && (
-              <Tab title="Settings">
-                <UserSettingsPanel user={user} onSubmit={this._handleUserUpdate} />
-              </Tab>
-            )}
-          </TabPanel>
+              {(userIsCurrentUser && groups) && (
+                <Tab title="Groups">
+                  <section className="groups">
+                    <ul className="card-list">
+                      {this.props.groups.map(group => {
+                        const {
+                          description,
+                          name,
+                          slug,
+                        } = group.attributes
 
+                        return (
+                          <li
+                            className="card"
+                            key={group.id}>
 
-        </div>
+                            <header>
+                              <Avatar src={group} size="small" />
+
+                              <h2>
+                                <Link
+                                  action="view-group"
+                                  category="Users"
+                                  label="Group"
+                                  route="group profile"
+                                  params={{ id: slug }}>
+                                  <a>{name}</a>
+                                </Link>
+                              </h2>
+                            </header>
+
+                            <div className="content">
+                              {description}
+                            </div>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </section>
+                </Tab>
+              )}
+
+              {userIsCurrentUser && (
+                <Tab title="Settings">
+                  <UserSettingsPanel user={user} onSubmit={this._handleUserUpdate} />
+                </Tab>
+              )}
+            </TabPanel>
+          </div>
+        </Main>
       </React.Fragment>
     )
   }

@@ -10,7 +10,9 @@ import { actions } from '../../store'
 import { Router } from '../../routes'
 import Component from '../../components/Component'
 import ForumThreadCard from '../../components/Forums/ForumThreadCard'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 import Pagination from '../../components/Pagination'
 import ThreadCommentCard from '../../components/Forums/ThreadCommentCard'
 import ThreadCommentForm from '../../components/Forums/ThreadCommentForm'
@@ -20,7 +22,7 @@ import ThreadCommentForm from '../../components/Forums/ThreadCommentForm'
 
 
 // Component constants
-const pageTitle = 'Public Forums'
+const title = 'Public Forums'
 
 
 
@@ -122,71 +124,57 @@ class ViewThread extends Component {
       totalCommentPages,
     } = this.state
 
-    if (!loaded) {
-      return (
-        <React.Fragment>
-          <header>
-            <h1>Public Forums</h1>
-          </header>
-
-          <span>Loading...</span>
-
-        </React.Fragment>
-      )
-    }
-
-
-    if (loaded && !thread) {
-      return (
-        <React.Fragment>
-          <header>
-            <h1>Public Forums</h1>
-          </header>
-
-          <span>Thread not found!</span>
-
-        </React.Fragment>
-      )
-    }
-
     return (
       <React.Fragment>
-        <header>
-          <h1>Public Forums</h1>
-        </header>
+        <PageHeader>
+          <h1>{title}</h1>
+        </PageHeader>
 
-        <div className="thread">
-          <ForumThreadCard thread={thread} fullThread />
-        </div>
+        <Main title={title}>
+          {!loaded && (
+            <p>Loading...</p>
+          )}
 
-        <Pagination
-          category="Forums"
-          currentPage={page}
-          label="view"
-          onPageChange={(newPage) => Router.pushRoute('forum thread view', { id: thread.id, page: newPage > 1 ? newPage : null })}
-          showPageLinks
-          totalPageCount={totalCommentPages} />
+          {(loaded && !thread) && (
+            <p>Thread not found!</p>
+          )}
 
-        {(Array.isArray(comments) && comments.length > 0) ? (
-          <div className="comments">
-            {comments.map(comment => (
-              <ThreadCommentCard
-                key={comment.id}
-                id={comment.id}
-                comment={comment}
-                />
-              ))}
-          </div>
-        ) : (
-          <span>There are no Comments yet!</span>
-        )}
+          {(loaded && thread) && (
+            <div className="thread">
+              <ForumThreadCard thread={thread} fullThread />
+            </div>
+          )}
 
-        {Boolean(loggedIn) && (
-          <div className="comment-form">
-            <ThreadCommentForm threadId={thread.id} onComment={this._handleNewComment} />
-          </div>
-        )}
+          {(comments && comments.length) && (
+            <div className="comments">
+              {comments.map(comment => (
+                <ThreadCommentCard
+                  key={comment.id}
+                  id={comment.id}
+                  comment={comment}
+                  />
+                ))}
+            </div>
+          )}
 
+          {(!comments || !comments.length) && (
+            <span>There are no Comments yet!</span>
+          )}
+
+          <Pagination
+            category="Forums"
+            currentPage={page}
+            label="view"
+            onPageChange={(newPage) => Router.pushRoute('forum thread view', { id: thread.id, page: newPage > 1 ? newPage : null })}
+            showPageLinks
+            totalPageCount={totalCommentPages} />
+
+          {Boolean(loggedIn) && (
+            <div className="comment-form">
+              <ThreadCommentForm threadId={thread.id} onComment={this._handleNewComment} />
+            </div>
+          )}
+        </Main>
       </React.Fragment>
     )
   }
@@ -220,4 +208,4 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default Page(ViewThread, pageTitle, { mapDispatchToProps, mapStateToProps })
+export default Page(ViewThread, title, { mapDispatchToProps, mapStateToProps })
