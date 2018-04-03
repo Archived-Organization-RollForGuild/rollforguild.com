@@ -5,7 +5,7 @@ const path = require('path')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-const { ANALYZE } = process.env
+const { ANALYZE, ENABLE_HMR_POLLING } = process.env
 
 module.exports = {
   webpack: (config, { dev }) => {
@@ -15,6 +15,14 @@ module.exports = {
         analyzerPort: 8888,
         openAnalyzer: true,
       }))
+    }
+
+    if (ENABLE_HMR_POLLING) {
+      /* eslint-disable no-param-reassign */
+      config.watchOptions = {
+        poll: 1000, // Check for changes every second
+        aggregateTimeout: 300, // delay before rebuilding
+      }
     }
 
     if (!dev) {
