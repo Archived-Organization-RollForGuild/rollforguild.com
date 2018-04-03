@@ -6,7 +6,9 @@ import React from 'react'
 
 
 // Component imports
+import Main from '../components/Main'
 import Page from '../components/Page'
+import PageHeader from '../components/PageHeader'
 
 
 
@@ -21,11 +23,13 @@ const title = 'Contact Us'
 
 const Contact = () => (
   <React.Fragment>
-    <header>
+    <PageHeader>
       <h1>{title}</h1>
-    </header>
+    </PageHeader>
 
-    <p>Want to get in touch? Shoot us an email at <a href="mailto:hello@rollforguild.com">hello@rollforguild.com</a>.</p>
+    <Main title={title}>
+      <p>Want to get in touch? Shoot us an email at <a href="mailto:hello@rollforguild.com">hello@rollforguild.com</a>.</p>
+    </Main>
   </React.Fragment>
 )
 

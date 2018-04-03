@@ -8,15 +8,17 @@ import React from 'react'
 // Component imports
 import wordpressService from '../../services/wordpress'
 import Component from '../../components/Component'
+import Main from '../../components/Main'
 import Markdown from '../../components/Markdown'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 
 
 
 
 
 // Component constants
-const title = 'Team'
+const title = 'Meet the Team'
 
 
 
@@ -38,41 +40,43 @@ class Team extends Component {
 
     return (
       <React.Fragment>
-        <header>
-          <h1>Meet the Team</h1>
-        </header>
+        <PageHeader>
+          <h1>{title}</h1>
+        </PageHeader>
 
-        <ul className="card-list">
-          {team.map(teamMember => {
-            const {
-              acf,
-              description,
-              id,
-              name,
-            } = teamMember
+        <Main title={title}>
+          <ul className="card-list">
+            {team.map(teamMember => {
+              const {
+                acf,
+                description,
+                id,
+                name,
+              } = teamMember
 
-            return (
-              <li className="card" key={id}>
-                <header>
-                  <div
-                    aria-label={`${name}'s avatar`}
-                    className="avatar small"
-                    style={{ backgroundImage: `url(${teamMember.avatar_urls['96']})` }} />
+              return (
+                <li className="card" key={id}>
+                  <header>
+                    <div
+                      aria-label={`${name}'s avatar`}
+                      className="avatar small"
+                      style={{ backgroundImage: `url(${teamMember.avatar_urls['96']})` }} />
 
-                  <h2>{name}</h2>
+                    <h2>{name}</h2>
 
-                  <aside>
-                    <small>{acf.rfg_title}</small>
-                  </aside>
-                </header>
+                    <aside>
+                      <small>{acf.rfg_title}</small>
+                    </aside>
+                  </header>
 
-                <Markdown
-                  className="content"
-                  input={description} />
-              </li>
-            )
-          })}
-        </ul>
+                  <Markdown
+                    className="content"
+                    input={description} />
+                </li>
+              )
+            })}
+          </ul>
+        </Main>
       </React.Fragment>
     )
   }

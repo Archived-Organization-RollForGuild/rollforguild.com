@@ -8,7 +8,9 @@ import React from 'react'
 // Component imports
 import { Router } from '../../routes'
 import Component from '../../components/Component'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 import ValidatedInput from '../../components/ValidatedInput'
 
 
@@ -98,50 +100,52 @@ class CreateThread extends Component {
 
     return (
       <React.Fragment>
-        <header>
+        <PageHeader>
           <h1>Create a Thread</h1>
-        </header>
+        </PageHeader>
 
-        <form onSubmit={this._handleSubmit}>
-          <fieldset>
-            <label htmlFor="group-name">
-              Thread Title
-            </label>
+        <Main title={title}>
+          <form onSubmit={this._handleSubmit}>
+            <fieldset>
+              <label htmlFor="group-name">
+                Thread Title
+              </label>
 
-            <ValidatedInput
-              disabled={submitting}
-              id="thread-title"
-              onChange={({ target }) => this.setState({ title: target.value })}
-              maxLength={256}
-              required
-              type="text"
-              value={title} />
-          </fieldset>
+              <ValidatedInput
+                disabled={submitting}
+                id="thread-title"
+                onChange={({ target }) => this.setState({ title: target.value })}
+                maxLength={256}
+                required
+                type="text"
+                value={title} />
+            </fieldset>
 
-          <fieldset>
-            <label htmlFor="group-description">
-              Message
-            </label>
+            <fieldset>
+              <label htmlFor="group-description">
+                Message
+              </label>
 
-            <textarea
-              aria-describedby="thread-body"
-              disabled={submitting}
-              id="thread-body"
-              maxLength={8192}
-              onChange={({ target }) => this.setState({ body: target.value })}
-              value={body} />
-          </fieldset>
+              <textarea
+                aria-describedby="thread-body"
+                disabled={submitting}
+                id="thread-body"
+                maxLength={8192}
+                onChange={({ target }) => this.setState({ body: target.value })}
+                value={body} />
+            </fieldset>
 
-          <menu type="toolbar">
-            <div className="primary">
-              <button
-                className="success"
-                disabled={submitting || !this._isValid()}>
-                Post
-              </button>
-            </div>
-          </menu>
-        </form>
+            <menu type="toolbar">
+              <div className="primary">
+                <button
+                  className="success"
+                  disabled={submitting || !this._isValid()}>
+                  Post
+                </button>
+              </div>
+            </menu>
+          </form>
+        </Main>
       </React.Fragment>
     )
   }

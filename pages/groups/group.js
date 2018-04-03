@@ -21,11 +21,13 @@ import { actions } from '../../store'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
-import Link from '../../components/Link'
-import Markdown from '../../components/Markdown'
-import Page from '../../components/Page'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
+import Link from '../../components/Link'
+import Main from '../../components/Main'
+import Markdown from '../../components/Markdown'
+import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 import StaticMap from '../../components/StaticMap'
 
 
@@ -329,11 +331,13 @@ class GroupProfile extends Component {
     if (!group && !loaded) {
       return (
         <React.Fragment>
-          <header>
+          <PageHeader>
             <h1>Group</h1>
-          </header>
+          </PageHeader>
 
-          <p>Loading...</p>
+          <Main title={title}>
+            <p>Loading...</p>
+          </Main>
         </React.Fragment>
       )
     }
@@ -341,11 +345,13 @@ class GroupProfile extends Component {
     if (!group) {
       return (
         <React.Fragment>
-          <header>
+          <PageHeader>
             <h1>Group</h1>
-          </header>
+          </PageHeader>
 
-          <p>No group with that ID was found.</p>
+          <Main title={title}>
+            <p>No group with that ID was found.</p>
+          </Main>
         </React.Fragment>
       )
     }
@@ -369,7 +375,7 @@ class GroupProfile extends Component {
           <meta property="og:url" content={`https://rfg.group/${slug}`} />
         </Head>
 
-        <header>
+        <PageHeader>
           <h1>{name}</h1>
 
           {!currentUserIsAdmin && (
@@ -413,146 +419,148 @@ class GroupProfile extends Component {
               </menu>
             </aside>
           )}
-        </header>
+        </PageHeader>
 
-        <div className="profile">
-          <header>
-            <Avatar src={group} />
+        <Main title={title}>
+          <div className="profile">
+            <header>
+              <Avatar src={group} />
 
-            {currentUserIsMember && (
-              <section className="location">
-                <h4>Location</h4>
+              {currentUserIsMember && (
+                <section className="location">
+                  <h4>Location</h4>
 
-                <StaticMap
-                  address={address}
-                  category="Groups"
-                  location={geo}
-                  markers={[{ ...geo }]} />
-              </section>
-            )}
-          </header>
+                  <StaticMap
+                    address={address}
+                    category="Groups"
+                    location={geo}
+                    markers={[{ ...geo }]} />
+                </section>
+              )}
+            </header>
 
-          <TabPanel
-            category="Groups"
-            className="details">
-            <Tab title="Details">
-              <GroupDetailsPanel group={group} />
-            </Tab>
+            <TabPanel
+              category="Groups"
+              className="details">
+              <Tab title="Details">
+                <GroupDetailsPanel group={group} />
+              </Tab>
 
-            {currentUserIsMember && (
-              <Tab title="Members">
-                <section className="members">
-                  {!members.length && (
-                    <p>No other members.</p>
-                  )}
+              {currentUserIsMember && (
+                <Tab title="Members">
+                  <section className="members">
+                    {!members.length && (
+                      <p>No other members.</p>
+                    )}
 
-                  {!!members.length && (
-                    <ul className="card-list">
-                      {members.map(user => {
-                        const {
-                          id,
-                        } = user
+                    {!!members.length && (
+                      <ul className="card-list">
+                        {members.map(user => {
+                          const {
+                            id,
+                          } = user
 
-                        const {
-                          bio,
-                          email,
-                          username,
-                        } = user.attributes
+                          const {
+                            bio,
+                            email,
+                            username,
+                          } = user.attributes
 
-                        return (
-                          <li
-                            className="card"
-                            key={id}>
-                            <header>
-                              <Avatar src={user} size="small" className="pull-left" />
+                          return (
+                            <li
+                              className="card"
+                              key={id}>
+                              <header>
+                                <Avatar src={user} size="small" className="pull-left" />
 
-                              <h2>{username}</h2>
-                            </header>
+                                <h2>{username}</h2>
+                              </header>
 
-                            <div className="content">
-                              {!!bio && (
-                                <Markdown input={bio} />
-                              )}
-
-                              {!bio && (
-                                <em>No bio available</em>
-                              )}
-                            </div>
-
-                            <footer>
-                              <menu
-                                className="compact"
-                                type="toolbar">
-                                <div className="primary">
-                                  <a
-                                    className="button small success"
-                                    href={`mailto:${email}`}>
-                                    Message
-                                  </a>
-                                </div>
-
-                                { currentUserIsAdmin && (
-                                  <div className="secondary">
-                                    <Button
-                                      action="remove"
-                                      category="Groups"
-                                      className="secondary small"
-                                      disabled={leaving[id]}
-                                      label="Membership"
-                                      onClick={() => this._removeMember(id)}>
-                                      {!leaving[id] && 'Remove'}
-
-                                      {leaving[id] && (
-                                        <span><FontAwesomeIcon icon="spinner" pulse /> Removing...</span>
-                                      )}
-                                    </Button>
-                                  </div>
+                              <div className="content">
+                                {!!bio && (
+                                  <Markdown input={bio} />
                                 )}
-                              </menu>
-                            </footer>
+
+                                {!bio && (
+                                  <em>No bio available</em>
+                                )}
+                              </div>
+
+                              <footer>
+                                <menu
+                                  className="compact"
+                                  type="toolbar">
+                                  <div className="primary">
+                                    <a
+                                      className="button small success"
+                                      href={`mailto:${email}`}>
+                                      Message
+                                    </a>
+                                  </div>
+
+                                  { currentUserIsAdmin && (
+                                    <div className="secondary">
+                                      <Button
+                                        action="remove"
+                                        category="Groups"
+                                        className="secondary small"
+                                        disabled={leaving[id]}
+                                        label="Membership"
+                                        onClick={() => this._removeMember(id)}>
+                                        {!leaving[id] && 'Remove'}
+
+                                        {leaving[id] && (
+                                          <span><FontAwesomeIcon icon="spinner" pulse /> Removing...</span>
+                                        )}
+                                      </Button>
+                                    </div>
+                                  )}
+                                </menu>
+                              </footer>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
+                  </section>
+                </Tab>
+              )}
+
+              {currentUserIsAdmin && (
+                <Tab title="Join Requests">
+                  <section className="join-requests">
+                    {gettingJoinRequests && (
+                      <p>Loading...</p>
+                    )}
+
+                    {(!gettingJoinRequests && !joinRequests.length) && (
+                      <p>No requests found.</p>
+                    )}
+
+                    {(!gettingJoinRequests && !!joinRequests.length) && (
+                      <ul>
+                        {joinRequests.map(user => (
+                          <li key={user.id}>
+                            <JoinRequestCard
+                              accept={this._acceptJoinRequest}
+                              ignore={this._ignoreJoinRequest}
+                              user={user} />
                           </li>
-                        )
-                      })}
-                    </ul>
-                  )}
-                </section>
-              </Tab>
-            )}
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                </Tab>
+              )}
 
-            {currentUserIsAdmin && (
-              <Tab title="Join Requests">
-                <section className="join-requests">
-                  {gettingJoinRequests && (
-                    <p>Loading...</p>
-                  )}
-
-                  {(!gettingJoinRequests && !joinRequests.length) && (
-                    <p>No requests found.</p>
-                  )}
-
-                  {(!gettingJoinRequests && !!joinRequests.length) && (
-                    <ul>
-                      {joinRequests.map(user => (
-                        <li key={user.id}>
-                          <JoinRequestCard
-                            accept={this._acceptJoinRequest}
-                            ignore={this._ignoreJoinRequest}
-                            user={user} />
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </section>
-              </Tab>
-            )}
-
-            {currentUserIsAdmin && (
-              <Tab title="Settings">
-                <GroupSettingsPanel group={group} />
-              </Tab>
-            )}
-          </TabPanel>
-        </div>
+              {currentUserIsAdmin && (
+                <Tab title="Settings">
+                  <GroupSettingsPanel group={group} />
+                </Tab>
+              )}
+            </TabPanel>
+          </div>
+        </Main>
       </React.Fragment>
     )
   }

@@ -40,7 +40,18 @@ div#alert-container {
   align-content: stretch;
   align-items: stretch;
   background-color: $dark-grey;
-  display: flex;
+  display: grid;
+  grid-template-areas:
+    'banner page-header'
+    'banner page';
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: min-content 1fr;
+
+  @media (max-width: 1000px) {
+    grid-template-areas:
+    'page-header'
+    'page';
+  }
 }
 
 div#alert-container {

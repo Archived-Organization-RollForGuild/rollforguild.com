@@ -149,17 +149,15 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
     }
 
     render () {
-      const mainClasses = ['fade-in', 'page', title.toLowerCase().replace(/\s/g, '-')].join(' ')
-
       return (
         <div role="application">
           <Head title={title} />
 
           <Banner path={this.props.asPath} />
 
-          <main className={mainClasses}>
-            <Component {...this.props} />
-          </main>
+          <header className="page" />
+
+          <Component {...this.props} />
 
           <AlertsController />
         </div>

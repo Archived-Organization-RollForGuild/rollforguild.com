@@ -7,7 +7,9 @@ import React from 'react'
 
 // Component imports
 import Component from '../../components/Component'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 
 
 
@@ -57,39 +59,41 @@ class Confirmation extends Component {
 
     return (
       <React.Fragment>
-        <header>
+        <PageHeader>
           <h1>Email Update Confirmation</h1>
-        </header>
+        </PageHeader>
 
-        {(confirming && acceptNewEmail) && (
-          <React.Fragment>
-            <p>Confirming...</p>
-          </React.Fragment>
-        )}
+        <Main title={title}>
+          {(confirming && acceptNewEmail) && (
+            <React.Fragment>
+              <p>Confirming...</p>
+            </React.Fragment>
+          )}
 
-        {(confirming && !acceptNewEmail) && (
-          <React.Fragment>
-            <p>Rolling Back...</p>
-          </React.Fragment>
-        )}
+          {(confirming && !acceptNewEmail) && (
+            <React.Fragment>
+              <p>Rolling Back...</p>
+            </React.Fragment>
+          )}
 
-        {(!confirming && error) && (
-          <React.Fragment>
-            <p><span aria-label="Sad face emoji" role="img">😞</span> Uh oh... It seems there's a problem with your confirmation code. If you're still trying to change your email, you may want to <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1">contact support</a>.</p>
-          </React.Fragment>
-        )}
+          {(!confirming && error) && (
+            <React.Fragment>
+              <p><span aria-label="Sad face emoji" role="img">😞</span> Uh oh... It seems there's a problem with your confirmation code. If you're still trying to change your email, you may want to <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1">contact support</a>.</p>
+            </React.Fragment>
+          )}
 
-        {(!confirming && !error && acceptNewEmail) && (
-          <React.Fragment>
-            <p>Success! Your new email has been confirmed with our carrier pidgeons, and they will use your new address from now on.</p>
-          </React.Fragment>
-        )}
+          {(!confirming && !error && acceptNewEmail) && (
+            <React.Fragment>
+              <p>Success! Your new email has been confirmed with our carrier pidgeons, and they will use your new address from now on.</p>
+            </React.Fragment>
+          )}
 
-        {(!confirming && !error && !acceptNewEmail) && (
-          <React.Fragment>
-            <p>All done! Never fear, your email has been restored. If you didn't request this change, we highly recommend you change your password.</p>
-          </React.Fragment>
-        )}
+          {(!confirming && !error && !acceptNewEmail) && (
+            <React.Fragment>
+              <p>All done! Never fear, your email has been restored. If you didn't request this change, we highly recommend you change your password.</p>
+            </React.Fragment>
+          )}
+        </Main>
       </React.Fragment>
     )
   }

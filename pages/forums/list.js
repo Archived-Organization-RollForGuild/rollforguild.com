@@ -9,8 +9,10 @@ import React from 'react'
 import { Router } from '../../routes'
 import Component from '../../components/Component'
 import ForumThreadCard from '../../components/Forums/ForumThreadCard'
-import Page from '../../components/Page'
 import Link from '../../components/Link'
+import Main from '../../components/Main'
+import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 import Pagination from '../../components/Pagination'
 
 
@@ -18,7 +20,7 @@ import Pagination from '../../components/Pagination'
 
 
 // Component constants
-const pageTitle = 'Public Forums'
+const title = 'Public Forums'
 
 
 
@@ -92,80 +94,77 @@ class ForumList extends Component {
   }
 
   render () {
-    if (!this.state.loaded) {
-      return (
-        <React.Fragment>
-          <header>
-            <h1>Public Forums</h1>
-          </header>
-
-          <span>Loading...</span>
-
-        </React.Fragment>
-      )
-    }
-
     const {
       loggedIn,
+      page,
     } = this.props
 
     const {
       count,
       limit,
+      loaded,
       offset,
       threads,
       total,
       totalPages,
     } = this.state
 
-    const { page } = this.props
-
     return (
       <React.Fragment>
-        <header>
-          <h1>Public Forums</h1>
-          <aside>
-            <menu type="toolbar">
-              {Boolean(loggedIn) && (
-                <Link
-                  action="create"
-                  category="Forums"
-                  label="Thread"
-                  route="forum thread create">
-                  <a
-                    className="button success" >
-                    New Thread
-                  </a>
-                </Link>
-              )}
-            </menu>
-          </aside>
-        </header>
+        <PageHeader>
+          <h1>{title}</h1>
 
+          {loaded && (
+            <aside>
+              <menu type="toolbar">
+                {Boolean(loggedIn) && (
+                  <Link
+                    action="create"
+                    category="Forums"
+                    label="Thread"
+                    route="forum thread create">
+                    <a
+                      className="button success" >
+                      New Thread
+                    </a>
+                  </Link>
+                )}
+              </menu>
+            </aside>
+          )}
+        </PageHeader>
 
-        {!threads.length && (
-          <span>There is nothing here. (yet!!)</span>
-        )}
+        <Main title={title}>
+          {!loaded && (
+            <p>Loading...</p>
+          )}
 
-        {!!threads.length && (
-          <React.Fragment>
-            <span className="list-stats">Displaying threads {offset + 1} - {Math.min(count + offset, limit + offset)} of {total} threads</span>
+          {(loaded && !threads.length) && (
+            <span>There is nothing here. (yet!!)</span>
+          )}
 
-            <ol className="card-list">
-              {threads.map(thread => (
-                <ForumThreadCard thread={thread} key={thread.id} />
-              ))}
-            </ol>
-          </React.Fragment>
-        )}
+          {(loaded && threads.length) && (
+            <React.Fragment>
+              <span className="list-stats">Displaying threads {offset + 1} - {Math.min(count + offset, limit + offset)} of {total} threads</span>
 
-        <Pagination
-          category="Forums"
-          currentPage={page}
-          label="list"
-          onPageChange={(newPage) => Router.pushRoute('forum list', { page: newPage > 1 ? newPage : null })}
-          showPageLinks
-          totalPageCount={totalPages} />
+              <ol className="card-list">
+                {threads.map(thread => (
+                  <ForumThreadCard thread={thread} key={thread.id} />
+                ))}
+              </ol>
+            </React.Fragment>
+          )}
+
+          {loaded && (
+            <Pagination
+              category="Forums"
+              currentPage={page}
+              label="list"
+              onPageChange={(newPage) => Router.pushRoute('forum list', { page: newPage > 1 ? newPage : null })}
+              showPageLinks
+              totalPageCount={totalPages} />
+          )}
+        </Main>
       </React.Fragment>
     )
   }
@@ -199,4 +198,4 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default Page(ForumList, pageTitle, { mapDispatchToProps, mapStateToProps })
+export default Page(ForumList, title, { mapDispatchToProps, mapStateToProps })
