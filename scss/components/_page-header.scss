@@ -1,8 +1,45 @@
 header.page {
   background-color: $black;
+  display: grid;
   grid-area: page-header;
+  grid-template-areas: 'title aside';
+  grid-template-columns: 1fr max-content;
   height: min-content;
   padding: 1rem 2rem;
   padding-left: calc(2rem + env(safe-area-inset-left));
   padding-right: calc(2rem + env(safe-area-inset-right));
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  label[for=application-banner-control] {
+    display: none;
+    grid-area: application-banner-control;
+  }
+
+  h1 {
+    grid-area: title;
+  }
+
+  aside {
+    grid-area: aside;
+  }
+
+  @media (max-width: 1000px) {
+    grid-template-areas:
+      'application-banner-control title'
+      'aside aside';
+    grid-template-columns: max-content 1fr;
+
+    label[for=application-banner-control] {
+      display: initial;
+    }
+
+    aside {
+      background-color: #1a1a1a;
+      margin: 1rem -2rem -1rem;
+      padding: 1rem 2rem;
+      width: calc(100% + 4rem);
+    }
+  }
 }
