@@ -271,7 +271,7 @@ class Dropdown extends Component {
 
 
 Dropdown.defaultProps = {
-  defaultValue: null,
+  defaultValue: undefined,
   disabled: false,
   filter: items => items,
   onChange: null,
@@ -281,7 +281,7 @@ Dropdown.defaultProps = {
   renderOption: option => option,
   renderValue: value => value,
   searchable: false,
-  value: null,
+  value: undefined,
 }
 
 Dropdown.propTypes = {

@@ -126,10 +126,10 @@ class AddressInput extends Component {
 
 
 AddressInput.defaultProps = {
-  defaultValue: '',
+  defaultValue: undefined,
   onChange: null,
   placeholder: 'Enter an address...',
-  value: '',
+  value: undefined,
 }
 
 AddressInput.propTypes = {
