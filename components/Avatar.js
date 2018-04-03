@@ -1,6 +1,7 @@
 // Module Imports
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import React from 'react'
 
 
@@ -11,6 +12,37 @@ import React from 'react'
 import { actions } from '../store'
 import AvatarUploader from './AvatarUploaderDialog'
 import Component from './Component'
+
+
+
+
+
+// Component Constants
+const srcType = {
+  groups: 'groups',
+  'group-members': 'users',
+  'join-requests': 'users',
+  users: 'users',
+}
+
+const avatarSize = {
+  tiny: {
+    name: 'tiny',
+    px: 40,
+  },
+  small: {
+    name: 'small',
+    px: 100,
+  },
+  medium: {
+    name: 'medium',
+    px: 200,
+  },
+  large: {
+    name: 'large',
+    px: 400,
+  },
+}
 
 
 
@@ -37,9 +69,9 @@ class Avatar extends Component {
 
     const fileBlob = _fileBlob
 
-    fileBlob.name = `${type}-${id}-avatar`
+    fileBlob.name = `${srcType[type]}-${id}-avatar`
 
-    const { status } = await updateAvatar(type, id, fileBlob)
+    const { status } = await updateAvatar(srcType[type], id, fileBlob)
 
     if (status !== 'success') {
       return 'File Upload Error. Please Try again.'
@@ -67,43 +99,19 @@ class Avatar extends Component {
       attributes,
     } = nextProps.src
 
-    const size = this.size[nextProps.size] ? { ...this.size[nextProps.size] } : { ...this.size.large }
-    const hasAvatar = this.type[type] && attributes && attributes.avatar
+    const size = { ...avatarSize[nextProps.size] }
+    const hasAvatar = srcType[type] && attributes && attributes.avatar
 
     this.setState({
       id,
       type,
       size,
-      avatarUrl: hasAvatar ? `/api/${type}/${id}/avatar` : `//api.adorable.io/avatars/${size.px}/${id}`,
+      avatarUrl: hasAvatar ? `/api/${srcType[type]}/${id}/avatar` : `//api.adorable.io/avatars/${size.px}/${id}`,
     })
   }
 
   constructor (props) {
     super(props)
-
-    this.type = {
-      users: 'users',
-      groups: 'groups',
-    }
-
-    this.size = {
-      tiny: {
-        name: 'tiny',
-        px: 40,
-      },
-      small: {
-        name: 'small',
-        px: 100,
-      },
-      medium: {
-        name: 'medium',
-        px: 200,
-      },
-      large: {
-        name: 'large',
-        px: 400,
-      },
-    }
 
     this._bindMethods([
       '_toggleUploaderDisplay',
@@ -120,14 +128,14 @@ class Avatar extends Component {
       attributes,
     } = props.src
 
-    const size = this.size[props.size] ? { ...this.size[props.size] } : { ...this.size.large }
-    const hasAvatar = this.type[type] && attributes && attributes.avatar
+    const size = { ...avatarSize[props.size] }
+    const hasAvatar = srcType[type] && attributes && attributes.avatar
 
     this.state = {
       id,
       size,
       type,
-      avatarUrl: hasAvatar ? `/api/${type}/${id}/avatar` : `//api.adorable.io/avatars/${size.px}/${id}`,
+      avatarUrl: hasAvatar ? `/api/${srcType[type]}/${id}/avatar` : `//api.adorable.io/avatars/${size.px}/${id}`,
       displayUploader: false,
     }
   }
@@ -152,7 +160,7 @@ class Avatar extends Component {
       <React.Fragment>
         <div
           aria-label={`${id}'s avatar`}
-          className={`avatar ${size.name}${className ? ` ${className}` : ''}`}
+          className={`avatar ${size.name} ${className}`}
           role="img"
           style={{ backgroundImage: `url(${avatar})` }}>
           {editable && (
@@ -173,6 +181,29 @@ class Avatar extends Component {
   }
 }
 
+Avatar.defaultProps = {
+  cachedAvatar: null,
+  className: '',
+  editable: false,
+  size: 'large',
+  src: null,
+}
+
+Avatar.propTypes = {
+  cachedAvatar: PropTypes.string,
+  updateAvatar: PropTypes.func.isRequired,
+  editable: PropTypes.bool,
+  className: PropTypes.string,
+  size: PropTypes.oneOf(Object.keys(avatarSize)),
+  src: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(Object.keys(srcType)).isRequired,
+    attributes: PropTypes.shape({
+      avatar: PropTypes.bool,
+    }),
+  }),
+}
+
 
 const mapDispatchToProps = dispatch => ({
   updateAvatar: bindActionCreators(actions.updateAvatar, dispatch),
@@ -190,8 +221,14 @@ const mapStateToProps = (state, ownProps) => {
     type,
   } = ownProps.src
 
+  let cachedAvatar = null
+
+  if (srcType[type]) {
+    cachedAvatar = state.avatars[srcType[type]] && state.avatars[srcType[type]][id]
+  }
+
   return {
-    cachedAvatar: state.avatars[type] && state.avatars[type][id],
+    cachedAvatar,
   }
 }
 
