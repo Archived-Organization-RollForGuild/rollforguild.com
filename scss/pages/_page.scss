@@ -6,7 +6,7 @@ main.page {
   grid-area: page;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 2rem 2rem;
+  padding: 2rem 2rem;
   padding-left: calc(2rem + env(safe-area-inset-left));
   padding-right: calc(2rem + env(safe-area-inset-right));
 }
