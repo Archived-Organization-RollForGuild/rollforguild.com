@@ -168,20 +168,49 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
     }
   }
 
-  const { mapStateToProps } = reduxOptions || {}
-  let { mapDispatchToProps } = reduxOptions || {}
 
-  if (Array.isArray(mapDispatchToProps)) {
-    mapDispatchToProps = dispatch => {
-      const actionMap = {}
 
-      for (const actionName of (reduxOptions || {}).mapDispatchToProps) {
-        actionMap[actionName] = bindActionCreators(actions[actionName], dispatch)
+
+
+  const mapStateToProps = (state, ownProps) => {
+    let pageProps = {}
+
+    if (reduxOptions && reduxOptions.mapStateToProps) {
+      pageProps = reduxOptions.mapStateToProps(state, ownProps)
+    }
+
+    return {
+      ...state.authentication,
+      ...pageProps,
+    }
       }
 
-      return actionMap
+  const mapDispatchToProps = (dispatch, ownProps) => {
+    let pageActions = {}
+
+    if (reduxOptions && reduxOptions.mapDispatchToProps) {
+      pageActions = reduxOptions.mapDispatchToProps
+
+      if (Array.isArray(pageActions)) {
+        pageActions = pageActions.reduce((accumulator, actionName) => ({
+          ...accumulator,
+          [actionName]: actions[actionName],
+        }), {})
+      } else if (typeof pageActions === 'function') {
+        pageActions = pageActions(dispatch, ownProps)
+      }
     }
+
+    return bindActionCreators({
+      ...pageActions,
+      verifySession: actions.verifySession,
+      logout: actions.logout,
+    }, dispatch)
   }
+
+
+
+
 
   return withRedux(initStore, mapStateToProps, mapDispatchToProps)(Page)
 }

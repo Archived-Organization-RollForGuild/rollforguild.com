@@ -161,13 +161,10 @@ class Login extends Component {
 
 const mapDispatchToProps = ['requestPasswordReset']
 
-const mapStateToProps = state => ({ ...state.authentication })
-
 
 
 
 
 export default Page(Login, title, {
-  mapStateToProps,
   mapDispatchToProps,
 })

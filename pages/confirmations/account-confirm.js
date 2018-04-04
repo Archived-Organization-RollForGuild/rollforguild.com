@@ -116,13 +116,10 @@ class Confirmation extends Component {
 
 const mapDispatchToProps = ['confirmAccount']
 
-const mapStateToProps = state => ({ ...state.authentication })
-
 
 
 
 
 export default Page(Confirmation, title, {
   mapDispatchToProps,
-  mapStateToProps,
 })
