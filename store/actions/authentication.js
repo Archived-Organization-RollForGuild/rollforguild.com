@@ -74,11 +74,13 @@ export const login = (email, password) => createApiAction({
 
 
 export const logout = fromVerification => async dispatch => {
+  const userId = Cookies.get('userId')
   Cookies.remove('accessToken')
   Cookies.remove('userId')
   dispatch({
     payload: {
       origin: fromVerification ? 'verify' : 'user',
+      userId,
     },
     status: 'success',
     type: actionTypes.LOGOUT,

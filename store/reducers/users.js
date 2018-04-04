@@ -27,6 +27,7 @@ export default function (state = initialState.users, action) {
     case actionTypes.CREATE_FORUM_THREAD:
     case actionTypes.GET_FORUM_THREAD:
     case actionTypes.GET_FORUM_THREADS:
+    case actionTypes.GET_THREAD_COMMENTS:
     case actionTypes.GET_GROUP:
     case actionTypes.GET_USER:
     case actionTypes.GET_USERS:
@@ -43,6 +44,20 @@ export default function (state = initialState.users, action) {
         return newState
       }
       return { ...state }
+
+    case actionTypes.LOGOUT:
+      if (status === 'success') {
+        const { userId } = payload
+        const newState = { ...state }
+
+        if (newState[userId]) {
+          newState[userId].loggedIn = false
+        }
+
+        return newState
+      }
+      return { ...state }
+
 
     default:
       return { ...state }
