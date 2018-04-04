@@ -182,7 +182,9 @@ class Nav extends Component {
 
 
 
-const mapDispatchToProps = dispatch => ({ getUser: bindActionCreators(actions.getUser, dispatch) })
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getUser: actions.getUser,
+}, dispatch)
 
 const mapStateToProps = state => ({
   ...state.authentication,

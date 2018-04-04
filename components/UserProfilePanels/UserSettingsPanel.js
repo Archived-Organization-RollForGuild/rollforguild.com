@@ -252,9 +252,9 @@ UserSettingsPanel.propTypes = {
 
 
 
-const mapDispatchToProps = dispatch => ({
-  updateUser: bindActionCreators(actions.updateUser, dispatch),
-})
+const mapDispatchToProps = dispatch => bindActionCreators({
+  updateUser: actions.updateUser,
+}, dispatch)
 
 
 
