@@ -63,6 +63,54 @@ initStore()
 
 export default (Component, title = 'Untitled', reduxOptions = {}, authenticationRequired = false) => {
   class Page extends React.Component {
+    /***************************************************************************\
+      Private Methods
+    \***************************************************************************/
+
+    static async _verifyAuthenticatedUser (props) {
+      const {
+        accessToken,
+        loggedIn,
+        logout,
+        verifyError,
+        verifySession,
+      } = props
+
+      if (verifyError) {
+        return false
+      }
+
+      if (loggedIn) {
+        return true
+      }
+
+      const { payload, status } = await verifySession(accessToken)
+
+      // If the API returned in error, double check the reasoning.
+      if (status !== 'success') {
+        if (payload && Array.isArray(payload.errors)) {
+          const errMsg = payload.errors[0] && payload.errors[0].detail
+
+          if (errMsg === 'Unable to locate session') {
+            await logout(true)
+            return false
+          }
+        }
+
+        // Something else went wrong, but we cannot determine if the session is invalid
+      }
+
+      return true
+    }
+
+
+
+
+
+    /***************************************************************************\
+      Public Methods
+    \***************************************************************************/
+
     constructor (props) {
       super(props)
 
@@ -98,7 +146,9 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         storeName: 'webStore',
       })
 
-      if (props.accessToken) {
+      if (this.props.verifyError) {
+        this.props.logout(true)
+      } else if (props.accessToken && props.loggedIn) {
         apiService.defaults.headers.common.Authorization = `Bearer ${props.accessToken}`
       }
     }
@@ -109,6 +159,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         isServer,
         query,
         res,
+        store,
       } = ctx
       const {
         accessToken,
@@ -116,11 +167,21 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       } = Cookies(ctx)
       let props = {}
 
+
+      let verified = false
+
       if (accessToken) {
+        verified = await Page._verifyAuthenticatedUser({
+          ...store.getState().authentication,
+          accessToken,
+          logout: (...args) => actions.logout(...args)(store.dispatch),
+          verifySession: (...args) => actions.verifySession(...args)(store.dispatch),
+        })
+
         apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`
       }
 
-      if (!accessToken && authenticationRequired) {
+      if (!verified && authenticationRequired) {
         if (res) {
           res.writeHead(302, {
             Location: `/login?destination=${encodeURIComponent(asPath)}`,
@@ -183,7 +244,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       ...state.authentication,
       ...pageProps,
     }
-      }
+  }
 
   const mapDispatchToProps = (dispatch, ownProps) => {
     let pageActions = {}
