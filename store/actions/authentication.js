@@ -77,9 +77,16 @@ export const login = (email, password) => createApiAction({
 
 
 export const logout = () => async dispatch => {
+  const userId = Cookies.get('userId')
   Cookies.remove('accessToken')
   Cookies.remove('userId')
-  dispatch({ type: actionTypes.LOGOUT })
+  dispatch({
+    payload: {
+      userId,
+    },
+    status: 'success',
+    type: actionTypes.LOGOUT,
+  })
 }
 
 
