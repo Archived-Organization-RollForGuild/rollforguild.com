@@ -5,7 +5,6 @@ import {
 } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
-import Cookies from 'js-cookie'
 
 
 
@@ -44,10 +43,4 @@ export const actions = {
 
 
 
-export const initStore = (state = initialState) => createStore(reducer, {
-  ...state,
-  authentication: {
-    ...state.authentication,
-    loggedIn: !!Cookies.get('accessToken'),
-  },
-}, composeWithDevTools(applyMiddleware(thunkMiddleware)))
+export const initStore = (state = initialState) => createStore(reducer, state, composeWithDevTools(applyMiddleware(thunkMiddleware)))
