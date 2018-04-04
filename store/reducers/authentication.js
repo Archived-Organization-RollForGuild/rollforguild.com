@@ -7,7 +7,7 @@ import initialState from '../initialState'
 
 export default function (state = initialState.authentication, action) {
   const {
-    // payload,
+    payload,
     status,
     type,
   } = action
@@ -15,6 +15,7 @@ export default function (state = initialState.authentication, action) {
   switch (type) {
     case actionTypes.CONFIRM_ACCOUNT:
     case actionTypes.LOGIN:
+    case actionTypes.VERIFY_SESSION:
       return {
         ...state,
         loggedIn: typeof status === 'string' && status === 'success',
@@ -24,6 +25,7 @@ export default function (state = initialState.authentication, action) {
       return {
         ...state,
         loggedIn: false,
+        verifyError: payload && payload.origin && payload.origin === 'verify',
       }
 
     case actionTypes.RESET_AUTHENTICATION_STATE:

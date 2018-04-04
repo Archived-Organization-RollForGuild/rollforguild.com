@@ -60,7 +60,9 @@ const GroupCard = (props) => {
 
 
 
-const mapDispatchToProps = dispatch => ({ requestToJoinGroup: bindActionCreators(actions.requestToJoinGroup, dispatch) })
+const mapDispatchToProps = dispatch => bindActionCreators({
+  requestToJoinGroup: actions.requestToJoinGroup,
+}, dispatch)
 
 
 

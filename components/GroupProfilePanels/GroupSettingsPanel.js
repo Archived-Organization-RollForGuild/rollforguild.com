@@ -256,7 +256,9 @@ GroupSettingsPanel.propTypes = {}
 
 
 
-const mapDispatchToProps = dispatch => ({ updateGroup: bindActionCreators(actions.updateGroup, dispatch) })
+const mapDispatchToProps = dispatch => bindActionCreators({
+  updateGroup: actions.updateGroup,
+}, dispatch)
 
 
 

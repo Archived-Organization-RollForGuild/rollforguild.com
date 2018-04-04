@@ -232,10 +232,10 @@ ForumThreadCard.propTypes = {
 
 
 
-const mapDispatchToProps = dispatch => ({
-  getUser: bindActionCreators(actions.getUser, dispatch),
-  deleteForumThread: bindActionCreators(actions.deleteForumThread, dispatch),
-})
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getUser: actions.getUser,
+  deleteForumThread: actions.deleteForumThread,
+}, dispatch)
 
 const mapStateToProps = (state, ownProps) => {
   const {

@@ -61,9 +61,6 @@ export const login = (email, password) => createApiAction({
     Cookies.set('userId', data.data.attributes.user_id, { expires: 365 })
   },
   onError: (error) => {
-    Cookies.remove('accessToken')
-    Cookies.remove('userId')
-
     if (error.response.status === 401) {
       return createAlertObject('Make sure your email and password are correct!', 'error', 'Login Failure!', null, true)
     }
@@ -76,12 +73,13 @@ export const login = (email, password) => createApiAction({
 
 
 
-export const logout = () => async dispatch => {
+export const logout = fromVerification => async dispatch => {
   const userId = Cookies.get('userId')
   Cookies.remove('accessToken')
   Cookies.remove('userId')
   dispatch({
     payload: {
+      origin: fromVerification ? 'verify' : 'user',
       userId,
     },
     status: 'success',
@@ -151,4 +149,13 @@ export const resetPassword = (password, token) => createApiAction({
     },
   },
   onError: 'Password reset failed.\nMake sure your reset token is correct.',
+})
+
+
+
+
+
+export const verifySession = token => createApiAction({
+  actionType: actionTypes.VERIFY_SESSION,
+  url: `/api/sessions/${token}`,
 })

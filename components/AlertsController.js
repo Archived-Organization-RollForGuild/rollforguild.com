@@ -61,7 +61,9 @@ AlertsController.propTypes = {
 
 
 
-const mapDispatchToProps = dispatch => ({ deleteAlert: bindActionCreators(actions.deleteAlert, dispatch) })
+const mapDispatchToProps = dispatch => bindActionCreators({
+  deleteAlert: actions.deleteAlert,
+}, dispatch)
 const mapStateToProps = state => ({ alerts: Object.values(state.alerts) })
 
 

@@ -219,13 +219,10 @@ class Register extends Component {
 
 const mapDispatchToProps = ['register']
 
-const mapStateToProps = state => ({ ...state.authentication })
-
 
 
 
 
 export default Page(Register, title, {
-  mapStateToProps,
   mapDispatchToProps,
 })
