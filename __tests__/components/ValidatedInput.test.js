@@ -23,7 +23,8 @@ Enzyme.configure({ adapter: new Adapter() })
 
 function setup (extraProps) {
   const props = {
-    onChange: jest.fn(),
+    onBlur: jest.fn(),
+    onInput: jest.fn(),
     pattern: '',
     required: true,
     type: 'text',
@@ -49,10 +50,10 @@ function setup (extraProps) {
 describe('ValidatedInput', () => {
   it('should render itself', () => {
     const { enzymeWrapper } = setup()
-    const input = enzymeWrapper.find('input')
-    const messageList = enzymeWrapper.find('ul.messages')
-    const validityIcon = enzymeWrapper.find('svg[data-icon="exclamation-triangle"]')
-    const wrapper = enzymeWrapper.find('div.validated-input')
+    const input = enzymeWrapper.find('[data-t="validated-input:input"]')
+    const messageList = enzymeWrapper.find('[data-t="validated-input:message-list"]')
+    const validityIcon = enzymeWrapper.find('[data-icon="exclamation-triangle"]')
+    const wrapper = enzymeWrapper.find('[data-t="validated-input:input"]')
 
     expect(wrapper.exists()).toBe(true)
     expect(input.exists()).toBe(true)
@@ -62,19 +63,37 @@ describe('ValidatedInput', () => {
 
   it('should hide the validity icon and messages if the input hasn\'t received focus', () => {
     const { enzymeWrapper } = setup()
-    const messageList = enzymeWrapper.find('ul.messages')
-    const validityIcon = enzymeWrapper.find('svg[data-icon="exclamation-triangle"]')
+    const messageList = enzymeWrapper.find('[data-t="validated-input:message-list"]')
+    const validityIcon = enzymeWrapper.find('[data-icon="exclamation-triangle"]')
 
     expect(validityIcon.prop('hidden')).toBe(true)
     expect(messageList.prop('hidden')).toBe(true)
   })
 
-  xit('should return the input value in the onChange handler', () => {})
+  describe('should fire its event handlers', () => {
+    const {
+      enzymeWrapper,
+      props,
+    } = setup()
+    const input = enzymeWrapper.find('[data-t="validated-input:input"]')
 
-  describe('should display an error message and icon', () => {
-    xit('if the input value doesn\'t match the pattern', () => {})
-    xit('if the input value is the incorrect type', () => {})
-    xit('if the input value is too long', () => {})
-    xit('if the input value is empty but required', () => {})
+    it('onInput', () => {
+      input.simulate('input')
+
+      expect(props.onInput).toHaveBeenCalledTimes(1)
+    })
+
+    it('onBlur', () => {
+      input.simulate('blur')
+
+      expect(props.onBlur).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('should display an error message and icon if the input value', () => {
+    xit('doesn\'t match the pattern', () => {})
+    xit('is the incorrect type', () => {})
+    xit('is too long', () => {})
+    xit('is empty but required', () => {})
   })
 })

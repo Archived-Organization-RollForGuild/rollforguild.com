@@ -1,7 +1,7 @@
 // Module imports
+import { orderBy } from 'lodash'
 import React from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { orderBy } from 'lodash'
 
 
 
@@ -128,7 +128,9 @@ class ValidatedInput extends Component {
   \***************************************************************************/
 
   componentDidMount () {
-    this._validate()
+    if (this._el.value) {
+      this._validate()
+    }
   }
 
   componentDidUpdate (prevProps) {
@@ -155,7 +157,7 @@ class ValidatedInput extends Component {
       '_handleBlur',
       '_handleInput',
     ])
-    this._debounceMethods(['_validate'])
+    // this._debounceMethods(['_validate'])
 
     this.state = {
       hasBeenFocused: false,
@@ -174,21 +176,32 @@ class ValidatedInput extends Component {
     ]
 
     return (
-      <div className={classNames.join(' ')}>
-        <input {...this.renderProps} />
+      <div
+        className={classNames.join(' ')}
+        data-t="validated-input:wrapper">
+        <input
+          data-t="validated-input:input"
+          {...this.renderProps} />
 
         <FontAwesomeIcon
           className="validity-indicator"
+          data-t="validated-input:validity-icon"
           hidden={!hasBeenFocused}
           icon="exclamation-triangle"
           fixedWidth />
 
         <ul
           className="messages"
+          data-t="validated-input:message-list"
           hidden={!hasBeenFocused}>
           {messages.map(({ icon, message, type }) => (
-            <li key={message} className={`${type || 'error'} message`}>
-              <FontAwesomeIcon icon={icon} fixedWidth />
+            <li
+              key={message}
+              className={`${type || 'error'} message`}
+              data-t="validated-input:message-list:item">
+              <FontAwesomeIcon
+                icon={icon}
+                fixedWidth />
               {message}
             </li>
           ))}
