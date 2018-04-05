@@ -15,7 +15,11 @@
         "preval",
         "transform-decorators-legacy",
         "transform-object-rest-spread",
-        "inline-react-svg"
+        "inline-react-svg",
+        [
+          "react-remove-properties",
+          { "properties": ["data-t"] }
+        ]
       ]
     },
     "test": {
