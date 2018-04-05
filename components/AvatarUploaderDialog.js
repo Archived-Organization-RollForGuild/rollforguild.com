@@ -1,5 +1,6 @@
 // Module Imports
 import React from 'react'
+import ReactDOM from 'react-dom'
 import ReactCrop, { makeAspectCrop } from 'react-image-crop'
 
 
@@ -204,7 +205,7 @@ export default class AvatarUploaderDialog extends Component {
     Public Methods
   \***************************************************************************/
 
-  constructor(params) {
+  constructor (params) {
     super(params)
 
     this.stages = {
@@ -366,38 +367,41 @@ export default class AvatarUploaderDialog extends Component {
     )
   }
 
-  render() {
+  render () {
     const {
       error,
       stage,
     } = this.state
 
-    return (
-      <div className="avatar-uploader">
-        <div className="avatar-upload-dialog">
-          <h3 className="title">Upload Avatar</h3>
+    return ReactDOM.createPortal(
+      (
+        <div className="avatar-uploader">
+          <div className="avatar-upload-dialog">
+            <h3 className="title">Upload Avatar</h3>
 
-          {Boolean(error) && (
-            <div className="error-box">
-              {error}
-            </div>
-          )}
+            {Boolean(error) && (
+              <div className="error-box">
+                {error}
+              </div>
+            )}
 
-          {stage === this.stages.INPUT && this.renderImageInput()}
+            {stage === this.stages.INPUT && this.renderImageInput()}
 
-          {stage === this.stages.CROP && this.renderImageCrop()}
+            {stage === this.stages.CROP && this.renderImageCrop()}
 
-          {stage === this.stages.CONFIRM && this.renderImageConfirm()}
+            {stage === this.stages.CONFIRM && this.renderImageConfirm()}
 
-          {stage === this.stages.UPLOAD && (
-            <div className="stage image-upload">
-              <h2 className="stage-text">
-                Uploading...
-              </h2>
-            </div>
-          )}
+            {stage === this.stages.UPLOAD && (
+              <div className="stage image-upload">
+                <h2 className="stage-text">
+                  Uploading...
+                </h2>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      ),
+      document.getElementById('dialog-container')
     )
   }
 }

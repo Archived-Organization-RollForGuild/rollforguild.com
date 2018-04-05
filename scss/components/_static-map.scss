@@ -1,15 +1,15 @@
 .static-map {
-  height: 50rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 25rem;
   overflow: hidden;
   position: relative;
   width: 100%;
 
-  img {
-    height: 128rem;
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 128rem;
+  + footer {
+    background-color: $black;
+    line-height: 1.5;
+    padding: 1rem;
   }
 }

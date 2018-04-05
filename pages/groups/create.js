@@ -10,8 +10,12 @@ import Switch from 'rc-switch'
 import { Router } from '../../routes'
 import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
+import Form from '../../components/Form'
 import Component from '../../components/Component'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
+import ValidatedInput from '../../components/ValidatedInput'
 
 
 
@@ -41,7 +45,6 @@ class CreateGroup extends Component {
       address,
       description,
       discoverable,
-      games,
       name,
       slug,
     } = this.state
@@ -54,7 +57,6 @@ class CreateGroup extends Component {
       address: address.formatted_address,
       description,
       discoverable,
-      games: games.split(',').map(game => game.trim()),
       name,
       slug: slug || convertStringToSlug(name),
     })
@@ -99,7 +101,6 @@ class CreateGroup extends Component {
       address: '',
       description: '',
       discoverable: true,
-      games: '',
       name: '',
       slug: '',
       submitting: false,
@@ -111,7 +112,6 @@ class CreateGroup extends Component {
       address,
       description,
       discoverable,
-      games,
       name,
       slug,
       submitting,
@@ -119,168 +119,104 @@ class CreateGroup extends Component {
 
     return (
       <React.Fragment>
-        <header>
+        <PageHeader>
           <h1>Create a Group</h1>
-        </header>
+        </PageHeader>
 
-        <form onSubmit={this._handleSubmit}>
-          <fieldset>
-            <label htmlFor="group-name">
-              Group name
-            </label>
-
-            <input
-              disabled={submitting}
-              id="group-name"
-              onChange={({ target }) => this.setState({ name: target.value })}
-              pattern="[\w\s_-]+"
-              placeholder="Quigley's Tavern"
-              required
-              type="text"
-              value={name} />
-          </fieldset>
-
-          <fieldset>
-            <label htmlFor="permalink">Permalink</label>
-
-            <div className="input-group">
-              <label htmlFor="permalink">
-                https://rollforguild.com/groups/
+        <Main title={title}>
+          <Form
+            action="create"
+            category="Groups"
+            label="New Group"
+            onSubmit={this._handleSubmit}>
+            <fieldset>
+              <label htmlFor="group-name">
+                Group name
               </label>
 
-              <input
+              <ValidatedInput
                 disabled={submitting}
-                id="permalink"
-                onChange={({ target }) => this.setState({ slug: convertStringToSlug(target.value) })}
-                pattern="(\w|-)*"
-                placeholder={convertStringToSlug(name)}
+                id="group-name"
+                onChange={({ target }) => this.setState({ name: target.value })}
+                pattern="[\w\s_-]+"
+                placeholder="Quigley's Tavern"
+                required
                 type="text"
-                value={slug} />
-            </div>
-          </fieldset>
+                value={name} />
+            </fieldset>
 
-          <fieldset>
-            <label htmlFor="group-description">
-              Group description
-            </label>
+            <fieldset>
+              <label htmlFor="permalink">Permalink</label>
 
-            <textarea
-              aria-describedby="group-description"
-              disabled={submitting}
-              id="group-description"
-              maxLength={1000}
-              onChange={({ target }) => this.setState({ description: target.value })}
-              placeholder="Tell your members what you'll be playing, or maybe a bit about your GM style."
-              value={description} />
+              <div className="input-group">
+                <label htmlFor="permalink">
+                  https://rollforguild.com/groups/
+                </label>
 
-            <small>Tell your members what you'll be playing, or maybe a bit about your GM style.</small>
-          </fieldset>
+                <ValidatedInput
+                  disabled={submitting}
+                  id="permalink"
+                  onChange={({ target }) => this.setState({ slug: convertStringToSlug(target.value) })}
+                  pattern="(\w|-)*"
+                  placeholder={convertStringToSlug(name)}
+                  type="text"
+                  value={slug} />
+              </div>
+            </fieldset>
 
-          <fieldset>
-            <label htmlFor="games">
-              What games will you be playing?
-            </label>
+            <fieldset>
+              <label htmlFor="group-description">
+                Group description
+              </label>
 
-            <input
-              disabled={submitting}
-              id="games"
-              onChange={({ target }) => this.setState({ games: target.value })}
-              placeholder="Use a comma-separated list for multiple games"
-              value={games} />
+              <textarea
+                aria-describedby="group-description"
+                disabled={submitting}
+                id="group-description"
+                maxLength={1000}
+                onChange={({ target }) => this.setState({ description: target.value })}
+                placeholder="Tell your members what you'll be playing, or maybe a bit about your GM style."
+                value={description} />
 
-            {/* <Dropdown
-              filter={CreateGroup._filterDropdownOptions}
-              id="games"
-              name="ruleset"
-              options={[
-                '7th Sea (1st Edition)',
-                '7th Sea (2nd Edition)',
-                'Advanced Dungeons & Dragons (1st Edition)',
-                'Advanced Dungeons & Dragons (2nd Edition)',
-                'Adventures in Middle-earth',
-                'Ars Magicka',
-                'Battletech',
-                'Call of Cthulhu',
-                'Champions',
-                'Changeling: The Dreaming',
-                'Changeling: The Lost',
-                'Cyberpunk 2020',
-                'Dark Heresy',
-                'Deadlands',
-                'Dungeons & Dragons (3.5 Edition)',
-                'Dungeons & Dragons (4th Edition)',
-                'Dungeons & Dragons (5th Edition)',
-                'Earthdawn',
-                'Exalted',
-                'Fate',
-                'Firefly',
-                'Gamma World',
-                'GURPS',
-                'Iron Kindoms',
-                'Legend of the Five Rings',
-                'Mage: The Ascension',
-                'Mage: The Awakening',
-                'Marvel Superheroes',
-                'MechWarrior',
-                'Mutants & Masterminds',
-                'Numenera',
-                'Palladium',
-                'Paranoia',
-                'Pendragon',
-                'Pathfinder',
-                'Rifts',
-                'Robotech',
-                'Rolemaster',
-                'RuneQuest',
-                'Savage Worlds',
-                'Shadowrun',
-                'Star Wars',
-                'Star Wars: Edge of the Empire',
-                'Traveller',
-                'Vampire: The Dark Ages',
-                'Vampire: The Masquerade',
-                'Warhammer',
-                'Warhammer 40,000',
-                'Werewolf: The Apocalypse',
-                'World of Darkness',
-              ]} /> */}
-          </fieldset>
+              <small>Tell your members what you'll be playing, or maybe a bit about your GM style.</small>
+            </fieldset>
 
-          <fieldset>
-            <label htmlFor="address">
-              Where will you be playing?
-            </label>
+            <fieldset>
+              <label htmlFor="address">
+                Where will you be playing?
+              </label>
 
-            <AddressInput
-              disabled={submitting}
-              id="address"
-              onChange={value => this.setState({ address: value })}
-              required
-              value={address} />
-          </fieldset>
+              <AddressInput
+                disabled={submitting}
+                id="address"
+                onChange={value => this.setState({ address: value })}
+                required
+                value={address} />
+            </fieldset>
 
-          <fieldset className="horizontal">
-            <label htmlFor="discoverable">
-              Should your group show up in searches?
-            </label>
+            <fieldset className="horizontal">
+              <label htmlFor="discoverable">
+                Should your group show up in searches?
+              </label>
 
-            <Switch
-              disabled={submitting}
-              checked={discoverable}
-              id="discoverable"
-              onChange={isChecked => this.setState({ discoverable: isChecked })} />
-          </fieldset>
+              <Switch
+                disabled={submitting}
+                checked={discoverable}
+                id="discoverable"
+                onChange={isChecked => this.setState({ discoverable: isChecked })} />
+            </fieldset>
 
-          <menu type="toolbar">
-            <div className="primary">
-              <button
-                className="success"
-                disabled={submitting || !this._isValid()}>
-                Create
-              </button>
-            </div>
-          </menu>
-        </form>
+            <menu type="toolbar">
+              <div className="primary">
+                <button
+                  className="success"
+                  disabled={submitting || !this._isValid()}>
+                  Create
+                </button>
+              </div>
+            </menu>
+          </Form>
+        </Main>
       </React.Fragment>
     )
   }

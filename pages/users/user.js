@@ -9,10 +9,12 @@ import {
   Tab,
   TabPanel,
 } from '../../components/TabPanel'
-import AvatarUploader from '../../components/AvatarUploaderDialog'
+import Avatar from '../../components/Avatar'
 import Component from '../../components/Component'
-import { Link } from '../../routes'
+import Link from '../../components/Link'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 import UserSettingsPanel from '../../components/UserProfilePanels/UserSettingsPanel'
 
 
@@ -31,35 +33,14 @@ class UserProfile extends Component {
     Private Methods
   \***************************************************************************/
 
-  _toggleAvatarDialogState (show) {
-    this.setState({ showAvatarEdit: typeof show === 'boolean' ? show : !this.state.showAvatarEdit })
-  }
+  _handleUserUpdate (response, changes) {
+    if (response.status === 'success') {
+      this.setState({ user: response.payload.data })
 
-  async _handleAvatarDialogComplete (_fileBlob) {
-    const {
-      updateUserAvatar,
-    } = this.props
-
-    const {
-      user,
-    } = this.state
-
-    const fileBlob = _fileBlob
-
-    fileBlob.name = `${user.id}-avatar`
-
-    const response = await updateUserAvatar(user.id, fileBlob)
-
-    if (response.status !== 'success') {
-      return 'File Upload Error. Please Try again.'
+      if (changes.email) {
+        this.props.pushAlert('Check your new email for confirmation!', 'warn', 'action required')
+      }
     }
-
-    this.setState({
-      userAvatar: URL.createObjectURL(fileBlob),
-      showAvatarEdit: false,
-    })
-
-    return null
   }
 
 
@@ -107,12 +88,9 @@ class UserProfile extends Component {
       userSharesGroup = currentUserGroups.some(group => displayedUserGroups.includes(group))
     }
 
-    const userAvatar = displayedUser && displayedUser.attributes.avatar ? `/api/users/${displayedUser.id}/avatar` : `//api.adorable.io/avatars/500/${displayedUser.id}`
-
     this.setState({
       loaded: true,
       user: displayedUser,
-      userAvatar,
       userSharesGroup,
       userIsCurrentUser,
     })
@@ -122,15 +100,12 @@ class UserProfile extends Component {
     super(props)
 
     this._bindMethods([
-      '_toggleAvatarDialogState',
-      '_handleAvatarDialogComplete',
+      '_handleUserUpdate',
     ])
 
     this.state = {
       loaded: false,
-      showAvatarEdit: false,
       user: null,
-      userAvatar: null,
       userIsCurrentUser: false,
       userSharesGroup: false,
     }
@@ -139,9 +114,7 @@ class UserProfile extends Component {
   render () {
     const {
       loaded,
-      showAvatarEdit,
       user,
-      userAvatar,
       userIsCurrentUser,
       userSharesGroup,
     } = this.state
@@ -153,11 +126,13 @@ class UserProfile extends Component {
     if (!user && !loaded) {
       return (
         <React.Fragment>
-          <header>
+          <PageHeader>
             <h1>User</h1>
-          </header>
+          </PageHeader>
 
-          <p>Loading...</p>
+          <Main title={title}>
+            <p>Loading...</p>
+          </Main>
         </React.Fragment>
       )
     }
@@ -165,11 +140,13 @@ class UserProfile extends Component {
     if (!user) {
       return (
         <React.Fragment>
-          <header>
+          <PageHeader>
             <h1>User</h1>
-          </header>
+          </PageHeader>
 
-          <p>No user with that ID was found.</p>
+          <Main title={title}>
+            <p>No user with that ID was found.</p>
+          </Main>
         </React.Fragment>
       )
     }
@@ -182,7 +159,7 @@ class UserProfile extends Component {
 
     return (
       <React.Fragment>
-        <header>
+        <PageHeader>
           <h1>{userIsCurrentUser ? 'Your profile' : `${username}'s profile`}</h1>
 
           <menu type="toolbar">
@@ -194,88 +171,76 @@ class UserProfile extends Component {
               </a>
             )}
           </menu>
-        </header>
+        </PageHeader>
 
-        <div className="profile">
-          <header>
-            <div
-              aria-label={`${username}'s avatar`}
-              className="avatar large"
-              style={{ backgroundImage: `url(${userAvatar})` }}>
-              {userIsCurrentUser && (
-                <button className="avatar-edit-overlay" onClick={this._toggleAvatarDialogState}>
-                  <h4>Edit</h4>
-                </button>
-              )}
-            </div>
-          </header>
+        <Main title={title}>
+          <div className="profile">
+            <header>
+              <Avatar src={user} editable={userIsCurrentUser} />
+            </header>
 
-          <TabPanel className="details">
-            <Tab title="Details">
-              <section className="bio">
-                <h4>Bio</h4>
-                <div className="section-content">
-                  <p>{bio || `${username} hasn't written their bio yet!`}</p>
-                </div>
-              </section>
-            </Tab>
-
-            {(userIsCurrentUser && groups) && (
-              <Tab title="Groups">
-                <section className="groups">
-                  <ul>
-                    {this.props.groups.map(group => (
-                      <li
-                        className="card"
-                        key={group.id}>
-                        <header>
-                          {group.attributes.name}
-                        </header>
-                        <div className="content">
-                          <div
-                            aria-label={`${group.attributes.name} Avatar`}
-                            className="avatar small pull-left"
-                            style={{ backgroundImage: `url(${group.attributes.avatar ? `/api/groups/${group.id}/avatar` : `//api.adorable.io/avatars/50/${group.id}`})` }} />
-                          <h4>{group.attributes.name}</h4>
-                        </div>
-                        <footer>
-                          <menu
-                            className="compact"
-                            type="toolbar">
-                            <div className="primary">
-                              <Link
-                                route="group profile"
-                                params={{ id: group.id }}>
-                                <button
-                                  className="small success" >
-                                  View
-                                </button>
-                              </Link>
-                            </div>
-                          </menu>
-                        </footer>
-                      </li>
-                    ))}
-                  </ul>
+            <TabPanel
+              category="Users"
+              className="details">
+              <Tab title="Details">
+                <section className="bio">
+                  <h4>Bio</h4>
+                  <div className="section-content">
+                    <p>{bio || `${username} hasn't written their bio yet!`}</p>
+                  </div>
                 </section>
               </Tab>
-            )}
 
-            {userIsCurrentUser && (
-              <Tab title="Settings">
-                <UserSettingsPanel user={user} />
-              </Tab>
-            )}
-          </TabPanel>
+              {(userIsCurrentUser && groups) && (
+                <Tab title="Groups">
+                  <section className="groups">
+                    <ul className="card-list">
+                      {this.props.groups.map(group => {
+                        const {
+                          description,
+                          name,
+                          slug,
+                        } = group.attributes
 
+                        return (
+                          <li
+                            className="card"
+                            key={group.id}>
 
-        </div>
+                            <header>
+                              <Avatar src={group} size="small" />
 
-        {showAvatarEdit && (
-          <AvatarUploader
-            onComplete={this._handleAvatarDialogComplete}
-            onCancel={() => this._toggleAvatarDialogState(false)} />
-        )}
+                              <h2>
+                                <Link
+                                  action="view-group"
+                                  category="Users"
+                                  label="Group"
+                                  route="group profile"
+                                  params={{ id: slug }}>
+                                  <a>{name}</a>
+                                </Link>
+                              </h2>
+                            </header>
+
+                            <div className="content">
+                              {description}
+                            </div>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </section>
+                </Tab>
+              )}
+
+              {userIsCurrentUser && (
+                <Tab title="Settings">
+                  <UserSettingsPanel user={user} onSubmit={this._handleUserUpdate} />
+                </Tab>
+              )}
+            </TabPanel>
+          </div>
+        </Main>
       </React.Fragment>
     )
   }
@@ -287,7 +252,7 @@ class UserProfile extends Component {
 
 const mapDispatchToProps = [
   'getUser',
-  'updateUserAvatar',
+  'pushAlert',
 ]
 
 const mapStateToProps = (state, ownProps) => {

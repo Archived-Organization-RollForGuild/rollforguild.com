@@ -1,22 +1,43 @@
 .card {
+  --padding-width: 2rem;
   background-color: #303030;
   border-radius: 0.25rem;
   overflow: hidden;
 
+  &.compact {
+    --padding-width: 1rem;
+  }
+
   > header {
     background-color: #444;
-    font-family: Montserrat, sans-serif;
-    padding: 0 2rem;
+    display: flex;
+    padding: calc(var(--padding-width) / 2) var(--padding-width);
+    
+    > *:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+
+  .meta {
+    border-bottom-color: #444;
+    border-bottom-style: solid;
+    border-bottom-width: 0.1rem;
+    padding: 0 var(--padding-width);
+
+    > *:not(:last-child):after {
+      content: '·';
+      margin: 0 0.5rem;
+    }
   }
 
   > .content {
-    padding: 2rem;
-    display: flex;
+    padding: var(--padding-width);
     align-items: center;
   }
 
   > footer {
     background-color: #444;
+
     menu {
       .button,
       button {

@@ -1,25 +1,14 @@
-.page {
+main.page {
   align-content: stretch;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  grid-area: page;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 2rem 2rem;
+  padding: 2rem 2rem;
   padding-left: calc(2rem + env(safe-area-inset-left));
   padding-right: calc(2rem + env(safe-area-inset-right));
-
-  > header {
-    background-color: $black;
-    margin-bottom: 2rem;
-    margin-left: -2rem;
-    margin-left: calc(-2rem - env(safe-area-inset-left));
-    margin-right: -2rem;
-    margin-right: calc(-2rem - env(safe-area-inset-right));
-    padding: 0 2rem;
-    padding-left: calc(2rem + env(safe-area-inset-left));
-    padding-right: calc(2rem + env(safe-area-inset-right));
-  }
 }
 
 .page-wrapper {

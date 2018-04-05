@@ -18,10 +18,16 @@ import {
   isUUID,
 } from '../../helpers'
 import { actions } from '../../store'
+import Avatar from '../../components/Avatar'
+import Button from '../../components/Button'
 import Component from '../../components/Component'
-import Page from '../../components/Page'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
+import Link from '../../components/Link'
+import Main from '../../components/Main'
+import Markdown from '../../components/Markdown'
+import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 import StaticMap from '../../components/StaticMap'
 
 
@@ -29,6 +35,8 @@ import StaticMap from '../../components/StaticMap'
 
 
 // Component constants
+const adminRoles = ['owner', 'admin']
+const memberRoles = ['owner', 'admin', 'member']
 const title = 'Group Profile'
 
 
@@ -89,63 +97,68 @@ class JoinRequestCard extends Component {
 
   render () {
     const { user } = this.props
-    const { attributes, id } = user
     const {
       accepting,
       ignoring,
     } = this.state
 
     const {
+      bio,
       email,
       username,
-    } = attributes
+    } = user.attributes
 
     return (
       <div className="card">
         <header>
-          {attributes.username}
+          <Avatar src={user} size="small" />
+
+          <h2>{username}</h2>
         </header>
 
         <div className="content">
-          <div
-            aria-label={`${username}'s Avatar`}
-            className="avatar small"
-            style={{ backgroundImage: `url(//api.adorable.io/avatars/50/${id})` }} />
-
-          {(!accepting && !ignoring) && (
-            <menu
-              className="compact"
-              type="toolbar">
-              <div className="primary">
-                <a
-                  className="button small secondary"
-                  href={`mailto:${email}`}>
-                  Message
-                </a>
-
-                <button
-                  className="small success"
-                  onClick={this._accept}>
-                  Accept
-                </button>
-
-                <button
-                  className="small danger"
-                  onClick={this._ignore}>
-                  Ignore
-                </button>
-
-                {/* <button className="danger small">
-                  Remove
-                </button> */}
-              </div>
-            </menu>
+          {!!bio && (
+            <Markdown input={bio} />
           )}
 
-          {accepting && 'Accepting...'}
-
-          {ignoring && 'Ignoring...'}
+          {!bio && (
+            <em>No bio available</em>
+          )}
         </div>
+
+        <footer>
+          <menu
+            className="compact"
+            type="toolbar">
+            <div className="primary">
+              <Link href={`mailto:${email}`}>
+                <a className="button small success">Message</a>
+              </Link>
+            </div>
+
+            <div className="secondary">
+              <Button
+                action="accept"
+                category="Groups"
+                className="small success"
+                disabled={accepting || ignoring}
+                label="Membership"
+                onClick={this._accept}>
+                {!accepting ? 'Accept' : 'Accepting...'}
+              </Button>
+
+              <Button
+                action="ignore"
+                category="Groups"
+                className="small danger"
+                disabled={accepting || ignoring}
+                label="Membership"
+                onClick={this._ignore}>
+                {!ignoring ? 'Ignore' : 'Ignoring...'}
+              </Button>
+            </div>
+          </menu>
+        </footer>
       </div>
     )
   }
@@ -179,7 +192,7 @@ class GroupProfile extends Component {
     await this._handleJoinRequest(userId, 'ignored')
   }
 
-  async _removeMember(userId) {
+  async _removeMember (userId) {
     const {
       group,
       removeGroupMember,
@@ -243,14 +256,17 @@ class GroupProfile extends Component {
 
     memberStatus = group.attributes.member_status
 
-    if (memberStatus === 'admin') {
+    const currentUserIsAdmin = adminRoles.includes(memberStatus)
+    const currentUserIsMember = memberRoles.includes(memberStatus)
+
+    if (currentUserIsAdmin) {
       const { payload } = await getJoinRequests(id)
       joinRequests = (payload && payload.data) ? payload.data : []
     }
 
     this.setState({
-      currentUserIsAdmin: memberStatus === 'admin',
-      currentUserIsMember: memberStatus === 'admin' || memberStatus === 'member',
+      currentUserIsAdmin,
+      currentUserIsMember,
       gettingJoinRequests: false,
       joinRequests,
       joinRequestSent: memberStatus === 'pending',
@@ -272,8 +288,8 @@ class GroupProfile extends Component {
     ])
 
     this.state = {
-      currentUserIsAdmin: group && (group.attributes.member_status === 'admin'),
-      currentUserIsMember: group && ((group.attributes.member_status === 'member') || (group.attributes.member_status === 'admin')),
+      currentUserIsAdmin: group && adminRoles.includes(group.attributes.member_status),
+      currentUserIsMember: group && memberRoles.includes(group.attributes.member_status),
       gettingJoinRequests: false,
       joinRequests: [],
       joinRequestSent: group && (group.attributes.member_status === 'pending'),
@@ -315,11 +331,13 @@ class GroupProfile extends Component {
     if (!group && !loaded) {
       return (
         <React.Fragment>
-          <header>
+          <PageHeader>
             <h1>Group</h1>
-          </header>
+          </PageHeader>
 
-          <p>Loading...</p>
+          <Main title={title}>
+            <p>Loading...</p>
+          </Main>
         </React.Fragment>
       )
     }
@@ -327,18 +345,20 @@ class GroupProfile extends Component {
     if (!group) {
       return (
         <React.Fragment>
-          <header>
+          <PageHeader>
             <h1>Group</h1>
-          </header>
+          </PageHeader>
 
-          <p>No group with that ID was found.</p>
+          <Main title={title}>
+            <p>No group with that ID was found.</p>
+          </Main>
         </React.Fragment>
       )
     }
 
     const {
+      address,
       description,
-      games,
       geo,
       name,
       slug,
@@ -355,179 +375,192 @@ class GroupProfile extends Component {
           <meta property="og:url" content={`https://rfg.group/${slug}`} />
         </Head>
 
-        <header>
+        <PageHeader>
           <h1>{name}</h1>
 
           {!currentUserIsAdmin && (
-            <menu type="toolbar">
-              {!currentUserIsMember && (
-                <button
-                  className="success"
-                  disabled={requestingToJoin || joinRequestSent}
-                  onClick={this._requestToJoin}>
-                  {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
+            <aside>
+              <menu type="toolbar">
+                {!currentUserIsMember && (
+                  <Button
+                    action="request"
+                    category="Groups"
+                    className="success"
+                    disabled={requestingToJoin || joinRequestSent}
+                    label="Membership"
+                    onClick={this._requestToJoin}>
+                    {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
-                  {(!requestingToJoin && joinRequestSent) && (
-                    <span><FontAwesomeIcon icon="check" /> Request sent</span>
-                  )}
+                    {(!requestingToJoin && joinRequestSent) && (
+                      <span><FontAwesomeIcon icon="check" /> Request sent</span>
+                    )}
 
-                  {requestingToJoin && (
-                    <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
-                  )}
-                </button>
-              )}
+                    {requestingToJoin && (
+                      <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
+                    )}
+                  </Button>
+                )}
+
+                {currentUserIsMember && (
+                  <Button
+                    action="cancel"
+                    category="Groups"
+                    className="danger"
+                    disabled={leaving[currentUserId]}
+                    label="Membership"
+                    onClick={() => this._removeMember(currentUserId)}>
+                    {!leaving[currentUserId] && 'Leave group'}
+
+                    {leaving[currentUserId] && (
+                      <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
+                    )}
+                  </Button>
+                )}
+              </menu>
+            </aside>
+          )}
+        </PageHeader>
+
+        <Main title={title}>
+          <div className="profile">
+            <header>
+              <Avatar src={group} />
 
               {currentUserIsMember && (
-                <button
-                  className="danger"
-                  disabled={leaving[currentUserId]}
-                  onClick={() => this._removeMember(currentUserId)}>
-                  {!leaving[currentUserId] && 'Leave group'}
+                <section className="location">
+                  <h4>Location</h4>
 
-                  {leaving[currentUserId] && (
-                    <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
-                  )}
-                </button>
+                  <StaticMap
+                    address={address}
+                    category="Groups"
+                    location={geo}
+                    markers={[{ ...geo }]} />
+                </section>
               )}
-            </menu>
-          )}
-        </header>
+            </header>
 
-        <div className="profile">
-          <header>
-            <div
-              aria-label={`${name}'s avatar`}
-              className="avatar large"
-              style={{ backgroundImage: `url(//api.adorable.io/avatars/150/${group.id})` }} />
+            <TabPanel
+              category="Groups"
+              className="details">
+              <Tab title="Details">
+                <GroupDetailsPanel group={group} />
+              </Tab>
 
-            <section className="games">
-              <h4>Games</h4>
-              <ul className="group">
-                {games.map(game => (
-                  <li key={game}>{game}</li>
-                ))}
-              </ul>
-            </section>
+              {currentUserIsMember && (
+                <Tab title="Members">
+                  <section className="members">
+                    {!members.length && (
+                      <p>No other members.</p>
+                    )}
 
-            {currentUserIsMember && (
-              <section className="location">
-                <h4>Location</h4>
+                    {!!members.length && (
+                      <ul className="card-list">
+                        {members.map(user => {
+                          const {
+                            id,
+                          } = user
 
-                <StaticMap
-                  location={geo}
-                  markers={[{ ...geo }]} />
-              </section>
-            )}
-          </header>
+                          const {
+                            bio,
+                            email,
+                            username,
+                          } = user.attributes
 
-          <TabPanel className="details">
-            <Tab title="Details">
-              <GroupDetailsPanel group={group} />
-            </Tab>
+                          return (
+                            <li
+                              className="card"
+                              key={id}>
+                              <header>
+                                <Avatar src={user} size="small" className="pull-left" />
 
-            {currentUserIsMember && (
-              <Tab title="Members">
-                <section className="members">
-                  {!members.length && (
-                    <p>No other members.</p>
-                  )}
+                                <h2>{username}</h2>
+                              </header>
 
-                  {!!members.length && (
-                    <ul className="">
-                      {members.map(({ attributes, id }) => {
-                        const {
-                          email,
-                          username,
-                        } = attributes
-
-                        return (
-                          <li
-                            className="card"
-                            key={id}>
-                            <header>
-                              {attributes.username}
-                            </header>
-
-                            <div className="content">
-                              <div
-                                aria-label={`${username}'s Avatar`}
-                                className="avatar small pull-left"
-                                style={{ backgroundImage: `url(//api.adorable.io/avatars/50/${id})` }} />
-
-                              <h4>{attributes.username}</h4>
-                            </div>
-
-                            <footer>
-                              <menu
-                                className="compact"
-                                type="toolbar">
-                                <div className="primary">
-                                  <a
-                                    className="button small success"
-                                    href={`mailto:${email}`}>
-                                    Message
-                                  </a>
-                                </div>
-
-                                { currentUserIsAdmin && (
-                                  <div className="secondary">
-                                    <button
-                                      disabled={leaving[id]}
-                                      className="secondary small"
-                                      onClick={() => this._removeMember(id)}>
-                                      {!leaving[id] && 'Remove'}
-
-                                      {leaving[id] && (
-                                        <span><FontAwesomeIcon icon="spinner" pulse /> Removing...</span>
-                                      )}
-                                    </button>
-                                  </div>
+                              <div className="content">
+                                {!!bio && (
+                                  <Markdown input={bio} />
                                 )}
-                              </menu>
-                            </footer>
+
+                                {!bio && (
+                                  <em>No bio available</em>
+                                )}
+                              </div>
+
+                              <footer>
+                                <menu
+                                  className="compact"
+                                  type="toolbar">
+                                  <div className="primary">
+                                    <a
+                                      className="button small success"
+                                      href={`mailto:${email}`}>
+                                      Message
+                                    </a>
+                                  </div>
+
+                                  { currentUserIsAdmin && (
+                                    <div className="secondary">
+                                      <Button
+                                        action="remove"
+                                        category="Groups"
+                                        className="secondary small"
+                                        disabled={leaving[id]}
+                                        label="Membership"
+                                        onClick={() => this._removeMember(id)}>
+                                        {!leaving[id] && 'Remove'}
+
+                                        {leaving[id] && (
+                                          <span><FontAwesomeIcon icon="spinner" pulse /> Removing...</span>
+                                        )}
+                                      </Button>
+                                    </div>
+                                  )}
+                                </menu>
+                              </footer>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
+                  </section>
+                </Tab>
+              )}
+
+              {currentUserIsAdmin && (
+                <Tab title="Join Requests">
+                  <section className="join-requests">
+                    {gettingJoinRequests && (
+                      <p>Loading...</p>
+                    )}
+
+                    {(!gettingJoinRequests && !joinRequests.length) && (
+                      <p>No requests found.</p>
+                    )}
+
+                    {(!gettingJoinRequests && !!joinRequests.length) && (
+                      <ul>
+                        {joinRequests.map(user => (
+                          <li key={user.id}>
+                            <JoinRequestCard
+                              accept={this._acceptJoinRequest}
+                              ignore={this._ignoreJoinRequest}
+                              user={user} />
                           </li>
-                        )
-                      })}
-                    </ul>
-                  )}
-                </section>
-              </Tab>
-            )}
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                </Tab>
+              )}
 
-            {currentUserIsAdmin && (
-              <Tab title="Join Requests">
-                <section className="join-requests">
-                  {gettingJoinRequests && (
-                    <p>Loading...</p>
-                  )}
-
-                  {(!gettingJoinRequests && !joinRequests.length) && (
-                    <p>No requests found.</p>
-                  )}
-
-                  {(!gettingJoinRequests && !!joinRequests.length) && (
-                    <ul>
-                      {joinRequests.map(user => (
-                        <li key={user.id}>
-                          <JoinRequestCard
-                            accept={this._acceptJoinRequest}
-                            ignore={this._ignoreJoinRequest}
-                            user={user} />
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </section>
-              </Tab>
-            )}
-
-            {currentUserIsAdmin && (
-              <Tab title="Settings">
-                <GroupSettingsPanel group={group} />
-              </Tab>
-            )}
-          </TabPanel>
-        </div>
+              {currentUserIsAdmin && (
+                <Tab title="Settings">
+                  <GroupSettingsPanel group={group} />
+                </Tab>
+              )}
+            </TabPanel>
+          </div>
+        </Main>
       </React.Fragment>
     )
   }
@@ -558,8 +591,9 @@ const mapStateToProps = (state, ownProps) => {
 
   if (group) {
     const memberStatus = group.attributes.member_status
+
     if (memberStatus) {
-      currentUserIsMember = (memberStatus === 'member') || (memberStatus === 'admin')
+      currentUserIsMember = memberRoles.includes(memberStatus)
     }
 
     if (group.relationships && currentUserIsMember) {

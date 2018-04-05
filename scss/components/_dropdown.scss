@@ -1,7 +1,6 @@
 .dropdown {
   position: relative;
   width: 100%;
-  z-index: 1001;
 
   input,
   ul {
@@ -15,6 +14,7 @@
     right: 0;
     top: 100%;
     width: 100%;
+    z-index: 101;
   }
 
   button {
@@ -41,6 +41,11 @@
       background-color: rgba($green, 0.1);
       border-left-color: $green;
     }
+  }
+
+  &.squishable {
+    flex-shrink: 1;
+    width: initial;
   }
 
   &:not(.focus) {

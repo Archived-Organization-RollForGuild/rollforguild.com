@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import React from 'react'
 
 
@@ -12,14 +12,15 @@ import React from 'react'
 // Component imports
 import { actions } from '../../store'
 import Component from '../Component'
-// import ValidatedInput from '../ValidatedInput'
+import Form from '../Form'
+import ValidatedInput from '../ValidatedInput'
 import PasswordInput from '../PasswordInput'
 
 
 
 
 
-class GroupSettingsPanel extends Component {
+class UserSettingsPanel extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -35,9 +36,9 @@ class GroupSettingsPanel extends Component {
 
   async _handleSubmit (event) {
     const {
+      onSubmit,
       user,
       updateUser,
-      updateUserPassword,
     } = this.props
 
     const { changes } = this.state
@@ -49,55 +50,16 @@ class GroupSettingsPanel extends Component {
       error: null,
     })
 
-    if (changes.password && changes.currentPassword) {
-      const response = await updateUserPassword(user.id, {
-        current_password: changes.currentPassword,
-        password: changes.password,
-      })
-
-      if (response.status !== 'success') {
-        const error = (
-          response.payload &&
-          response.payload.errors &&
-          response.payload.errors[0] &&
-          response.payload.errors[0].detail
-        ) || 'Error while attempting to change your password.'
-
-        this.setState({
-          changes: {
-            ...changes,
-            currentPassword: '',
-          },
-          error,
-          submitting: false,
-        })
-        return
-      }
-
-      delete changes.password
-      delete changes.currentPassword
-    }
-
     const response = await updateUser(user.id, changes)
 
-    if (response.status !== 'success') {
-      const error = (
-        response.payload &&
-        response.payload.errors &&
-        response.payload.errors[0] &&
-        response.payload.errors[0].detail
-      ) || 'Error while attempting to update your profile.'
+    this.setState({
+      changes: {},
+      submitting: false,
+    })
 
-      this.setState({
-        changes: {},
-        error,
-        submitting: false,
-      })
-      return
+    if (typeof onSubmit === 'function') {
+      onSubmit(response, changes)
     }
-
-
-    window.location.reload()
   }
 
   _isValid () {
@@ -170,7 +132,7 @@ class GroupSettingsPanel extends Component {
     } = this.state
 
     const bio = typeof changes.bio === 'string' ? changes.bio : user.attributes.bio
-    // const email = typeof changes.email === 'string' ? changes.email : user.attributes.email
+    const email = typeof changes.email === 'string' ? changes.email : user.attributes.email
     const currentPassword = typeof changes.currentPassword === 'string' ? changes.currentPassword : ''
     const password = typeof changes.password === 'string' ? changes.password : ''
 
@@ -184,14 +146,17 @@ class GroupSettingsPanel extends Component {
             </div>
           )}
 
-          <form onSubmit={this._handleSubmit}>
+          <Form
+            action="update"
+            category="Users"
+            label="Settings"
+            onSubmit={this._handleSubmit}>
             <fieldset>
-              <label htmlFor="description">
+              <label htmlFor="bio">
                 Bio
               </label>
 
               <textarea
-                aria-describedby="bio"
                 disabled={submitting}
                 id="bio"
                 maxLength={1000}
@@ -201,29 +166,29 @@ class GroupSettingsPanel extends Component {
                 value={bio} />
             </fieldset>
 
-            {/*<fieldset>
-              <label htmlFor="name">
+            <fieldset>
+              <label htmlFor="email">
                 Email
               </label>
 
               <ValidatedInput
-                data-pattern-explainer="Please make sure your email is valid. e.g. user@emailprovider.com"
                 disabled={submitting}
                 id="email"
                 name="email"
                 onChange={this._handleChange}
-                pattern="[\w\s_-]+"
-                placeholder={email}
+                placeholder="Email"
                 required
                 type="email"
                 value={email} />
-            </fieldset>*/}
+            </fieldset>
 
             <fieldset>
-              <label htmlFor="currentPassword">
+              <label>
                 Change Password
               </label>
+
               <PasswordInput
+                aria-label="Current Password"
                 data-required-explainer="Both password fields are required to change your password."
                 disabled={submitting}
                 id="currentPassword"
@@ -235,6 +200,7 @@ class GroupSettingsPanel extends Component {
                 value={currentPassword} />
 
               <PasswordInput
+                aria-label="New Password"
                 data-required-explainer="Both password fields are required to change your password."
                 disabled={submitting}
                 id="password"
@@ -265,26 +231,33 @@ class GroupSettingsPanel extends Component {
                 </button>
               </div>
             </menu>
-          </form>
+          </Form>
         </div>
       </section>
     )
   }
 }
 
-GroupSettingsPanel.propTypes = {}
+UserSettingsPanel.defaultProps = {
+  onSubmit: null,
+}
+
+UserSettingsPanel.propTypes = {
+  onSubmit: PropTypes.func,
+  user: PropTypes.object.isRequired,
+  updateUser: PropTypes.func.isRequired,
+}
 
 
 
 
 
-const mapDispatchToProps = dispatch => ({
-  updateUser: bindActionCreators(actions.updateUser, dispatch),
-  updateUserPassword: bindActionCreators(actions.updateUserPassword, dispatch),
-})
+const mapDispatchToProps = dispatch => bindActionCreators({
+  updateUser: actions.updateUser,
+}, dispatch)
 
 
 
 
 
-export default connect(null, mapDispatchToProps)(GroupSettingsPanel)
+export default connect(null, mapDispatchToProps)(UserSettingsPanel)

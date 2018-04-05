@@ -68,6 +68,7 @@
 @import 'core/menu';
 @import 'core/p';
 @import 'core/progress';
+@import 'core/section';
 @import 'core/small';
 @import 'core/strong';
 @import 'core/table';
@@ -77,28 +78,33 @@
 
 
 /*****************************************************************************\
-components
+  components
 \*****************************************************************************/
 
 @import 'components/ability-score';
 @import 'components/ability-score-editor';
 @import 'components/address-input';
-@import 'components/application-nav-control';
+@import 'components/application-banner-control';
 @import 'components/avatar-uploader-dialog';
 @import 'components/avatar';
 @import 'components/background-chooser';
 @import 'components/brand';
 @import 'components/card';
+@import 'components/alert-card';
+@import 'components/card-list';
 @import 'components/character-list';
 @import 'components/character-review';
 @import 'components/chooser';
 @import 'components/dropdown';
 @import 'components/error-box';
+@import 'components/forum-thread-card';
 @import 'components/games-list';
+@import 'components/hero';
 @import 'components/input-group';
 @import 'components/leaflet';
 @import 'components/map';
 @import 'components/map-marker-label';
+@import 'components/page-header';
 @import 'components/pagination';
 @import 'components/profile';
 @import 'components/settings-panel';
@@ -142,4 +148,3 @@ components
 @import 'pages/manage-group';
 @import 'pages/manage-groups';
 @import 'pages/roadmap';
-@import 'pages/search-groups';

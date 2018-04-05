@@ -4,9 +4,8 @@ const glob = require('glob')
 const path = require('path')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const webpack = require('webpack')
 
-const { ANALYZE } = process.env
+const { ANALYZE, ENABLE_HMR_POLLING } = process.env
 
 module.exports = {
   webpack: (config, { dev }) => {
@@ -75,6 +74,17 @@ module.exports = {
       }
     )
 
+    return config
+  },
+  webpackDevMiddleware: config => {
+    /* eslint-disable no-param-reassign */
+    if (ENABLE_HMR_POLLING) {
+      config.watchOptions = {
+        poll: 1000, // Check for changes every second
+        aggregateTimeout: 300, // delay before rebuilding
+        ignored: /node_modules/,
+      }
+    }
     return config
   },
 }

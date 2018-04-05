@@ -7,11 +7,14 @@ import withRedux from 'next-redux-wrapper'
 import fontawesome from '@fortawesome/fontawesome'
 import {
   faBars,
+  faBug,
   faCheck,
   faCopy,
   faEnvelope,
   faEye,
   faEyeSlash,
+  faInfoCircle,
+  faThumbsUp,
   faTimes,
   faExclamationCircle,
   faExclamationTriangle,
@@ -38,6 +41,7 @@ import {
   initStore,
 } from '../store'
 import { Router } from '../routes'
+import AlertsController from './AlertsController'
 import apiService from '../services/api'
 import Banner from './Banner'
 import Head from './Head'
@@ -59,18 +63,69 @@ initStore()
 
 export default (Component, title = 'Untitled', reduxOptions = {}, authenticationRequired = false) => {
   class Page extends React.Component {
+    /***************************************************************************\
+      Private Methods
+    \***************************************************************************/
+
+    static async _verifyAuthenticatedUser (props) {
+      const {
+        accessToken,
+        loggedIn,
+        logout,
+        verifyError,
+        verifySession,
+      } = props
+
+      if (verifyError) {
+        return false
+      }
+
+      if (loggedIn) {
+        return true
+      }
+
+      const { payload, status } = await verifySession(accessToken)
+
+      // If the API returned in error, double check the reasoning.
+      if (status !== 'success') {
+        if (payload && Array.isArray(payload.errors)) {
+          const errMsg = payload.errors[0] && payload.errors[0].detail
+
+          if (errMsg === 'Unable to locate session') {
+            await logout(true)
+            return false
+          }
+        }
+
+        // Something else went wrong, but we cannot determine if the session is invalid
+      }
+
+      return true
+    }
+
+
+
+
+
+    /***************************************************************************\
+      Public Methods
+    \***************************************************************************/
+
     constructor (props) {
       super(props)
 
       fontawesome.library.add(
         // Solids
         faBars,
+        faBug,
         faCheck,
         faCopy,
         faEnvelope,
         faEye,
         faEyeSlash,
         faKey,
+        faInfoCircle,
+        faThumbsUp,
         faTimes,
         faExclamationCircle,
         faExclamationTriangle,
@@ -91,17 +146,20 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         storeName: 'webStore',
       })
 
-      if (props.accessToken) {
+      if (this.props.verifyError) {
+        this.props.logout(true)
+      } else if (props.accessToken && props.loggedIn) {
         apiService.defaults.headers.common.Authorization = `Bearer ${props.accessToken}`
       }
     }
 
-    static async getInitialProps(ctx) {
+    static async getInitialProps (ctx) {
       const {
         asPath,
         isServer,
         query,
         res,
+        store,
       } = ctx
       const {
         accessToken,
@@ -109,11 +167,21 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       } = Cookies(ctx)
       let props = {}
 
+
+      let verified = false
+
       if (accessToken) {
+        verified = await Page._verifyAuthenticatedUser({
+          ...store.getState().authentication,
+          accessToken,
+          logout: (...args) => actions.logout(...args)(store.dispatch),
+          verifySession: (...args) => actions.verifySession(...args)(store.dispatch),
+        })
+
         apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`
       }
 
-      if (!accessToken && authenticationRequired) {
+      if (!verified && authenticationRequired) {
         if (res) {
           res.writeHead(302, {
             Location: `/login?destination=${encodeURIComponent(asPath)}`,
@@ -142,36 +210,68 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
     }
 
     render () {
-      const mainClasses = ['fade-in', 'page', title.toLowerCase().replace(/\s/g, '-')].join(' ')
-
       return (
         <div role="application">
+          <input
+            hidden
+            id="application-banner-control"
+            type="checkbox" />
+
           <Head title={title} />
 
           <Banner path={this.props.asPath} />
 
-          <main className={mainClasses}>
-            <Component {...this.props} />
-          </main>
+          <Component {...this.props} />
+
+          <AlertsController />
         </div>
       )
     }
   }
 
-  const { mapStateToProps } = reduxOptions || {}
-  let { mapDispatchToProps } = reduxOptions || {}
 
-  if (Array.isArray(mapDispatchToProps)) {
-    mapDispatchToProps = dispatch => {
-      const actionMap = {}
 
-      for (const actionName of (reduxOptions || {}).mapDispatchToProps) {
-        actionMap[actionName] = bindActionCreators(actions[actionName], dispatch)
-      }
 
-      return actionMap
+
+  const mapStateToProps = (state, ownProps) => {
+    let pageProps = {}
+
+    if (reduxOptions && reduxOptions.mapStateToProps) {
+      pageProps = reduxOptions.mapStateToProps(state, ownProps)
+    }
+
+    return {
+      ...state.authentication,
+      ...pageProps,
     }
   }
+
+  const mapDispatchToProps = (dispatch, ownProps) => {
+    let pageActions = {}
+
+    if (reduxOptions && reduxOptions.mapDispatchToProps) {
+      pageActions = reduxOptions.mapDispatchToProps
+
+      if (Array.isArray(pageActions)) {
+        pageActions = pageActions.reduce((accumulator, actionName) => ({
+          ...accumulator,
+          [actionName]: actions[actionName],
+        }), {})
+      } else if (typeof pageActions === 'function') {
+        pageActions = pageActions(dispatch, ownProps)
+      }
+    }
+
+    return bindActionCreators({
+      ...pageActions,
+      verifySession: actions.verifySession,
+      logout: actions.logout,
+    }, dispatch)
+  }
+
+
+
+
 
   return withRedux(initStore, mapStateToProps, mapDispatchToProps)(Page)
 }

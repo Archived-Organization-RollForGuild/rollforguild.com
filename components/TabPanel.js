@@ -1,4 +1,5 @@
 // Module imports
+import Button from './Button'
 import Component from './Component'
 
 
@@ -26,6 +27,7 @@ const Tab = (props) => {
 
 const TabHeader = (props) => {
   const {
+    category,
     children,
     selectTab,
   } = props
@@ -40,12 +42,14 @@ const TabHeader = (props) => {
           } = tab.props
 
           return (
-            <button
+            <Button
+              category={category}
               className={active ? 'active' : null}
               key={title}
+              label={title}
               onClick={() => selectTab(index)}>
               {title}
-            </button>
+            </Button>
           )
         }
 
@@ -103,6 +107,7 @@ class TabPanel extends Component {
 
   render () {
     const {
+      category,
       children,
       className,
     } = this.props
@@ -110,7 +115,9 @@ class TabPanel extends Component {
 
     return (
       <div className={['tab-panel', className].join(' ')}>
-        <TabHeader selectTab={this._selectTab}>
+        <TabHeader
+          category={category}
+          selectTab={this._selectTab}>
           {tabsWithActiveStatus}
         </TabHeader>
 

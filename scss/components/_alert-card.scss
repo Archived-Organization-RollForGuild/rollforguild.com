@@ -1,0 +1,87 @@
+.alert-card-container {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 3rem;
+  top: 2rem;
+  width: 300px;
+  white-space: pre-wrap;
+
+  .alert:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  .overflow-counter {
+    background: $red;
+    border-radius: 2rem;
+    padding: 0 1rem;
+    line-height: 2rem;
+  }
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    left: 0;
+    align-items: center;
+  }
+}
+
+
+.card.alert {
+  --accent-color: $green;
+
+  border: 1px solid var(--accent-color);
+  transition:
+    opacity .25s,
+    max-height .25s,
+    margin .25s ease;
+  opacity: 0;
+  max-height: 0;
+
+  &.mounted {
+    opacity: 1;
+    max-height: 800px;
+  }
+
+  &.info {
+    --accent-color: $blue;
+  }
+  &.warn {
+    --accent-color: $orange;
+  }
+  &.error {
+    --accent-color: $red;
+  }
+
+  > header {
+    padding: 0;
+    color: var(--accent-color);
+    justify-content: space-between;
+
+    .title {
+      padding-left: 1rem;
+    }
+
+    button,
+    .button {
+      border-radius: 0 0 0 0.25rem;
+      color: var(--accent-color);
+      display: block;
+      height: 100%;
+      padding: 0 1rem;
+
+      &:hover {
+        color: $white;
+        background: var(--accent-color);
+      }
+    }
+  }
+
+  > .content:not(:last-child) {
+    padding-bottom: .25rem;
+  }
+
+  > *:last-child:not(.content) {
+    padding-bottom: .5rem;
+  }
+}

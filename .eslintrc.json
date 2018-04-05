@@ -29,9 +29,8 @@
     "react/react-in-jsx-scope": ["off"],
     "react/sort-comp": ["off"],
     "semi": ["error", "never"],
-    "space-before-function-paren": ["off"],
+    "space-before-function-paren": ["error", "always"],
     "spaced-comment": ["off"],
-
     "jsx-a11y/anchor-is-valid": ["off"],
     "jsx-a11y/label-has-for": ["off"],
     "jsx-a11y/no-noninteractive-element-interactions": ["off"],

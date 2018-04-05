@@ -24,12 +24,16 @@ export default function (state = initialState.users, action) {
   } = action
 
   switch (type) {
+    case actionTypes.CREATE_FORUM_THREAD:
+    case actionTypes.GET_FORUM_THREAD:
+    case actionTypes.GET_FORUM_THREADS:
+    case actionTypes.GET_THREAD_COMMENTS:
     case actionTypes.GET_GROUP:
     case actionTypes.GET_USER:
     case actionTypes.GET_USERS:
     case actionTypes.UPDATE_USER:
       if (status === 'success') {
-        const newUsers = parseJSONAPIResponseForEntityType(payload, 'users')
+        const newUsers = parseJSONAPIResponseForEntityType(payload, 'users', true)
         const newState = deepMergeJSONAPIObjectCollections(state, newUsers)
 
         const currentUserId = Cookies.get('userId')
@@ -40,6 +44,20 @@ export default function (state = initialState.users, action) {
         return newState
       }
       return { ...state }
+
+    case actionTypes.LOGOUT:
+      if (status === 'success') {
+        const { userId } = payload
+        const newState = { ...state }
+
+        if (newState[userId]) {
+          newState[userId].loggedIn = false
+        }
+
+        return newState
+      }
+      return { ...state }
+
 
     default:
       return { ...state }

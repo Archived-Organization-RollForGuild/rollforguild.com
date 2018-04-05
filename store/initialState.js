@@ -1,8 +1,15 @@
-import Cookies from 'js-cookie'
-
 export default {
+
+  alerts: {},
+
   authentication: {
-    loggedIn: !!Cookies.get('accessToken'),
+    loggedIn: false,
+    verifyError: false,
+  },
+
+  avatars: {
+    groups: {},
+    users: {},
   },
 
   characters: {},
@@ -11,6 +18,10 @@ export default {
 
   rulesets: {},
 
+  forums: {
+    threads: {},
+    comments: {},
+  },
+
   users: {},
 }
-

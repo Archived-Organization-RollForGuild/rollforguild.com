@@ -6,8 +6,10 @@ import React from 'react'
 
 
 // Component imports
-import { Link } from '../../routes'
+import Link from '../../components/Link'
+import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageHeader from '../../components/PageHeader'
 
 
 
@@ -22,11 +24,13 @@ const title = 'My Groups'
 
 const MyGroups = () => (
   <React.Fragment>
-    <header>
+    <PageHeader>
       <h1>My Groups</h1>
-    </header>
+    </PageHeader>
 
-    <p>It doesn't look like you're a part of any groups. Would you like to <Link route="group search"><a>search for groups in your area</a></Link>? Or maybe you should <Link route="group create"><a>start one</a></Link>.</p>
+    <Main title={title}>
+      <p>It doesn't look like you're a part of any groups. Would you like to <Link category="Groups" label="Search" route="group search"><a>search for groups in your area</a></Link>? Or maybe you should <Link category="My Groups" label="Create New Group" route="group create"><a>start one</a></Link>.</p>
+    </Main>
   </React.Fragment>
 )
 

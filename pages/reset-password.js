@@ -7,9 +7,14 @@ import React from 'react'
 
 
 // Component imports
-import { Link } from '../routes'
 import Component from '../components/Component'
+import Form from '../components/Form'
+import Link from '../components/Link'
+import Main from '../components/Main'
 import Page from '../components/Page'
+import PageHeader from '../components/PageHeader'
+import PasswordInput from '../components/PasswordInput'
+import ValidatedInput from '../components/ValidatedInput'
 
 
 
@@ -83,80 +88,91 @@ class Login extends Component {
 
     return (
       <React.Fragment>
-        <header>
+        <PageHeader>
           <h1>Reset Password</h1>
-        </header>
+        </PageHeader>
 
-        {(status === 'success') && (
-          <p><span aria-label="Key emoji" role="img">🗝</span> Your password has been reset! Now take your newly minted key and go <Link href="/login"><a>login</a></Link>!</p>
-        )}
+        <Main title={title}>
+          {(status === 'success') && (
+            <p><span aria-label="Key emoji" role="img">🗝</span> Your password has been reset! Now take your newly minted key and go <Link action="exit::login" category="Authentication" label="Reset Password" route="/login"><a>login</a></Link>!</p>
+          )}
 
-        {['error', null].includes(status) && (
-          <form onSubmit={this._onSubmit}>
-            {!this.props.query.token && (
+          {['error', null].includes(status) && (
+            <Form
+              category="Authentication"
+              label="Reset Password"
+              onSubmit={this._onSubmit}>
+              {!this.props.query.token && (
+                <fieldset>
+                  <div className="input-group">
+                    <label htmlFor="token">
+                      <FontAwesomeIcon icon="key" fixedWidth />
+                    </label>
+
+                    <ValidatedInput
+                      aria-label="Reset token"
+                      disabled={resetting}
+                      id="token"
+                      name="token"
+                      onChange={this._handleChange}
+                      placeholder="Reset Token"
+                      type="token"
+                      value={token} />
+                  </div>
+                </fieldset>
+              )}
+
               <fieldset>
                 <div className="input-group">
-                  <label htmlFor="token">
-                    <FontAwesomeIcon icon="key" fixedWidth />
+                  <label htmlFor="password">
+                    <FontAwesomeIcon icon="user" fixedWidth />
                   </label>
 
-                  <input
-                    aria-label="Reset token"
+                  <PasswordInput
+                    aria-label="Password"
                     disabled={resetting}
-                    id="token"
-                    name="token"
+                    id="password"
+                    name="password"
                     onChange={this._handleChange}
-                    placeholder="Reset Token"
-                    type="token"
-                    value={token} />
+                    placeholder="New Password"
+                    showWarnings
+                    showSuggestions
+                    showStrength
+                    value={password} />
                 </div>
               </fieldset>
-            )}
 
-            <fieldset>
-              <div className="input-group">
-                <label htmlFor="password">
-                  <FontAwesomeIcon icon="user" fixedWidth />
-                </label>
+              <menu type="toolbar">
+                <div className="primary">
+                  <button
+                    className="success"
+                    disabled={resetting}
+                    type="submit">
+                    {resetting ? 'Submitting...' : 'Submit'}
+                  </button>
+                </div>
 
-                <input
-                  aria-label="Password"
-                  disabled={resetting}
-                  id="password"
-                  name="password"
-                  onChange={this._handleChange}
-                  placeholder="New Password"
-                  type="password"
-                  value={password} />
-              </div>
-            </fieldset>
+                <div className="secondary">
+                  <Link
+                    action="exit::login"
+                    category="Authentication"
+                    label="Reset Password"
+                    route="/login">
+                    <a className="button link">
+                      Return to Login
+                    </a>
+                  </Link>
+                </div>
+              </menu>
 
-            <menu type="toolbar">
-              <div className="primary">
-                <button
-                  className="success"
-                  disabled={resetting}
-                  type="submit">
-                  {resetting ? 'Submitting...' : 'Submit'}
-                </button>
-              </div>
-
-              <div className="secondary">
-                <Link href="/login">
-                  <a className="button link">
-                    Return to Login
-                  </a>
-                </Link>
-              </div>
-            </menu>
-
-            {(status === 'error') && (
-              <React.Fragment>
-                <p>There seems to have been an error while trying to reset your password. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
-              </React.Fragment>
-            )}
-          </form>
-        )}
+              {(status === 'error') && (
+                <React.Fragment>
+                  <p>There seems to have been an error while trying to reset your password. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
+                </React.Fragment>
+              )}
+            </Form>
+          )}
+        </Main>
       </React.Fragment>
     )
   }
@@ -168,13 +184,10 @@ class Login extends Component {
 
 const mapDispatchToProps = ['resetPassword']
 
-const mapStateToProps = state => ({ ...state.authentication })
-
 
 
 
 
 export default Page(Login, title, {
-  mapStateToProps,
   mapDispatchToProps,
 })

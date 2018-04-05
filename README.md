@@ -12,43 +12,50 @@
 
 ## Setting up
 
+The only prerequisites for running the application are currently `git` and [`Docker`](https://www.docker.com/). Once you have those installed, follow the instructions below:
+
 1. Grab the repo
 ```bash
 git clone https://github.com/RollForGuild/rollforguild.com.git
 ```
 
-2. Install dependencies
+2. Spin up the docker containers
 ```bash
-npm install
-# or
-yarn install
-```
-
-3. Run the server
-```bash
-npm run dev
-# or
-yarn run dev
+docker-compose up
 ```
 
 ### Some things you'll need
 
 #### Environment Variables
 
-| Name                             | Purpose |
-|----------------------------------|---------|
-| `RFG_API_URL`                    | This is the URL the application will proxy API requests to |
-| `RFG_APP_PORT`                   | This is the port to run the application on |
-| `RFG_GOOGLE_MAPS_API_KEY`        | This is the API key for Google Maps |
-| `RFG_GOOGLE_TAG_MANAGER_API_KEY` | This is the ID for Google Tag Manager |
+Make a copy of the `.env.example` file and rename it to `.env`. In that file, change the environment variables as necessary. Here's a description of what each one is for:
+
+| Name                             | Required | Purpose |
+|----------------------------------|----------|---------|
+| `RFG_API_URL`                    | `false`  | This is the URL the application will proxy API requests to |
+| `RFG_APP_PORT`                   | `false`  | This is the port to run the application on |
+| `RFG_GOOGLE_MAPS_API_KEY`        | `true`   | This is the API key for Google Maps |
+| `RFG_GOOGLE_TAG_MANAGER_API_KEY` | `true`   | This is the ID for Google Tag Manager |
+| `RFG_LOCAL_API_URL`              | `false`  | This is the URL the application will use for the local API proxy |
+| `RFG_REPOSITORY_URL`             | `false`  | This is the URL that the build info in the header will lead to if not overridden by CircleCI variables |
+| `RFG_WORDPRESS_API_URL`          | `false`  | This is the URL the application will use to retrieve Wordpress data from |
 
 ### Debugging
 
 #### VS Code
 
+For debugging in the browser:
+
 1. Install the [Debugger for Chrome](https://github.com/Microsoft/vscode-chrome-debug) extension for VS Code
-1. Set all of your environment variables in a `.env` file at the root of the project
-1. Open the Debug tab and run the `RFG: Full` program
+1. Open the Debug tab and run the `RFG: Client` program
+
+For debugging in the Docker container:
+
+1. Spin up the Docker containers:
+  ```bash
+  docker-compose up
+  ```
+1. Attach the VS Code debugger to the docker container using the `Attach to Docker` config
 
 ### Code Style
 

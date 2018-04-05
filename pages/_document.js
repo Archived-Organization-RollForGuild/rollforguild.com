@@ -1,9 +1,11 @@
+// Module imports
 import Document, { Head, Main, NextScript } from 'next/document'
 
 
 
 
 
+// Component constants
 const fonts = ['Lora', 'Montserrat:400,700']
 const gatmId = process.env.RFG_GOOGLE_TAG_MANAGER_API_KEY
 
@@ -12,7 +14,7 @@ const gatmId = process.env.RFG_GOOGLE_TAG_MANAGER_API_KEY
 
 
 export default class extends Document {
-  render() {
+  render () {
     /* eslint-disable react/no-danger */
     return (
       <html lang="en">
@@ -26,11 +28,11 @@ export default class extends Document {
           <meta name="theme-color" content="#ffffff" />
 
           <link rel="alternate" href="//rollforguild.com" hrefLang="en-us" />
-          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
-          <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png" />
-          <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg" color="#42dca3" />
-          <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png?v=2" />
+          <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png?v=2" />
+          <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png?v=2" />
+          <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg?v=2" color="#42dca3" />
+          <link rel="shortcut icon" href="/static/favicon/favicon.ico?v=2" />
 
           <link rel="manifest" href="/static/manifest.json" />
 
@@ -54,28 +56,6 @@ export default class extends Document {
               `,
             }
           } />
-          <script dangerouslySetInnerHTML={
-            {
-              __html: `
-                window.twttr = (function(d, s, id) {
-                  var js, fjs = d.getElementsByTagName(s)[0],
-                    t = window.twttr || {};
-                  if (d.getElementById(id)) return t;
-                  js = d.createElement(s);
-                  js.id = id;
-                  js.src = "//platform.twitter.com/widgets.js";
-                  fjs.parentNode.insertBefore(js, fjs);
-
-                  t._e = [];
-                  t.ready = function(f) {
-                    t._e.push(f);
-                  };
-
-                  return t;
-                }(document, "script", "twitter-wjs"));
-              `,
-            }
-          } />
         </Head>
 
         <body>
@@ -83,11 +63,11 @@ export default class extends Document {
 
           <noscript>Javascript is required to view this site.</noscript>
 
+          <Main className="next-wrapper" />
+
           <div id="alert-container" />
 
           <div id="dialog-container" />
-
-          <Main className="next-wrapper" />
 
           <NextScript />
 
