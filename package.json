@@ -1,13 +1,13 @@
 {
   "name": "r4g-character-generator",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server/server.js",
   "license": "MIT",
   "scripts": {
     "add-contributor": "all-contributors add",
     "analyze": "cross-env ANALYZE=1 next build",
     "build": "next build",
-    "dev": "nodemon --watch ./server --watch ./routes.js --inspect=0.0.0.0:9222 server/server.js",
+    "dev": "nodemon --inspect=0.0.0.0:9222",
     "postinstall": "npm rebuild node-sass"
   },
   "devDependencies": {

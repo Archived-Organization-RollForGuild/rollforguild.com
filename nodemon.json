@@ -1,0 +1,9 @@
+{
+  "ext": "js,json",
+  "legacyWatch": true,
+  "watch": [
+    "./server",
+    "*.json",
+    "*.js"
+  ]
+}
