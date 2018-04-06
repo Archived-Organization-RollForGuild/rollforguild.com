@@ -1,4 +1,5 @@
 // Module imports
+import getConfig from 'next/config'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
@@ -14,9 +15,10 @@ import Nav from './Nav'
 
 
 //Component Constants
-const isDevOrStaging = preval`module.exports = process.env.NODE_ENV !== 'production' || process.env.CIRCLE_BRANCH === 'develop'`
-const buildCommitHash = preval`module.exports = process.env.CIRCLE_SHA1 ? process.env.CIRCLE_SHA1.slice(0,10) : 'DEVELOPMENT'`
-const buildUrl = preval`module.exports = process.env.CIRCLE_COMPARE_URL || process.env.CIRCLE_REPOSITORY_URL || process.env.RFG_REPOSITORY_URL`
+const { publicRuntimeConfig } = getConfig()
+const { buildUrl } = publicRuntimeConfig.git
+const isDevOrStaging = publicRuntimeConfig.environment !== 'production'
+const buildCommitHash = publicRuntimeConfig.git.hash
 
 
 

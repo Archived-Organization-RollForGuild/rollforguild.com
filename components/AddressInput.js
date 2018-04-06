@@ -1,4 +1,5 @@
 // Module imports
+import getConfig from 'next/config'
 import PropTypes from 'prop-types'
 
 
@@ -14,7 +15,8 @@ import Dropdown from './Dropdown'
 
 
 // Component constants
-const gmapsAPIKey = preval`module.exports = process.env.RFG_GOOGLE_MAPS_API_KEY`
+const { publicRuntimeConfig } = getConfig()
+const googleMapsAPIKey = publicRuntimeConfig.apis.googleMaps.key
 
 
 
@@ -31,7 +33,7 @@ class AddressInput extends Component {
       valid: false,
     })
 
-    let response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?key=${gmapsAPIKey}&address=${value}`)
+    let response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?key=${googleMapsAPIKey}&address=${value}`)
 
     response = await response.json()
 

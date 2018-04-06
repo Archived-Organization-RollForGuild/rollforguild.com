@@ -1,7 +1,21 @@
+// Module imports
 import axios from 'axios'
+import getConfig from 'next/config'
+
+
+
+
+
+// Component constants
+const { publicRuntimeConfig } = getConfig()
+const rfgLocalAPIURL = publicRuntimeConfig.apis.rfgLocal.url
+
+
+
+
 
 export default axios.create({
-  baseURL: preval`module.exports = process.env.RFG_LOCAL_API_URL` || 'http://localhost:3000',
+  baseURL: rfgLocalAPIURL,
   headers: { 'Content-Type': 'application/json' },
   // withCredentials: true,
   timeout: 10000,
