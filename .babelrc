@@ -18,7 +18,7 @@
         "inline-react-svg",
         [
           "react-remove-properties",
-          { "properties": ["data-t"] }
+          { "properties": ["data-t", "data-tkey"] }
         ]
       ]
     },
