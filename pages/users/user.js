@@ -223,7 +223,7 @@ class UserProfile extends Component {
                             </header>
 
                             <div className="content">
-                              {description}
+                              {description || (<em>No description available</em>)}
                             </div>
                           </li>
                         )
