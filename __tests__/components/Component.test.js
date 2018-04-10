@@ -21,7 +21,7 @@ import Component from '../../components/Component'
 // Setup
 Enzyme.configure({ adapter: new Adapter() })
 
-jest.useFakeTimers()
+jest.useRealTimers()
 
 function setup () {
   const debouncedMethod = jest.fn()
@@ -34,7 +34,10 @@ function setup () {
 
       this.debouncedMethod = debouncedMethod
 
-      this._bindMethods(['boundMethod'])
+      this._bindMethods([
+        '_handleChange',
+        'boundMethod',
+      ])
       this._debounceMethods(['debouncedMethod'])
 
       this.state = {
@@ -83,7 +86,7 @@ describe('Component', () => {
     expect(instance.boundMethod.call()).toBe(instance)
   })
 
-  it('should debounce methods', () => {
+  it('should debounce methods', done => {
     const {
       debouncedMethod,
       enzymeWrapper,
@@ -94,9 +97,10 @@ describe('Component', () => {
 
     expect(debouncedMethod).not.toHaveBeenCalled()
 
-    jest.runOnlyPendingTimers()
-
-    expect(debouncedMethod).toHaveBeenCalledTimes(1)
+    setTimeout(() => {
+      expect(debouncedMethod).toHaveBeenCalledTimes(1)
+      done()
+    }, 500)
   })
 
   it('should handle changes', () => {
