@@ -135,17 +135,21 @@ class ViewThread extends Component {
             <p>Loading...</p>
           )}
 
-          {(loaded && !thread) && (
+          {Boolean(loaded && !thread) && (
             <p>Thread not found!</p>
           )}
 
-          {(loaded && thread) && (
+          {Boolean(loaded && thread) && (
             <div className="thread">
               <ForumThreadCard thread={thread} fullThread />
             </div>
           )}
 
-          {(comments && comments.length) && (
+          {Boolean(!comments || !comments.length) && (
+            <span>There are no Comments yet!</span>
+          )}
+
+          {Boolean(comments && comments.length) && (
             <div className="comments">
               {comments.map(comment => (
                 <ThreadCommentCard
@@ -155,10 +159,6 @@ class ViewThread extends Component {
                   />
                 ))}
             </div>
-          )}
-
-          {(!comments || !comments.length) && (
-            <span>There are no Comments yet!</span>
           )}
 
           <Pagination
