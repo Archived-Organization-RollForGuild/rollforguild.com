@@ -47,11 +47,15 @@ class Pagination extends Component {
         }
 
         pageLinks.push((
-          <li key={pageNumber}>
+          <li
+            data-t="pagination:pagelinks:item"
+            data-tkey={pageNumber}
+            key={pageNumber}>
             <Button
               action={`page::${pageNumber}`}
               category={category}
               className={classes.join(', ')}
+              data-t="pagination:pagelinks:item:button"
               disabled={isCurrentPage}
               label={label}
               onClick={() => onPageChange(pageNumber)}>
@@ -92,11 +96,14 @@ class Pagination extends Component {
     } = this.props
 
     return (
-      <nav className="pagination">
+      <nav
+        className="pagination"
+        data-t="pagination:wrapper">
         <Button
           action="page::previous"
           category={category}
           className="previous secondary"
+          data-t="pagination:button:previous"
           disabled={currentPage === 1}
           label={label}
           onClick={() => onPageChange(currentPage - 1)}
@@ -105,7 +112,9 @@ class Pagination extends Component {
         </Button>
 
         {showPageLinks && (
-          <ul className="inline">
+          <ul
+            className="inline"
+            data-t="pagination:pagelinks:list">
             {this._renderPageLinks()}
           </ul>
         )}
@@ -114,6 +123,7 @@ class Pagination extends Component {
           action="page::next"
           category={category}
           className="next secondary"
+          data-t="pagination:button:next"
           disabled={currentPage === totalPageCount}
           label={label}
           onClick={() => onPageChange(currentPage + 1)}
@@ -132,7 +142,7 @@ class Pagination extends Component {
 Pagination.defaultProps = {
   pagesToRender: 5,
   showPageLinks: true,
-  totalPageCount: 20,
+  totalPageCount: 1,
 }
 
 Pagination.propTypes = {
