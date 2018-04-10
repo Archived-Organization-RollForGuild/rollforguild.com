@@ -209,9 +209,9 @@ Avatar.propTypes = {
 }
 
 
-const mapDispatchToProps = dispatch => ({
-  updateAvatar: bindActionCreators(actions.updateAvatar, dispatch),
-})
+const mapDispatchToProps = dispatch => bindActionCreators({
+  updateAvatar: actions.updateAvatar,
+}, dispatch)
 
 const mapStateToProps = (state, ownProps) => {
   if (!ownProps.src) {

@@ -187,7 +187,8 @@ function createAction (options) {
 const createApiAction = options => createAction({
   ...options,
   actionFunction: apiService.request,
-  onUnhandledResult: result => result.data,
+  onUnhandledSuccess: res => res.data,
+  onUnhandledError: res => res.response.data,
 })
 
 const createTimeoutAction = options => createAction({

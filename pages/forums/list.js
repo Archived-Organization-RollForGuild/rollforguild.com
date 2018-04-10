@@ -139,11 +139,11 @@ class ForumList extends Component {
             <p>Loading...</p>
           )}
 
-          {(loaded && !threads.length) && (
+          {Boolean(loaded && !threads.length) && (
             <span>There is nothing here. (yet!!)</span>
           )}
 
-          {(loaded && threads.length) && (
+          {Boolean(loaded && threads.length) && (
             <React.Fragment>
               <span className="list-stats">Displaying threads {offset + 1} - {Math.min(count + offset, limit + offset)} of {total} threads</span>
 

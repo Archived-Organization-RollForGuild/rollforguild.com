@@ -115,9 +115,9 @@ ThreadCommentForm.propTypes = {
   threadId: PropTypes.string.isRequired,
 }
 
-const mapDispatchToProps = dispatch => ({
-  createThreadComment: bindActionCreators(actions.createThreadComment, dispatch),
-})
+const mapDispatchToProps = dispatch => bindActionCreators({
+  createThreadComment: actions.createThreadComment,
+}, dispatch)
 
 
 

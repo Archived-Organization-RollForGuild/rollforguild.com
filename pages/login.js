@@ -40,11 +40,10 @@ class Login extends Component {
 
     this.setState({ loggingIn: true })
 
-    const result = await this.props.login(email, password)
+    await this.props.login(email, password)
 
     this.setState({
       loggingIn: false,
-      status: result.status,
     })
   }
 
@@ -59,7 +58,7 @@ class Login extends Component {
   componentDidUpdate () {
     const { loggedIn } = this.props
 
-    if (loggedIn && (loggedIn !== 'error')) {
+    if (loggedIn) {
       const searchParams = {}
 
       /* eslint-disable no-restricted-globals */
@@ -88,7 +87,6 @@ class Login extends Component {
       email: '',
       loggingIn: false,
       password: '',
-      status: null,
     }
   }
 
@@ -97,7 +95,6 @@ class Login extends Component {
       email,
       loggingIn,
       password,
-      status,
     } = this.state
 
     return (
@@ -177,12 +174,6 @@ class Login extends Component {
                 </Link>
               </div>
             </menu>
-
-            {(status === 'error') && (
-              <React.Fragment>
-                <p>There seems to have been an error when trying to log in to your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
-              </React.Fragment>
-            )}
           </Form>
         </Main>
       </React.Fragment>
@@ -196,13 +187,10 @@ class Login extends Component {
 
 const mapDispatchToProps = ['login']
 
-const mapStateToProps = state => ({ ...state.authentication })
-
 
 
 
 
 export default Page(Login, title, {
-  mapStateToProps,
   mapDispatchToProps,
 })

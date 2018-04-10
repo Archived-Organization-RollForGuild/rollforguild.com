@@ -90,10 +90,11 @@ describe('ValidatedInput', () => {
     })
   })
 
-  describe('should display an error message and icon if the input value', () => {
-    xit('doesn\'t match the pattern', () => {})
-    xit('is the incorrect type', () => {})
-    xit('is too long', () => {})
-    xit('is empty but required', () => {})
+  // jsdom doesn't yet support the validity API, so we're skipping these tests until we can find a solution
+  xdescribe('should display an error message and icon if the input value', () => {
+    it('doesn\'t match the pattern', () => {})
+    it('is the incorrect type', () => {})
+    it('is too long', () => {})
+    it('is empty but required', () => {})
   })
 })

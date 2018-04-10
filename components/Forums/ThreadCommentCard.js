@@ -208,10 +208,10 @@ ThreadCommentCard.propTypes = {
 }
 
 
-const mapDispatchToProps = dispatch => ({
-  getUser: bindActionCreators(actions.getUser, dispatch),
-  deleteThreadComment: bindActionCreators(actions.deleteThreadComment, dispatch),
-})
+const mapDispatchToProps = dispatch => bindActionCreators({
+  deleteThreadComment: actions.deleteThreadComment,
+  getUser: actions.getUser,
+}, dispatch)
 
 const mapStateToProps = (state, ownProps) => {
   const {

@@ -166,10 +166,7 @@ class ValidatedInput extends Component {
   }
 
   render () {
-    const {
-      hasBeenFocused,
-      messages,
-    } = this.state
+    const { hasBeenFocused } = this.state
     const classNames = [
       'validated-input',
       (this.props.className || ''),
@@ -190,23 +187,34 @@ class ValidatedInput extends Component {
           icon="exclamation-triangle"
           fixedWidth />
 
-        <ul
-          className="messages"
-          data-t="validated-input:message-list"
-          hidden={!hasBeenFocused}>
-          {messages.map(({ icon, message, type }) => (
-            <li
-              key={message}
-              className={`${type || 'error'} message`}
-              data-t="validated-input:message-list:item">
-              <FontAwesomeIcon
-                icon={icon}
-                fixedWidth />
-              {message}
-            </li>
-          ))}
-        </ul>
+        {this.renderMessages()}
       </div>
+    )
+  }
+
+  renderMessages () {
+    const {
+      hasBeenFocused,
+      messages,
+    } = this.state
+
+    return (
+      <ul
+        className="messages"
+        data-t="validated-input:message-list"
+        hidden={!hasBeenFocused}>
+        {messages.map(({ icon, message, type }) => (
+          <li
+            key={message}
+            className={`${type || 'error'} message`}
+            data-t="validated-input:message-list:item">
+            <FontAwesomeIcon
+              icon={icon}
+              fixedWidth />
+            {message}
+          </li>
+        ))}
+      </ul>
     )
   }
 
