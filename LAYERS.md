@@ -16,6 +16,6 @@ The site navigation gets its own layer. It should appear above all website conte
 ## 300
 Elements that should take over the entire website, such as alerts and dialogs
 
-### 301 - Alerts
+### 301 - Dialogs
 
-### 302 - Dialogs
+### 302 - Alerts
