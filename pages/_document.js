@@ -6,10 +6,25 @@ import getConfig from 'next/config'
 
 
 
+// Component imports
+import { convertObjectToQueryParams } from '../helpers'
+
+
+
+
+
 // Component constants
 const { publicRuntimeConfig } = getConfig()
+const { googleTagManager } = publicRuntimeConfig.analytics
 const fonts = ['Lora', 'Montserrat:400,700']
-const googleTagManager = publicRuntimeConfig.analytics
+const gtmQueryString = convertObjectToQueryParams({
+  id: googleTagManager.id,
+  gtm_auth: googleTagManager.auth,
+  gtm_preview: `env-${googleTagManager.envId}`,
+  gtm_cookies_win: 'x',
+})
+console.log('googleTagManager', googleTagManager)
+console.log('gtmQueryString', gtmQueryString)
 
 
 
@@ -52,8 +67,8 @@ export default class extends Document {
                   var j = d.createElement(s)
                   var dl = l != 'dataLayer' ? '&l=' + l : ''
                   j.async = true
-                  j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl + '&gtm_auth=${googleTagManager.auth}&gtm_preview=env-${googleTagManager.envId}&gtm_cookies_win=x'
-                  f.parentNode.insertBefore(j,f)
+                  j.src = '//www.googletagmanager.com/gtm.js${gtmQueryString}'
+                  f.parentNode.insertBefore(j, f)
                 })(window, document, 'script', 'dataLayer', '${googleTagManager.id}')
               `,
             }
@@ -61,7 +76,7 @@ export default class extends Document {
         </Head>
 
         <body>
-          <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="//www.googletagmanager.com/ns.html?id=${googleTagManager.id}&gtm_auth=${googleTagManager.auth}&gtm_preview=env-${googleTagManager.envId}&gtm_cookies_win=x" height="0" width="0" style="display:none; visibility:hidden;" />` }} />
+          <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="//www.googletagmanager.com/ns.html${gtmQueryString}" height="0" width="0" style="display:none; visibility:hidden;" />` }} />
 
           <noscript>Javascript is required to view this site.</noscript>
 
