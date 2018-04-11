@@ -1,4 +1,5 @@
 // Module imports
+import getConfig from 'next/config'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -14,7 +15,8 @@ import Link from './Link'
 
 
 // Component constants
-const googleMapsAPIKey = preval`module.exports = process.env.RFG_GOOGLE_MAPS_API_KEY`
+const { publicRuntimeConfig } = getConfig()
+const googleMapsAPIKey = publicRuntimeConfig.apis.googleMaps.key
 
 
 
@@ -29,7 +31,7 @@ const StaticMap = props => {
     size,
     zoom,
   } = props
-  const mapsLink = `//www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`
+  const mapsLink = `//google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`
   let imgSrc = '//maps.googleapis.com/maps/api/staticmap?'
 
   location.lng = location.lng || location.lon || location.long

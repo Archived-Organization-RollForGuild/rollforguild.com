@@ -1,16 +1,20 @@
+// Module imports
 import axios from 'axios'
+import getConfig from 'next/config'
 
 
 
 
 
-const baseURL = preval`module.exports = process.env.RFG_WORDPRESS_API_URL`
+// Component constants
+const { publicRuntimeConfig } = getConfig()
+const wordpressAPIURL = publicRuntimeConfig.apis.wordpress.url
 
 
 
 
 
 export default axios.create({
-  baseURL,
+  baseURL: wordpressAPIURL,
   timeout: 10000,
 })

@@ -1,0 +1,16 @@
+{
+  "development": {
+    "auth": "G2bkw8tOyr29WWS-LISJXA",
+    "envId": 51
+  },
+
+  "production": {
+    "auth": "gR7BHrXmOdKtd_7qkHEV_Q",
+    "envId": 49
+  },
+
+  "staging": {
+    "auth": "umF-6fTm7fJ_wGmyVZjfrQ",
+    "envId": 50
+  }
+}

@@ -1,6 +1,7 @@
 // Module imports
 import { bindActionCreators } from 'redux'
 import Cookies from 'next-cookies'
+import getConfig from 'next/config'
 import LocalForage from 'localforage'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
@@ -46,15 +47,19 @@ import apiService from '../services/api'
 import Banner from './Banner'
 import Head from './Head'
 
-/* eslint-disable no-unused-expressions */
-preval`if (process.env.NODE_ENV === 'production') require('../workers/offline')`
-/* eslint-enable */
-
 
 
 
 
 // Component constants
+const { publicRuntimeConfig } = getConfig()
+
+if (publicRuntimeConfig.environment === 'production') {
+  /* eslint-disable global-require */
+  require('../workers/offline')
+  /* eslint-enable */
+}
+
 initStore()
 
 
