@@ -46,10 +46,12 @@ function setup (extraProps) {
 describe('Dialog Wrapper', () => {
   const { enzymeWrapper, props } = setup()
   let dialogWrapper = null
+  let dialogBox = null
 
   const withProps = (_props = props) => {
     enzymeWrapper.setProps(_props)
     dialogWrapper = enzymeWrapper.find('[data-t="dialog:wrapper"]')
+    dialogBox = dialogWrapper.find('[data-t="dialog:box"]')
   }
   beforeEach(withProps)
 
@@ -62,11 +64,22 @@ describe('Dialog Wrapper', () => {
       visible: true,
     })
     expect(dialogWrapper.exists()).toBe(true)
+    expect(dialogBox.exists()).toBe(true)
   })
 
-  xit('should be rendered within the dialog container', () => {
+  it('should render it\'s children within the dialogBox', () => {
+    withProps({
+      visible: true,
+    })
+    expect(dialogBox.find('[data-t="test:child"]').exists()).toBe(true)
   })
 
-  xit('should render child components', () => {
+  it('should apply background to positioner if wrapper is a modal with lightsOff prop set', () => {
+    withProps({
+      lightsOff: true,
+      mode: 'modal',
+    })
+
+    expect(dialogWrapper.hasClass('lights-off')).toBe(true)
   })
 })
