@@ -1,8 +1,5 @@
 web:
   build: .
-  ports:
-    - "3000:3000"
-    - "9222:9222"
   command: sh -c "yarn install && yarn run dev"
   environment:
     - ENABLE_HMR_POLLING
@@ -15,5 +12,13 @@ web:
     - RFG_LOCAL_API_URL
     - RFG_REPOSITORY_URL
     - RFG_WORDPRESS_API_URL
+  ports:
+    - "3000:3000"
+  volumes:
+    - .:/app
+
+test:
+  build: .
+  command: sh -c "yarn install && yarn run test-watch"
   volumes:
     - .:/app

@@ -1,9 +1,10 @@
 {
   "ext": "js,json",
-  "legacyWatch": true,
   "watch": [
     "./server",
-    "*.json",
-    "*.js"
+    ".eslintrc.json",
+    "next.config.js",
+    "package.json",
+    "routes.js"
   ]
 }

@@ -38,6 +38,7 @@ class Button extends TrackableComponent {
     return (
       <button
         {...this.renderProps}
+        data-t="button:button"
         onClick={this._onClick}>
         {this.props.children}
       </button>

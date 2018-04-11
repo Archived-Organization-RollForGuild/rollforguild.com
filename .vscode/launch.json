@@ -14,7 +14,7 @@
     {
       "localRoot": "${workspaceFolder}",
       "name": "Attach to Docker",
-      "port": 9222,
+      "port": 9229,
       "remoteRoot": "/app",
       "request": "attach",
       "restart": true,

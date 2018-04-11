@@ -161,10 +161,14 @@ class Avatar extends Component {
         <div
           aria-label={`${id}'s avatar`}
           className={`avatar ${size.name} ${className}`}
+          data-t="avatar:avatar"
           role="img"
           style={{ backgroundImage: `url(${avatar})` }}>
           {editable && (
-            <button className="avatar-edit-overlay" onClick={this._toggleUploaderDisplay}>
+            <button
+              className="avatar-edit-overlay"
+              data-t="avatar:avatar:edit-overlay"
+              onClick={this._toggleUploaderDisplay}>
               <h4>Edit</h4>
             </button>
           )}
@@ -172,10 +176,10 @@ class Avatar extends Component {
 
         {(editable && displayUploader) && (
           <AvatarUploader
+            data-t="avatar:avatar-uploader"
             onComplete={this._handleUploaderComplete}
             onCancel={() => this._toggleUploaderDisplay(false)} />
         )}
-
       </React.Fragment>
     )
   }
@@ -235,3 +239,4 @@ const mapStateToProps = (state, ownProps) => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Avatar)
+export { Avatar }
