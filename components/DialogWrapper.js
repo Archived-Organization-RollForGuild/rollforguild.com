@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
 
-
+/**
+ * accepted props.mode types for DialogWrapper
+ */
 const wrapperModes = {
   modal: (props) => ({
     className: `dialog-wrapper modal ${props.lightsOff ? 'lights-off' : ''}`,
@@ -23,13 +25,20 @@ const wrapperModes = {
 
 
 
-/* WRITE MY STYLES YOU FUCKNUGGET */
+/**
+ * Component for presenting dialogs and modals to the user.
+ * Set mode (modal or popup) and set appropriate props to display a dialog to the user.
+ *
+ * DialogWrapper is not mounted to the DOM by default. This is to ease the future implemention of dialog transitions.
+ * Always mount DialogWrapper by default, and mount the inner content by setting 'visible' prop to true
+ */
 const DialogWrapper = (props) => {
   if (!props.visible) {
     return null
   }
 
   const {
+    containerProps,
     children,
     mode,
   } = props
@@ -47,7 +56,11 @@ const DialogWrapper = (props) => {
       <div
         {...modeProps}
         data-t="dialog:wrapper">
-        {children}
+        <div
+          {...containerProps}
+          data-t="dialog:box">
+          {children}
+        </div>
       </div>
     ),
     document.getElementById('dialog-container')
@@ -55,6 +68,7 @@ const DialogWrapper = (props) => {
 }
 
 DialogWrapper.defaultProps = {
+  containerProps: {},
   height: 'auto',
   width: 'auto',
   x: '0px',
@@ -66,6 +80,7 @@ DialogWrapper.defaultProps = {
 
 DialogWrapper.propTypes = {
   children: PropTypes.element.isRequired,
+  containerProps: PropTypes.object,
   height: PropTypes.string,
   lightsOff: PropTypes.bool,
   mode: PropTypes.oneOf(Object.keys(wrapperModes)),
