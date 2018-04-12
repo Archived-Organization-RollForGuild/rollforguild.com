@@ -1,8 +1,7 @@
 // Module Imports
+import PropTypes from 'prop-types'
 import React from 'react'
-import ReactDOM from 'react-dom'
 import ReactCrop, { makeAspectCrop } from 'react-image-crop'
-
 
 
 
@@ -10,12 +9,18 @@ import ReactCrop, { makeAspectCrop } from 'react-image-crop'
 // Component Imports
 import { getBase64FromFileInput } from '../helpers'
 import Component from './Component'
+import DialogWrapper from './DialogWrapper'
 
 
 
-
-
-export default class AvatarUploaderDialog extends Component {
+/**
+ * Dialog for managing the upload of new avatars.
+ * Designed to be used in conjunction with <Avatar />
+ *
+ * @class AvatarUploaderDialog
+ * @extends {Component}
+ */
+class AvatarUploaderDialog extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -147,16 +152,10 @@ export default class AvatarUploaderDialog extends Component {
         fileCropped,
       })
     } else {
-      this.setState({
-        crop: null,
-        file: null,
-        fileBase64: null,
-        fileCropped: null,
-        pixelCrop: null,
-        stage: this.stages.INPUT,
-      })
+      this.setState({ ...this.constructor.initialState })
     }
   }
+
   async _handleConfirm (event) {
     const {
       name,
@@ -185,16 +184,20 @@ export default class AvatarUploaderDialog extends Component {
 
       if (typeof response === 'string') {
         this.setState({
+          ...this.initialState,
           error: response,
-          stage: this.stages.INPUT,
         })
+        return
       }
-    } else {
-      this.setState({
-        fileCropped: null,
-        stage: this.stages.CROP,
-      })
+
+      this.setState({ ...this.constructor.initialState })
+      return
     }
+
+    this.setState({
+      fileCropped: null,
+      stage: this.stages.CROP,
+    })
   }
 
 
@@ -214,7 +217,6 @@ export default class AvatarUploaderDialog extends Component {
       CONFIRM: 2,
       UPLOAD: 3,
     }
-
     this._bindMethods([
       '_handleFileInputDrag',
       '_handleFileInputChange',
@@ -225,16 +227,7 @@ export default class AvatarUploaderDialog extends Component {
       '_handleConfirm',
     ])
 
-    this.state = {
-      crop: null,
-      dragActive: false,
-      error: null,
-      file: null,
-      fileBase64: null,
-      fileCropped: null,
-      pixelCrop: null,
-      stage: this.stages.INPUT,
-    }
+    this.state = { ...this.constructor.initialState }
   }
 
   renderImageInput () {
@@ -373,35 +366,61 @@ export default class AvatarUploaderDialog extends Component {
       stage,
     } = this.state
 
-    return ReactDOM.createPortal(
-      (
-        <div className="avatar-uploader">
-          <div className="avatar-upload-dialog">
-            <h3 className="title">Upload Avatar</h3>
+    return (
+      <DialogWrapper
+        visible={this.props.visible}
+        containerProps={{
+          className: 'avatar-upload-dialog',
+        }}>
+        <h3 className="title">Upload Avatar</h3>
 
-            {Boolean(error) && (
-              <div className="error-box">
-                {error}
-              </div>
-            )}
-
-            {stage === this.stages.INPUT && this.renderImageInput()}
-
-            {stage === this.stages.CROP && this.renderImageCrop()}
-
-            {stage === this.stages.CONFIRM && this.renderImageConfirm()}
-
-            {stage === this.stages.UPLOAD && (
-              <div className="stage image-upload">
-                <h2 className="stage-text">
-                  Uploading...
-                </h2>
-              </div>
-            )}
+        {Boolean(error) && (
+          <div className="error-box">
+            {error}
           </div>
-        </div>
-      ),
-      document.getElementById('dialog-container')
+        )}
+
+        {stage === this.stages.INPUT && this.renderImageInput()}
+
+        {stage === this.stages.CROP && this.renderImageCrop()}
+
+        {stage === this.stages.CONFIRM && this.renderImageConfirm()}
+
+        {stage === this.stages.UPLOAD && (
+          <div className="stage image-upload">
+            <h2 className="stage-text">
+                    Uploading...
+            </h2>
+          </div>
+        )}
+      </DialogWrapper>
     )
   }
+
+  static get initialState () {
+    return {
+      crop: null,
+      dragActive: false,
+      error: null,
+      file: null,
+      fileBase64: null,
+      fileCropped: null,
+      pixelCrop: null,
+      stage: 0,
+    }
+  }
 }
+
+AvatarUploaderDialog.defaultProps = {
+  onComplete: null,
+  onCancel: null,
+  visible: false,
+}
+
+AvatarUploaderDialog.propTypes = {
+  onComplete: PropTypes.func,
+  onCancel: PropTypes.func,
+  visible: PropTypes.bool,
+}
+
+export default AvatarUploaderDialog

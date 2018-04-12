@@ -59,7 +59,9 @@ const DialogWrapper = (props) => {
         <div
           {...containerProps}
           data-t="dialog:box">
-          {children}
+          <React.Fragment>
+            {children}
+          </React.Fragment>
         </div>
       </div>
     ),
@@ -79,7 +81,6 @@ DialogWrapper.defaultProps = {
 }
 
 DialogWrapper.propTypes = {
-  children: PropTypes.element.isRequired,
   containerProps: PropTypes.object,
   height: PropTypes.string,
   lightsOff: PropTypes.bool,
