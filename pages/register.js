@@ -142,6 +142,7 @@ class Register extends Component {
                     id="username"
                     name="username"
                     onChange={this._handleChange}
+                    pattern="^[a-zA-Z0-9_-]+$"
                     placeholder="Username"
                     required
                     type="username"
