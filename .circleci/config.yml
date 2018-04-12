@@ -12,6 +12,7 @@ jobs:
 
     environment:
       RFG_LOCAL_API_URL: https://dev.rollforguild.com
+      RFG_GOOGLE_TAG_MANAGER_ENV: development
 
     steps:
       - checkout
@@ -49,6 +50,7 @@ jobs:
 
     environment:
       RFG_LOCAL_API_URL: https://rollforguild.com
+      RFG_GOOGLE_TAG_MANAGER_ENV: production
 
     steps:
       - checkout
