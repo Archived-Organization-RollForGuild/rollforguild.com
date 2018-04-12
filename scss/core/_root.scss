@@ -55,7 +55,20 @@ div#alert-container {
 }
 
 div#dialog-container {
+  border: none;
+  left: 0;
+  position: fixed;
+  top: 0;
   z-index: 301;
+
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  pointer-events: none;
 }
 
 div#alert-container {

@@ -368,10 +368,8 @@ class AvatarUploaderDialog extends Component {
 
     return (
       <DialogWrapper
-        visible={this.props.visible}
-        containerProps={{
-          className: 'avatar-upload-dialog',
-        }}>
+        className="avatar-upload-dialog"
+        visible={this.props.visible} >
         <h3 className="title">Upload Avatar</h3>
 
         {Boolean(error) && (

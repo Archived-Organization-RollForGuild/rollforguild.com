@@ -1,0 +1,16 @@
+dialog {
+  background: $grey;
+  margin-top: 4rem;
+  padding: 2rem;
+  border: none;
+  border-radius: 0.25rem;
+  margin: auto;
+  min-width: 50rem;
+  color: $white;
+  pointer-events: initial;
+  z-index: 301;
+
+  &.modal{
+    box-shadow: 0 0 0 50vmax rgba($black, .6)
+  }
+}
