@@ -10,7 +10,7 @@ import Enzyme, { mount } from 'enzyme'
 
 
 // Component imports
-import helpers, { setupDialogContainer } from '../_testHelpers'
+import { setupDialogContainer } from '../_testHelpers'
 import { Avatar } from '../../components/Avatar'
 
 
@@ -33,8 +33,7 @@ function setup (extraProps) {
     },
     ...extraProps,
   }
-  console.log(helpers)
-  console.log(setupDialogContainer)
+
   setupDialogContainer()
 
   const enzymeWrapper = mount((
