@@ -1,4 +1,5 @@
 import convertObjectToQueryParams from './convertObjectToQueryParams'
+import activateZenDesk from './activateZenDesk'
 import convertSlugToUUID from './convertSlugToUUID'
 import convertStringToSlug from './convertStringToSlug'
 import createAlertObject from './createAlertObject'
@@ -15,6 +16,7 @@ import pushTrackableEventToDataLayer from './pushTrackableEventToDataLayer'
 
 
 export {
+  activateZenDesk,
   convertObjectToQueryParams,
   convertSlugToUUID,
   convertStringToSlug,

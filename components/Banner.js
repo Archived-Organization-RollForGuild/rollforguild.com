@@ -6,7 +6,10 @@ import React from 'react'
 
 
 
+
 // Component imports
+import { activateZenDesk } from '../helpers'
+import Button from './Button'
 import Link from './Link'
 import Nav from './Nav'
 
@@ -23,7 +26,8 @@ const buildCommitHash = publicRuntimeConfig.git.hash
 
 
 
-export default (props) => (
+
+const Banner = (props) => (
   <header role="banner">
     <Link
       category="Navigation"
@@ -36,7 +40,7 @@ export default (props) => (
 
     <footer>
       <small>
-        Questions, comments, or concerns? <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1" rel="noopener noreferrer" target="_blank">Let us know!</a>
+        Questions, comments, or concerns? <Button category="Navigation" label="Support" onClick={activateZenDesk}>Let us know!</Button>
       </small>
 
       <nav className="social">
@@ -58,3 +62,9 @@ export default (props) => (
     </footer>
   </header>
 )
+
+
+
+
+
+export default Banner

@@ -23,8 +23,6 @@ const gtmQueryString = convertObjectToQueryParams({
   gtm_preview: `env-${googleTagManager.envId}`,
   gtm_cookies_win: 'x',
 })
-console.log('googleTagManager', googleTagManager)
-console.log('gtmQueryString', gtmQueryString)
 
 
 
