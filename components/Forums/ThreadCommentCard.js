@@ -14,6 +14,7 @@ import React from 'react'
 import { actions } from '../../store'
 import Avatar from '../Avatar'
 import Component from '../Component'
+import Markdown from '../Markdown'
 
 class ThreadCommentCard extends Component {
   /***************************************************************************\
@@ -151,6 +152,7 @@ class ThreadCommentCard extends Component {
           {(user && !removed) ? (
             <span title={user.attributes.username}>
               <Avatar src={user} size="tiny" />
+
               <span>
                 {user.attributes.username}
               </span>
@@ -168,11 +170,9 @@ class ThreadCommentCard extends Component {
           </span>
         </header>
 
-        <div className="content">
-          <div className="thread-contents">
-            <p className="thread-body">{body}</p>
-          </div>
-        </div>
+        <Markdown
+          className="content"
+          input={body} />
 
         {currentUserIsPoster && (
           <footer>
