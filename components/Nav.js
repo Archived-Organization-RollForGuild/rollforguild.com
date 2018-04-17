@@ -39,7 +39,19 @@ const navItems = [
     key: 'my-profile',
     title: ({ user }) => {
       if (user) {
-        const { username } = user.attributes
+        const {
+          email,
+          username,
+        } = user.attributes
+
+        if (window.zE) {
+          window.zE(() => {
+            window.zE.identify({
+              email,
+              name: username,
+            })
+          })
+        }
 
         return (
           <React.Fragment>

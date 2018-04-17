@@ -6,7 +6,9 @@ import React from 'react'
 
 
 // Component imports
+import { activateZenDesk } from '../../helpers'
 import { Router } from '../../routes'
+import Button from '../../components/Button'
 import Component from '../../components/Component'
 import Main from '../../components/Main'
 import Page from '../../components/Page'
@@ -101,7 +103,7 @@ class Confirmation extends Component {
 
           {(loggedIn === 'error') && (
             <React.Fragment>
-              <p><span aria-label="Sad face emoji" role="img">😞</span> Uh oh... It seems there's a problem with your confirmation code. If you're still trying to activate your account, you may want to <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1">contact support</a>.</p>
+              <p><span aria-label="Sad face emoji" role="img">😞</span> Uh oh... It seems there's a problem with your confirmation code. If you're still trying to activate your account, you may want to <Button category="Account Confirmation" className="inline link" label="Support" onClick={activateZenDesk}>contact support</Button>.</p>
             </React.Fragment>
           )}
         </Main>
