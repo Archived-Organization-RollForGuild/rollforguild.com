@@ -4,4 +4,8 @@
   .card {
     margin-bottom: 2rem;
   }
+
+  li:last-child .card {
+    margin-bottom: 0;
+  }
 }
