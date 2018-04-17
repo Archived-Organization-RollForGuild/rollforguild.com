@@ -169,7 +169,7 @@ class Login extends Component {
 
               {(status === 'error') && (
                 <React.Fragment>
-                  <p>There seems to have been an error while trying to reset your password. Please try again or <Button category="Navigation" label="Support" onClick={activateZenDesk}>contact support</Button>.</p>
+                  <p>There seems to have been an error while trying to reset your password. Please try again or <Button category="Reset Password" className="inline link" label="Support" onClick={activateZenDesk}>contact support</Button>.</p>
                 </React.Fragment>
               )}
             </Form>

@@ -40,7 +40,7 @@ const Banner = (props) => (
 
     <footer>
       <small>
-        Questions, comments, or concerns? <Button category="Navigation" label="Support" onClick={activateZenDesk}>Let us know!</Button>
+        Questions, comments, or concerns? <Button category="Navigation" className="inline link" label="Support" onClick={activateZenDesk}>Let us know!</Button>
       </small>
 
       <nav className="social">
@@ -56,6 +56,7 @@ const Banner = (props) => (
           <FontAwesomeIcon icon={['fab', 'facebook']} fixedWidth />
         </a>
       </nav>
+
       {isDevOrStaging && (
         <small><a href={buildUrl} rel="noopener noreferrer" target="_blank">{buildCommitHash}</a></small>
       )}

@@ -103,7 +103,7 @@ class Confirmation extends Component {
 
           {(loggedIn === 'error') && (
             <React.Fragment>
-              <p><span aria-label="Sad face emoji" role="img">😞</span> Uh oh... It seems there's a problem with your confirmation code. If you're still trying to activate your account, you may want to <Button category="Navigation" label="Support" onClick={activateZenDesk}>contact support</Button>.</p>
+              <p><span aria-label="Sad face emoji" role="img">😞</span> Uh oh... It seems there's a problem with your confirmation code. If you're still trying to activate your account, you may want to <Button category="Account Confirmation" className="inline link" label="Support" onClick={activateZenDesk}>contact support</Button>.</p>
             </React.Fragment>
           )}
         </Main>
