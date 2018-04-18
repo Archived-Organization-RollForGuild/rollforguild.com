@@ -51,7 +51,6 @@ export default class extends Document {
 
           <link rel="manifest" href="/static/manifest.json" />
 
-          <script src="//cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js" />
           <script dangerouslySetInnerHTML={
             {
               __html: `

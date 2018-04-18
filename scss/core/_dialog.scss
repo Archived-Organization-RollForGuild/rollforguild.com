@@ -1,4 +1,4 @@
-dialog {
+[role=dialog] {
   background: $grey;
   margin-top: 4rem;
   padding: 2rem;
@@ -10,7 +10,7 @@ dialog {
   pointer-events: initial;
   z-index: 301;
 
-  &.modal{
+  &.modal {
     box-shadow: 0 0 0 50vmax rgba($black, .6)
   }
 }

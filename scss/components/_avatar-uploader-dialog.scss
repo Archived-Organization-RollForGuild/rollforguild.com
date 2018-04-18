@@ -1,4 +1,4 @@
-dialog.avatar-upload-dialog {
+.avatar-upload-dialog {
   .title {
     display: block;
     line-height: 1;
@@ -51,6 +51,7 @@ dialog.avatar-upload-dialog {
         background: rgba($green, .8);
       }
     }
+
     menu {
       grid-area: menu;
     }

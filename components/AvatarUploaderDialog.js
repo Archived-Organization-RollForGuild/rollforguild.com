@@ -9,7 +9,7 @@ import ReactCrop, { makeAspectCrop } from 'react-image-crop'
 // Component Imports
 import { getBase64FromFileInput } from '../helpers'
 import Component from './Component'
-import DialogWrapper from './DialogWrapper'
+import Dialog from './Dialog'
 
 
 
@@ -367,9 +367,9 @@ class AvatarUploaderDialog extends Component {
     } = this.state
 
     return (
-      <DialogWrapper
+      <Dialog
         className="avatar-upload-dialog"
-        visible={this.props.visible} >
+        visible={this.props.visible}>
         <h3 className="title">Upload Avatar</h3>
 
         {Boolean(error) && (
@@ -387,11 +387,11 @@ class AvatarUploaderDialog extends Component {
         {stage === this.stages.UPLOAD && (
           <div className="stage image-upload">
             <h2 className="stage-text">
-                    Uploading...
+              Uploading...
             </h2>
           </div>
         )}
-      </DialogWrapper>
+      </Dialog>
     )
   }
 

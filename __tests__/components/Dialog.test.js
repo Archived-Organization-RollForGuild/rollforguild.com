@@ -11,7 +11,7 @@ import Enzyme, { mount } from 'enzyme'
 
 // Component imports
 import { setupDialogContainer } from '../_testHelpers'
-import DialogWrapper from '../../components/DialogWrapper'
+import Dialog from '../../components/Dialog'
 
 
 
@@ -27,9 +27,9 @@ function setup (extraProps) {
   setupDialogContainer()
 
   const enzymeWrapper = mount((
-    <DialogWrapper {...props}>
+    <Dialog {...props}>
       <div data-t="test:child" />
-    </DialogWrapper>
+    </Dialog>
   ))
 
   return {
