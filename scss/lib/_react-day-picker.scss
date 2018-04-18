@@ -1,0 +1,44 @@
+div.DayPickerInput-Overlay {
+  background-color: $grey;
+
+  .DayPicker-NavButton {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .DayPicker-Caption,
+  .DayPicker-TodayButton {
+    font-family: Montserrat, sans-serif;
+    text-transform: uppercase;
+    color: $green;
+  }
+
+  .DayPicker-TodayButton {
+    padding: 0;
+    font-size: 1.15rem;
+  }
+
+  .DayPicker-Day {
+    min-width: 32px;
+    padding: 0;
+
+    &:hover{
+      color: $grey;
+    }
+
+    &.DayPicker-Day--today {
+      color: $green-darkened;
+    }
+
+    &.DayPicker-Day--selected,
+    &.DayPicker-Day--selected:hover {
+      background-color: $green;
+      color: $white
+    }
+  }
+
+  .DayPicker-Footer {
+    display: flex;
+    justify-content: center;
+  }
+}
