@@ -47,7 +47,13 @@ const avatarSize = {
 
 
 
-
+/**
+ * Handles loading and management of a user or group avatar.
+ * Can also handle uploading new avatars through the 'editable' prop.
+ *
+ * @class Avatar
+ * @extends {Component}
+ */
 class Avatar extends Component {
   /***************************************************************************\
     Private Methods
@@ -174,9 +180,10 @@ class Avatar extends Component {
           )}
         </div>
 
-        {(editable && displayUploader) && (
+        {editable && (
           <AvatarUploader
             data-t="avatar:avatar-uploader"
+            visible={displayUploader}
             onComplete={this._handleUploaderComplete}
             onCancel={() => this._toggleUploaderDisplay(false)} />
         )}

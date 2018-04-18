@@ -9,7 +9,7 @@
     "build": "next build",
     "dev": "nodemon",
     "postinstall": "npm rebuild node-sass",
-    "test": "NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest",
     "test-watch": "yarn test --watchAll"
   },
   "devDependencies": {
