@@ -1,8 +1,7 @@
 // Module Imports
+import PropTypes from 'prop-types'
 import React from 'react'
-import ReactDOM from 'react-dom'
 import ReactCrop, { makeAspectCrop } from 'react-image-crop'
-
 
 
 
@@ -10,12 +9,18 @@ import ReactCrop, { makeAspectCrop } from 'react-image-crop'
 // Component Imports
 import { getBase64FromFileInput } from '../helpers'
 import Component from './Component'
+import Dialog from './Dialog'
 
 
 
-
-
-export default class AvatarUploaderDialog extends Component {
+/**
+ * Dialog for managing the upload of new avatars.
+ * Designed to be used in conjunction with <Avatar />
+ *
+ * @class AvatarUploaderDialog
+ * @extends {Component}
+ */
+class AvatarUploaderDialog extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -147,16 +152,10 @@ export default class AvatarUploaderDialog extends Component {
         fileCropped,
       })
     } else {
-      this.setState({
-        crop: null,
-        file: null,
-        fileBase64: null,
-        fileCropped: null,
-        pixelCrop: null,
-        stage: this.stages.INPUT,
-      })
+      this.setState({ ...this.constructor.initialState })
     }
   }
+
   async _handleConfirm (event) {
     const {
       name,
@@ -175,6 +174,7 @@ export default class AvatarUploaderDialog extends Component {
       if (!onComplete) {
         throw new ReferenceError('onComplete is not defined, or is not a function.')
       }
+
       if (typeof onComplete !== 'function') {
         throw new TypeError('onComplete must be a function.')
       }
@@ -185,16 +185,20 @@ export default class AvatarUploaderDialog extends Component {
 
       if (typeof response === 'string') {
         this.setState({
+          ...this.initialState,
           error: response,
-          stage: this.stages.INPUT,
         })
+        return
       }
-    } else {
-      this.setState({
-        fileCropped: null,
-        stage: this.stages.CROP,
-      })
+
+      this.setState({ ...this.constructor.initialState })
+      return
     }
+
+    this.setState({
+      fileCropped: null,
+      stage: this.stages.CROP,
+    })
   }
 
 
@@ -214,7 +218,6 @@ export default class AvatarUploaderDialog extends Component {
       CONFIRM: 2,
       UPLOAD: 3,
     }
-
     this._bindMethods([
       '_handleFileInputDrag',
       '_handleFileInputChange',
@@ -225,16 +228,7 @@ export default class AvatarUploaderDialog extends Component {
       '_handleConfirm',
     ])
 
-    this.state = {
-      crop: null,
-      dragActive: false,
-      error: null,
-      file: null,
-      fileBase64: null,
-      fileCropped: null,
-      pixelCrop: null,
-      stage: this.stages.INPUT,
-    }
+    this.state = { ...this.constructor.initialState }
   }
 
   renderImageInput () {
@@ -260,32 +254,10 @@ export default class AvatarUploaderDialog extends Component {
           onDragLeave={() => this._handleFileInputDrag(false)}
           onDrop={() => this._handleFileInputDrag(false)}
           onChange={this._handleFileInputChange} />
-
-        <menu
-          className="compact"
-          type="toolbar" >
-
-          {this.props.onCancel ? (
-            <button
-              className="danger"
-              name="no"
-              onClick={this._handleFileInputSubmit}>
-              Cancel
-            </button>
-          ) : (<div className="i-exist-to-put-the-next-button-on-the-right" />)}
-
-          <button
-            className="success"
-            disabled={!file}
-            name="yes"
-            onClick={this._handleFileInputSubmit}>
-            Next
-          </button>
-
-        </menu>
       </div>
     )
   }
+
   renderImageCrop () {
     const {
       crop,
@@ -305,26 +277,6 @@ export default class AvatarUploaderDialog extends Component {
           onImageLoaded={this._handleReactCropLoad}
           onChange={this._handleReactCropChange}
           crop={crop} />
-
-        <menu
-          className="compact"
-          type="toolbar" >
-
-          <button
-            className="danger"
-            name="no"
-            onClick={this._handleCropSubmit}>
-            Back
-          </button>
-
-          <button
-            className="success"
-            name="yes"
-            onClick={this._handleCropSubmit}>
-            Next
-          </button>
-
-        </menu>
       </div>
     )
   }
@@ -343,26 +295,6 @@ export default class AvatarUploaderDialog extends Component {
         <img
           src={URL.createObjectURL(fileCropped)}
           alt="cropped user avatar" />
-
-        <menu
-          className="compact"
-          type="toolbar" >
-
-          <button
-            className="danger"
-            name="no"
-            onClick={this._handleConfirm}>
-            Back
-          </button>
-
-          <button
-            className="success"
-            name="yes"
-            onClick={this._handleConfirm}>
-            Upload
-          </button>
-
-        </menu>
       </div>
     )
   }
@@ -372,36 +304,151 @@ export default class AvatarUploaderDialog extends Component {
       error,
       stage,
     } = this.state
+    const { onCancel } = this.props
 
-    return ReactDOM.createPortal(
-      (
-        <div className="avatar-uploader">
-          <div className="avatar-upload-dialog">
-            <h3 className="title">Upload Avatar</h3>
-
-            {Boolean(error) && (
-              <div className="error-box">
-                {error}
-              </div>
-            )}
-
-            {stage === this.stages.INPUT && this.renderImageInput()}
-
-            {stage === this.stages.CROP && this.renderImageCrop()}
-
-            {stage === this.stages.CONFIRM && this.renderImageConfirm()}
-
-            {stage === this.stages.UPLOAD && (
-              <div className="stage image-upload">
-                <h2 className="stage-text">
-                  Uploading...
-                </h2>
-              </div>
-            )}
+    return (
+      <Dialog
+        className="avatar-upload-dialog"
+        controls={this.controls}
+        modal
+        onClose={onCancel}
+        title="Upload Avatar">
+        {Boolean(error) && (
+          <div className="error-box">
+            {error}
           </div>
-        </div>
-      ),
-      document.getElementById('dialog-container')
+        )}
+
+        {stage === this.stages.INPUT && this.renderImageInput()}
+
+        {stage === this.stages.CROP && this.renderImageCrop()}
+
+        {stage === this.stages.CONFIRM && this.renderImageConfirm()}
+
+        {stage === this.stages.UPLOAD && (
+          <div className="stage image-upload">
+            <h2 className="stage-text">
+              Uploading...
+            </h2>
+          </div>
+        )}
+      </Dialog>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Getters
+  \***************************************************************************/
+
+  get controls () {
+    const {
+      file,
+      stage,
+    } = this.state
+    const {
+      CONFIRM,
+      CROP,
+    } = this.stages
+    const controls = {
+      primary: [],
+      secondary: [],
+    }
+
+    switch (stage) {
+      case CROP:
+        controls.primary.push((
+          <button
+            className="success"
+            name="yes"
+            onClick={this._handleCropSubmit}>
+            Next
+          </button>
+        ))
+
+        controls.secondary.push((
+          <button
+            className="secondary"
+            name="no"
+            onClick={this._handleCropSubmit}>
+            Back
+          </button>
+        ))
+
+        break
+
+      case CONFIRM:
+        controls.primary.push((
+          <button
+            className="success"
+            name="yes"
+            onClick={this._handleConfirm}>
+            Upload
+          </button>
+        ))
+
+        controls.secondary.push((
+          <button
+            className="secondary"
+            name="no"
+            onClick={this._handleConfirm}>
+            Back
+          </button>
+        ))
+
+        break
+
+      default:
+        controls.primary.push((
+          <button
+            className="success"
+            disabled={!file}
+            name="yes"
+            onClick={this._handleFileInputSubmit}>
+            Next
+          </button>
+        ))
+
+        if (this.props.onCancel) {
+          controls.secondary.push((
+            <button
+              className="secondary"
+              name="no"
+              onClick={this._handleFileInputSubmit}>
+              Cancel
+            </button>
+          ))
+        }
+    }
+
+    return controls
+  }
+
+  static get initialState () {
+    return {
+      crop: null,
+      dragActive: false,
+      error: null,
+      file: null,
+      fileBase64: null,
+      fileCropped: null,
+      pixelCrop: null,
+      stage: 0,
+    }
+  }
 }
+
+AvatarUploaderDialog.defaultProps = {
+  onComplete: null,
+  onCancel: null,
+}
+
+AvatarUploaderDialog.propTypes = {
+  onComplete: PropTypes.func,
+  onCancel: PropTypes.func,
+}
+
+export default AvatarUploaderDialog

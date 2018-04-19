@@ -10,6 +10,7 @@ import Enzyme, { mount } from 'enzyme'
 
 
 // Component imports
+import { setupDialogContainer } from '../_testHelpers'
 import { Avatar } from '../../components/Avatar'
 
 
@@ -33,10 +34,7 @@ function setup (extraProps) {
     ...extraProps,
   }
 
-  const dialogContainer = global.document.createElement('div')
-  dialogContainer.setAttribute('id', 'dialog-container')
-  const body = global.document.querySelector('body')
-  body.appendChild(dialogContainer)
+  setupDialogContainer()
 
   const enzymeWrapper = mount((
     <Avatar {...props} />

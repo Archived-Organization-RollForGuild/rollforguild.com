@@ -47,14 +47,20 @@ const avatarSize = {
 
 
 
-
+/**
+ * Handles loading and management of a user or group avatar.
+ * Can also handle uploading new avatars through the 'editable' prop.
+ *
+ * @class Avatar
+ * @extends {Component}
+ */
 class Avatar extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  _toggleUploaderDisplay (show) {
-    this.setState({ displayUploader: typeof show === 'boolean' ? show : !this.state.showAvatarEdit })
+  _displayUploader () {
+    this.setState({ displayUploader: true })
   }
 
   async _handleUploaderComplete (_fileBlob) {
@@ -77,9 +83,7 @@ class Avatar extends Component {
       return 'File Upload Error. Please Try again.'
     }
 
-    this.setState({
-      displayUploader: false,
-    })
+    this.setState({ displayUploader: false })
 
     return null
   }
@@ -113,10 +117,7 @@ class Avatar extends Component {
   constructor (props) {
     super(props)
 
-    this._bindMethods([
-      '_toggleUploaderDisplay',
-      '_handleUploaderComplete',
-    ])
+    this._bindMethods(['_handleUploaderComplete'])
 
     if (!props.src) {
       throw new ReferenceError('props.src is not defined')
@@ -168,17 +169,18 @@ class Avatar extends Component {
             <button
               className="avatar-edit-overlay"
               data-t="avatar:avatar:edit-overlay"
-              onClick={this._toggleUploaderDisplay}>
+              onClick={() => this.setState({ displayUploader: true })}>
               <h4>Edit</h4>
             </button>
           )}
         </div>
 
-        {(editable && displayUploader) && (
+        {displayUploader && (
           <AvatarUploader
             data-t="avatar:avatar-uploader"
+            visible={displayUploader}
             onComplete={this._handleUploaderComplete}
-            onCancel={() => this._toggleUploaderDisplay(false)} />
+            onCancel={() => this.setState({ displayUploader: false })} />
         )}
       </React.Fragment>
     )

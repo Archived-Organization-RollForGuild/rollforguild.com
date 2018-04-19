@@ -1,9 +1,11 @@
 /* eslint-env jest */
 
 // Module imports
+import '@fortawesome/fontawesome-free-solid'
+import '@fortawesome/fontawesome-free-brands'
 import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
-import Enzyme, { mount } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
 
 
 
@@ -29,7 +31,7 @@ function setup (extraProps) {
     ...extraProps,
   }
 
-  const enzymeWrapper = mount((
+  const enzymeWrapper = shallow((
     <Pagination {...props} />
   ))
 
@@ -62,6 +64,7 @@ describe('Pagination', () => {
       nav = enzymeWrapper.find('[data-t="pagination:wrapper"]')
       prevButton = nav.find('[data-t="pagination:button:previous"]')
     }
+
     beforeEach(withProps)
 
     it('should be rendered', () => {
