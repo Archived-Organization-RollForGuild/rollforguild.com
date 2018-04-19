@@ -1,6 +1,8 @@
 /* eslint-env jest */
 
 // Module imports
+import '@fortawesome/fontawesome-free-solid'
+import '@fortawesome/fontawesome-free-brands'
 import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
 import Enzyme, { mount } from 'enzyme'
@@ -28,7 +30,7 @@ function setup (extraProps) {
 
   const enzymeWrapper = mount((
     <Dialog {...props}>
-      <div data-t="test:child" />
+      <div data-t="dialog:child" />
     </Dialog>
   ))
 
@@ -45,41 +47,46 @@ function setup (extraProps) {
 // Tests
 describe('Dialog Wrapper', () => {
   const { enzymeWrapper, props } = setup()
-  let dialogWrapper = null
-  let dialogBox = null
+  let dialog = null
 
   const withProps = (_props = props) => {
     enzymeWrapper.setProps(_props)
-    dialogWrapper = enzymeWrapper.find('[data-t="dialog:wrapper"]')
-    dialogBox = dialogWrapper.find('[data-t="dialog:box"]')
+    dialog = enzymeWrapper.find('[data-t="dialog:dialog"]')
   }
   beforeEach(withProps)
 
-  it('should not render itself by default', () => {
-    expect(dialogWrapper.exists()).toBe(false)
+  it('should render itself', () => {
+    expect(dialog.exists()).toBe(true)
   })
 
-  it('should render if visible prop is true', () => {
+  it('should render it\'s children within the dialog', () => {
     withProps({
       visible: true,
     })
-    expect(dialogWrapper.exists()).toBe(true)
-    expect(dialogBox.exists()).toBe(true)
+
+    const child = dialog.find('[data-t="dialog:child"]')
+
+    expect(child.exists()).toBe(true)
   })
 
-  it('should render it\'s children within the dialogBox', () => {
+  it('should render controls', () => {
     withProps({
-      visible: true,
+      controls: {
+        primary: [(<div />)],
+        secondary: [(<div />)],
+      },
     })
-    expect(dialogBox.find('[data-t="test:child"]').exists()).toBe(true)
+
+    const primaryControls = dialog.find('[data-t="dialog:primary-controls"]')
+    const secondaryControls = dialog.find('[data-t="dialog:secondary-controls"]')
+
+    expect(primaryControls.exists()).toBe(true)
+    expect(secondaryControls.exists()).toBe(true)
   })
 
-  it('should apply background to positioner if wrapper is a modal with lightsOff prop set', () => {
-    withProps({
-      lightsOff: true,
-      mode: 'modal',
-    })
+  it('should apply modal styles if dialog is a modal', () => {
+    withProps({ modal: true })
 
-    expect(dialogWrapper.hasClass('lights-off')).toBe(true)
+    expect(dialog.hasClass('modal')).toBe(true)
   })
 })
