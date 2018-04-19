@@ -22,20 +22,25 @@ menu {
   }
 
   > .primary {
-    margin-right: auto;
-    order: 1;
+    margin-left: auto;
+    order: 2;
 
     > *:not(:last-child) {
-      margin-right: 1rem
+      margin-left: 1rem;
     }
   }
 
   > .secondary {
-    margin-left: auto;
-    order: 2;
+    margin-right: auto;
+    order: 1;
 
     > *:not(:first-child) {
-      margin-left: 1rem
+      margin-right: 1rem;
     }
+  }
+
+  button,
+  .button {
+    border-radius: 0;
   }
 }

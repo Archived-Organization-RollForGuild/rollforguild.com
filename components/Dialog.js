@@ -1,8 +1,5 @@
 // Module Imports
-import {
-  animated,
-  Transition,
-} from 'react-spring'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
@@ -11,46 +8,69 @@ import PropTypes from 'prop-types'
 
 
 // Component Imports
-import Component from './Component'
+import Button from './Button'
+
+
+
+
 
 /**
  * Component for presenting dialogs and modals to the user.
  */
 
-class Dialog extends Component {
-  /***************************************************************************\
-    Public Methods
-  \***************************************************************************/
+const Dialog = props => {
+  const {
+    children,
+    className,
+    controls,
+    modal,
+    onClose,
+    title,
+  } = props
 
-  render () {
-    const {
-      children,
-      className,
-      modal,
-    } = this.props
+  return ReactDOM.createPortal(
+    (
+      <div
+        className={`${modal ? 'modal' : ''} ${className || ''}`}
+        data-t="dialog"
+        role="dialog">
+        <header>
+          <h2>{title}</h2>
 
-    return ReactDOM.createPortal(
-      (
-        <Transition
-          native
-          from={{ opacity: 0 }}
-          enter={{ opacity: 1 }}
-          leave={{ opacity: 0 }}>
-          {styles => (
-            <animated.div
-              className={`${modal ? 'modal' : ''} ${className || ''}`}
-              data-t="dialog"
-              ref={el => this._el = el}
-              role="dialog"
-              style={styles}>
-              {children}
-            </animated.div>
-          )}
-        </Transition>
-      ),
-      document.getElementById('dialog-container')
-    )
-  }
+          <Button
+            action="close"
+            category="Dialog"
+            className="danger"
+            name="close"
+            onClick={onClose}
+            label="">
+            <FontAwesomeIcon icon="times" fixedWidth />
+          </Button>
+        </header>
+
+        <div className="content">{children}</div>
+
+        {Boolean(controls) && (
+          <footer>
+            <menu type="toolbar" className="compact fulltext">
+              {Boolean(controls.primary) && (
+                <div className="primary">
+                  {controls.primary}
+                </div>
+              )}
+
+              {Boolean(controls.secondary) && (
+                <div className="secondary">
+                  {controls.secondary}
+                </div>
+              )}
+            </menu>
+          </footer>
+        )}
+      </div>
+    ),
+    document.getElementById('dialog-container')
+  )
 }
 
 Dialog.defaultProps = {

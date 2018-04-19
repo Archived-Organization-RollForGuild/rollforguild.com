@@ -27,8 +27,8 @@ html {
 }
 
 [role=application],
-div#dialog-container,
-div#alert-container {
+#dialog-container,
+#alert-container {
   color: $white;
   font-family: Lora, serif;
   font-size: 16px;
@@ -54,23 +54,20 @@ div#alert-container {
   }
 }
 
-div#dialog-container {
+#dialog-container {
+  align-items: center;
   border: none;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
   left: 0;
+  pointer-events: none;
   position: fixed;
   top: 0;
-  z-index: 301;
-
-  height: 100vh;
   width: 100vw;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  pointer-events: none;
+  z-index: 301;
 }
 
-div#alert-container {
+#alert-container {
   z-index: 302;
 }
