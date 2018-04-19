@@ -126,7 +126,6 @@ class AlertCard extends Component {
             action="dismiss"
             category="Alerts"
             label={`${title} - ${body}`}
-            type="button"
             className="compact"
             onClick={this._handleDismissal}>
             <FontAwesomeIcon icon="times" fixedWidth />
