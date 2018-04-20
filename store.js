@@ -19,6 +19,8 @@ import * as alertsActions from './store/actions/alerts'
 import * as authenticationActions from './store/actions/authentication'
 import * as avatarsActions from './store/actions/avatars'
 import * as charactersActions from './store/actions/characters'
+import * as eventsActions from './store/actions/events'
+import * as gamesActions from './store/actions/games'
 import * as groupsActions from './store/actions/groups'
 import * as rulesetsActions from './store/actions/rulesets'
 import * as forumsActions from './store/actions/forums'
@@ -33,6 +35,8 @@ export const actions = {
   ...authenticationActions,
   ...avatarsActions,
   ...charactersActions,
+  ...eventsActions,
+  ...gamesActions,
   ...groupsActions,
   ...rulesetsActions,
   ...forumsActions,
