@@ -296,6 +296,7 @@ class GroupProfile extends Component {
       leaving: {},
       loaded: group && group.attributes.member_status,
       requestingToJoin: false,
+      showEventDialog: false,
     }
   }
 
@@ -326,6 +327,7 @@ class GroupProfile extends Component {
       leaving,
       loaded,
       requestingToJoin,
+      showEventDialog,
     } = this.state
 
     if (!group && !loaded) {
@@ -381,6 +383,15 @@ class GroupProfile extends Component {
           {!currentUserIsAdmin && (
             <aside>
               <menu type="toolbar">
+                {currentUserIsAdmin && (
+                  <Button
+                    action="show-creator"
+                    category="Groups"
+                    label="Events"
+                    onClick={() => this.setState({ showEventDialog: true })}>
+                    New Event
+                  </Button>
+                )}
                 {!currentUserIsMember && (
                   <Button
                     action="request"
