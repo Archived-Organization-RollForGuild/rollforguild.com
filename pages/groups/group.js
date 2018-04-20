@@ -21,8 +21,9 @@ import { actions } from '../../store'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
-import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
-import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
+import GroupDetailsPanel from '../../components/Groups/GroupDetailsPanel'
+import GroupEventCreateDialog from '../../components/Groups/GroupEventCreateDialog'
+import GroupSettingsPanel from '../../components/Groups/GroupSettingsPanel'
 import Link from '../../components/Link'
 import Main from '../../components/Main'
 import Markdown from '../../components/Markdown'
@@ -572,6 +573,10 @@ class GroupProfile extends Component {
             </TabPanel>
           </div>
         </Main>
+
+        {showEventDialog && (
+          <GroupEventCreateDialog group={group} onClose={() => this.setState({ showEventDialog: false })} />
+        )}
       </React.Fragment>
     )
   }
