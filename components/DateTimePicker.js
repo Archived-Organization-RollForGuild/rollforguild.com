@@ -66,6 +66,7 @@ class DateTimePicker extends Component {
 
   render () {
     const {
+      disabled,
       value: date,
     } = this.props
 
@@ -87,12 +88,14 @@ class DateTimePicker extends Component {
           dayPickerProps={{
             todayButton: 'Today',
           }}
+          inputProps={{ disabled }}
           onDayChange={newDate => this._handleChange('date', newDate)}
           placeholder="Date"
           value={date} />
         <input
           className="time-picker"
           data-t="date-time-picker:time-input"
+          disabled={disabled}
           type="time"
           onChange={({ target: { value } }) => this._handleChange('time', value)}
           value={timeString} />
@@ -107,6 +110,7 @@ class DateTimePicker extends Component {
   get renderProps () {
     const newProps = { ...this.props }
 
+    delete newProps.disabled
     delete newProps.onDateChange
     delete newProps.value
 
@@ -115,10 +119,12 @@ class DateTimePicker extends Component {
 }
 
 DateTimePicker.defaultProps = {
+  disabled: false,
   onDateChange: null,
 }
 
 DateTimePicker.propTypes = {
+  disabled: PropTypes.any,
   onDateChange: PropTypes.func,
   value: PropTypes.instanceOf(Date).isRequired,
 }
