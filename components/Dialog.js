@@ -78,7 +78,9 @@ class Dialog extends Component {
 
           {Boolean(controls) && (
             <footer data-t="dialog:footer">
-              <menu type="toolbar" className="compact fulltext">
+              <menu
+                className="compact"
+                type="toolbar">
                 {Boolean(controls.primary) && (
                   <div
                     className="primary"
@@ -104,6 +106,10 @@ class Dialog extends Component {
   }
 }
 
+
+
+
+
 Dialog.defaultProps = {
   modal: true,
 }
@@ -111,6 +117,9 @@ Dialog.defaultProps = {
 Dialog.propTypes = {
   modal: PropTypes.bool,
 }
+
+
+
 
 
 export default Dialog
