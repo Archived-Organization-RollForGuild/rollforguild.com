@@ -69,8 +69,8 @@ button,
   }
 
   &.danger {
-    background-color: $red;
-    border-color: $red;
+    background-color: #444;
+    border-color: #444;
     color: $white;
 
     &:hover {
@@ -80,8 +80,8 @@ button,
 
     &:disabled,
     &.disabled {
-      background-color: $red;
-      border-color: $red;
+      background-color: #444;
+      border-color: #444;
     }
   }
 

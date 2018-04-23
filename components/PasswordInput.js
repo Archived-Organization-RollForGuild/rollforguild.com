@@ -96,6 +96,7 @@ class PasswordInput extends ValidatedInput {
     } = this.state
 
     const {
+      disabled,
       showStrength,
     } = this.props
 
@@ -116,6 +117,7 @@ class PasswordInput extends ValidatedInput {
         <button
           className="show-password"
           data-t="password-input:reveal-button"
+          disabled={disabled}
           onClick={this._handleShowPasswordClick}
           tabIndex={-1}
           type="button">

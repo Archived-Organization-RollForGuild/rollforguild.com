@@ -30,6 +30,16 @@ textarea {
     cursor: pointer;
     user-select: none;
   }
+
+  &[disabled] {
+    background-color: $disabled-background-color;
+    cursor: not-allowed;
+
+    &,
+    &::placeholder {
+      color: $disabled-text-color;
+    }
+  }
 }
 
 select {
