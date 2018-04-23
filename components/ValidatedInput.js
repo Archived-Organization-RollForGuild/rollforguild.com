@@ -167,9 +167,14 @@ class ValidatedInput extends Component {
 
   render () {
     const { hasBeenFocused } = this.state
+    const {
+      className,
+      disabled,
+    } = this.props
     const classNames = [
       'validated-input',
-      (this.props.className || ''),
+      (disabled ? 'disabled' : ''),
+      (className || ''),
     ]
 
     return (

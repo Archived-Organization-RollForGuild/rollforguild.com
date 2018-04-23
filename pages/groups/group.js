@@ -21,6 +21,7 @@ import { actions } from '../../store'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
+import RegistrationDialog from '../../components/RegistrationDialog'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
 import Link from '../../components/Link'
@@ -127,9 +128,7 @@ class JoinRequestCard extends Component {
         </div>
 
         <footer>
-          <menu
-            className="compact"
-            type="toolbar">
+          <menu type="toolbar">
             <div className="primary">
               <Link href={`mailto:${email}`}>
                 <a className="button small success">Message</a>
@@ -296,6 +295,7 @@ class GroupProfile extends Component {
       leaving: {},
       loaded: group && group.attributes.member_status,
       requestingToJoin: false,
+      showRegistrationModal: false,
     }
   }
 
@@ -326,6 +326,7 @@ class GroupProfile extends Component {
       leaving,
       loaded,
       requestingToJoin,
+      showRegistrationModal,
     } = this.state
 
     if (!group && !loaded) {
@@ -388,7 +389,7 @@ class GroupProfile extends Component {
                     className="success"
                     disabled={requestingToJoin || joinRequestSent}
                     label="Membership"
-                    onClick={this._requestToJoin}>
+                    onClick={currentUserId ? this._requestToJoin : () => this.setState({ showRegistrationModal: true })}>
                     {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
                     {(!requestingToJoin && joinRequestSent) && (
@@ -487,9 +488,7 @@ class GroupProfile extends Component {
                               </div>
 
                               <footer>
-                                <menu
-                                  className="compact"
-                                  type="toolbar">
+                                <menu type="toolbar">
                                   <div className="primary">
                                     <a
                                       className="button small success"
@@ -561,6 +560,12 @@ class GroupProfile extends Component {
             </TabPanel>
           </div>
         </Main>
+
+        {showRegistrationModal && (
+          <RegistrationDialog
+            onClose={() => this.setState({ showRegistrationModal: false })}
+            prompt="It doesn't look like you have an account yet! You'll need to register before you can join this group." />
+        )}
       </React.Fragment>
     )
   }
