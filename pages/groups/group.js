@@ -187,10 +187,6 @@ class GroupProfile extends Component {
     window.location.reload()
   }
 
-  _hideRegistrationModal () {
-    this.setState({ showRegistrationModal: false })
-  }
-
   async _ignoreJoinRequest (userId) {
     await this._handleJoinRequest(userId, 'ignored')
   }
@@ -230,10 +226,6 @@ class GroupProfile extends Component {
         requestingToJoin: false,
       })
     }, 500)
-  }
-
-  _showRegistrationModal () {
-    this.setState({ showRegistrationModal: true })
   }
 
 
@@ -288,12 +280,10 @@ class GroupProfile extends Component {
 
     this._bindMethods([
       '_acceptJoinRequest',
-      '_hideRegistrationModal',
       '_ignoreJoinRequest',
       '_removeMember',
       '_requestToJoin',
       '_requestToJoin',
-      '_showRegistrationModal',
     ])
 
     this.state = {
@@ -399,7 +389,7 @@ class GroupProfile extends Component {
                     className="success"
                     disabled={requestingToJoin || joinRequestSent}
                     label="Membership"
-                    onClick={currentUserId ? this._requestToJoin : this._showRegistrationModal}>
+                    onClick={currentUserId ? this._requestToJoin : () => this.setState({ showRegistrationModal: false })}>
                     {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
                     {(!requestingToJoin && joinRequestSent) && (
@@ -573,7 +563,7 @@ class GroupProfile extends Component {
 
         {Boolean(showRegistrationModal) && (
           <RegistrationDialog
-            onClose={this._hideRegistrationModal}
+            onClose={() => this.setState({ showRegistrationModal: false })}
             prompt="It doesn't look like you have an account yet! You'll need to register before you can join this group." />
         )}
       </React.Fragment>
