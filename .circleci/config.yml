@@ -31,6 +31,10 @@ jobs:
 
       - run: yarn run build
 
+      - run:
+          name: Run tests
+          command: yarn test
+
       - add_ssh_keys
 
       - run:
@@ -91,7 +95,7 @@ workflows:
       - dev:
           filters:
             branches:
-              only: develop
+              ignore: master
 
   prod-deploy:
     jobs:
