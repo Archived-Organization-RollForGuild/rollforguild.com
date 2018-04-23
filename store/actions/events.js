@@ -12,7 +12,7 @@ export const createGroupEvent = (groupId, attributes) => createApiAction({
   method: 'post',
   data: {
     data: {
-      type: 'games',
+      type: 'events',
       attributes,
     },
   },
@@ -29,7 +29,7 @@ export const updateGroupEvent = (groupId, eventId, attributes) => createApiActio
   method: 'put',
   data: {
     data: {
-      type: 'games',
+      type: 'events',
       attributes,
     },
   },
