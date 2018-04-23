@@ -1,16 +1,46 @@
-dialog {
-  background: $grey;
+[role=dialog] {
+  background-color: #303030;
   margin-top: 4rem;
-  padding: 2rem;
   border: none;
   border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
   margin: auto;
+  max-height: 80vh;
+  max-width: 80vw;
   min-width: 50rem;
   color: $white;
+  overflow: hidden;
   pointer-events: initial;
   z-index: 301;
 
-  &.modal{
+  &.modal {
     box-shadow: 0 0 0 50vmax rgba($black, .6)
+  }
+
+  > header {
+    align-items: stretch;
+    background-color: #444;
+    display: flex;
+    flex-shrink: 0;
+
+    h2 {
+      padding: 1rem 2rem;
+    }
+
+    [name=close] {
+      border-radius: 0;
+      margin-left: auto;
+    }
+  }
+
+  > .content {
+    flex-shrink: 1;
+    overflow: auto;
+    padding: 2rem;
+  }
+
+  > footer {
+    background-color: #444;
   }
 }
