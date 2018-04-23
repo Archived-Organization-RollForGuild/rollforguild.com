@@ -5,9 +5,21 @@ import PropTypes from 'prop-types'
 
 
 
+// Component Imports
+import Component from './Component'
 
-const DateTimePicker = ({ onChange, value: date }) => {
-  const handleChange = (type, value) => {
+
+class DateTimePicker extends Component {
+  /***************************************************************************\
+    Private Methods
+  \***************************************************************************/
+
+  _handleChange (type, value) {
+    const {
+      value: date,
+      onDateChange,
+    } = this.props
+
     let newDate = date
 
     switch (type) {
@@ -31,47 +43,83 @@ const DateTimePicker = ({ onChange, value: date }) => {
         break
     }
 
-    if (typeof onChange === 'function') {
-      onChange(newDate)
+    if (typeof onDateChange === 'function') {
+      onDateChange(newDate)
     }
   }
 
-  let hours = date.getHours()
-  hours = hours < 10 ? `0${hours}` : hours
 
-  let minutes = date.getMinutes()
-  minutes = minutes < 10 ? `0${minutes}` : minutes
 
-  const timeString = `${hours}:${minutes}`
 
-  return (
-    <div
-      className="time-date-picker"
-      data-t="date-time-picker:wrapper">
-      <DayPickerInput
-        data-t="date-time-picker:day-input"
-        dayPickerProps={{
-          todayButton: 'Today',
-        }}
-        onDayChange={newDate => handleChange('date', newDate)}
-        placeholder="Date"
-        value={date} />
-      <input
-        className="time-picker"
-        data-t="date-time-picker:time-input"
-        type="time"
-        onChange={({ target: { value } }) => handleChange('time', value)}
-        value={timeString} />
-    </div>
-  )
+
+  /***************************************************************************\
+    Private Methods
+  \***************************************************************************/
+
+  constructor (props) {
+    super(props)
+
+    this._bindMethods([
+      '_handleChange',
+    ])
+  }
+
+  render () {
+    const {
+      value: date,
+    } = this.props
+
+    let hours = date.getHours()
+    hours = hours < 10 ? `0${hours}` : hours
+
+    let minutes = date.getMinutes()
+    minutes = minutes < 10 ? `0${minutes}` : minutes
+
+    const timeString = `${hours}:${minutes}`
+
+    return (
+      <div
+        {...this.renderProps}
+        className="time-date-picker"
+        data-t="date-time-picker:wrapper">
+        <DayPickerInput
+          data-t="date-time-picker:day-input"
+          dayPickerProps={{
+            todayButton: 'Today',
+          }}
+          onDayChange={newDate => this._handleChange('date', newDate)}
+          placeholder="Date"
+          value={date} />
+        <input
+          className="time-picker"
+          data-t="date-time-picker:time-input"
+          type="time"
+          onChange={({ target: { value } }) => this._handleChange('time', value)}
+          value={timeString} />
+      </div>
+    )
+  }
+
+
+
+
+
+  get renderProps () {
+    const newProps = { ...this.props }
+
+    delete newProps.onDateChange
+    delete newProps.value
+
+    return newProps
+  }
 }
 
 DateTimePicker.defaultProps = {
-  onChange: null,
+  onDateChange: null,
 }
 
 DateTimePicker.propTypes = {
-  onChange: PropTypes.func,
+  onDateChange: PropTypes.func,
   value: PropTypes.instanceOf(Date).isRequired,
 }
 
