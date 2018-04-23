@@ -14,7 +14,7 @@ import AddressInput from '../AddressInput'
 import Button from '../Button'
 import Component from '../Component'
 import DateTimePicker from '../DateTimePicker'
-import DialogWrapper from '../DialogWrapper'
+import Dialog from '../Dialog'
 import Form from '../Form'
 import GameInput from '../GameInput'
 import ValidatedInput from '../ValidatedInput'
@@ -26,6 +26,15 @@ class GroupEventCreateDialog extends Component {
     Private Methods
   \***************************************************************************/
 
+  _handleLocationChange (value) {
+    this._setChanges('location', value)
+  }
+
+
+  _handleGameChange (value) {
+    console.log(value)
+    this._setChanges('game', value, typeof value !== 'string')
+  }
   _handleChange ({ target }) {
     const {
       name,
@@ -40,7 +49,7 @@ class GroupEventCreateDialog extends Component {
     const {
       group,
       createGroupEvent,
-      onComplete,
+      onClose,
     } = this.props
 
     this.setState({ submitting: true })
@@ -59,18 +68,17 @@ class GroupEventCreateDialog extends Component {
       games_id: game ? game.id : null,
     })
 
-    if (onComplete) {
-      onComplete()
+    if (onClose) {
+      onClose()
     }
   }
 
   _isValid () {
     const {
-      changes,
       validity,
     } = this.state
-
-    return Object.keys(changes).length && !Object.values(validity).includes(false)
+    console.log(validity)
+    return !Object.values(validity).includes(false)
   }
 
   _setChanges (key, value, isValid = true) {
@@ -79,7 +87,7 @@ class GroupEventCreateDialog extends Component {
       validity,
     } = this.state
 
-    if (values[key]) {
+    if (typeof values[key] !== 'undefined') {
       this.setState({
         values: {
           ...values,
@@ -105,36 +113,40 @@ class GroupEventCreateDialog extends Component {
     super(props)
 
     this._bindMethods([
-      '_handleAddressChange',
+      '_handleLocationChange',
+      '_handleGameChange',
       '_handleChange',
-      '_handleDiscoverabilityChange',
-      '_handleSlugChange',
       '_handleSubmit',
+      '_isValid',
+      '_setChanges',
     ])
 
     this.state = {
-      changes: {},
       submitting: false,
       values: {
         startTime: new Date(),
         endTime: new Date(),
         description: '',
-        game: null,
-        location: null,
+        game: '',
+        location: '',
         title: '',
       },
       validity: {
         startTime: true,
         endTime: true,
         description: true,
-        game: true,
-        location: true,
-        title: true,
+        game: false,
+        location: false,
+        title: false,
       },
     }
   }
 
   render () {
+    const {
+      onClose,
+    } = this.props
+
     const {
       submitting,
     } = this.state
@@ -149,9 +161,12 @@ class GroupEventCreateDialog extends Component {
     } = this.state.values
 
     return (
-      <DialogWrapper
+      <Dialog
         className="event-create-dialog"
-        visible={this.props.visible} >
+        controls={this.controls}
+        modal
+        onClose={onClose}
+        title="Create Event">
         <Form
           action="create"
           category="Groups"
@@ -220,7 +235,7 @@ class GroupEventCreateDialog extends Component {
               disabled={submitting}
               id="game"
               name="game"
-              onChange={value => this._setChanges('game', value)}
+              onChange={this._handleGameChange}
               value={game} />
           </fieldset>
 
@@ -233,41 +248,55 @@ class GroupEventCreateDialog extends Component {
               disabled={submitting}
               id="location"
               name="location"
-              onChange={value => this._setChanges('location', value.formatted_address)}
+              onChange={this._handleLocationChange}
               value={location} />
           </fieldset>
-
-          <menu type="toolbar">
-            <div className="primary">
-              <Button
-                action="create"
-                category="Groups"
-                className="success"
-                disabled={submitting || !this._isValid()}
-                label="Events"
-                type="button">
-                {!submitting && 'Create'}
-
-                {submitting && (
-                  <span><FontAwesomeIcon icon="spinner" pulse /> Saving...</span>
-                )}
-              </Button>
-            </div>
-          </menu>
         </Form>
-      </DialogWrapper>
+      </Dialog>
     )
+  }
+
+
+
+  get controls () {
+    const {
+      submitting,
+    } = this.state
+
+    console.log('GETCONTROL RENDER', this._isValid())
+
+    return {
+      primary: [
+        (
+          <Button
+            action="create"
+            category="Groups"
+            className="success"
+            disabled={submitting || !this._isValid()}
+            label="Events"
+            onClick={this._handleSubmit}
+            type="button">
+            {!submitting && 'Create'}
+
+            {submitting && (
+              <span><FontAwesomeIcon icon="spinner" pulse /> Submitting...</span>
+            )}
+          </Button>
+        ),
+      ],
+      secondary: [],
+    }
   }
 }
 
 GroupEventCreateDialog.defaultProps = {
-  onComplete: null,
+  onClose: null,
 }
 
 GroupEventCreateDialog.propTypes = {
   createGroupEvent: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
-  onComplete: PropTypes.func,
+  onClose: PropTypes.func,
 }
 
 
