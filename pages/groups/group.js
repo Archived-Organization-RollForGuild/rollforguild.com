@@ -389,7 +389,7 @@ class GroupProfile extends Component {
                     className="success"
                     disabled={requestingToJoin || joinRequestSent}
                     label="Membership"
-                    onClick={currentUserId ? this._requestToJoin : () => this.setState({ showRegistrationModal: false })}>
+                    onClick={currentUserId ? this._requestToJoin : () => this.setState({ showRegistrationModal: true })}>
                     {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
                     {(!requestingToJoin && joinRequestSent) && (
@@ -561,7 +561,7 @@ class GroupProfile extends Component {
           </div>
         </Main>
 
-        {Boolean(showRegistrationModal) && (
+        {showRegistrationModal && (
           <RegistrationDialog
             onClose={() => this.setState({ showRegistrationModal: false })}
             prompt="It doesn't look like you have an account yet! You'll need to register before you can join this group." />
