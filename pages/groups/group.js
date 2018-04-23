@@ -21,6 +21,7 @@ import { actions } from '../../store'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
+import RegistrationDialog from '../../components/RegistrationDialog'
 import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
 import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
 import Link from '../../components/Link'
@@ -127,9 +128,7 @@ class JoinRequestCard extends Component {
         </div>
 
         <footer>
-          <menu
-            className="compact"
-            type="toolbar">
+          <menu type="toolbar">
             <div className="primary">
               <Link href={`mailto:${email}`}>
                 <a className="button small success">Message</a>
@@ -188,6 +187,10 @@ class GroupProfile extends Component {
     window.location.reload()
   }
 
+  _hideRegistrationModal () {
+    this.setState({ showRegistrationModal: false })
+  }
+
   async _ignoreJoinRequest (userId) {
     await this._handleJoinRequest(userId, 'ignored')
   }
@@ -227,6 +230,10 @@ class GroupProfile extends Component {
         requestingToJoin: false,
       })
     }, 500)
+  }
+
+  _showRegistrationModal () {
+    this.setState({ showRegistrationModal: true })
   }
 
 
@@ -281,10 +288,12 @@ class GroupProfile extends Component {
 
     this._bindMethods([
       '_acceptJoinRequest',
+      '_hideRegistrationModal',
       '_ignoreJoinRequest',
       '_removeMember',
       '_requestToJoin',
       '_requestToJoin',
+      '_showRegistrationModal',
     ])
 
     this.state = {
@@ -296,6 +305,7 @@ class GroupProfile extends Component {
       leaving: {},
       loaded: group && group.attributes.member_status,
       requestingToJoin: false,
+      showRegistrationModal: false,
     }
   }
 
@@ -326,6 +336,7 @@ class GroupProfile extends Component {
       leaving,
       loaded,
       requestingToJoin,
+      showRegistrationModal,
     } = this.state
 
     if (!group && !loaded) {
@@ -388,7 +399,7 @@ class GroupProfile extends Component {
                     className="success"
                     disabled={requestingToJoin || joinRequestSent}
                     label="Membership"
-                    onClick={this._requestToJoin}>
+                    onClick={currentUserId ? this._requestToJoin : this._showRegistrationModal}>
                     {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
                     {(!requestingToJoin && joinRequestSent) && (
@@ -487,9 +498,7 @@ class GroupProfile extends Component {
                               </div>
 
                               <footer>
-                                <menu
-                                  className="compact"
-                                  type="toolbar">
+                                <menu type="toolbar">
                                   <div className="primary">
                                     <a
                                       className="button small success"
@@ -561,6 +570,12 @@ class GroupProfile extends Component {
             </TabPanel>
           </div>
         </Main>
+
+        {Boolean(showRegistrationModal) && (
+          <RegistrationDialog
+            onClose={this._hideRegistrationModal}
+            prompt="It doesn't look like you have an account yet! You'll need to register before you can join this group." />
+        )}
       </React.Fragment>
     )
   }
