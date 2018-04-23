@@ -380,57 +380,46 @@ class GroupProfile extends Component {
 
         <PageHeader>
           <h1>{name}</h1>
-
-          {!currentUserIsAdmin && (
-            <aside>
-              <menu type="toolbar">
-                {currentUserIsAdmin && (
-                  <Button
-                    action="show-creator"
-                    category="Groups"
-                    label="Events"
-                    onClick={() => this.setState({ showEventDialog: true })}>
-                    New Event
-                  </Button>
-                )}
-                {!currentUserIsMember && (
-                  <Button
-                    action="request"
-                    category="Groups"
-                    className="success"
-                    disabled={requestingToJoin || joinRequestSent}
-                    label="Membership"
-                    onClick={this._requestToJoin}>
-                    {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
-
-                    {(!requestingToJoin && joinRequestSent) && (
-                      <span><FontAwesomeIcon icon="check" /> Request sent</span>
-                    )}
-
-                    {requestingToJoin && (
-                      <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
-                    )}
-                  </Button>
-                )}
-
-                {currentUserIsMember && (
-                  <Button
-                    action="cancel"
-                    category="Groups"
-                    className="danger"
-                    disabled={leaving[currentUserId]}
-                    label="Membership"
-                    onClick={() => this._removeMember(currentUserId)}>
-                    {!leaving[currentUserId] && 'Leave group'}
-
-                    {leaving[currentUserId] && (
-                      <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
-                    )}
-                  </Button>
-                )}
-              </menu>
-            </aside>
-          )}
+          <aside>
+            <menu type="toolbar">
+              {currentUserIsAdmin && (
+                <Button onClick={() => this.setState({ showEventDialog: true })}>
+                  New Event
+                </Button>
+              )}
+              {!currentUserIsMember && (
+                <Button
+                  action="request"
+                  category="Groups"
+                  className="success"
+                  disabled={requestingToJoin || joinRequestSent}
+                  label="Membership"
+                  onClick={this._requestToJoin}>
+                  {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
+                  {(!requestingToJoin && joinRequestSent) && (
+                    <span><FontAwesomeIcon icon="check" /> Request sent</span>
+                  )}
+                  {requestingToJoin && (
+                    <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
+                  )}
+                </Button>
+              )}
+              {(currentUserIsMember && !currentUserIsAdmin) && (
+                <Button
+                  action="cancel"
+                  category="Groups"
+                  className="danger"
+                  disabled={leaving[currentUserId]}
+                  label="Membership"
+                  onClick={() => this._removeMember(currentUserId)}>
+                  {!leaving[currentUserId] && 'Leave group'}
+                  {leaving[currentUserId] && (
+                    <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
+                  )}
+                </Button>
+              )}
+            </menu>
+          </aside>
         </PageHeader>
 
         <Main title={title}>
