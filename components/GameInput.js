@@ -1,4 +1,7 @@
 // Module imports
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 
@@ -6,6 +9,7 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
+import { actions } from '../store'
 import Component from './Component'
 import Dropdown from './Dropdown'
 
@@ -88,7 +92,7 @@ class GameInput extends Component {
 
     return (
       <Dropdown
-        {...this.props}
+        {...this.renderProps}
         onChange={this._handleChange}
         onSelect={this._handleSelect}
         options={options}
@@ -107,6 +111,7 @@ class GameInput extends Component {
     const newProps = { ...this.props }
 
     delete newProps.defaultValue
+    delete newProps.getGames
     delete newProps.value
 
     return newProps
@@ -136,7 +141,9 @@ GameInput.propTypes = {
 }
 
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getGames: actions.getGames,
+}, dispatch)
 
 
-
-export default GameInput
+export default connect(null, mapDispatchToProps)(GameInput)
