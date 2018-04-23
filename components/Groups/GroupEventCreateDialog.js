@@ -11,12 +11,13 @@ import React from 'react'
 // Component imports
 import { actions } from '../../store'
 import AddressInput from '../AddressInput'
-import Form from '../Form'
-import Component from '../Component'
-import ValidatedInput from '../ValidatedInput'
-import DialogWrapper from '../DialogWrapper'
 import Button from '../Button'
+import Component from '../Component'
 import DateTimePicker from '../DateTimePicker'
+import DialogWrapper from '../DialogWrapper'
+import Form from '../Form'
+import GameInput from '../GameInput'
+import ValidatedInput from '../ValidatedInput'
 
 
 
@@ -126,7 +127,7 @@ class GroupEventCreateDialog extends Component {
         startTime: true,
         endTime: true,
         description: true,
-        games_id: true,
+        game: true,
         location: true,
         title: true,
       },
@@ -193,9 +194,10 @@ class GroupEventCreateDialog extends Component {
               When will this event start?
             </label>
             <DateTimePicker
+              disabled={submitting}
               id="startTime"
               value={startTime}
-              onChange={(newDate) => { this._setChanges('startTime', newDate) }} />
+              onDateChange={newDate => (newDate ? this._setChanges('startTime', newDate) : this._setChanges('startTime', null, false))} />
           </fieldset>
 
           <fieldset>
@@ -203,14 +205,28 @@ class GroupEventCreateDialog extends Component {
               When will it end?
             </label>
             <DateTimePicker
+              disabled={submitting}
               id="endTime"
               value={endTime}
-              onChange={(newDate) => { this._setChanges('endTime', newDate) }} />
+              onDateChange={newDate => (newDate ? this._setChanges('endTime', newDate) : this._setChanges('endTime', null, false))} />
+          </fieldset>
+
+          <fieldset>
+            <label htmlFor="game">
+              What will you be playing?
+            </label>
+
+            <GameInput
+              disabled={submitting}
+              id="game"
+              name="game"
+              onChange={value => this._setChanges('game', value)}
+              value={game} />
           </fieldset>
 
           <fieldset>
             <label htmlFor="location">
-              Where is this event taking place? (Leave empty for online events.)
+              Where is this event taking place? (Leave empty for online events)
             </label>
 
             <AddressInput
@@ -249,6 +265,7 @@ GroupEventCreateDialog.defaultProps = {
 }
 
 GroupEventCreateDialog.propTypes = {
+  createGroupEvent: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   onComplete: PropTypes.func,
 }
