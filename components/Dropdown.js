@@ -258,6 +258,10 @@ class Dropdown extends Component {
     delete renderProps.className
     delete renderProps.filter
     delete renderProps.getOptionId
+    delete renderProps.onChange
+    delete renderProps.onSelect
+    delete renderProps.options
+    delete renderProps.readOnly
     delete renderProps.renderOption
     delete renderProps.renderValue
     delete renderProps.searchable
