@@ -1,6 +1,7 @@
 // Module imports
 import { bindActionCreators } from 'redux'
 import Cookies from 'next-cookies'
+import getConfig from 'next/config'
 import LocalForage from 'localforage'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
@@ -11,18 +12,19 @@ import {
   faCheck,
   faCopy,
   faEnvelope,
+  faExclamationCircle,
+  faExclamationTriangle,
   faEye,
   faEyeSlash,
   faInfoCircle,
+  faKey,
+  faLock,
+  faMapMarker,
+  faPencilAlt,
+  faSearch,
+  faSpinner,
   faThumbsUp,
   faTimes,
-  faExclamationCircle,
-  faExclamationTriangle,
-  faLock,
-  faKey,
-  faMapMarker,
-  faSpinner,
-  faSearch,
   faUser,
 } from '@fortawesome/fontawesome-free-solid'
 import {
@@ -46,15 +48,19 @@ import apiService from '../services/api'
 import Banner from './Banner'
 import Head from './Head'
 
-/* eslint-disable no-unused-expressions */
-preval`if (process.env.NODE_ENV === 'production') require('../workers/offline')`
-/* eslint-enable */
-
 
 
 
 
 // Component constants
+const { publicRuntimeConfig } = getConfig()
+
+if (publicRuntimeConfig.environment === 'production') {
+  /* eslint-disable global-require */
+  require('../workers/offline')
+  /* eslint-enable */
+}
+
 initStore()
 
 
@@ -121,18 +127,19 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         faCheck,
         faCopy,
         faEnvelope,
-        faEye,
-        faEyeSlash,
-        faKey,
-        faInfoCircle,
-        faThumbsUp,
-        faTimes,
         faExclamationCircle,
         faExclamationTriangle,
+        faEye,
+        faEyeSlash,
+        faInfoCircle,
+        faKey,
         faLock,
         faMapMarker,
+        faPencilAlt,
         faSpinner,
         faSearch,
+        faThumbsUp,
+        faTimes,
         faUser,
 
         // Brands

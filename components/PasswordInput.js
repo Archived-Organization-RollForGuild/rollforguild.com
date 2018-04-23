@@ -90,11 +90,13 @@ class PasswordInput extends ValidatedInput {
 
   render () {
     const {
+      hasBeenFocused,
       showPassword,
       passwordStrength,
     } = this.state
 
     const {
+      disabled,
       showStrength,
     } = this.props
 
@@ -105,11 +107,17 @@ class PasswordInput extends ValidatedInput {
     ]
 
     return (
-      <div className={classNames.join(' ')}>
-        <input {...this.renderProps} />
+      <div
+        className={classNames.join(' ')}
+        data-t="password-input:wrapper">
+        <input
+          data-t="password-input:input"
+          {...this.renderProps} />
 
         <button
           className="show-password"
+          data-t="password-input:reveal-button"
+          disabled={disabled}
           onClick={this._handleShowPasswordClick}
           tabIndex={-1}
           type="button">
@@ -119,12 +127,20 @@ class PasswordInput extends ValidatedInput {
         {showStrength && (
           <meter
             className="strength-meter"
+            data-t="password-input:strength-meter"
             low="2"
             high="3"
             max="4"
             optimum="4"
             value={passwordStrength} />
         )}
+
+        <FontAwesomeIcon
+          className="validity-indicator"
+          data-t="password-input:validity-icon"
+          hidden={!hasBeenFocused}
+          icon="exclamation-triangle"
+          fixedWidth />
 
         {this.renderMessages()}
       </div>

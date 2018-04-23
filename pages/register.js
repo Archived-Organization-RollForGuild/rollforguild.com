@@ -7,7 +7,9 @@ import React from 'react'
 
 
 // Component imports
+import { activateZenDesk } from '../helpers'
 import { Router } from '../routes'
+import Button from '../components/Button'
 import Component from '../components/Component'
 import Form from '../components/Form'
 import Link from '../components/Link'
@@ -142,6 +144,7 @@ class Register extends Component {
                     id="username"
                     name="username"
                     onChange={this._handleChange}
+                    pattern="^[a-zA-Z0-9_-]+$"
                     placeholder="Username"
                     required
                     type="username"
@@ -194,7 +197,7 @@ class Register extends Component {
 
               {(status === 'error') && (
                 <React.Fragment>
-                  <p>There seems to have been an error registering your account. Please try again or <a href="mailto:support@rollforguild.com">contact support</a>.</p>
+                  <p>There seems to have been an error registering your account. Please try again or <Button category="Authentication" className="inline link" label="Support" onClick={activateZenDesk}>contact support</Button>.</p>
                 </React.Fragment>
               )}
             </Form>

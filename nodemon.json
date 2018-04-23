@@ -1,0 +1,10 @@
+{
+  "ext": "js,json",
+  "watch": [
+    "./server",
+    ".eslintrc.json",
+    "next.config.js",
+    "package.json",
+    "routes.js"
+  ]
+}

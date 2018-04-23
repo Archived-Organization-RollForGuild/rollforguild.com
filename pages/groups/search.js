@@ -1,5 +1,6 @@
 // Module imports
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import getConfig from 'next/config'
 import React from 'react'
 
 
@@ -24,7 +25,8 @@ import Tooltip from '../../components/Tooltip'
 
 
 // Component constants
-const gmapsAPIKey = preval`module.exports = process.env.RFG_GOOGLE_MAPS_API_KEY`
+const { publicRuntimeConfig } = getConfig()
+const googleMapsAPIKey = publicRuntimeConfig.apis.googleMaps.key
 const title = 'Search Groups'
 
 
@@ -51,7 +53,7 @@ class GroupSearch extends Component {
       longitude,
     } = position.coords
     const queryParams = {
-      key: gmapsAPIKey,
+      key: googleMapsAPIKey,
       latlng: `${latitude},${longitude}`,
       result_type: 'street_address',
     }
@@ -374,4 +376,4 @@ const mapStateToProps = (/*state*/) => ({})
 export default Page(GroupSearch, title, {
   mapDispatchToProps,
   mapStateToProps,
-}, true)
+})

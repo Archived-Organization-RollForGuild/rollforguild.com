@@ -1,11 +1,15 @@
 // Module imports
+import getConfig from 'next/config'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
 
 
+
 // Component imports
+import { activateZenDesk } from '../helpers'
+import Button from './Button'
 import Link from './Link'
 import Nav from './Nav'
 
@@ -14,14 +18,16 @@ import Nav from './Nav'
 
 
 //Component Constants
-const isDevOrStaging = preval`module.exports = process.env.NODE_ENV !== 'production' || process.env.CIRCLE_BRANCH === 'develop'`
-const buildCommitHash = preval`module.exports = process.env.CIRCLE_SHA1 ? process.env.CIRCLE_SHA1.slice(0,10) : 'DEVELOPMENT'`
-const buildUrl = preval`module.exports = process.env.CIRCLE_COMPARE_URL || process.env.CIRCLE_REPOSITORY_URL || process.env.RFG_REPOSITORY_URL`
+const { publicRuntimeConfig } = getConfig()
+const { buildUrl } = publicRuntimeConfig.git
+const isDevOrStaging = publicRuntimeConfig.environment !== 'production'
+const buildCommitHash = publicRuntimeConfig.git.hash
 
 
 
 
-export default (props) => (
+
+const Banner = (props) => (
   <header role="banner">
     <Link
       category="Navigation"
@@ -34,7 +40,7 @@ export default (props) => (
 
     <footer>
       <small>
-        Questions, comments, or concerns? <a href="//rollforguild.atlassian.net/servicedesk/customer/portal/1" rel="noopener noreferrer" target="_blank">Let us know!</a>
+        Questions, comments, or concerns? <Button category="Navigation" className="inline link" label="Support" onClick={activateZenDesk}>Let us know!</Button>
       </small>
 
       <nav className="social">
@@ -50,9 +56,16 @@ export default (props) => (
           <FontAwesomeIcon icon={['fab', 'facebook']} fixedWidth />
         </a>
       </nav>
+
       {isDevOrStaging && (
         <small><a href={buildUrl} rel="noopener noreferrer" target="_blank">{buildCommitHash}</a></small>
       )}
     </footer>
   </header>
 )
+
+
+
+
+
+export default Banner

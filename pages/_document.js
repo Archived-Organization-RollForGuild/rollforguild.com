@@ -1,13 +1,28 @@
 // Module imports
 import Document, { Head, Main, NextScript } from 'next/document'
+import getConfig from 'next/config'
+
+
+
+
+
+// Component imports
+import { convertObjectToQueryParams } from '../helpers'
 
 
 
 
 
 // Component constants
+const { publicRuntimeConfig } = getConfig()
+const { googleTagManager } = publicRuntimeConfig.analytics
 const fonts = ['Lora', 'Montserrat:400,700']
-const gatmId = process.env.RFG_GOOGLE_TAG_MANAGER_API_KEY
+const gtmQueryString = convertObjectToQueryParams({
+  id: googleTagManager.id,
+  gtm_auth: googleTagManager.auth,
+  gtm_preview: `env-${googleTagManager.envId}`,
+  gtm_cookies_win: 'x',
+})
 
 
 
@@ -36,7 +51,6 @@ export default class extends Document {
 
           <link rel="manifest" href="/static/manifest.json" />
 
-          <script src="//cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js" />
           <script dangerouslySetInnerHTML={
             {
               __html: `
@@ -49,17 +63,17 @@ export default class extends Document {
                   var f = d.getElementsByTagName(s)[0]
                   var j = d.createElement(s)
                   var dl = l != 'dataLayer' ? '&l=' + l : ''
-                  j.async=true
-                  j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl
-                  f.parentNode.insertBefore(j,f)
-                })(window, document, 'script', 'dataLayer', '${gatmId}');
+                  j.async = true
+                  j.src = '//www.googletagmanager.com/gtm.js${gtmQueryString}'
+                  f.parentNode.insertBefore(j, f)
+                })(window, document, 'script', 'dataLayer', '${googleTagManager.id}')
               `,
             }
           } />
         </Head>
 
         <body>
-          <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="//www.googletagmanager.com/ns.html?id=${gatmId}X" height="0" width="0" style="display:none; visibility:hidden;" />` }} />
+          <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="//www.googletagmanager.com/ns.html${gtmQueryString}" height="0" width="0" style="display:none; visibility:hidden;" />` }} />
 
           <noscript>Javascript is required to view this site.</noscript>
 

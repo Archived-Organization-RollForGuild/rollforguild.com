@@ -12,9 +12,14 @@ import React from 'react'
 
 // Component imports
 import { actions } from '../../store'
-import Link from '../Link'
 import Avatar from '../Avatar'
 import Component from '../Component'
+import Link from '../Link'
+import Markdown from '../Markdown'
+
+
+
+
 
 class ForumThreadCard extends Component {
   /***************************************************************************\
@@ -193,9 +198,9 @@ class ForumThreadCard extends Component {
           <small>{commentString}</small>
         </div>
 
-        <div className="content">
-          <p className="thread-body">{!fullThread && body.length > 300 ? `${body.substring(0, 297)}...` : body}</p>
-        </div>
+        <Markdown
+          className="content"
+          input={!fullThread && body.length > 300 ? `${body.substring(0, 297)}...` : body} />
 
         {currentUserIsPoster && (
           <footer>

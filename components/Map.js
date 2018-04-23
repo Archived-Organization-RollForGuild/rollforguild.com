@@ -12,6 +12,7 @@ import {
 } from 'recompose'
 import { SearchBox } from 'react-google-maps/lib/components/places/SearchBox'
 import { MarkerWithLabel } from 'react-google-maps/lib/components/addons/MarkerWithLabel'
+import getConfig from 'next/config'
 import PropTypes from 'prop-types'
 
 
@@ -26,7 +27,8 @@ import Component from './Component'
 
 
 // Component constants
-const googleMapsAPIKey = preval`module.exports = process.env.RFG_GOOGLE_MAPS_API_KEY`
+const { publicRuntimeConfig } = getConfig()
+const googleMapsAPIKey = publicRuntimeConfig.apis.googleMaps.key
 
 
 

@@ -1,0 +1,44 @@
+[role=dialog] {
+  background-color: #303030;
+  color: $white;
+  margin-top: 4rem;
+  border: none;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: auto;
+  min-width: 50rem;
+  overflow: hidden;
+  pointer-events: initial;
+  z-index: 301;
+
+  &.modal {
+    box-shadow: 0 0 0 50vmax rgba($black, .6)
+  }
+
+  > header {
+    align-items: stretch;
+    background-color: #444;
+    display: flex;
+    flex-shrink: 0;
+
+    h2 {
+      padding: 1rem 2rem;
+    }
+
+    [name=close] {
+      border-radius: 0;
+      margin-left: auto;
+    }
+  }
+
+  > .content {
+    flex-shrink: 1;
+    padding: 4rem;
+  }
+
+  > footer {
+    background-color: #444;
+  }
+}

@@ -135,31 +135,29 @@ class ViewThread extends Component {
             <p>Loading...</p>
           )}
 
-          {(loaded && !thread) && (
-            <p>Thread not found!</p>
-          )}
+          <ul className="card-list">
+            {Boolean(loaded && !thread) && (
+              <li>Thread not found!</li>
+            )}
 
-          {(loaded && thread) && (
-            <div className="thread">
-              <ForumThreadCard thread={thread} fullThread />
-            </div>
-          )}
+            {Boolean(loaded && thread) && (
+              <li>
+                <ForumThreadCard thread={thread} fullThread />
+              </li>
+            )}
 
-          {(comments && comments.length) && (
-            <div className="comments">
-              {comments.map(comment => (
+            {Boolean(!comments || !comments.length) && (
+              <span>There are no Comments yet!</span>
+            )}
+
+            {Boolean(comments && comments.length) && comments.map(comment => (
+              <li key={comment.id}>
                 <ThreadCommentCard
-                  key={comment.id}
                   id={comment.id}
-                  comment={comment}
-                  />
-                ))}
-            </div>
-          )}
-
-          {(!comments || !comments.length) && (
-            <span>There are no Comments yet!</span>
-          )}
+                  comment={comment} />
+              </li>
+            ))}
+          </ul>
 
           <Pagination
             category="Forums"

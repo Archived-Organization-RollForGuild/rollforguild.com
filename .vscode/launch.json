@@ -12,9 +12,22 @@
       "webRoot": "${workspaceRoot}"
     },
     {
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "name": "RFG: Server",
+      "program": "${workspaceFolder}/server/server.js",
+      "protocol": "inspector",
+      "request": "launch",
+      "type": "node",
+      "windows": {
+        "console": "internalConsole",
+        "useWSL": true
+      }
+    },
+    {
       "localRoot": "${workspaceFolder}",
       "name": "Attach to Docker",
-      "port": 9222,
+      "port": 9229,
       "remoteRoot": "/app",
       "request": "attach",
       "restart": true,

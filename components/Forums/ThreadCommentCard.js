@@ -14,6 +14,7 @@ import React from 'react'
 import { actions } from '../../store'
 import Avatar from '../Avatar'
 import Component from '../Component'
+import Markdown from '../Markdown'
 
 class ThreadCommentCard extends Component {
   /***************************************************************************\
@@ -141,38 +142,45 @@ class ThreadCommentCard extends Component {
       removed,
     } = this.state
 
-    const instertedAtMoment = moment.utc(comment.attributes.inserted_at)
     const body = !removed ? comment.attributes.comment : '[deleted]'
+    const instertedAtMoment = moment.utc(comment.attributes.inserted_at)
+    const time = (
+      <time
+        dateTime={instertedAtMoment.toISOString()}
+        data-friendlydatetime={instertedAtMoment.format('YYYY-MM-DD HH:mm')}>
+        {instertedAtMoment.fromNow()}
+      </time>
+    )
+
+    let header = null
+
+    if (user && !removed) {
+      header = (
+        <header>
+          <Avatar src={user} size="tiny" />
+
+          <h3>{user.attributes.username}</h3>
+        </header>
+      )
+    } else {
+      header = (
+        <h3>Unknown</h3>
+      )
+    }
 
     return (
       <div id={id} className={`card forum-thread comment ${removed ? 'removed' : ''}`}>
-        <header>
+        {header}
 
-          {(user && !removed) ? (
-            <span title={user.attributes.username}>
-              <Avatar src={user} size="tiny" />
-              <span>
-                {user.attributes.username}
-              </span>
-            </span>
-          ) : (
-            <span title="unknown">Unknown</span>
-          )}
-
-          <span className="post-time">
-            <time
-              dateTime={instertedAtMoment.toISOString()}
-              data-friendlydatetime={instertedAtMoment.format('YYYY-MM-DD HH:mm')}>
-              {instertedAtMoment.fromNow()}
-            </time>
-          </span>
-        </header>
-
-        <div className="content">
-          <div className="thread-contents">
-            <p className="thread-body">{body}</p>
-          </div>
+        <div className="meta">
+          <small>
+            Posted {time}
+          </small>
         </div>
+
+        <Markdown
+          className="content"
+          input={body} />
 
         {currentUserIsPoster && (
           <footer>
@@ -180,6 +188,7 @@ class ThreadCommentCard extends Component {
               className="compact"
               type="toolbar">
               <div className="primary" />
+
               <div className="secondary">
                 {this.renderDeleteButtons()}
               </div>

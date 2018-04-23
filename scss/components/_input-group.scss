@@ -36,12 +36,20 @@
   }
 
   > :not(:first-child) {
+    border-left-color: $light-grey;
+    border-left-style: solid;
+    border-left-width: 0.1rem;
     flex-grow: 1;
+  }
 
-    &:not(.input-group) {
-      border-left-color: $light-grey;
-      border-left-style: solid;
-      border-left-width: 0.1rem;
+  &.disabled {
+    cursor: not-allowed;
+    button,
+    input,
+    label {
+      background-color: $disabled-background-color;
+      color: $disabled-text-color;
+      opacity: 1;
     }
   }
 }
