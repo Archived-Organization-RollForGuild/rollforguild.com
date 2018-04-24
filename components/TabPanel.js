@@ -1,4 +1,11 @@
 // Module imports
+import PropTypes from 'prop-types'
+
+
+
+
+
+// Component imports
 import Button from './Button'
 import Component from './Component'
 
@@ -137,6 +144,20 @@ class TabPanel extends Component {
       </div>
     )
   }
+}
+
+
+
+
+
+TabPanel.defaultProps = {
+  onSelect: null,
+}
+
+TabPanel.propTypes = {
+  category: PropTypes.string.isRequired,
+  defaultTab: PropTypes.string.isRequired,
+  onSelect: PropTypes.func,
 }
 
 
