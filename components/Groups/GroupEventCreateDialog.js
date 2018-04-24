@@ -26,15 +26,6 @@ class GroupEventCreateDialog extends Component {
     Private Methods
   \***************************************************************************/
 
-  _handleLocationChange (value) {
-    this._setChanges('location', value)
-  }
-
-
-  _handleGameChange (value) {
-    console.log(value)
-    this._setChanges('game', value, typeof value !== 'string')
-  }
   _handleChange ({ target }) {
     const {
       name,
@@ -58,6 +49,7 @@ class GroupEventCreateDialog extends Component {
       startTime,
       endTime,
       game,
+      location,
       ...values
     } = this.state.values
 
@@ -66,6 +58,7 @@ class GroupEventCreateDialog extends Component {
       start_time: startTime.toISOString(),
       end_time: endTime.toISOString(),
       games_id: game ? game.id : null,
+      location: location ? location.formatted_address : null,
     })
 
     if (onClose) {
@@ -77,7 +70,6 @@ class GroupEventCreateDialog extends Component {
     const {
       validity,
     } = this.state
-    console.log(validity)
     return !Object.values(validity).includes(false)
   }
 
@@ -113,8 +105,6 @@ class GroupEventCreateDialog extends Component {
     super(props)
 
     this._bindMethods([
-      '_handleLocationChange',
-      '_handleGameChange',
       '_handleChange',
       '_handleSubmit',
       '_isValid',
@@ -135,8 +125,8 @@ class GroupEventCreateDialog extends Component {
         startTime: true,
         endTime: true,
         description: true,
-        game: false,
-        location: false,
+        game: true,
+        location: true,
         title: false,
       },
     }
@@ -235,7 +225,7 @@ class GroupEventCreateDialog extends Component {
               disabled={submitting}
               id="game"
               name="game"
-              onChange={this._handleGameChange}
+              onChange={value => this._setChanges('game', value)}
               value={game} />
           </fieldset>
 
@@ -248,7 +238,7 @@ class GroupEventCreateDialog extends Component {
               disabled={submitting}
               id="location"
               name="location"
-              onChange={this._handleLocationChange}
+              onChange={value => this._setChanges('location', value)}
               value={location} />
           </fieldset>
         </Form>
@@ -262,8 +252,6 @@ class GroupEventCreateDialog extends Component {
     const {
       submitting,
     } = this.state
-
-    console.log('GETCONTROL RENDER', this._isValid())
 
     return {
       primary: [
