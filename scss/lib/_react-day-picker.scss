@@ -1,5 +1,5 @@
 div.DayPickerInput-Overlay {
-  background-color: $grey;
+  background-color: $black;
 
   .DayPicker-NavButton {
     width: 1.5rem;
@@ -22,8 +22,8 @@ div.DayPickerInput-Overlay {
     min-width: 32px;
     padding: 0;
 
-    &:hover{
-      color: $grey;
+    &:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+      background-color: $grey !important;
     }
 
     &.DayPicker-Day--today {
@@ -32,7 +32,7 @@ div.DayPickerInput-Overlay {
 
     &.DayPicker-Day--selected,
     &.DayPicker-Day--selected:hover {
-      background-color: $green;
+      background-color: rgba($green, 0.75);
       color: $white
     }
   }

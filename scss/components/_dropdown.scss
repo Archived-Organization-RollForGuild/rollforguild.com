@@ -48,6 +48,10 @@
     width: initial;
   }
 
+  &.valid input {
+    background-color: mix($white, $green, 30%);
+  }
+
   &:not(.focus) {
     ul {
       display: none;
