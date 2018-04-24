@@ -71,7 +71,13 @@ class TabPanel extends Component {
   \***************************************************************************/
 
   _selectTab (tabId) {
+    const { onSelect } = this.props
+
     this.setState({ currentTab: tabId })
+
+    if (onSelect) {
+      onSelect(tabId)
+    }
   }
 
   _setTabActiveStatus (tab, index) {
