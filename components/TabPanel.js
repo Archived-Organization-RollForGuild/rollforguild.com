@@ -106,7 +106,9 @@ class TabPanel extends Component {
       '_setTabActiveStatus',
     ])
 
-    this.state = { currentTab: 0 }
+    this.state = {
+      currentTab: props.defaultTab,
+    }
   }
 
   render () {
