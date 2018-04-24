@@ -1,4 +1,11 @@
 // Module imports
+import PropTypes from 'prop-types'
+
+
+
+
+
+// Component imports
 import Button from './Button'
 import Component from './Component'
 
@@ -41,13 +48,15 @@ const TabHeader = (props) => {
             title,
           } = tab.props
 
+          const id = tab.props.id || index
+
           return (
             <Button
               category={category}
               className={active ? 'active' : null}
               key={title}
               label={title}
-              onClick={() => selectTab(index)}>
+              onClick={() => selectTab(id)}>
               {title}
             </Button>
           )
@@ -69,16 +78,24 @@ class TabPanel extends Component {
   \***************************************************************************/
 
   _selectTab (tabId) {
+    const { onSelect } = this.props
+
     this.setState({ currentTab: tabId })
+
+    if (onSelect) {
+      onSelect(tabId)
+    }
   }
 
   _setTabActiveStatus (tab, index) {
+    const id = tab.props.id || index
+
     if (tab) {
       return {
         ...tab,
         props: {
           ...tab.props,
-          active: index === this.state.currentTab,
+          active: id === this.state.currentTab,
         },
       }
     }
@@ -102,7 +119,9 @@ class TabPanel extends Component {
       '_setTabActiveStatus',
     ])
 
-    this.state = { currentTab: 0 }
+    this.state = {
+      currentTab: props.defaultTab,
+    }
   }
 
   render () {
@@ -125,6 +144,20 @@ class TabPanel extends Component {
       </div>
     )
   }
+}
+
+
+
+
+
+TabPanel.defaultProps = {
+  onSelect: null,
+}
+
+TabPanel.propTypes = {
+  category: PropTypes.string.isRequired,
+  defaultTab: PropTypes.string.isRequired,
+  onSelect: PropTypes.func,
 }
 
 
