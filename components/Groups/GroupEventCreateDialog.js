@@ -57,8 +57,8 @@ class GroupEventCreateDialog extends Component {
       ...values,
       start_time: startTime.toISOString(),
       end_time: endTime.toISOString(),
-      games_id: game ? game.id : null,
-      location: location ? location.formatted_address : null,
+      games: game ? [game.id] : undefined,
+      location: location ? location.formatted_address : undefined,
     })
 
     if (onClose) {
