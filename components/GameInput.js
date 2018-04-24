@@ -28,8 +28,8 @@ class GameInput extends Component {
       onChange,
     } = this.props
 
-    if (this.state.valid && onChange) {
-      onChange(null)
+    if (this.valid && onChange) {
+      onChange('')
     }
 
     this.setState({
@@ -102,13 +102,29 @@ class GameInput extends Component {
 
   render () {
     const {
+      className,
+      required,
+    } = this.props
+
+    const {
       options,
       value,
     } = this.state
 
+    const classes = []
+
+    if (className) {
+      classes.push(className)
+    }
+
+    if (this.valid || (!required && !value)) {
+      classes.push('valid')
+    }
+
     return (
       <Dropdown
         {...this.renderProps}
+        className={classes.join(' ')}
         onChange={this._handleChange}
         onSelect={this._handleSelect}
         options={options}
@@ -120,12 +136,14 @@ class GameInput extends Component {
   }
 
 
-
-
+  /***************************************************************************\
+    Getter Methods
+  \***************************************************************************/
 
   get renderProps () {
     const newProps = { ...this.props }
 
+    delete newProps.className
     delete newProps.defaultValue
     delete newProps.getGames
     delete newProps.value

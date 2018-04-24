@@ -28,8 +28,8 @@ class AddressInput extends Component {
   \***************************************************************************/
 
   async _handleChange (value) {
-    if (this.state.valid && this.props.onChange) {
-      this.props.onChange(null)
+    if (this.valid && this.props.onChange) {
+      this.props.onChange('')
     }
 
     this.setState({
@@ -95,14 +95,29 @@ class AddressInput extends Component {
 
   render () {
     const {
+      className,
+      required,
+    } = this.props
+
+    const {
       options,
       value,
     } = this.state
 
+    const classes = []
+
+    if (className) {
+      classes.push(className)
+    }
+
+    if (this.valid || (!required && !value)) {
+      classes.push('valid')
+    }
+
     return (
       <Dropdown
-        {...this.props}
-        filter={Dropdown._filterDropdownOptions}
+        {...this.renderProps}
+        className={classes.join(' ')}
         name="address"
         onChange={this._handleChange}
         onSelect={this._handleSelect}
@@ -119,8 +134,18 @@ class AddressInput extends Component {
 
 
   /***************************************************************************\
-    Public Methods
+    Getter Methods
   \***************************************************************************/
+
+  get renderProps () {
+    const newProps = { ...this.props }
+
+    delete newProps.className
+    delete newProps.defaultValue
+    delete newProps.value
+
+    return newProps
+  }
 
   get valid () {
     return this.state.valid
@@ -135,6 +160,7 @@ AddressInput.defaultProps = {
   defaultValue: undefined,
   onChange: null,
   placeholder: 'Enter an address...',
+  required: false,
   value: undefined,
 }
 
@@ -142,6 +168,7 @@ AddressInput.propTypes = {
   defaultValue: PropTypes.any,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
+  required: PropTypes.bool,
   value: PropTypes.any,
 }
 
