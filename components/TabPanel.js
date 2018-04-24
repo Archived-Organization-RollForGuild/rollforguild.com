@@ -41,13 +41,15 @@ const TabHeader = (props) => {
             title,
           } = tab.props
 
+          const id = tab.props.id || index
+
           return (
             <Button
               category={category}
               className={active ? 'active' : null}
               key={title}
               label={title}
-              onClick={() => selectTab(index)}>
+              onClick={() => selectTab(id)}>
               {title}
             </Button>
           )
@@ -73,12 +75,14 @@ class TabPanel extends Component {
   }
 
   _setTabActiveStatus (tab, index) {
+    const id = tab.props.id || index
+
     if (tab) {
       return {
         ...tab,
         props: {
           ...tab.props,
-          active: index === this.state.currentTab,
+          active: id === this.state.currentTab,
         },
       }
     }
