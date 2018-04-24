@@ -28,6 +28,10 @@ class AddressInput extends Component {
   \***************************************************************************/
 
   async _handleChange (value) {
+    if (this.state.valid && this.props.onChange) {
+      this.props.onChange(null)
+    }
+
     this.setState({
       value,
       valid: false,

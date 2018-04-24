@@ -23,12 +23,21 @@ class GameInput extends Component {
   \***************************************************************************/
 
   async _handleChange (value) {
+    const {
+      getGames,
+      onChange,
+    } = this.props
+
+    if (this.state.valid && onChange) {
+      onChange(null)
+    }
+
     this.setState({
       value,
       valid: false,
     })
 
-    const { payload, status } = await this.props.getGames(value)
+    const { payload, status } = await getGames(value)
 
     if (status === 'success') {
       this.setState({ options: payload.data })
@@ -130,6 +139,7 @@ GameInput.defaultProps = {
   defaultValue: undefined,
   onChange: null,
   placeholder: 'Enter a game...',
+  required: false,
   value: undefined,
 }
 
@@ -137,6 +147,7 @@ GameInput.propTypes = {
   defaultValue: PropTypes.any,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
+  required: PropTypes.bool,
   value: PropTypes.any,
 }
 
