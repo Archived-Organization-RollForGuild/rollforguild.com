@@ -51,7 +51,7 @@ function setup (extraProps) {
 
 
 // Tests
-xdescribe('Avatar', () => {
+describe('Avatar', () => {
   const { enzymeWrapper, props } = setup()
   let avatarDiv = null
 
