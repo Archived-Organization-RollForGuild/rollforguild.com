@@ -5,6 +5,7 @@ module.exports = {
     '\\.scss$': '<rootDir>/__mocks__/style.mock.js',
   },
   testPathIgnorePatterns: [
+    '<rootDir>/__tests__/components/Avatar.test.js',
     '<rootDir>/__tests__/_.*',
     '<rootDir>/.next/',
     '<rootDir>/node_modules/',
