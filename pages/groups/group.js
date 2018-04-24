@@ -21,9 +21,10 @@ import { actions } from '../../store'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
+import GroupDetailsPanel from '../../components/Groups/GroupDetailsPanel'
+import GroupEventCreateDialog from '../../components/Groups/GroupEventCreateDialog'
+import GroupSettingsPanel from '../../components/Groups/GroupSettingsPanel'
 import RegistrationDialog from '../../components/RegistrationDialog'
-import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
-import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
 import Link from '../../components/Link'
 import Main from '../../components/Main'
 import Markdown from '../../components/Markdown'
@@ -295,6 +296,7 @@ class GroupProfile extends Component {
       leaving: {},
       loaded: group && group.attributes.member_status,
       requestingToJoin: false,
+      showEventModal: false,
       showRegistrationModal: false,
     }
   }
@@ -326,6 +328,7 @@ class GroupProfile extends Component {
       leaving,
       loaded,
       requestingToJoin,
+      showEventModal,
       showRegistrationModal,
     } = this.state
 
@@ -379,47 +382,50 @@ class GroupProfile extends Component {
         <PageHeader>
           <h1>{name}</h1>
 
-          {!currentUserIsAdmin && (
-            <aside>
-              <menu type="toolbar">
-                {!currentUserIsMember && (
-                  <Button
-                    action="request"
-                    category="Groups"
-                    className="success"
-                    disabled={requestingToJoin || joinRequestSent}
-                    label="Membership"
-                    onClick={currentUserId ? this._requestToJoin : () => this.setState({ showRegistrationModal: true })}>
-                    {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
+          <aside>
+            <menu type="toolbar">
+              {currentUserIsAdmin && (
+                <Button onClick={() => this.setState({ showEventModal: true })}>
+                  New Event
+                </Button>
+              )}
+              {!currentUserIsMember && (
+              <Button
+                action="request"
+                category="Groups"
+                className="success"
+                disabled={requestingToJoin || joinRequestSent}
+                label="Membership"
+                onClick={currentUserId ? this._requestToJoin : () => this.setState({ showRegistrationModal: true })}>
+                {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
-                    {(!requestingToJoin && joinRequestSent) && (
-                      <span><FontAwesomeIcon icon="check" /> Request sent</span>
-                    )}
-
-                    {requestingToJoin && (
-                      <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
-                    )}
-                  </Button>
+                {(!requestingToJoin && joinRequestSent) && (
+                  <span><FontAwesomeIcon icon="check" /> Request sent</span>
                 )}
 
-                {currentUserIsMember && (
-                  <Button
-                    action="cancel"
-                    category="Groups"
-                    className="danger"
-                    disabled={leaving[currentUserId]}
-                    label="Membership"
-                    onClick={() => this._removeMember(currentUserId)}>
-                    {!leaving[currentUserId] && 'Leave group'}
-
-                    {leaving[currentUserId] && (
-                      <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
-                    )}
-                  </Button>
+                {requestingToJoin && (
+                  <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
                 )}
-              </menu>
-            </aside>
-          )}
+              </Button>
+            )}
+
+              {(currentUserIsMember && !currentUserIsAdmin) && (
+              <Button
+                action="cancel"
+                category="Groups"
+                className="danger"
+                disabled={leaving[currentUserId]}
+                label="Membership"
+                onClick={() => this._removeMember(currentUserId)}>
+                {!leaving[currentUserId] && 'Leave group'}
+
+                {leaving[currentUserId] && (
+                  <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
+                )}
+              </Button>
+            )}
+            </menu>
+          </aside>
         </PageHeader>
 
         <Main title={title}>
@@ -560,6 +566,12 @@ class GroupProfile extends Component {
             </TabPanel>
           </div>
         </Main>
+
+        {showEventModal && (
+          <GroupEventCreateDialog
+            group={group}
+            onClose={() => this.setState({ showEventModal: false })} />
+        )}
 
         {showRegistrationModal && (
           <RegistrationDialog

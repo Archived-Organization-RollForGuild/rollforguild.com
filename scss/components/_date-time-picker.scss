@@ -1,0 +1,9 @@
+div.time-date-picker {
+  display: flex;
+
+  > .time-picker {
+    height: 42px;
+    resize: none;
+    margin-left: 10px;
+  }
+}

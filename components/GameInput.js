@@ -1,5 +1,7 @@
 // Module imports
-import getConfig from 'next/config'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 
@@ -7,6 +9,7 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
+import { actions } from '../store'
 import Component from './Component'
 import Dropdown from './Dropdown'
 
@@ -14,22 +17,19 @@ import Dropdown from './Dropdown'
 
 
 
-// Component constants
-const { publicRuntimeConfig } = getConfig()
-const googleMapsAPIKey = publicRuntimeConfig.apis.googleMaps.key
-
-
-
-
-
-class AddressInput extends Component {
+class GameInput extends Component {
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
   async _handleChange (value) {
-    if (this.valid && this.props.onChange) {
-      this.props.onChange('')
+    const {
+      getGames,
+      onChange,
+    } = this.props
+
+    if (this.valid && onChange) {
+      onChange('')
     }
 
     this.setState({
@@ -37,11 +37,11 @@ class AddressInput extends Component {
       valid: false,
     })
 
-    let response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?key=${googleMapsAPIKey}&address=${value}`)
+    const { payload, status } = await getGames(value)
 
-    response = await response.json()
-
-    this.setState({ options: response.results })
+    if (status === 'success') {
+      this.setState({ options: payload.data })
+    }
   }
 
   async _handleSelect (value) {
@@ -60,7 +60,14 @@ class AddressInput extends Component {
       return value
     }
 
-    return value.formatted_address
+    let versionString = value.attributes.version
+
+    // If the version is just a number, append an e (for edition).
+    if (!Number.isNaN(+versionString)) {
+      versionString = `${versionString}e`
+    }
+
+    return `${value.attributes.name} ${versionString}`
   }
 
 
@@ -118,19 +125,15 @@ class AddressInput extends Component {
       <Dropdown
         {...this.renderProps}
         className={classes.join(' ')}
-        name="address"
         onChange={this._handleChange}
         onSelect={this._handleSelect}
         options={options}
-        renderOption={AddressInput._renderValue}
-        renderValue={AddressInput._renderValue}
+        renderOption={GameInput._renderValue}
+        renderValue={GameInput._renderValue}
         searchable
         value={value} />
     )
   }
-
-
-
 
 
   /***************************************************************************\
@@ -142,6 +145,7 @@ class AddressInput extends Component {
 
     delete newProps.className
     delete newProps.defaultValue
+    delete newProps.getGames
     delete newProps.value
 
     return newProps
@@ -156,15 +160,15 @@ class AddressInput extends Component {
 
 
 
-AddressInput.defaultProps = {
+GameInput.defaultProps = {
   defaultValue: undefined,
   onChange: null,
-  placeholder: 'Enter an address...',
+  placeholder: 'Enter a game...',
   required: false,
   value: undefined,
 }
 
-AddressInput.propTypes = {
+GameInput.propTypes = {
   defaultValue: PropTypes.any,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
@@ -173,7 +177,9 @@ AddressInput.propTypes = {
 }
 
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getGames: actions.getGames,
+}, dispatch)
 
 
-
-export default AddressInput
+export default connect(null, mapDispatchToProps)(GameInput)
