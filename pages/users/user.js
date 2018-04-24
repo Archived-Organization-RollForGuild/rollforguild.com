@@ -9,6 +9,7 @@ import {
   Tab,
   TabPanel,
 } from '../../components/TabPanel'
+import { Router } from '../../routes'
 import Avatar from '../../components/Avatar'
 import Component from '../../components/Component'
 import Link from '../../components/Link'
@@ -111,6 +112,10 @@ class UserProfile extends Component {
     }
   }
 
+  static async getInitialProps ({ query }) {
+    return { initialTab: query.tab || 'details' }
+  }
+
   render () {
     const {
       loaded,
@@ -121,6 +126,7 @@ class UserProfile extends Component {
 
     const {
       groups,
+      query,
     } = this.props
 
     if (!user && !loaded) {
@@ -181,8 +187,15 @@ class UserProfile extends Component {
 
             <TabPanel
               category="Users"
-              className="details">
-              <Tab title="Details">
+              defaultTab={query.tab || 'details'}
+              onSelect={tabId => {
+                const route = `${window.location.pathname.replace(/\/(details|groups|settings)/, '')}/${tabId}`
+
+                Router.replaceRoute(route, { tab: tabId }, { shallow: true })
+              }}>
+              <Tab
+                id="details"
+                title="Details">
                 <section className="bio">
                   <h4>Bio</h4>
                   <div className="section-content">
@@ -192,7 +205,9 @@ class UserProfile extends Component {
               </Tab>
 
               {(userIsCurrentUser && groups) && (
-                <Tab title="Groups">
+                <Tab
+                  id="groups"
+                  title="Groups">
                   <section className="groups">
                     <ul className="card-list">
                       {this.props.groups.map(group => {
@@ -234,8 +249,12 @@ class UserProfile extends Component {
               )}
 
               {userIsCurrentUser && (
-                <Tab title="Settings">
-                  <UserSettingsPanel user={user} onSubmit={this._handleUserUpdate} />
+                <Tab
+                  id="settings"
+                  title="Settings">
+                  <UserSettingsPanel
+                    user={user}
+                    onSubmit={this._handleUserUpdate} />
                 </Tab>
               )}
             </TabPanel>
@@ -257,10 +276,10 @@ const mapDispatchToProps = [
 
 const mapStateToProps = (state, ownProps) => {
   const currentUserId = ownProps.userId || null // User that the displayedUser is being displayed to.
-  const displayedUserId = ownProps.asPath === '/my/profile' ? currentUserId : ownProps.query.id // User that is being displayed
+  const displayedUserId = /^\/my\/profile/.test(ownProps.asPath) ? currentUserId : ownProps.query.id // User that is being displayed
 
   const currentUser = state.users[currentUserId] || null
-  const displayedUser = state.users[currentUserId] || null
+  const displayedUser = state.users[displayedUserId] || null
 
   let groups = null
   if ((currentUserId === displayedUserId) && currentUser && currentUser.relationships) {
@@ -271,6 +290,7 @@ const mapStateToProps = (state, ownProps) => {
     currentUser,
     currentUserId,
     displayedUser,
+    initialTab: ownProps.query.tab || 'details',
     groups,
     query: {
       ...ownProps.query,
