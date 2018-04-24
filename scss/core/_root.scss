@@ -61,11 +61,16 @@ html {
   height: 100vh;
   justify-content: center;
   left: 0;
-  pointer-events: none;
+  overflow: auto;
+  padding: 10vh 10vw;
   position: fixed;
   top: 0;
   width: 100vw;
   z-index: 301;
+
+  &:empty {
+    pointer-events: none;
+  }
 }
 
 #alert-container {

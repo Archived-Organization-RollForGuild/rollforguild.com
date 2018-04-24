@@ -5,15 +5,6 @@ menu {
 
   &.compact {
     padding: 0;
-
-    &:not(.fulltext) {
-      font-size: .8em;
-    }
-
-    button,
-    .button {
-      padding: 0 1rem;
-    }
   }
 
   > .primary,

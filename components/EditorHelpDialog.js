@@ -39,7 +39,7 @@ const example = `*Italicized*
 
 const EditorHelpDialog = props => (
   <Dialog
-    title="Formatting with Markdown"
+    title="Using Markdown"
     {...props}>
     <p>Markdown is a handy, simple formatting syntax. For more details, check out the {syntaxGuideLink}.</p>
 

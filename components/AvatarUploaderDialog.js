@@ -371,7 +371,7 @@ class AvatarUploaderDialog extends Component {
 
         controls.secondary.push((
           <button
-            className="secondary"
+            className="danger"
             name="no"
             onClick={this._handleCropSubmit}>
             Back
@@ -392,7 +392,7 @@ class AvatarUploaderDialog extends Component {
 
         controls.secondary.push((
           <button
-            className="secondary"
+            className="danger"
             name="no"
             onClick={this._handleConfirm}>
             Back
@@ -415,7 +415,7 @@ class AvatarUploaderDialog extends Component {
         if (this.props.onCancel) {
           controls.secondary.push((
             <button
-              className="secondary"
+              className="danger"
               name="no"
               onClick={this._handleFileInputSubmit}>
               Cancel

@@ -144,15 +144,19 @@ class Login extends Component {
             </fieldset>
 
             <menu type="toolbar">
-              <div className="primary">
-                <button
-                  className="success"
-                  type="submit">
-                  Login
-                </button>
+              <div className="secondary">
+                <Link
+                  action="exit::register"
+                  category="Authentication"
+                  label="Login"
+                  route="/register">
+                  <a className="button secondary">
+                    Sign Up
+                  </a>
+                </Link>
               </div>
 
-              <div className="secondary">
+              <div className="primary">
                 <Link
                   action="exit::forgot-password"
                   category="Authentication"
@@ -163,15 +167,11 @@ class Login extends Component {
                   </a>
                 </Link>
 
-                <Link
-                  action="exit::register"
-                  category="Authentication"
-                  label="Login"
-                  route="/register">
-                  <a className="button secondary">
-                    Sign Up
-                  </a>
-                </Link>
+                <button
+                  className="success"
+                  type="submit">
+                  Login
+                </button>
               </div>
             </menu>
           </Form>

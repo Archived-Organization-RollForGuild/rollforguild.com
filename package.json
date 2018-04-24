@@ -7,7 +7,7 @@
     "add-contributor": "all-contributors add",
     "analyze": "cross-env ANALYZE=1 next build",
     "build": "next build",
-    "dev": "nodemon",
+    "dev": "node server/server.js",
     "postinstall": "npm rebuild node-sass",
     "test": "cross-env NODE_ENV=test jest",
     "test-watch": "yarn test --watchAll"
