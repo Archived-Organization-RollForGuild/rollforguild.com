@@ -209,41 +209,47 @@ class UserProfile extends Component {
                   id="groups"
                   title="Groups">
                   <section className="groups">
-                    <ul className="card-list">
-                      {this.props.groups.map(group => {
-                        const {
-                          description,
-                          name,
-                          slug,
-                        } = group.attributes
+                    {!groups.length && (
+                      <p>It doesn't look like you're a part of any groups yet. Would you like to <Link category="Groups" label="Search" route="group search"><a>search for groups in your area</a></Link>? Or maybe you should <Link category="My Groups" label="Create New Group" route="group create"><a>start a new one</a></Link>!</p>
+                    )}
 
-                        return (
-                          <li
-                            className="card"
-                            key={group.id}>
+                    {Boolean(groups.length) && (
+                      <ul className="card-list">
+                        {groups.map(group => {
+                          const {
+                            description,
+                            name,
+                            slug,
+                          } = group.attributes
 
-                            <header>
-                              <Avatar src={group} size="small" />
+                          return (
+                            <li
+                              className="card"
+                              key={group.id}>
 
-                              <h2>
-                                <Link
-                                  action="view-group"
-                                  category="Users"
-                                  label="Group"
-                                  route="group profile"
-                                  params={{ id: slug }}>
-                                  <a>{name}</a>
-                                </Link>
-                              </h2>
-                            </header>
+                              <header>
+                                <Avatar src={group} size="small" />
 
-                            <div className="content">
-                              {description || (<em>No description available</em>)}
-                            </div>
-                          </li>
-                        )
-                      })}
-                    </ul>
+                                <h2>
+                                  <Link
+                                    action="view-group"
+                                    category="Users"
+                                    label="Group"
+                                    route="group profile"
+                                    params={{ id: slug }}>
+                                    <a>{name}</a>
+                                  </Link>
+                                </h2>
+                              </header>
+
+                              <div className="content">
+                                {description || (<em>No description available</em>)}
+                              </div>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
                   </section>
                 </Tab>
               )}
