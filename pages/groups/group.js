@@ -129,7 +129,9 @@ class JoinRequestCard extends Component {
         </div>
 
         <footer>
-          <menu type="toolbar">
+          <menu
+            className="compact"
+            type="toolbar">
             <div className="primary">
               <Link href={`mailto:${email}`}>
                 <a className="button small success">Message</a>
@@ -494,7 +496,10 @@ class GroupProfile extends Component {
                               </div>
 
                               <footer>
-                                <menu type="toolbar">
+                                <menu
+                                  className="compact"
+
+                                  type="toolbar">
                                   <div className="primary">
                                     <a
                                       className="button small success"
