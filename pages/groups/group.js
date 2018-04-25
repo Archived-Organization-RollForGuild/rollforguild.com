@@ -18,6 +18,7 @@ import {
   isUUID,
 } from '../../helpers'
 import { actions } from '../../store'
+import { Router } from '../../routes'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
@@ -312,14 +313,15 @@ class GroupProfile extends Component {
 
     await actions.getGroup(id)(store.dispatch)
 
-    return {}
+    return { initialTab: query.tab || 'details' }
   }
 
   render () {
     const {
       currentUserId,
-      members,
       group,
+      initialTab,
+      members,
     } = this.props
     const {
       currentUserIsAdmin,
@@ -435,10 +437,11 @@ class GroupProfile extends Component {
             <header>
               <Avatar src={group} />
 
-              {currentUserIsMember && (
+              {(currentUserIsMember && geo) && (
                 <section className="location">
                   <h4>Location</h4>
 
+                  {console.log('GROUP', group)}
                   <StaticMap
                     address={address}
                     category="Groups"
@@ -450,13 +453,23 @@ class GroupProfile extends Component {
 
             <TabPanel
               category="Groups"
-              className="details">
-              <Tab title="Details">
+              className="details"
+              defaultTab={initialTab}
+              onSelect={tabId => {
+                const route = `${window.location.pathname.replace(/\/(details|join-requests|members|settings)/, '')}/${tabId}`
+
+                Router.replaceRoute(route, { tab: tabId }, { shallow: true })
+              }}>
+              <Tab
+                id="details"
+                title="Details">
                 <GroupDetailsPanel group={group} />
               </Tab>
 
               {currentUserIsMember && (
-                <Tab title="Members">
+                <Tab
+                  id="members"
+                  title="Members">
                   <section className="members">
                     {!members.length && (
                       <p>No other members.</p>
@@ -537,7 +550,9 @@ class GroupProfile extends Component {
               )}
 
               {currentUserIsAdmin && (
-                <Tab title="Join Requests">
+                <Tab
+                  id="join-requests"
+                  title="Join Requests">
                   <section className="join-requests">
                     {gettingJoinRequests && (
                       <p>Loading...</p>
@@ -564,7 +579,9 @@ class GroupProfile extends Component {
               )}
 
               {currentUserIsAdmin && (
-                <Tab title="Settings">
+                <Tab
+                  id="settings"
+                  title="Settings">
                   <GroupSettingsPanel group={group} />
                 </Tab>
               )}
