@@ -30,6 +30,7 @@ import {
   faThumbsUp,
   faTimes,
   faUser,
+  faUserCircle,
   faUsers,
 } from '@fortawesome/fontawesome-free-solid'
 import {
@@ -150,6 +151,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         faThumbsUp,
         faTimes,
         faUser,
+        faUserCircle,
         faUsers,
 
         // Brands
