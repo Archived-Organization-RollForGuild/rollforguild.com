@@ -31,7 +31,7 @@ routes
 
   // Users
   .add('user profile', '/users/:id', '/users/user')
-  .add('user profile current tab', '/my/profile/:tab(details|groups|settings)?', '/users/user')
+  .add('user profile current', '/my/profile/:tab(details|groups|settings)?', '/users/user')
 
 
 
