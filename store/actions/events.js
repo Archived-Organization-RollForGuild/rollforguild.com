@@ -50,6 +50,16 @@ export const getGroupEvent = (groupId, eventId) => createApiAction({
 
 
 
+export const getGroupEventGames = (groupId, eventId) => createApiAction({
+  actionType: actionTypes.GET_GROUP_EVENT_GAMES,
+  url: `/groups/${groupId}/events/${eventId}/games`,
+  onError: 'failed to get event games.\nPlease try again in a few moments.',
+})
+
+
+
+
+
 export const getGroupEvents = groupId => createApiAction({
   actionType: actionTypes.GET_GROUP_EVENTS,
   url: `/api/groups/${groupId}/events`,
