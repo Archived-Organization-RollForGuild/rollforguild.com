@@ -2,6 +2,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
@@ -19,24 +20,57 @@ import Component from './Component'
 
 
 // Constants
+const allowedLinkKeys = ['label', 'params', 'route']
 const navItems = [
   {
-    title: 'Groups',
+    key: 'groups',
+    title: () => (
+      <React.Fragment>
+        <FontAwesomeIcon icon="users" fixedWidth />
+        <span>Groups</span>
+      </React.Fragment>
+    ),
     subnav: [
       {
-        route: '/my/groups',
-        title: 'My Groups',
+        key: 'group-search',
+        route: '/groups/search',
+        title: () => (
+          <React.Fragment>
+            <FontAwesomeIcon icon="search" fixedWidth />
+            <span>Search</span>
+          </React.Fragment>
+        ),
       },
 
       {
-        route: '/groups/search',
-        title: 'Search',
+        condition: ({ loggedIn }) => loggedIn && (loggedIn !== 'error'),
+        key: 'my-groups',
+        params: { tab: 'groups' },
+        route: 'user profile current',
+        title: () => (
+          <React.Fragment>
+            <FontAwesomeIcon icon="users" fixedWidth />
+            <span>My Groups</span>
+          </React.Fragment>
+        ),
+      },
+
+      {
+        condition: ({ loggedIn }) => loggedIn && (loggedIn !== 'error'),
+        key: 'create-group',
+        route: 'group create',
+        title: () => (
+          <React.Fragment>
+            <FontAwesomeIcon icon="plus" fixedWidth />
+            <span>New Group</span>
+          </React.Fragment>
+        ),
       },
     ],
   },
   {
     condition: ({ loggedIn }) => loggedIn && (loggedIn !== 'error'),
-    key: 'my-profile',
+    key: 'profile-links',
     title: ({ user }) => {
       if (user) {
         const {
@@ -65,23 +99,47 @@ const navItems = [
     },
     subnav: [
       {
+        key: 'my-profile',
         route: 'user profile current',
-        title: 'My Profile',
+        title: () => (
+          <React.Fragment>
+            <FontAwesomeIcon icon="user-circle" fixedWidth />
+            <span>My Profile</span>
+          </React.Fragment>
+        ),
       },
       {
+        key: 'logout',
         route: '/logout',
-        title: 'Logout',
+        title: () => (
+          <React.Fragment>
+            <FontAwesomeIcon icon="sign-out-alt" fixedWidth />
+            <span>Logout</span>
+          </React.Fragment>
+        ),
       },
     ],
   },
   {
     condition: props => !props.loggedIn || (props.loggedIn === 'error'),
+    key: 'login',
     route: '/login',
-    title: 'Login/Sign Up',
+    title: () => (
+      <React.Fragment>
+        <FontAwesomeIcon icon="sign-in-alt" fixedWidth />
+        <span>Login</span>
+      </React.Fragment>
+    ),
   },
   {
+    key: 'forums',
     route: 'forum list',
-    title: 'Forums',
+    title: () => (
+      <React.Fragment>
+        <FontAwesomeIcon icon="comments" fixedWidth />
+        <span>Forums</span>
+      </React.Fragment>
+    ),
   },
 ]
 
@@ -140,7 +198,7 @@ class Nav extends Component {
     const key = item.key || renderedItemTitle.toLowerCase().replace(/\s/g, '-')
 
     for (const [itemKey, itemValue] of Object.entries(item)) {
-      if (/^label|route|params$/gi.test(itemKey)) {
+      if (allowedLinkKeys.includes(itemKey)) {
         itemWithOnlyLinkProps[itemKey] = itemValue
       }
     }
