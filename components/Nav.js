@@ -19,12 +19,14 @@ import Component from './Component'
 
 
 // Constants
+const allowedLinkKeys = ['label', 'params', 'route']
 const navItems = [
   {
     title: 'Groups',
     subnav: [
       {
-        route: '/my/groups',
+        params: { tab: 'groups' },
+        route: 'user profile current',
         title: 'My Groups',
       },
 
@@ -140,7 +142,7 @@ class Nav extends Component {
     const key = item.key || renderedItemTitle.toLowerCase().replace(/\s/g, '-')
 
     for (const [itemKey, itemValue] of Object.entries(item)) {
-      if (/^label|route|params$/gi.test(itemKey)) {
+      if (allowedLinkKeys.includes(itemKey)) {
         itemWithOnlyLinkProps[itemKey] = itemValue
       }
     }
