@@ -126,7 +126,7 @@ class UserProfile extends Component {
 
     const {
       groups,
-      query,
+      initialTab,
     } = this.props
 
     if (!user && !loaded) {
@@ -187,7 +187,7 @@ class UserProfile extends Component {
 
             <TabPanel
               category="Users"
-              defaultTab={query.tab || 'details'}
+              defaultTab={initialTab}
               onSelect={tabId => {
                 const route = `${window.location.pathname.replace(/\/(details|groups|settings)/, '')}/${tabId}`
 
