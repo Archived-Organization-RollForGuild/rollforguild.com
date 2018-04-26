@@ -9,6 +9,7 @@ import {
   Tab,
   TabPanel,
 } from '../../components/TabPanel'
+import { Router } from '../../routes'
 import Avatar from '../../components/Avatar'
 import Component from '../../components/Component'
 import Link from '../../components/Link'
@@ -111,6 +112,10 @@ class UserProfile extends Component {
     }
   }
 
+  static async getInitialProps ({ query }) {
+    return { initialTab: query.tab || 'details' }
+  }
+
   render () {
     const {
       loaded,
@@ -121,6 +126,7 @@ class UserProfile extends Component {
 
     const {
       groups,
+      initialTab,
     } = this.props
 
     if (!user && !loaded) {
@@ -181,8 +187,15 @@ class UserProfile extends Component {
 
             <TabPanel
               category="Users"
-              className="details">
-              <Tab title="Details">
+              defaultTab={initialTab}
+              onSelect={tabId => {
+                const route = `${window.location.pathname.replace(/\/(details|groups|settings)/, '')}/${tabId}`
+
+                Router.replaceRoute(route, { tab: tabId }, { shallow: true })
+              }}>
+              <Tab
+                id="details"
+                title="Details">
                 <section className="bio">
                   <h4>Bio</h4>
                   <div className="section-content">
@@ -192,50 +205,62 @@ class UserProfile extends Component {
               </Tab>
 
               {(userIsCurrentUser && groups) && (
-                <Tab title="Groups">
+                <Tab
+                  id="groups"
+                  title="Groups">
                   <section className="groups">
-                    <ul className="card-list">
-                      {this.props.groups.map(group => {
-                        const {
-                          description,
-                          name,
-                          slug,
-                        } = group.attributes
+                    {!groups.length && (
+                      <p>It doesn't look like you're a part of any groups yet. Would you like to <Link category="Groups" label="Search" route="group search"><a>search for groups in your area</a></Link>? Or maybe you should <Link category="My Groups" label="Create New Group" route="group create"><a>start a new one</a></Link>!</p>
+                    )}
 
-                        return (
-                          <li
-                            className="card"
-                            key={group.id}>
+                    {Boolean(groups.length) && (
+                      <ul className="card-list">
+                        {groups.map(group => {
+                          const {
+                            description,
+                            name,
+                            slug,
+                          } = group.attributes
 
-                            <header>
-                              <Avatar src={group} size="small" />
+                          return (
+                            <li
+                              className="card"
+                              key={group.id}>
 
-                              <h2>
-                                <Link
-                                  action="view-group"
-                                  category="Users"
-                                  label="Group"
-                                  route="group profile"
-                                  params={{ id: slug }}>
-                                  <a>{name}</a>
-                                </Link>
-                              </h2>
-                            </header>
+                              <header>
+                                <Avatar src={group} size="small" />
 
-                            <div className="content">
-                              {description || (<em>No description available</em>)}
-                            </div>
-                          </li>
-                        )
-                      })}
-                    </ul>
+                                <h2>
+                                  <Link
+                                    action="view-group"
+                                    category="Users"
+                                    label="Group"
+                                    route="group profile"
+                                    params={{ id: slug }}>
+                                    <a>{name}</a>
+                                  </Link>
+                                </h2>
+                              </header>
+
+                              <div className="content">
+                                {description || (<em>No description available</em>)}
+                              </div>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
                   </section>
                 </Tab>
               )}
 
               {userIsCurrentUser && (
-                <Tab title="Settings">
-                  <UserSettingsPanel user={user} onSubmit={this._handleUserUpdate} />
+                <Tab
+                  id="settings"
+                  title="Settings">
+                  <UserSettingsPanel
+                    user={user}
+                    onSubmit={this._handleUserUpdate} />
                 </Tab>
               )}
             </TabPanel>
@@ -257,10 +282,10 @@ const mapDispatchToProps = [
 
 const mapStateToProps = (state, ownProps) => {
   const currentUserId = ownProps.userId || null // User that the displayedUser is being displayed to.
-  const displayedUserId = ownProps.asPath === '/my/profile' ? currentUserId : ownProps.query.id // User that is being displayed
+  const displayedUserId = /^\/my\/profile/.test(ownProps.asPath) ? currentUserId : ownProps.query.id // User that is being displayed
 
   const currentUser = state.users[currentUserId] || null
-  const displayedUser = state.users[currentUserId] || null
+  const displayedUser = state.users[displayedUserId] || null
 
   let groups = null
   if ((currentUserId === displayedUserId) && currentUser && currentUser.relationships) {
@@ -271,6 +296,7 @@ const mapStateToProps = (state, ownProps) => {
     currentUser,
     currentUserId,
     displayedUser,
+    initialTab: ownProps.query.tab || 'details',
     groups,
     query: {
       ...ownProps.query,
