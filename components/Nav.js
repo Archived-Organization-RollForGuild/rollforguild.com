@@ -230,7 +230,7 @@ class Nav extends Component {
         <Link
           {...itemWithOnlyLinkProps}
           category="Navigation"
-          label={renderedItemTitle}>
+          label={typeof renderedItemTitle === 'string' ? renderedItemTitle : key}>
           <a>{renderedItemTitle}</a>
         </Link>
       )
