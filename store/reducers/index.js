@@ -4,6 +4,7 @@ import authentication from './authentication'
 import avatars from './avatars'
 import characters from './characters'
 import events from './events'
+import games from './games'
 import groups from './groups'
 import rulesets from './rulesets'
 import forums from './forums'
@@ -19,6 +20,7 @@ export default combineReducers({
   avatars,
   characters,
   events,
+  games,
   forums,
   groups,
   rulesets,

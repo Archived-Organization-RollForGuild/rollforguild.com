@@ -23,7 +23,7 @@ import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
 import GroupDetailsPanel from '../../components/Groups/GroupDetailsPanel'
-import GroupEventCreateDialog from '../../components/Groups/GroupEventCreateDialog'
+import GroupEventsPanel from '../../components/Groups/GroupEventsPanel'
 import GroupSettingsPanel from '../../components/Groups/GroupSettingsPanel'
 import RegistrationDialog from '../../components/RegistrationDialog'
 import Link from '../../components/Link'
@@ -180,6 +180,42 @@ class GroupProfile extends Component {
     await this._handleJoinRequest(userId, 'accepted')
   }
 
+
+  async _handleEventLoad (newPage) {
+    const {
+      getGroupEvents,
+      group,
+    } = this.props
+
+    const {
+      eventData: {
+        page: oldPage,
+        loaded,
+      },
+    } = this.state
+
+    if (loaded && oldPage === newPage) {
+      return
+    }
+
+    const { payload, status } = await getGroupEvents(group.id, newPage)
+
+    console.log('HELLO', payload)
+    console.log(status)
+
+    if (status === 'success') {
+      this.setState({
+        eventData: {
+          ...this.state.eventData,
+          events: payload.data || [],
+          loaded: true,
+          page: newPage,
+          totalPages: Math.ceil(payload.meta.total / payload.meta.limit),
+        },
+      })
+    }
+  }
+
   async _handleJoinRequest (userId, status) {
     const {
       group,
@@ -285,6 +321,7 @@ class GroupProfile extends Component {
     this._bindMethods([
       '_acceptJoinRequest',
       '_ignoreJoinRequest',
+      '_handleEventLoad',
       '_removeMember',
       '_requestToJoin',
       '_requestToJoin',
@@ -294,12 +331,17 @@ class GroupProfile extends Component {
       currentUserIsAdmin: group && adminRoles.includes(group.attributes.member_status),
       currentUserIsMember: group && memberRoles.includes(group.attributes.member_status),
       gettingJoinRequests: false,
+      eventData: {
+        events: null,
+        loaded: false,
+        page: 1,
+        totalPages: 1,
+      },
       joinRequests: [],
       joinRequestSent: group && (group.attributes.member_status === 'pending'),
       leaving: {},
       loaded: group && group.attributes.member_status,
       requestingToJoin: false,
-      showEventModal: false,
       showRegistrationModal: false,
     }
   }
@@ -327,12 +369,12 @@ class GroupProfile extends Component {
       currentUserIsAdmin,
       currentUserIsMember,
       gettingJoinRequests,
+      eventData,
       joinRequests,
       joinRequestSent,
       leaving,
       loaded,
       requestingToJoin,
-      showEventModal,
       showRegistrationModal,
     } = this.state
 
@@ -388,11 +430,6 @@ class GroupProfile extends Component {
 
           <aside>
             <menu type="toolbar">
-              {currentUserIsAdmin && (
-                <Button onClick={() => this.setState({ showEventModal: true })}>
-                  New Event
-                </Button>
-              )}
               {!currentUserIsMember && (
               <Button
                 action="request"
@@ -440,8 +477,6 @@ class GroupProfile extends Component {
               {(currentUserIsMember && geo) && (
                 <section className="location">
                   <h4>Location</h4>
-
-                  {console.log('GROUP', group)}
                   <StaticMap
                     address={address}
                     category="Groups"
@@ -455,8 +490,8 @@ class GroupProfile extends Component {
               category="Groups"
               className="details"
               defaultTab={initialTab}
-              onSelect={tabId => {
-                const route = `${window.location.pathname.replace(/\/(details|join-requests|members|settings)/, '')}/${tabId}`
+              onSelect={async tabId => {
+                const route = `${window.location.pathname.replace(/\/(details|events|join-requests|members|settings)/, '')}/${tabId}`
 
                 Router.replaceRoute(route, { tab: tabId }, { shallow: true })
               }}>
@@ -465,6 +500,18 @@ class GroupProfile extends Component {
                 title="Details">
                 <GroupDetailsPanel group={group} />
               </Tab>
+
+              {currentUserIsMember && (
+                <Tab
+                  id="events"
+                  title="Events">
+                  <GroupEventsPanel
+                    {...eventData}
+                    currentUserIsAdmin={currentUserIsAdmin}
+                    onPageChange={this._handleEventLoad}
+                    group={group} />
+                </Tab>
+              )}
 
               {currentUserIsMember && (
                 <Tab
@@ -589,12 +636,6 @@ class GroupProfile extends Component {
           </div>
         </Main>
 
-        {showEventModal && (
-          <GroupEventCreateDialog
-            group={group}
-            onClose={() => this.setState({ showEventModal: false })} />
-        )}
-
         {showRegistrationModal && (
           <RegistrationDialog
             onClose={() => this.setState({ showRegistrationModal: false })}
@@ -611,6 +652,7 @@ class GroupProfile extends Component {
 
 const mapDispatchToProps = [
   'getGroup',
+  'getGroupEvents',
   'getJoinRequests',
   'handleJoinRequest',
   'removeGroupMember',
