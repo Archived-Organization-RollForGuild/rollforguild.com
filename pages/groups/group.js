@@ -23,7 +23,6 @@ import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
 import GroupDetailsPanel from '../../components/Groups/GroupDetailsPanel'
-import GroupEventCreateDialog from '../../components/Groups/GroupEventCreateDialog'
 import GroupSettingsPanel from '../../components/Groups/GroupSettingsPanel'
 import RegistrationDialog from '../../components/RegistrationDialog'
 import Link from '../../components/Link'
@@ -299,7 +298,6 @@ class GroupProfile extends Component {
       leaving: {},
       loaded: group && group.attributes.member_status,
       requestingToJoin: false,
-      showEventModal: false,
       showRegistrationModal: false,
     }
   }
@@ -332,7 +330,7 @@ class GroupProfile extends Component {
       leaving,
       loaded,
       requestingToJoin,
-      showEventModal,
+
       showRegistrationModal,
     } = this.state
 
@@ -388,11 +386,6 @@ class GroupProfile extends Component {
 
           <aside>
             <menu type="toolbar">
-              {currentUserIsAdmin && (
-                <Button onClick={() => this.setState({ showEventModal: true })}>
-                  New Event
-                </Button>
-              )}
               {!currentUserIsMember && (
               <Button
                 action="request"
@@ -441,7 +434,6 @@ class GroupProfile extends Component {
                 <section className="location">
                   <h4>Location</h4>
 
-                  {console.log('GROUP', group)}
                   <StaticMap
                     address={address}
                     category="Groups"
@@ -588,12 +580,6 @@ class GroupProfile extends Component {
             </TabPanel>
           </div>
         </Main>
-
-        {showEventModal && (
-          <GroupEventCreateDialog
-            group={group}
-            onClose={() => this.setState({ showEventModal: false })} />
-        )}
 
         {showRegistrationModal && (
           <RegistrationDialog
