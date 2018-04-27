@@ -3,6 +3,7 @@ import alerts from './alerts'
 import authentication from './authentication'
 import avatars from './avatars'
 import characters from './characters'
+import events from './events'
 import groups from './groups'
 import rulesets from './rulesets'
 import forums from './forums'
@@ -17,6 +18,7 @@ export default combineReducers({
   authentication,
   avatars,
   characters,
+  events,
   forums,
   groups,
   rulesets,

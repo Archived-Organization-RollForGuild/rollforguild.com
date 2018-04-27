@@ -18,12 +18,13 @@ import {
   isUUID,
 } from '../../helpers'
 import { actions } from '../../store'
+import { Router } from '../../routes'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
+import GroupDetailsPanel from '../../components/Groups/GroupDetailsPanel'
+import GroupSettingsPanel from '../../components/Groups/GroupSettingsPanel'
 import RegistrationDialog from '../../components/RegistrationDialog'
-import GroupDetailsPanel from '../../components/GroupProfilePanels/GroupDetailsPanel'
-import GroupSettingsPanel from '../../components/GroupProfilePanels/GroupSettingsPanel'
 import Link from '../../components/Link'
 import Main from '../../components/Main'
 import Markdown from '../../components/Markdown'
@@ -128,7 +129,9 @@ class JoinRequestCard extends Component {
         </div>
 
         <footer>
-          <menu type="toolbar">
+          <menu
+            className="compact"
+            type="toolbar">
             <div className="primary">
               <Link href={`mailto:${email}`}>
                 <a className="button small success">Message</a>
@@ -308,14 +311,15 @@ class GroupProfile extends Component {
 
     await actions.getGroup(id)(store.dispatch)
 
-    return {}
+    return { initialTab: query.tab || 'details' }
   }
 
   render () {
     const {
       currentUserId,
-      members,
       group,
+      initialTab,
+      members,
     } = this.props
     const {
       currentUserIsAdmin,
@@ -326,6 +330,7 @@ class GroupProfile extends Component {
       leaving,
       loaded,
       requestingToJoin,
+
       showRegistrationModal,
     } = this.state
 
@@ -379,47 +384,45 @@ class GroupProfile extends Component {
         <PageHeader>
           <h1>{name}</h1>
 
-          {!currentUserIsAdmin && (
-            <aside>
-              <menu type="toolbar">
-                {!currentUserIsMember && (
-                  <Button
-                    action="request"
-                    category="Groups"
-                    className="success"
-                    disabled={requestingToJoin || joinRequestSent}
-                    label="Membership"
-                    onClick={currentUserId ? this._requestToJoin : () => this.setState({ showRegistrationModal: true })}>
-                    {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
+          <aside>
+            <menu type="toolbar">
+              {!currentUserIsMember && (
+              <Button
+                action="request"
+                category="Groups"
+                className="success"
+                disabled={requestingToJoin || joinRequestSent}
+                label="Membership"
+                onClick={currentUserId ? this._requestToJoin : () => this.setState({ showRegistrationModal: true })}>
+                {(!requestingToJoin && !joinRequestSent) && 'Request to join'}
 
-                    {(!requestingToJoin && joinRequestSent) && (
-                      <span><FontAwesomeIcon icon="check" /> Request sent</span>
-                    )}
-
-                    {requestingToJoin && (
-                      <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
-                    )}
-                  </Button>
+                {(!requestingToJoin && joinRequestSent) && (
+                  <span><FontAwesomeIcon icon="check" /> Request sent</span>
                 )}
 
-                {currentUserIsMember && (
-                  <Button
-                    action="cancel"
-                    category="Groups"
-                    className="danger"
-                    disabled={leaving[currentUserId]}
-                    label="Membership"
-                    onClick={() => this._removeMember(currentUserId)}>
-                    {!leaving[currentUserId] && 'Leave group'}
-
-                    {leaving[currentUserId] && (
-                      <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
-                    )}
-                  </Button>
+                {requestingToJoin && (
+                  <span><FontAwesomeIcon icon="spinner" pulse /> Sending request...</span>
                 )}
-              </menu>
-            </aside>
-          )}
+              </Button>
+            )}
+
+              {(currentUserIsMember && !currentUserIsAdmin) && (
+              <Button
+                action="cancel"
+                category="Groups"
+                className="danger"
+                disabled={leaving[currentUserId]}
+                label="Membership"
+                onClick={() => this._removeMember(currentUserId)}>
+                {!leaving[currentUserId] && 'Leave group'}
+
+                {leaving[currentUserId] && (
+                  <span><FontAwesomeIcon icon="spinner" pulse /> Leaving group...</span>
+                )}
+              </Button>
+            )}
+            </menu>
+          </aside>
         </PageHeader>
 
         <Main title={title}>
@@ -427,7 +430,7 @@ class GroupProfile extends Component {
             <header>
               <Avatar src={group} />
 
-              {currentUserIsMember && (
+              {(currentUserIsMember && geo) && (
                 <section className="location">
                   <h4>Location</h4>
 
@@ -442,13 +445,23 @@ class GroupProfile extends Component {
 
             <TabPanel
               category="Groups"
-              className="details">
-              <Tab title="Details">
+              className="details"
+              defaultTab={initialTab}
+              onSelect={tabId => {
+                const route = `${window.location.pathname.replace(/\/(details|join-requests|members|settings)/, '')}/${tabId}`
+
+                Router.replaceRoute(route, { tab: tabId }, { shallow: true })
+              }}>
+              <Tab
+                id="details"
+                title="Details">
                 <GroupDetailsPanel group={group} />
               </Tab>
 
               {currentUserIsMember && (
-                <Tab title="Members">
+                <Tab
+                  id="members"
+                  title="Members">
                   <section className="members">
                     {!members.length && (
                       <p>No other members.</p>
@@ -488,7 +501,10 @@ class GroupProfile extends Component {
                               </div>
 
                               <footer>
-                                <menu type="toolbar">
+                                <menu
+                                  className="compact"
+
+                                  type="toolbar">
                                   <div className="primary">
                                     <a
                                       className="button small success"
@@ -526,7 +542,9 @@ class GroupProfile extends Component {
               )}
 
               {currentUserIsAdmin && (
-                <Tab title="Join Requests">
+                <Tab
+                  id="join-requests"
+                  title="Join Requests">
                   <section className="join-requests">
                     {gettingJoinRequests && (
                       <p>Loading...</p>
@@ -553,7 +571,9 @@ class GroupProfile extends Component {
               )}
 
               {currentUserIsAdmin && (
-                <Tab title="Settings">
+                <Tab
+                  id="settings"
+                  title="Settings">
                   <GroupSettingsPanel group={group} />
                 </Tab>
               )}
