@@ -1,4 +1,5 @@
 // Module Imports
+import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import moment from 'moment'
@@ -14,11 +15,16 @@ import { formatGameString } from '../../helpers'
 import Button from '../Button'
 import Component from '../Component'
 import Markdown from '../Markdown'
+import GroupEventEditDialog from './GroupEventEditDialog'
 
 
 
 
 class GroupEventCard extends Component {
+  /***************************************************************************\
+    Private Methods
+  \***************************************************************************/
+
   _handleEventDelete () {
     const {
       deleteGroupEvent,
@@ -28,6 +34,14 @@ class GroupEventCard extends Component {
 
     deleteGroupEvent(groupId, event.id)
   }
+
+
+
+
+
+  /***************************************************************************\
+    Public Methods
+  \***************************************************************************/
 
   async componentDidMount () {
     const {
@@ -57,6 +71,7 @@ class GroupEventCard extends Component {
     this.state = {
       game: null,
       gameLoaded: false,
+      showEditModal: false,
     }
   }
 
@@ -65,10 +80,13 @@ class GroupEventCard extends Component {
     const {
       game,
       gameLoaded,
+      showEditModal,
     } = this.state
 
     const {
+      currentUserIsAdmin,
       event,
+      groupId,
     } = this.props
 
     const {
@@ -78,55 +96,84 @@ class GroupEventCard extends Component {
     } = event.attributes
 
     return (
-      <li
-        className="card"
-        key={event.id}>
-        <header className="space-content">
-          <h2>{title}</h2>
-          {this.formattedEventTime}
-        </header>
+      <React.Fragment>
+        <li
+          className="card"
+          key={event.id}>
+          <header className="space-content">
+            <h2>{title}</h2>
+            {this.formattedEventTime}
+          </header>
 
-        <div className="meta">
-          {Boolean(gameLoaded && game) && (
-          <small>
-            Playing&nbsp;
-            {formatGameString(game)}
-          </small>
+          <div className="meta">
+            {Boolean(gameLoaded && game) && (
+              <small>
+                Playing&nbsp;
+                {formatGameString(game)}
+              </small>
+            )}
+
+            <small>
+              {location}
+            </small>
+          </div>
+
+          <div className="content">
+            {Boolean(description) && (
+              <Markdown input={description} />
+            )}
+
+            {!description && (
+              <em>No description available</em>
+            )}
+          </div>
+
+          {currentUserIsAdmin && (
+            <footer>
+              <menu
+                className="compact"
+                type="toolbar" >
+                <div className="primary">
+                  <Button
+                    action="edit"
+                    category="Groups"
+                    className="button compact success"
+                    label="events"
+                    onClick={() => this.setState({ showEditModal: true })}>
+                    Edit
+                  </Button>
+                  <Button
+                    action="delete"
+                    category="Groups"
+                    className="button compact danger"
+                    label="events"
+                    onClick={this._handleDeleteEvent}>
+                    Delete
+                  </Button>
+                </div>
+              </menu>
+            </footer>
           )}
+        </li>
 
-          <small>
-            {location}
-          </small>
-        </div>
-
-        <div className="content">
-          {Boolean(description) && (
-            <Markdown input={description} />
-          )}
-
-          {!description && (
-            <em>No description available</em>
-          )}
-        </div>
-
-        <footer>
-          <menu
-            className="compact"
-            type="toolbar" >
-            <div className="primary">
-              <Button
-                action="delete"
-                category="Groups"
-                label="events"
-                onClick={this._handleDeleteEvent}>
-                Delete
-              </Button>
-            </div>
-          </menu>
-        </footer>
-      </li>
+        {showEditModal && (
+          <GroupEventEditDialog
+            event={event}
+            game={game}
+            groupId={groupId}
+            onClose={() => this.setState({ showEditModal: false })} />
+        )}
+      </React.Fragment>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Getter Methods
+  \***************************************************************************/
 
   get formattedEventTime () {
     const {
@@ -146,10 +193,13 @@ class GroupEventCard extends Component {
 }
 
 
-
+GroupEventCard.defaultProps = {
+  currentUserIsAdmin: false,
+}
 
 
 GroupEventCard.propTypes = {
+  currentUserIsAdmin: PropTypes.bool,
   event: PropTypes.object.isRequired,
   groupId: PropTypes.string.isRequired,
 }
