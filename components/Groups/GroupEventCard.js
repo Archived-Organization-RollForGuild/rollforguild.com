@@ -133,19 +133,21 @@ class GroupEventCard extends Component {
               <menu
                 className="compact"
                 type="toolbar" >
-                <div className="primary">
+                <div className="secondary">
                   <Button
                     action="edit"
                     category="Groups"
-                    className="button compact success"
+                    className="compact success"
                     label="events"
                     onClick={() => this.setState({ showEditModal: true })}>
                     Edit
                   </Button>
+                </div>
+                <div className="primary">
                   <Button
                     action="delete"
                     category="Groups"
-                    className="button compact danger"
+                    className="compact danger"
                     label="events"
                     onClick={this._handleDeleteEvent}>
                     Delete
