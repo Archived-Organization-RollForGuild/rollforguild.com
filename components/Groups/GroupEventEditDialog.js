@@ -142,18 +142,12 @@ class GroupEventEditDialog extends Component {
       submitting,
     } = this.state
 
-
-    console.log(changes.startTime)
-    console.log(event.attributes.start_time)
-
     const description = typeof changes.description === 'string' ? changes.description : event.attributes.description
     const endTime = typeof changes.endTime === 'object' ? changes.endTime : new Date(event.attributes.end_time)
     const game = typeof changes.game === 'object' ? changes.game : (currentGame || '')
     const location = typeof changes.location === 'object' ? changes.location : event.attributes.location
     const startTime = typeof changes.startTime === 'object' ? changes.startTime : new Date(event.attributes.start_time)
     const title = typeof changes.title === 'string' ? changes.title : event.attributes.title
-
-    console.log(startTime)
 
     return (
       <Dialog

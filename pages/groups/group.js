@@ -487,7 +487,7 @@ class GroupProfile extends Component {
               category="Groups"
               className="details"
               defaultTab={initialTab}
-              onSelect={async tabId => {
+              onSelect={tabId => {
                 const route = `${window.location.pathname.replace(/\/(details|events|join-requests|members|settings)/, '')}/${tabId}`
 
                 Router.replaceRoute(route, { tab: tabId }, { shallow: true })
