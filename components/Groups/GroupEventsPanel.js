@@ -81,7 +81,7 @@ class GroupEventsPanel extends Component {
 
           {Boolean(loaded && events.length) && (
             <ul className="card-list">
-              {events.map(event => (<GroupEventCard key={event.id} event={event} />))}
+              {events.map(event => (<GroupEventCard key={event.id} event={event} groupId={group.id} />))}
             </ul>
           )}
 

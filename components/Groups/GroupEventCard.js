@@ -20,7 +20,7 @@ import Markdown from '../Markdown'
 
 class GroupEventCard extends Component {
   async componentDidMount () {
-    /*const {
+    const {
       event,
       getGroupEventGames,
       groupId,
@@ -36,10 +36,6 @@ class GroupEventCard extends Component {
 
     this.setState({
       game,
-      gameLoaded: true,
-    })*/
-
-    this.setState({
       gameLoaded: true,
     })
   }
@@ -130,15 +126,20 @@ class GroupEventCard extends Component {
   }
 }
 
+
+
+
+
 GroupEventCard.propTypes = {
   event: PropTypes.object.isRequired,
-  // groupId: PropTypes.string.isRequired,
+  groupId: PropTypes.string.isRequired,
 }
 
 
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getGroupEventGames: actions.getGroupEventGames,
+  deleteGroupEvent: actions.deleteGroupEvent,
 }, dispatch)
 
 
