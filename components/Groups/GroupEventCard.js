@@ -11,7 +11,7 @@ import PropTypes from 'prop-types'
 // Component Imports
 import { actions } from '../../store'
 import { formatGameString } from '../../helpers'
-// import Button from '../Button'
+import Button from '../Button'
 import Component from '../Component'
 import Markdown from '../Markdown'
 
@@ -19,6 +19,16 @@ import Markdown from '../Markdown'
 
 
 class GroupEventCard extends Component {
+  _handleEventDelete () {
+    const {
+      deleteGroupEvent,
+      event,
+      groupId,
+    } = this.props
+
+    deleteGroupEvent(groupId, event.id)
+  }
+
   async componentDidMount () {
     const {
       event,
@@ -99,11 +109,20 @@ class GroupEventCard extends Component {
           )}
         </div>
 
-        {/* left for future development coming shortly */}
         <footer>
           <menu
             className="compact"
-            type="toolbar" />
+            type="toolbar" >
+            <div className="primary">
+              <Button
+                action="delete"
+                category="Groups"
+                label="events"
+                onClick={this._handleDeleteEvent}>
+                Delete
+              </Button>
+            </div>
+          </menu>
         </footer>
       </li>
     )
