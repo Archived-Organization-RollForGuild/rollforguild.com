@@ -200,9 +200,6 @@ class GroupProfile extends Component {
 
     const { payload, status } = await getGroupEvents(group.id, newPage)
 
-    console.log('HELLO', payload)
-    console.log(status)
-
     if (status === 'success') {
       this.setState({
         eventData: {
