@@ -1,5 +1,6 @@
 // Module Imports
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 
@@ -130,4 +131,23 @@ GroupEventsPanel.propTypes = {
 }
 
 
-export default GroupEventsPanel
+
+
+
+const mapStateToProps = (state, ownProps) => {
+  const { loaded } = ownProps
+
+  if (!loaded) {
+    return {
+      events: [],
+    }
+  }
+
+  return {
+    events: Object.values(state.events),
+  }
+}
+
+
+
+export default connect(mapStateToProps, null)(GroupEventsPanel)
