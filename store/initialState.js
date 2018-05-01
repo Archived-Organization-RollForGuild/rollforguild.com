@@ -14,6 +14,10 @@ export default {
 
   characters: {},
 
+  events: {},
+
+  games: {},
+
   groups: {},
 
   rulesets: {},

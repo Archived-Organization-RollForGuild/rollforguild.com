@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 
 // Component imports
 import { actions } from '../store'
+import { formatGameString } from '../helpers'
 import Component from './Component'
 import Dropdown from './Dropdown'
 
@@ -60,14 +61,7 @@ class GameInput extends Component {
       return value
     }
 
-    let versionString = value.attributes.version
-
-    // If the version is just a number, append an e (for edition).
-    if (!Number.isNaN(+versionString)) {
-      versionString = `${versionString}e`
-    }
-
-    return `${value.attributes.name} ${versionString}`
+    return formatGameString(value)
   }
 
 
