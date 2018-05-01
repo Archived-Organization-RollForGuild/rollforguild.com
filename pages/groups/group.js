@@ -204,7 +204,6 @@ class GroupProfile extends Component {
       this.setState({
         eventData: {
           ...this.state.eventData,
-          events: payload.data || [],
           loaded: true,
           page: newPage,
           totalPages: Math.ceil(payload.meta.total / payload.meta.limit),
@@ -329,7 +328,6 @@ class GroupProfile extends Component {
       currentUserIsMember: group && memberRoles.includes(group.attributes.member_status),
       gettingJoinRequests: false,
       eventData: {
-        events: null,
         loaded: false,
         page: 1,
         totalPages: 1,
