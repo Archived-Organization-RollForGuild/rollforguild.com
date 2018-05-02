@@ -2,6 +2,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 
@@ -31,6 +32,8 @@ class GroupEventCard extends Component {
       event,
       groupId,
     } = this.props
+
+    this.setState({ removing: true })
 
     deleteGroupEvent(groupId, event.id)
   }
@@ -67,10 +70,14 @@ class GroupEventCard extends Component {
   constructor (props) {
     super(props)
 
+    this._bindMethods([
+      '_handleEventDelete',
+    ])
 
     this.state = {
       game: null,
       gameLoaded: false,
+      removing: false,
       showEditModal: false,
     }
   }
@@ -80,6 +87,7 @@ class GroupEventCard extends Component {
     const {
       game,
       gameLoaded,
+      removing,
       showEditModal,
     } = this.state
 
@@ -150,7 +158,11 @@ class GroupEventCard extends Component {
                     className="compact danger"
                     label="events"
                     onClick={this._handleDeleteEvent}>
-                    Delete
+                    {!removing && 'Delete'}
+
+                    {removing && (
+                      <span><FontAwesomeIcon icon="spinner" pulse /> Removing...</span>
+                    )}
                   </Button>
                 </div>
               </menu>
