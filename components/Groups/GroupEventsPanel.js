@@ -77,7 +77,7 @@ class GroupEventsPanel extends Component {
           )}
 
           {(loaded && !events.length) && (
-            <p>No events. <span role="img" aria-label="sad face emoji">☹️</span></p>
+            <p>No upcoming events... <span role="img" aria-label="sad face emoji">☹️</span></p>
           )}
 
           {Boolean(loaded && events.length) && (
