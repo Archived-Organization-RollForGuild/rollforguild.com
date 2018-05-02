@@ -7,12 +7,8 @@ defaults: &defaults
 version: 2
 
 jobs:
-  dev:
+  prebuild:
     <<: *defaults
-
-    environment:
-      RFG_LOCAL_API_URL: https://dev.rollforguild.com
-      RFG_GOOGLE_TAG_MANAGER_ENV: development
 
     steps:
       - checkout
@@ -29,12 +25,38 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: yarn run build
+  test:
+    <<: *defaults
 
+    steps:
       - run:
           name: Run tests
           command: yarn test
 
+  dev-build:
+    <<: *defaults
+
+    environment:
+      RFG_LOCAL_API_URL: https://dev.rollforguild.com
+      RFG_GOOGLE_TAG_MANAGER_ENV: development
+
+    steps:
+      - run: yarn run build
+
+  prod-build:
+    <<: *defaults
+
+    environment:
+      RFG_LOCAL_API_URL: https://rollforguild.com
+      RFG_GOOGLE_TAG_MANAGER_ENV: production
+
+    steps:
+      - run: yarn run build
+
+  predeploy:
+    <<: *defaults
+
+    steps:
       - add_ssh_keys
 
       - run:
@@ -45,67 +67,51 @@ jobs:
           name: Install rsync
           command: sudo apt-get update -qq && sudo apt-get install -y rsync
 
+  dev-deploy:
+    <<: *defaults
+
+    steps:
       - run:
           name: Deploy to dev.rollforguild.com
           command: rsync -r --delete-after --quiet ~/repo/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
 
-  prod:
+  prod-deploy:
     <<: *defaults
 
-    environment:
-      RFG_LOCAL_API_URL: https://rollforguild.com
-      RFG_GOOGLE_TAG_MANAGER_ENV: production
-
     steps:
-      - checkout
-
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      - run: yarn run build
-
-      - add_ssh_keys
-
-      - run:
-          name: Keyscan (HACK)
-          command: ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
-
-      - run:
-          name: Install rsync
-          command: sudo apt-get update -qq && sudo apt-get install -y rsync
-
       - run:
           name: Deploy to rollforguild.com
           command: rsync -r --delete-after --quiet ~/repo/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_FOLDER
 
+
+
+
+
 workflows:
   version: 2
 
-  dev-deploy:
+  deploy-to-dev:
     jobs:
-      - dev:
+      - prebuild
+      - dev-build:
+          requires: prebuild
+      - test:
+          requires: dev-build
+      - dev-deploy:
+          requires: test
           filters:
             branches:
-              ignore: master
+              only: develop
 
-  prod-deploy:
+  deploy-to-prod:
     jobs:
-      - prod:
+      - prebuild
+      - prod-build:
+          requires: prebuild
+      - test:
+          requires: prod-build
+      - prod-deploy:
+          requires: test
           filters:
             branches:
               only: master
-      # - dev-deploy:
-      #     requires:
-      #       - build
-      #     filters:
-      #       branches:
-      #         only: develop
