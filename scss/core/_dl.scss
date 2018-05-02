@@ -1,0 +1,14 @@
+dl {
+  dt {
+    font-weight: bold;
+  }
+
+  dd {
+    margin-bottom: 2rem;
+    margin-left: 2rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
