@@ -50,6 +50,16 @@ export const getGroupEvent = (groupId, eventId) => createApiAction({
 
 
 
+export const getGroupEventGames = (groupId, eventId) => createApiAction({
+  actionType: actionTypes.GET_GROUP_EVENT_GAMES,
+  url: `/api/groups/${groupId}/events/${eventId}/games`,
+  onError: 'failed to get event games.\nPlease try again in a few moments.',
+})
+
+
+
+
+
 export const getGroupEvents = groupId => createApiAction({
   actionType: actionTypes.GET_GROUP_EVENTS,
   url: `/api/groups/${groupId}/events`,
@@ -60,9 +70,13 @@ export const getGroupEvents = groupId => createApiAction({
 
 
 
-export const deleteGroupEvents = (groupId, eventId) => createApiAction({
+export const deleteGroupEvent = (groupId, eventId) => createApiAction({
   actionType: actionTypes.DELETE_GROUP_EVENT,
   url: `/api/groups/${groupId}/events/${eventId}`,
   method: 'delete',
+  onSuccess: () => ({
+    eventId,
+    groupId,
+  }),
   onError: 'Failed to get events.\nPlease try again in a few moments.',
 })

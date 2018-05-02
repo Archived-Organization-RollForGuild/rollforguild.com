@@ -19,11 +19,26 @@ export default function (state = initialState.events, action) {
   switch (type) {
     case actionTypes.CREATE_GROUP_EVENT:
     case actionTypes.GET_GROUP_EVENT:
-    case actionTypes.GET_GROUP_EVENTS:
     case actionTypes.UPDATE_GROUP_EVENT:
       if (status === 'success') {
         const newGroups = parseJSONAPIResponseForEntityType(payload, 'events', true)
         return deepMergeJSONAPIObjectCollections(state, newGroups)
+      }
+      return { ...state }
+
+    case actionTypes.GET_GROUP_EVENTS:
+      if (status === 'success') {
+        return parseJSONAPIResponseForEntityType(payload, 'events', true)
+      }
+      return { ...state }
+
+    case actionTypes.DELETE_GROUP_EVENT:
+      if (status === 'success') {
+        const newEvents = { ...state }
+
+        delete newEvents[payload.eventId]
+
+        return newEvents
       }
       return { ...state }
 
