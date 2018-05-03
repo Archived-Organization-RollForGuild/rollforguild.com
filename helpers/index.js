@@ -5,6 +5,7 @@ import convertStringToSlug from './convertStringToSlug'
 import createAlertObject from './createAlertObject'
 import deepMergeJSONAPIObjectCollections from './deepMergeJSONAPIObjectCollections'
 import findAndEvaluateModifiers from './findAndEvaluateModifiers'
+import formatGameString from './formatGameString'
 import getBase64FromFileInput from './getBase64FromFileInput'
 import isUUID from './isUUID'
 import isRequired from './isRequired'
@@ -23,6 +24,7 @@ export {
   createAlertObject,
   deepMergeJSONAPIObjectCollections,
   findAndEvaluateModifiers,
+  formatGameString,
   getBase64FromFileInput,
   isUUID,
   isRequired,

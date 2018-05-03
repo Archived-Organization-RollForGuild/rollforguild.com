@@ -19,7 +19,7 @@ routes
   .add('group create', '/groups/create', '/groups/create')
   .add('group manage', '/groups/manage', '/groups/manage')
   .add('group search', '/groups/search', '/groups/search')
-  .add('group profile', '/groups/:id/:tab(details|join-requests|members|settings)?', '/groups/group')
+  .add('group profile', '/groups/:id/:tab(details|events|join-requests|members|settings)?', '/groups/group')
 
   // Password reset
   .add('password reset', '/reset(-password)?/:token?', '/reset-password')
@@ -32,6 +32,10 @@ routes
   // Users
   .add('user profile', '/users/:id', '/users/user')
   .add('user profile current', '/my/profile/:tab(details|groups|settings)?', '/users/user')
+
+  // Administrative Documents
+  .add('privacy policy', '/privacy-policy', '/privacy-policy')
+  .add('terms and conditions', '/terms-and-conditions', '/terms-and-conditions')
 
 
 
