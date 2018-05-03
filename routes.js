@@ -33,6 +33,10 @@ routes
   .add('user profile', '/users/:id', '/users/user')
   .add('user profile current', '/my/profile/:tab(details|groups|settings)?', '/users/user')
 
+  // Administrative Documents
+  .add('privacy policy', '/privacy-policy', '/privacy-policy')
+  .add('terms and conditions', '/terms-and-conditions', '/terms-and-conditions')
+
 
 
 

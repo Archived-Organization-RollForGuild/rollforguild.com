@@ -4,6 +4,11 @@ ul {
     margin-bottom: 2rem;
   }
 
+  &.bulleted {
+    list-style-type: square;
+    padding-left: 3rem;
+  }
+
   &.inline {
     li {
       display: inline;
