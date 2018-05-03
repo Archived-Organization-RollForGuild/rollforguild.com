@@ -8,8 +8,10 @@ import withRedux from 'next-redux-wrapper'
 import fontawesome from '@fortawesome/fontawesome'
 import {
   faBars,
+  faBook,
   faBug,
   faCheck,
+  faCodeBranch,
   faComments,
   faCopy,
   faEnvelope,
@@ -23,6 +25,7 @@ import {
   faMapMarker,
   faPencilAlt,
   faPlus,
+  faQuestionCircle,
   faSearch,
   faSignInAlt,
   faSignOutAlt,
@@ -32,11 +35,16 @@ import {
   faUser,
   faUserCircle,
   faUsers,
+  faUserSecret,
 } from '@fortawesome/fontawesome-free-solid'
 import {
   faFacebook,
+  faFacebookSquare,
   faInstagram,
+  faKickstarter,
   faTwitter,
+  faTwitterSquare,
+  faYoutube,
 } from '@fortawesome/fontawesome-free-brands'
 
 
@@ -129,8 +137,10 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
       fontawesome.library.add(
         // Solids
         faBars,
+        faBook,
         faBug,
         faCheck,
+        faCodeBranch,
         faComments,
         faCopy,
         faEnvelope,
@@ -144,6 +154,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         faMapMarker,
         faPencilAlt,
         faPlus,
+        faQuestionCircle,
         faSpinner,
         faSearch,
         faSignInAlt,
@@ -153,11 +164,16 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
         faUser,
         faUserCircle,
         faUsers,
+        faUserSecret,
 
         // Brands
         faFacebook,
+        faFacebookSquare,
         faInstagram,
+        faKickstarter,
         faTwitter,
+        faTwitterSquare,
+        faYoutube,
       )
 
       LocalForage.config({
