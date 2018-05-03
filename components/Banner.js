@@ -39,27 +39,111 @@ const Banner = (props) => (
     <Nav path={props.path} />
 
     <footer>
-      <small>
-        Questions, comments, or concerns? <Button category="Navigation" className="inline link" label="Support" onClick={activateZenDesk}>Let us know!</Button>
-      </small>
+      <nav className="support">
+        <ul>
+          <li>
+            <Button
+              category="Navigation"
+              className="inline link"
+              label="Terms and Conditions"
+              onClick={activateZenDesk}>
+              <FontAwesomeIcon icon="question-circle" fixedWidth />
+              Help &amp; Support
+            </Button>
+          </li>
 
-      <nav className="social">
-        <a href="//twitter.com/RollForGuild">
-          <FontAwesomeIcon icon={['fab', 'twitter']} fixedWidth />
-        </a>
+          <li>
+            <Link
+              action="view"
+              category="Footer"
+              label="Terms and Conditions"
+              route="terms and conditions">
+              <a>
+                <FontAwesomeIcon icon="book" fixedWidth />
+                Terms &amp; Conditions
+              </a>
+            </Link>
+          </li>
 
-        <a href="//instagram.com/RollForGuild">
-          <FontAwesomeIcon icon={['fab', 'instagram']} fixedWidth />
-        </a>
+          <li>
+            <Link
+              action="view"
+              category="Footer"
+              label="Privacy Policy"
+              route="privacy policy">
+              <a>
+                <FontAwesomeIcon icon="user-secret" fixedWidth />
+                Privacy Policy
+              </a>
+            </Link>
+          </li>
 
-        <a href="//facebook.com/RollForGuild">
-          <FontAwesomeIcon icon={['fab', 'facebook']} fixedWidth />
-        </a>
+          {isDevOrStaging && (
+            <li>
+              <a
+                href={buildUrl}
+                rel="noopener noreferrer"
+                target="_blank">
+                <FontAwesomeIcon icon="code-branch" fixedWidth />
+                {buildCommitHash}
+              </a>
+            </li>
+          )}
+        </ul>
       </nav>
 
-      {isDevOrStaging && (
-        <small><a href={buildUrl} rel="noopener noreferrer" target="_blank">{buildCommitHash}</a></small>
-      )}
+      <nav className="social">
+        <ul className="inline">
+          <li>
+            <a href="//twitter.com/RollForGuild">
+              <FontAwesomeIcon
+                fixedWidth
+                icon={['fab', 'twitter']}
+                title="Roll For Guild on Twitter" />
+            </a>
+          </li>
+
+          <li>
+            <a href="//instagram.com/RollForGuild">
+              <FontAwesomeIcon
+                fixedWidth
+                icon={['fab', 'instagram']}
+                title="Roll For Guild on Instagram" />
+            </a>
+          </li>
+
+          <li>
+            <a href="//facebook.com/RollForGuild">
+              <FontAwesomeIcon
+                fixedWidth
+                icon={['fab', 'facebook']}
+                title="Roll For Guild on Facebook" />
+            </a>
+          </li>
+
+          {/* Tumblr
+
+          Twitch */}
+
+          <li>
+            <a href="//facebook.com/RollForGuild">
+              <FontAwesomeIcon
+                fixedWidth
+                icon={['fab', 'kickstarter']}
+                title="Roll For Guild on Kickstarter" />
+            </a>
+          </li>
+
+          <li>
+            <a href="//youtube.com/channel/UCW9fAESWXx9z5nqspxS_DXw">
+              <FontAwesomeIcon
+                fixedWidth
+                icon={['fab', 'youtube']}
+                title="Roll For Guild on YouTube" />
+            </a>
+          </li>
+        </ul>
+      </nav>
     </footer>
   </header>
 )

@@ -46,7 +46,7 @@ module.exports = {
     environment,
     git: {
       buildURL: process.env.CIRCLE_COMPARE_URL || process.env.CIRCLE_REPOSITORY_URL || process.env.RFG_REPOSITORY_URL,
-      hash: process.env.CIRCLE_SHA1 ? process.env.CIRCLE_SHA1.slice(0, 10) : 'DEVELOPMENT',
+      hash: process.env.CIRCLE_SHA1 ? process.env.CIRCLE_SHA1.slice(0, 10) : 'Development',
     },
   },
 
