@@ -88,9 +88,9 @@ class TabPanel extends Component {
   }
 
   _setTabActiveStatus (tab, index) {
-    const id = tab.props.id || index
-
     if (tab) {
+      const id = tab.props.id || index
+
       return {
         ...tab,
         props: {
