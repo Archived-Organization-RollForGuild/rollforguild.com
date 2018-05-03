@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: node:alpine
+    - image: node:9
 
   working_directory: ~/repo
 
