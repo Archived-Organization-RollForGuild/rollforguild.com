@@ -44,11 +44,11 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-build-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           keys:
-            - v1-build-{{ .Environment.CIRCLE_SHA1 }}
+            - v1-dependencies-{{ checksum "package.json" }}
 
       - run:
           name: Run tests
