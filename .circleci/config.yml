@@ -17,6 +17,8 @@ jobs:
       RFG_GOOGLE_TAG_MANAGER_ENV: development
 
     steps:
+      - checkout
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
