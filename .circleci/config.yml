@@ -15,10 +15,10 @@ jobs:
     steps:
       - checkout
 
-    - save_cache:
-        key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-        paths:
-          - ~/repo
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/repo
 
   install-dependencies:
     <<: *defaults
