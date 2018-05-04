@@ -9,29 +9,46 @@ defaults: &defaults
 
 
 jobs:
-  build:
+  checkout:
     <<: *defaults
 
-    environment:
-      RFG_LOCAL_API_URL: https://dev.rollforguild.com
-      RFG_GOOGLE_TAG_MANAGER_ENV: development
+    steps:
+      - checkout
+
+    - save_cache:
+        key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+        paths:
+          - ~/repo
+
+  install-dependencies:
+    <<: *defaults
+
+    steps:
+      - restore_cache:
+          keys:
+            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+  build:
+    <<: *defaults
 
     steps:
       - checkout
 
       - restore_cache:
           keys:
+            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
             - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-
-      - run: yarn install
 
       - run: yarn run build
-
-      - save_cache:
-          key: v1-dependencies-{{ checksum "package.json" }}
-          paths:
-            - node_modules
 
       - save_cache:
           key: v1-build-{{ .Environment.CIRCLE_SHA1 }}
@@ -44,10 +61,8 @@ jobs:
     steps:
       - restore_cache:
           keys:
+            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
             - v1-build-{{ .Environment.CIRCLE_SHA1 }}
-
-      - restore_cache:
-          keys:
             - v1-dependencies-{{ checksum "package.json" }}
 
       - run:
@@ -93,7 +108,13 @@ workflows:
 
   deploy-to-dev:
     jobs:
-      - build
+      - checkout
+      - install-dependencies:
+          requires:
+            - checkout
+      - build:
+          requires:
+            - install-dependencies
       - test:
           requires:
             - build
