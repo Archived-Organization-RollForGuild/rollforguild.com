@@ -4,34 +4,12 @@ defaults: &defaults
 
   working_directory: ~/repo
 
+
+
+
+
 jobs:
-  prebuild:
-    <<: *defaults
-
-    steps:
-      - checkout
-
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-  test:
-    <<: *defaults
-
-    steps:
-      - run:
-          name: Run tests
-          command: yarn test
-
-  dev-build:
+  build:
     <<: *defaults
 
     environment:
@@ -39,47 +17,70 @@ jobs:
       RFG_GOOGLE_TAG_MANAGER_ENV: development
 
     steps:
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run: yarn install
+
       - run: yarn run build
 
-  prod-build:
-    <<: *defaults
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
 
-    environment:
-      RFG_LOCAL_API_URL: https://rollforguild.com
-      RFG_GOOGLE_TAG_MANAGER_ENV: production
+      - save_cache:
+          key: v1-build-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - .next
 
-    steps:
-      - run: yarn run build
-
-  predeploy:
-    <<: *defaults
-
-    steps:
-      - add_ssh_keys
-
-      - run:
-          name: Keyscan (HACK)
-          command: ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts
-
-      - run:
-          name: Install rsync
-          command: sudo apt-get update -qq && sudo apt-get install -y rsync
-
-  dev-deploy:
+  test:
     <<: *defaults
 
     steps:
-      - run:
-          name: Deploy to dev.rollforguild.com
-          command: rsync -r --delete-after --quiet ~/repo/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
 
-  prod-deploy:
-    <<: *defaults
+      - restore_cache:
+          keys:
+            - v1-build-{{ .Environment.CIRCLE_SHA1 }}
 
-    steps:
       - run:
-          name: Deploy to rollforguild.com
-          command: rsync -r --delete-after --quiet ~/repo/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_FOLDER
+          name: Run tests
+          command: yarn test
+
+  # pre-deploy:
+  #   <<: *defaults
+
+  #   steps:
+  #     - add_ssh_keys
+
+  #     - run:
+  #         name: Keyscan (HACK)
+  #         command: ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts
+
+  #     - run:
+  #         name: Install rsync
+  #         command: sudo apt-get update -qq && sudo apt-get install -y rsync
+
+  # dev-deploy:
+  #   <<: *defaults
+
+  #   steps:
+  #     - run:
+  #         name: Deploy to dev.rollforguild.com
+  #         command: rsync -r --delete-after --quiet ~/repo/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
+
+  # prod-deploy:
+  #   <<: *defaults
+
+  #   steps:
+  #     - run:
+  #         name: Deploy to rollforguild.com
+  #         command: rsync -r --delete-after --quiet ~/repo/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_FOLDER
 
 
 
@@ -90,32 +91,19 @@ workflows:
 
   deploy-to-dev:
     jobs:
-      - prebuild
-      - dev-build:
-          requires:
-            - prebuild
+      - build
       - test:
           requires:
-            - dev-build
-      - dev-deploy:
-          requires:
-            - test
-          filters:
-            branches:
-              only: develop
-
-  deploy-to-prod:
-    jobs:
-      - prebuild
-      - prod-build:
-          requires:
-            - prebuild
-      - test:
-          requires:
-            - prod-build
-      - prod-deploy:
-          requires:
-            - test
-          filters:
-            branches:
-              only: master
+            - build
+      # - dev-deploy:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: develop
+      # - prod-deploy:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: master
