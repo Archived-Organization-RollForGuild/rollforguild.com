@@ -13,6 +13,11 @@ jobs:
     <<: *defaults
 
     steps:
+      - restore_cache:
+          keys:
+            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v1-repo-
+
       - checkout
 
       - save_cache:
@@ -27,6 +32,9 @@ jobs:
       - restore_cache:
           keys:
             - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+
+      - restore_cache:
+          keys:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
 
@@ -46,7 +54,17 @@ jobs:
       - restore_cache:
           keys:
             - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+
+      - restore_cache:
+          keys:
             - v1-dependencies-{{ checksum "package.json" }}
+
+      - restore_cache:
+          keys:
+            - v1-build-{{ .Environment.CIRCLE_SHA1 }}
+            - v1-build-
+
+      - run: yarn install
 
       - run: yarn run build
 
@@ -62,8 +80,14 @@ jobs:
       - restore_cache:
           keys:
             - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-            - v1-build-{{ .Environment.CIRCLE_SHA1 }}
+
+      - restore_cache:
+          keys:
             - v1-dependencies-{{ checksum "package.json" }}
+
+      - restore_cache:
+          keys:
+            - v1-build-{{ .Environment.CIRCLE_SHA1 }}
 
       - run:
           name: Run tests
