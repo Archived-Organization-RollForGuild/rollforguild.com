@@ -64,8 +64,6 @@ jobs:
             - v1-build-{{ .Environment.CIRCLE_SHA1 }}
             - v1-build-
 
-      - run: yarn install
-
       - run: yarn run build
 
       - save_cache:
