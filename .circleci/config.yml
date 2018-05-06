@@ -113,6 +113,21 @@ jobs:
           name: Run tests
           command: yarn test
 
+  coverage:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Add Yarn Binary Folder To $PATH
+          command: export PATH="$PATH:`yarn global bin`"
+
+      - run:
+          name: Run tests
+          command: yarn test-coverage
+
   pre-deploy:
     <<: *defaults
 
@@ -166,6 +181,9 @@ workflows:
           requires:
             - install-dependencies
       - test:
+          requires:
+            - build
+      - test-coverage:
           requires:
             - build
       - pre-deploy:
