@@ -29,14 +29,16 @@ jobs:
           paths:
             - ~/repo
 
+      - persist_to_workspace:
+          paths:
+            - .
+
   install-dependencies:
     <<: *defaults
 
     steps:
-      - restore_cache:
-          name: Restore Repository Cache
-          keys:
-            - repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: .
 
       - restore_cache:
           name: Restore Yarn Package Cache
@@ -60,10 +62,8 @@ jobs:
     <<: *defaults
 
     steps:
-      - restore_cache:
-          name: Restore Repository Cache
-          keys:
-            - repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: .
 
       - restore_cache:
           name: Restore Yarn Package Cache
@@ -96,10 +96,8 @@ jobs:
     <<: *defaults
 
     steps:
-      - restore_cache:
-          name: Restore Repository Cache
-          keys:
-            - repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: .
 
       - restore_cache:
           name: Restore Yarn Package Cache
