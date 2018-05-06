@@ -1,40 +1,137 @@
 defaults: &defaults
   docker:
-    - image: circleci/node:9.2
+    - image: node:9
 
   working_directory: ~/repo
 
-version: 2
+
+
+
 
 jobs:
-  dev:
+  checkout:
     <<: *defaults
 
-    environment:
-      RFG_LOCAL_API_URL: https://dev.rollforguild.com
-      RFG_GOOGLE_TAG_MANAGER_ENV: development
-
     steps:
+      - restore_cache:
+          name: Restore Repository Cache
+          keys:
+            - repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+            - repo-{{ .Branch }}
+            - repo-master
+            - repo-
+
       - checkout
 
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
+      - save_cache:
+          name: Save Repository Cache
+          key: repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/repo
 
-      - run: yarn install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  install-dependencies:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-{{ .Branch }}
+            - yarn-master
+            - yarn-
+
+      - run:
+          name: Install Dependencies
+          command: yarn install
 
       - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: yarn run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+
+  build:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - restore_cache:
+          name: Restore Build Cache
+          keys:
+            - build-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+            - build-{{ .Branch }}
+            - build-master
+            - build-
+
+      - run:
+          name: Add Yarn Binary Folder To $PATH
+          command: export PATH="$PATH:`yarn global bin`"
+
+      - run:
+          name: Build Application
+          command: yarn run build
+
+      - save_cache:
+          name: Save Build Cache
+          key: build-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - .next
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .next
+
+  test:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Add Yarn Binary Folder To $PATH
+          command: export PATH="$PATH:`yarn global bin`"
 
       - run:
           name: Run tests
           command: yarn test
 
+  coverage:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Add Yarn Binary Folder To $PATH
+          command: export PATH="$PATH:`yarn global bin`"
+
+      - run:
+          name: Generate and upload coverage report
+          command: yarn test-coverage
+
+  pre-deploy:
+    <<: *defaults
+
+    steps:
       - add_ssh_keys
 
       - run:
@@ -45,67 +142,72 @@ jobs:
           name: Install rsync
           command: sudo apt-get update -qq && sudo apt-get install -y rsync
 
+  dev-deploy:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: .
+
       - run:
           name: Deploy to dev.rollforguild.com
           command: rsync -r --delete-after --quiet ~/repo/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
 
-  prod:
+  prod-deploy:
     <<: *defaults
 
-    environment:
-      RFG_LOCAL_API_URL: https://rollforguild.com
-      RFG_GOOGLE_TAG_MANAGER_ENV: production
-
     steps:
-      - checkout
-
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      - run: yarn run build
-
-      - add_ssh_keys
-
-      - run:
-          name: Keyscan (HACK)
-          command: ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
-
-      - run:
-          name: Install rsync
-          command: sudo apt-get update -qq && sudo apt-get install -y rsync
+      - attach_workspace:
+          at: .
 
       - run:
           name: Deploy to rollforguild.com
           command: rsync -r --delete-after --quiet ~/repo/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_FOLDER
 
+
+
+
+
 workflows:
   version: 2
 
-  dev-deploy:
+  roll-the-die:
     jobs:
-      - dev:
+      - checkout
+      - install-dependencies:
+          requires:
+            - checkout
+      - test:
+          requires:
+            - install-dependencies
+      - coverage:
+          requires:
+            - install-dependencies
+      - build:
+          requires:
+            - test
           filters:
             branches:
-              ignore: master
-
-  prod-deploy:
-    jobs:
-      - prod:
+              only:
+                - master
+                - develop
+      - pre-deploy:
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+      - dev-deploy:
+          requires:
+            - pre-deploy
+            - build
+          filters:
+            branches:
+              only: develop
+      - prod-deploy:
+          requires:
+            - pre-deploy
+            - build
           filters:
             branches:
               only: master
-      # - dev-deploy:
-      #     requires:
-      #       - build
-      #     filters:
-      #       branches:
-      #         only: develop

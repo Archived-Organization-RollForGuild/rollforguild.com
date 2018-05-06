@@ -2,6 +2,7 @@
 .env
 .next
 bower_components
+coverage
 data/characters
 data/users
 logs
