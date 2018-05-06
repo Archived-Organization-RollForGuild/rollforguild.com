@@ -59,17 +59,17 @@ jobs:
           paths:
             - node_modules
 
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+
   build:
     <<: *defaults
 
     steps:
       - attach_workspace:
           at: .
-
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
       - restore_cache:
           name: Restore Build Cache
@@ -99,11 +99,6 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
       - restore_cache:
           name: Restore Build Cache
