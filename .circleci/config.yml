@@ -58,8 +58,6 @@ jobs:
     <<: *defaults
 
     steps:
-      - checkout
-
       - restore_cache:
           name: Restore Repository Cache
           keys:
