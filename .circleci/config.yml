@@ -177,15 +177,20 @@ workflows:
       - install-dependencies:
           requires:
             - checkout
-      - build:
-          requires:
-            - install-dependencies
       - test:
           requires:
-            - build
-      - test-coverage:
+            - install-dependencies
+      - coverage:
           requires:
-            - build
+            - install-dependencies
+      - build:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - develop
       - pre-deploy:
           filters:
             branches:
@@ -195,14 +200,14 @@ workflows:
       - dev-deploy:
           requires:
             - pre-deploy
-            - test
+            - build
           filters:
             branches:
               only: develop
       - prod-deploy:
           requires:
             - pre-deploy
-            - test
+            - build
           filters:
             branches:
               only: master
