@@ -77,6 +77,10 @@ jobs:
             - build-
 
       - run:
+          name: Add Yarn Binary Folder To $PATH
+          command: export PATH="$PATH:`yarn global bin`"
+
+      - run:
           name: Build Application
           command: yarn run build
 
@@ -104,6 +108,10 @@ jobs:
           name: Restore Build Cache
           keys:
             - build-{{ .Environment.CIRCLE_SHA1 }}
+
+      - run:
+          name: Add Yarn Binary Folder To $PATH
+          command: export PATH="$PATH:`yarn global bin`"
 
       - run:
           name: Run tests
