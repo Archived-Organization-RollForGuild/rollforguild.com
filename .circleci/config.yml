@@ -4,7 +4,7 @@ defaults: &defaults
   docker:
     - image: node:9
 
-  working_directory: ~/repo
+  working_directory: /repo
 
 
 
@@ -32,16 +32,16 @@ jobs:
             - ~/repo
 
       - persist_to_workspace:
-          root: .
+          root: /
           paths:
-            - .
+            - repo
 
   install-dependencies:
     <<: *defaults
 
     steps:
       - attach_workspace:
-          at: .
+          at: /
 
       - restore_cache:
           name: Restore Yarn Package Cache
@@ -62,16 +62,16 @@ jobs:
             - node_modules
 
       - persist_to_workspace:
-          root: .
+          root: /
           paths:
-            - node_modules
+            - repo/node_modules
 
   build:
     <<: *defaults
 
     steps:
       - attach_workspace:
-          at: .
+          at: /
 
       - restore_cache:
           name: Restore Build Cache
@@ -96,16 +96,16 @@ jobs:
             - .next
 
       - persist_to_workspace:
-          root: .
+          root: /
           paths:
-            - .next
+            - repo/.next
 
   test:
     <<: *defaults
 
     steps:
       - attach_workspace:
-          at: .
+          at: /
 
       - run:
           name: Add Yarn Binary Folder To $PATH
@@ -120,7 +120,7 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: .
+          at: /
 
       - run:
           name: Add Yarn Binary Folder To $PATH
@@ -149,16 +149,16 @@ jobs:
           command: apt-get install -y rsync
 
       - persist_to_workspace:
-          root: .
+          root: /
           paths:
-            - /usr/bin/rsync
+            - usr/bin/rsync
 
   dev-deploy:
     <<: *defaults
 
     steps:
       - attach_workspace:
-          at: .
+          at: /
 
       - run:
           name: Deploy to dev.rollforguild.com
@@ -169,7 +169,7 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: .
+          at: /
 
       - run:
           name: Deploy to rollforguild.com
