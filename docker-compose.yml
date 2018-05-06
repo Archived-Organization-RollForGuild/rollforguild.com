@@ -1,5 +1,5 @@
 web:
-  build: .
+  image: trezytv/node
   command: sh -c "yarn install && yarn run dev"
   environment:
     - ENABLE_HMR_POLLING
@@ -16,9 +16,11 @@ web:
     - "3000:3000"
   volumes:
     - .:/app
+  working_dir: /app
 
 test:
-  build: .
-  command: sh -c "yarn install && yarn run test-watch"
+  image: trezytv/node
+  command: yarn run test-watch
   volumes:
     - .:/app
+  working_dir: /app
