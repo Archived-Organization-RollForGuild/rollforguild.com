@@ -16,14 +16,16 @@ jobs:
       - restore_cache:
           name: Restore Repository Cache
           keys:
-            - repo-{{ .Environment.CIRCLE_SHA1 }}
+            - repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+            - repo-{{ .Branch }}
+            - repo-master
             - repo-
 
       - checkout
 
       - save_cache:
           name: Save Repository Cache
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/repo
 
@@ -34,7 +36,7 @@ jobs:
       - restore_cache:
           name: Restore Repository Cache
           keys:
-            - repo-{{ .Environment.CIRCLE_SHA1 }}
+            - repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           name: Restore Yarn Package Cache
@@ -61,7 +63,7 @@ jobs:
       - restore_cache:
           name: Restore Repository Cache
           keys:
-            - repo-{{ .Environment.CIRCLE_SHA1 }}
+            - repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           name: Restore Yarn Package Cache
@@ -71,7 +73,9 @@ jobs:
       - restore_cache:
           name: Restore Build Cache
           keys:
-            - build-{{ .Environment.CIRCLE_SHA1 }}
+            - build-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+            - build-{{ .Branch }}
+            - build-master
             - build-
 
       - run:
@@ -84,7 +88,7 @@ jobs:
 
       - save_cache:
           name: Save Build Cache
-          key: build-{{ .Environment.CIRCLE_SHA1 }}
+          key: build-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - .next
 
@@ -95,7 +99,7 @@ jobs:
       - restore_cache:
           name: Restore Repository Cache
           keys:
-            - repo-{{ .Environment.CIRCLE_SHA1 }}
+            - repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           name: Restore Yarn Package Cache
@@ -105,7 +109,7 @@ jobs:
       - restore_cache:
           name: Restore Build Cache
           keys:
-            - build-{{ .Environment.CIRCLE_SHA1 }}
+            - build-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
 
       - run:
           name: Add Yarn Binary Folder To $PATH
