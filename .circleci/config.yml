@@ -141,8 +141,12 @@ jobs:
           command: ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts
 
       - run:
+          name: Update the apt registry
+          command: apt-get update
+
+      - run:
           name: Install rsync
-          command: apk --no-cache add yarn
+          command: apt-get install -y rsync
 
   dev-deploy:
     <<: *defaults
