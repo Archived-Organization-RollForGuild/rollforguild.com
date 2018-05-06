@@ -93,17 +93,17 @@ jobs:
           paths:
             - .next
 
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .next
+
   test:
     <<: *defaults
 
     steps:
       - attach_workspace:
           at: .
-
-      - restore_cache:
-          name: Restore Build Cache
-          keys:
-            - build-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
 
       - run:
           name: Add Yarn Binary Folder To $PATH
