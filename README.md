@@ -3,6 +3,7 @@
 [![rollforguild.com build status on CircleCI][circleci-badge]][circleci]
 [![rollforguild.com dependencies on David DM][daviddm-badge]][daviddm]
 [![rollforguild.com climate on Code Climate][codeclimate-badge]][codeclimate]
+[![rollforguild.com coverage on Coveralls.io][coveralls-badge]][coveralls]
 
 [![Code of Conduct][code-of-conduct-badge]][code-of-conduct]
 [![PRs Welcome][prs-badge]][prs]
