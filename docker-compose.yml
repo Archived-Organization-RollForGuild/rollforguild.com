@@ -1,5 +1,5 @@
-web:
-  image: trezytv/node
+app:
+  image: rollforguildinc/node
   command: sh -c "yarn install && yarn run dev"
   environment:
     - ENABLE_HMR_POLLING
