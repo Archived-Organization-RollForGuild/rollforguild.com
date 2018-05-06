@@ -148,6 +148,11 @@ jobs:
           name: Install rsync
           command: apt-get install -y rsync
 
+      - persist_to_workspace:
+          root: .
+          paths:
+            - /usr/bin/rsync
+
   dev-deploy:
     <<: *defaults
 
