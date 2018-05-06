@@ -140,7 +140,7 @@ jobs:
 
       - run:
           name: Install rsync
-          command: sudo apt-get update -qq && sudo apt-get install -y rsync
+          command: apk --no-cache add yarn
 
   dev-deploy:
     <<: *defaults
