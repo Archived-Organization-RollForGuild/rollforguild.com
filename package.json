@@ -10,7 +10,7 @@
     "dev": "node server/server.js",
     "postinstall": "npm rebuild node-sass",
     "test": "cross-env NODE_ENV=test jest",
-    "test-coverage": "yarn test --changedSince=master --coverage --coverageReporters=text-lcov | coveralls",
+    "test-coverage": "yarn test --coverage --coverageReporters=text-lcov | coveralls",
     "test-watch": "yarn test --watchAll"
   },
   "devDependencies": {
