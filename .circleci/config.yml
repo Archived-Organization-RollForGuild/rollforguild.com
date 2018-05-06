@@ -119,35 +119,35 @@ jobs:
           name: Run tests
           command: yarn test
 
-  # pre-deploy:
-  #   <<: *defaults
+  pre-deploy:
+    <<: *defaults
 
-  #   steps:
-  #     - add_ssh_keys
+    steps:
+      - add_ssh_keys
 
-  #     - run:
-  #         name: Keyscan (HACK)
-  #         command: ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts
+      - run:
+          name: Keyscan (HACK)
+          command: ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts
 
-  #     - run:
-  #         name: Install rsync
-  #         command: sudo apt-get update -qq && sudo apt-get install -y rsync
+      - run:
+          name: Install rsync
+          command: sudo apt-get update -qq && sudo apt-get install -y rsync
 
-  # dev-deploy:
-  #   <<: *defaults
+  dev-deploy:
+    <<: *defaults
 
-  #   steps:
-  #     - run:
-  #         name: Deploy to dev.rollforguild.com
-  #         command: rsync -r --delete-after --quiet ~/repo/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
+    steps:
+      - run:
+          name: Deploy to dev.rollforguild.com
+          command: rsync -r --delete-after --quiet ~/repo/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
 
-  # prod-deploy:
-  #   <<: *defaults
+  prod-deploy:
+    <<: *defaults
 
-  #   steps:
-  #     - run:
-  #         name: Deploy to rollforguild.com
-  #         command: rsync -r --delete-after --quiet ~/repo/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_FOLDER
+    steps:
+      - run:
+          name: Deploy to rollforguild.com
+          command: rsync -r --delete-after --quiet ~/repo/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_FOLDER
 
 
 
@@ -168,15 +168,23 @@ workflows:
       - test:
           requires:
             - build
-      # - dev-deploy:
-      #     requires:
-      #       - test
-      #     filters:
-      #       branches:
-      #         only: develop
-      # - prod-deploy:
-      #     requires:
-      #       - test
-      #     filters:
-      #       branches:
-      #         only: master
+      - pre-deploy:
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+      - dev-deploy:
+          requires:
+            - pre-deploy
+            - test
+          filters:
+            branches:
+              only: develop
+      - prod-deploy:
+          requires:
+            - pre-deploy
+            - test
+          filters:
+            branches:
+              only: master
