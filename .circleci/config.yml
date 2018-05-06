@@ -30,6 +30,7 @@ jobs:
             - ~/repo
 
       - persist_to_workspace:
+          root: .
           paths:
             - .
 
