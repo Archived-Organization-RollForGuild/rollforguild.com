@@ -131,6 +131,9 @@ jobs:
     <<: *defaults
 
     steps:
+      - attach_workspace:
+          at: .
+
       - run:
           name: Deploy to dev.rollforguild.com
           command: rsync -r --delete-after --quiet ~/repo/ $DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_FOLDER
@@ -139,6 +142,9 @@ jobs:
     <<: *defaults
 
     steps:
+      - attach_workspace:
+          at: .
+
       - run:
           name: Deploy to rollforguild.com
           command: rsync -r --delete-after --quiet ~/repo/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_FOLDER
