@@ -125,7 +125,7 @@ jobs:
           command: export PATH="$PATH:`yarn global bin`"
 
       - run:
-          name: Run tests
+          name: Generate and upload coverage report
           command: yarn test-coverage
 
   pre-deploy:
