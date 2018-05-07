@@ -9,6 +9,7 @@ import React from 'react'
 import Main from '../components/Main'
 import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
+import PageTitle from '../components/PageTitle'
 
 
 
@@ -23,8 +24,10 @@ const title = 'Terms & Conditions'
 
 const TermsAndConditions = () => (
   <React.Fragment>
+    <PageTitle>{title}</PageTitle>
+
     <PageHeader>
-      <h1>Terms &amp; Conditions</h1>
+      <h1>{title}</h1>
     </PageHeader>
 
     <Main title={title}>
@@ -305,4 +308,4 @@ const TermsAndConditions = () => (
 
 
 
-export default Page(TermsAndConditions, title)
+export default Page(TermsAndConditions)

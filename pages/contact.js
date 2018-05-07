@@ -9,6 +9,7 @@ import React from 'react'
 import Main from '../components/Main'
 import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
+import PageTitle from '../components/PageTitle'
 
 
 
@@ -23,6 +24,8 @@ const title = 'Contact Us'
 
 const Contact = () => (
   <React.Fragment>
+    <PageTitle>{title}</PageTitle>
+
     <PageHeader>
       <h1>{title}</h1>
     </PageHeader>
@@ -37,4 +40,4 @@ const Contact = () => (
 
 
 
-export default Page(Contact, title)
+export default Page(Contact)

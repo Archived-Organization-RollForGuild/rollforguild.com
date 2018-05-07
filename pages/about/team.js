@@ -12,6 +12,7 @@ import Main from '../../components/Main'
 import Markdown from '../../components/Markdown'
 import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
+import PageTitle from '../../components/PageTitle'
 
 
 
@@ -40,6 +41,8 @@ class Team extends Component {
 
     return (
       <React.Fragment>
+        <PageTitle>{title}</PageTitle>
+
         <PageHeader>
           <h1>{title}</h1>
         </PageHeader>
@@ -86,4 +89,4 @@ class Team extends Component {
 
 
 
-export default Page(Team, title)
+export default Page(Team)

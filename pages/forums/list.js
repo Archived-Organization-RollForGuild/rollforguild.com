@@ -13,6 +13,7 @@ import Link from '../../components/Link'
 import Main from '../../components/Main'
 import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
+import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
 
 
@@ -111,6 +112,8 @@ class ForumList extends Component {
 
     return (
       <React.Fragment>
+        <PageTitle>{title}</PageTitle>
+
         <PageHeader>
           <h1>{title}</h1>
 
@@ -198,4 +201,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default Page(ForumList, title, { mapDispatchToProps, mapStateToProps })
+export default Page(ForumList, {
+  mapDispatchToProps,
+  mapStateToProps,
+})

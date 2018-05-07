@@ -15,7 +15,9 @@ import Component from '../../components/Component'
 import Link from '../../components/Link'
 import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageDescription from '../../components/PageDescription'
 import PageHeader from '../../components/PageHeader'
+import PageTitle from '../../components/PageTitle'
 import UserSettingsPanel from '../../components/UserProfilePanels/UserSettingsPanel'
 
 
@@ -23,7 +25,7 @@ import UserSettingsPanel from '../../components/UserProfilePanels/UserSettingsPa
 
 
 // Component constants
-const title = 'User Profile'
+const defaultTitle = 'User Profile'
 
 
 
@@ -133,10 +135,10 @@ class UserProfile extends Component {
       return (
         <React.Fragment>
           <PageHeader>
-            <h1>User</h1>
+            <h1>{defaultTitle}</h1>
           </PageHeader>
 
-          <Main title={title}>
+          <Main title={defaultTitle}>
             <p>Loading...</p>
           </Main>
         </React.Fragment>
@@ -147,10 +149,10 @@ class UserProfile extends Component {
       return (
         <React.Fragment>
           <PageHeader>
-            <h1>User</h1>
+            <h1>{defaultTitle}</h1>
           </PageHeader>
 
-          <Main title={title}>
+          <Main title={defaultTitle}>
             <p>No user with that ID was found.</p>
           </Main>
         </React.Fragment>
@@ -162,11 +164,17 @@ class UserProfile extends Component {
       email,
       username,
     } = user.attributes
+    const title = userIsCurrentUser ? 'Your profile' : `${username}'s profile`
 
     return (
       <React.Fragment>
+        <PageTitle>{title}</PageTitle>
+        {Boolean(bio) && (
+          <PageDescription>{bio}</PageDescription>
+        )}
+
         <PageHeader>
-          <h1>{userIsCurrentUser ? 'Your profile' : `${username}'s profile`}</h1>
+          <h1>{title}</h1>
 
           <menu type="toolbar">
             {userSharesGroup && (
@@ -305,7 +313,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default Page(UserProfile, title, {
+export default Page(UserProfile, {
   mapDispatchToProps,
   mapStateToProps,
 }, true)

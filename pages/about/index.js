@@ -17,13 +17,6 @@ import PageHeader from '../../components/PageHeader'
 
 
 
-// Component constants
-const title = 'About Us'
-
-
-
-
-
 class About extends Component {
   /***************************************************************************\
     Public Methods
@@ -35,9 +28,7 @@ class About extends Component {
     if (response.data.featured_media) {
       const imageResponse = await wordpressService.get(`/wp-json/wp/v2/media/${response.data.featured_media}`)
 
-      response.data.featured_media = {
-        url: imageResponse.data.source_url,
-      }
+      response.data.featured_media = { url: imageResponse.data.source_url }
 
       if (imageResponse.data.acf.hero_gravity) {
         response.data.featured_media.gravity = imageResponse.data.acf.hero_gravity
@@ -49,11 +40,12 @@ class About extends Component {
 
   render () {
     const { page } = this.props
+    const title = page.acf.page_title || page.title.rendered
 
     return (
       <React.Fragment>
         <PageHeader>
-          <h1>{page.title.rendered}</h1>
+          <h1>{title}</h1>
         </PageHeader>
 
         <Main title={title}>
@@ -74,4 +66,4 @@ class About extends Component {
 
 
 
-export default Page(About, title)
+export default Page(About)

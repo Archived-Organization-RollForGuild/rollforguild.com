@@ -30,6 +30,8 @@ import Link from '../../components/Link'
 import Main from '../../components/Main'
 import Markdown from '../../components/Markdown'
 import Page from '../../components/Page'
+import PageDescription from '../../components/PageDescription'
+import PageTitle from '../../components/PageTitle'
 import PageHeader from '../../components/PageHeader'
 import StaticMap from '../../components/StaticMap'
 
@@ -377,7 +379,7 @@ class GroupProfile extends Component {
       return (
         <React.Fragment>
           <PageHeader>
-            <h1>Group</h1>
+            <h1>Group Profile</h1>
           </PageHeader>
 
           <Main title={title}>
@@ -391,7 +393,7 @@ class GroupProfile extends Component {
       return (
         <React.Fragment>
           <PageHeader>
-            <h1>Group</h1>
+            <h1>Group Profile</h1>
           </PageHeader>
 
           <Main title={title}>
@@ -411,12 +413,11 @@ class GroupProfile extends Component {
 
     return (
       <React.Fragment>
+        <PageTitle>{name}</PageTitle>
+        <PageDescription>{description}</PageDescription>
+
         <Head>
-          <meta property="og:description" content={description} />
           <meta property="og:image" content={`https://api.adorable.io/avatars/500/${group.id}`} />
-          <meta property="og:site_name" content="Roll For Guild" />
-          <meta property="og:title" content={name} />
-          <meta property="og:type" content="website" />
           <meta property="og:url" content={`https://rfg.group/${slug}`} />
         </Head>
 
@@ -689,7 +690,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default Page(GroupProfile, title, {
+export default Page(GroupProfile, {
   mapDispatchToProps,
   mapStateToProps,
 })

@@ -8,13 +8,6 @@ import Page from '../components/Page'
 
 
 
-// Component constants
-const title = 'Logout'
-
-
-
-
-
 class Logout extends Component {
   /***************************************************************************\
     Public Methods
@@ -47,4 +40,4 @@ const mapDispatchToProps = ['logout']
 
 
 
-export default Page(Logout, title, { mapDispatchToProps }, true)
+export default Page(Logout, { mapDispatchToProps }, true)
