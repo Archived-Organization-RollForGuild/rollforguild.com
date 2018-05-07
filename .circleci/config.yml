@@ -183,7 +183,7 @@ workflows:
             - install-dependencies
       - build:
           requires:
-            - test
+            - install-dependencies
           filters:
             branches:
               only:
@@ -191,12 +191,14 @@ workflows:
                 - develop
       - dev-deploy:
           requires:
+            - test
             - build
           filters:
             branches:
               only: develop
       - prod-deploy:
           requires:
+            - test
             - build
           filters:
             branches:
