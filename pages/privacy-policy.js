@@ -9,6 +9,7 @@ import React from 'react'
 import Main from '../components/Main'
 import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
+import PageTitle from '../components/PageTitle'
 
 
 
@@ -23,8 +24,10 @@ const title = 'Privacy Policy'
 
 const PrivacyPolicy = () => (
   <React.Fragment>
+    <PageTitle>{title}</PageTitle>
+
     <PageHeader>
-      <h1>Privacy Policy</h1>
+      <h1>{title}</h1>
     </PageHeader>
 
     <Main title={title}>
@@ -360,4 +363,4 @@ const PrivacyPolicy = () => (
 
 
 
-export default Page(PrivacyPolicy, title)
+export default Page(PrivacyPolicy)

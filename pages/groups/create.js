@@ -15,6 +15,7 @@ import Component from '../../components/Component'
 import Main from '../../components/Main'
 import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
+import PageTitle from '../../components/PageTitle'
 import ValidatedInput from '../../components/ValidatedInput'
 
 
@@ -119,8 +120,10 @@ class CreateGroup extends Component {
 
     return (
       <React.Fragment>
+        <PageTitle>{title}</PageTitle>
+
         <PageHeader>
-          <h1>Create a Group</h1>
+          <h1>{title}</h1>
         </PageHeader>
 
         <Main title={title}>
@@ -232,4 +235,4 @@ const mapDispatchToProps = ['createGroup']
 
 
 
-export default Page(CreateGroup, title, { mapDispatchToProps })
+export default Page(CreateGroup, { mapDispatchToProps })

@@ -13,6 +13,7 @@ import ForumThreadCard from '../../components/Forums/ForumThreadCard'
 import Main from '../../components/Main'
 import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
+import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
 import ThreadCommentCard from '../../components/Forums/ThreadCommentCard'
 import ThreadCommentForm from '../../components/Forums/ThreadCommentForm'
@@ -126,6 +127,8 @@ class ViewThread extends Component {
 
     return (
       <React.Fragment>
+        <PageTitle>{title}</PageTitle>
+
         <PageHeader>
           <h1>{title}</h1>
         </PageHeader>
@@ -206,4 +209,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default Page(ViewThread, title, { mapDispatchToProps, mapStateToProps })
+export default Page(ViewThread, {
+  mapDispatchToProps,
+  mapStateToProps,
+})

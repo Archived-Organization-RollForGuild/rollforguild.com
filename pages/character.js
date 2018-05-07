@@ -15,13 +15,6 @@ import Page from '../components/Page'
 
 
 
-// Component constants
-const title = 'Character'
-
-
-
-
-
 class Character extends Component {
   /***************************************************************************\
     Public Methods
@@ -104,7 +97,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 
 
-export default Page(Character, title, {
+export default Page(Character, {
   mapStateToProps,
   mapDispatchToProps,
 }, true)

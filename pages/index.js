@@ -10,6 +10,7 @@ import Hero from '../components/Hero'
 import Main from '../components/Main'
 import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
+import PageTitle from '../components/PageTitle'
 
 
 
@@ -24,6 +25,8 @@ const title = 'Home'
 
 const Index = () => (
   <React.Fragment>
+    <PageTitle>{title}</PageTitle>
+
     <PageHeader>
       <h1>Welcome</h1>
     </PageHeader>
@@ -49,4 +52,4 @@ const Index = () => (
 
 
 
-export default Page(Index, title)
+export default Page(Index)

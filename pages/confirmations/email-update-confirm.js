@@ -11,6 +11,7 @@ import Button from '../../components/Button'
 import Component from '../../components/Component'
 import Main from '../../components/Main'
 import Page from '../../components/Page'
+import PageTitle from '../../components/PageTitle'
 import PageHeader from '../../components/PageHeader'
 
 
@@ -18,7 +19,7 @@ import PageHeader from '../../components/PageHeader'
 
 
 // Component constants
-const title = 'Confirmation'
+const title = 'Email Update Confirmation'
 
 
 
@@ -61,8 +62,10 @@ class Confirmation extends Component {
 
     return (
       <React.Fragment>
+        <PageTitle>{title}</PageTitle>
+
         <PageHeader>
-          <h1>Email Update Confirmation</h1>
+          <h1>{title}</h1>
         </PageHeader>
 
         <Main title={title}>
@@ -117,7 +120,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default Page(Confirmation, title, {
+export default Page(Confirmation, {
   mapDispatchToProps,
   mapStateToProps,
 }, true)

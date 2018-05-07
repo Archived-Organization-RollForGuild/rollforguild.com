@@ -15,6 +15,7 @@ import Link from '../components/Link'
 import Main from '../components/Main'
 import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
+import PageTitle from '../components/PageTitle'
 import PasswordInput from '../components/PasswordInput'
 import ValidatedInput from '../components/ValidatedInput'
 
@@ -90,8 +91,10 @@ class Login extends Component {
 
     return (
       <React.Fragment>
+        <PageTitle>{title}</PageTitle>
+
         <PageHeader>
-          <h1>Reset Password</h1>
+          <h1>{title}</h1>
         </PageHeader>
 
         <Main title={title}>
@@ -190,6 +193,6 @@ const mapDispatchToProps = ['resetPassword']
 
 
 
-export default Page(Login, title, {
+export default Page(Login, {
   mapDispatchToProps,
 })

@@ -10,8 +10,10 @@ import 'isomorphic-fetch'
 
 
 // Component imports
-import Page from '../components/Page'
 import Component from '../components/Component'
+import Page from '../components/Page'
+import PageHeader from '../components/PageHeader'
+import PageTitle from '../components/PageTitle'
 
 
 
@@ -82,9 +84,11 @@ class Roadmap extends Component {
 
     return (
       <React.Fragment>
-        <header>
-          <h1>Roadmap</h1>
-        </header>
+        <PageTitle>{title}</PageTitle>
+
+        <PageHeader>
+          <h1>{title}</h1>
+        </PageHeader>
 
         <p>Entering the tavern, an unusually alluring odor draws you to the bar. Before you can question the barkeep about the scent, you notice there's something... off. He's missing some limbs. And mugs. And now that you mention it, there's no bar, just a bunch of stools and most of a barkeep. Everything just seems... unfinished.</p>
 
