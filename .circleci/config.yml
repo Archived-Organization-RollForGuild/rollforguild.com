@@ -149,7 +149,7 @@ jobs:
       - persist_to_workspace:
           root: /
           paths:
-            - usr/bin/rsync
+            - usr/bin
 
   dev-deploy:
     <<: *defaults
