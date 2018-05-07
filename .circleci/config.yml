@@ -2,7 +2,7 @@ version: 2
 
 defaults: &defaults
   docker:
-    - image: node:9
+    - image: rollforguildinc/node:build-latest
 
   working_directory: /repo
 
@@ -128,35 +128,18 @@ jobs:
           name: Generate and upload coverage report
           command: yarn test-coverage
 
-  pre-deploy:
-    <<: *defaults
-
-    steps:
-      - add_ssh_keys
-
-      - run:
-          name: Keyscan (HACK)
-          command: ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts
-
-      - run:
-          name: Update the apt registry
-          command: apt-get update
-
-      - run:
-          name: Install rsync
-          command: apt-get install -y rsync
-
-      - persist_to_workspace:
-          root: /
-          paths:
-            - usr/bin
-
   dev-deploy:
     <<: *defaults
 
     steps:
       - attach_workspace:
           at: /
+
+      - add_ssh_keys
+
+      - run:
+          name: Keyscan (HACK)
+          command: ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts
 
       - run:
           name: Deploy to dev.rollforguild.com
@@ -168,6 +151,12 @@ jobs:
     steps:
       - attach_workspace:
           at: /
+
+      - add_ssh_keys
+
+      - run:
+          name: Keyscan (HACK)
+          command: ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts
 
       - run:
           name: Deploy to rollforguild.com
@@ -200,22 +189,14 @@ workflows:
               only:
                 - master
                 - develop
-      - pre-deploy:
-          filters:
-            branches:
-              only:
-                - master
-                - develop
       - dev-deploy:
           requires:
-            - pre-deploy
             - build
           filters:
             branches:
               only: develop
       - prod-deploy:
           requires:
-            - pre-deploy
             - build
           filters:
             branches:
