@@ -25,13 +25,7 @@ class WordpressProxy extends Component {
   \***************************************************************************/
 
   static async getInitialProps ({ query }) {
-    let { page } = query
-
-    if (!page) {
-      const response = await wordpressService.get(`/wp-json/wp/v2/pages?slug=${query.slug}`)
-
-      page = response.data
-    }
+    const { page } = query
 
     if (page.featured_media) {
       const imageResponse = await wordpressService.get(`/wp-json/wp/v2/media/${page.featured_media}`)
