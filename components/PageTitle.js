@@ -1,3 +1,4 @@
+/* eslint no-console: off */
 // Module imports
 import NextHead from 'next/head'
 
