@@ -51,7 +51,7 @@
     opacity: 1;
   }
 
-  input:not(:focus):not(:valid) ~ .validity-indicator {
+  input:not(:focus) ~ .validity-indicator {
     animation-direction: alternate;
     animation-duration: 0.5s;
     animation-iteration-count: infinite;
