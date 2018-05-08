@@ -4,6 +4,8 @@
   Module imports
 \******************************************************************************/
 
+require('isomorphic-fetch')
+
 const cookie = require('koa-cookie')
 const fs = require('fs')
 const path = require('path')
@@ -157,6 +159,19 @@ module.exports = function foo (nextjs, koa) {
   /******************************************************************************\
     Fallthrough routes
   \******************************************************************************/
+
+  router.get('/:slug', async (ctx, next) => {
+    const response = await fetch(`https://wordpress.trezy.com/rollforguild/wp-json/wp/v2/pages?slug=${ctx.params.slug}`)
+    const [page] = await response.json()
+
+    if (!page) {
+      next()
+    }
+
+    await nextjs.render(ctx.request, ctx.res, '/wordpress-proxy', Object.assign({ page }, ctx.query, ctx.params))
+
+    ctx.respond = false
+  })
 
   router.get('*', async ctx => {
     await handle(ctx.req, ctx.res)

@@ -2,8 +2,7 @@
   position: relative;
   width: 100%;
 
-  input,
-  ul {
+  input {
     background-color: $white;
   }
 
@@ -77,6 +76,17 @@
       top: 50%;
       transform: translateY(-50%);
       width: 0;
+    }
+  }
+
+  &.invert {
+    input {
+      background-color: $black;
+      color: $white;
+    }
+
+    &:after {
+      border-top-color: $white;
     }
   }
 }

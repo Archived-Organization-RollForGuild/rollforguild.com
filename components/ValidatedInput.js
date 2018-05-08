@@ -165,12 +165,21 @@ class ValidatedInput extends Component {
     }
   }
 
+  isValid () {
+    if (this._el) {
+      return this._el.validity.valid
+    }
+
+    return true
+  }
+
   render () {
     const { hasBeenFocused } = this.state
     const {
       className,
       disabled,
     } = this.props
+
     const classNames = [
       'validated-input',
       (disabled ? 'disabled' : ''),
@@ -188,7 +197,7 @@ class ValidatedInput extends Component {
         <FontAwesomeIcon
           className="validity-indicator"
           data-t="validated-input:validity-icon"
-          hidden={!hasBeenFocused}
+          hidden={!hasBeenFocused || this.isValid()}
           icon="exclamation-triangle"
           fixedWidth />
 

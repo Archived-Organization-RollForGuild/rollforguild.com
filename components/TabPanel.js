@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 // Component imports
 import Button from './Button'
 import Component from './Component'
+import Dropdown from './Dropdown'
 
 
 
@@ -38,6 +39,7 @@ const TabHeader = (props) => {
     children,
     selectTab,
   } = props
+  const dropdownOptions = []
 
   return (
     <header className="tab-header">
@@ -50,11 +52,17 @@ const TabHeader = (props) => {
 
           const id = tab.props.id || index
 
+          dropdownOptions.push({
+            active,
+            id,
+            title,
+          })
+
           return (
             <Button
               category={category}
               className={active ? 'active' : null}
-              key={title}
+              key={id}
               label={title}
               onClick={() => selectTab(id)}>
               {title}
@@ -64,6 +72,14 @@ const TabHeader = (props) => {
 
         return null
       })}
+
+      <Dropdown
+        className="invert"
+        onChange={({ id }) => selectTab(id)}
+        options={dropdownOptions}
+        renderOption={option => option.title}
+        renderValue={option => option.title}
+        value={dropdownOptions.find(tab => tab.active)} />
     </header>
   )
 }

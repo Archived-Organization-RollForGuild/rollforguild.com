@@ -26,4 +26,11 @@
   section > .section-content {
     margin-left: 2rem;
   }
+
+  @media (max-width: 700px) {
+    grid-template-areas:
+      'header'
+      'details';
+    grid-template-columns: 1fr;
+  }
 }

@@ -38,9 +38,9 @@ Router.onRouteChangeComplete = () => {
 
 
 /* eslint-disable react/no-danger */
-export default (props) => (
+export default () => (
   <NextHead>
-    <title>{props.title} | Roll for Guild</title>
+    <meta property="og:site_name" content="Roll For Guild" />
 
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 

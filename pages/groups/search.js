@@ -17,6 +17,7 @@ import GroupCard from '../../components/GroupCard'
 import Main from '../../components/Main'
 import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
+import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
 import Tooltip from '../../components/Tooltip'
 
@@ -239,6 +240,8 @@ class GroupSearch extends Component {
 
     return (
       <React.Fragment>
+        <PageTitle>{title}</PageTitle>
+
         <PageHeader>
           <h1>{title}</h1>
         </PageHeader>
@@ -373,7 +376,7 @@ const mapStateToProps = (/*state*/) => ({})
 
 
 
-export default Page(GroupSearch, title, {
+export default Page(GroupSearch, {
   mapDispatchToProps,
   mapStateToProps,
 })

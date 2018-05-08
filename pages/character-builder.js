@@ -48,7 +48,6 @@ const experienceByLevel = {
 }
 const levelByExperience = [0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000, 85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000]
 const SliderWithTooltip = createSliderWithTooltip(Slider)
-const title = 'Character Builder'
 
 
 
@@ -470,7 +469,7 @@ const mapStateToProps = state => ({ ruleset: state.rulesets['dnd-5e'] || null })
 
 
 
-export default Page(CharacterBuilder, title, {
+export default Page(CharacterBuilder, {
   mapDispatchToProps,
   mapStateToProps,
 }, true)

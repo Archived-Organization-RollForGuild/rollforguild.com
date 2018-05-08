@@ -81,7 +81,7 @@ initStore()
 
 
 
-export default (Component, title = 'Untitled', reduxOptions = {}, authenticationRequired = false) => {
+export default (Component, reduxOptions = {}, authenticationRequired = false) => {
   class Page extends React.Component {
     /***************************************************************************\
       Private Methods
@@ -252,7 +252,7 @@ export default (Component, title = 'Untitled', reduxOptions = {}, authentication
             id="application-banner-control"
             type="checkbox" />
 
-          <Head title={title} />
+          <Head />
 
           <Banner path={this.props.asPath} />
 
