@@ -11,6 +11,7 @@ module.exports = {
   testEnvironment: 'enzyme',
   testPathIgnorePatterns: [
     '<rootDir>/__tests__/components/Avatar.test.js',
+    '<rootDir>/__tests__/components/ValidatedInput.test.js',
     '<rootDir>/__tests__/_.*',
     '<rootDir>/.next/',
     '<rootDir>/node_modules/',
