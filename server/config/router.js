@@ -161,7 +161,12 @@ module.exports = function foo (nextjs, koa) {
   \******************************************************************************/
 
   router.get('/:slug', async (ctx, next) => {
-    const response = await fetch(`https://wordpress.trezy.com/rollforguild/wp-json/wp/v2/pages?slug=${ctx.params.slug}`)
+    const response = await fetch(`${process.env.RFG_WORDPRESS_API_URL}/wp-json/wp/v2/pages?slug=${ctx.params.slug}`)
+
+    if (!response.ok) {
+      next()
+    }
+
     const [page] = await response.json()
 
     if (!page) {
