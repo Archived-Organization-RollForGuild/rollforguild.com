@@ -44,8 +44,6 @@ export default () => (
 
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-
     <style dangerouslySetInnerHTML={{ __html: libStylesheet }} />
     <style dangerouslySetInnerHTML={{ __html: appStylesheet }} />
   </NextHead>
