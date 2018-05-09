@@ -150,7 +150,7 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: /
+          at: .
 
       - add_ssh_keys
 
