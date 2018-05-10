@@ -164,18 +164,20 @@ module.exports = function foo (nextjs, koa) {
     const response = await fetch(`${process.env.RFG_WORDPRESS_API_URL}/wp-json/wp/v2/pages?slug=${ctx.params.slug}`)
 
     if (!response.ok) {
-      next()
+      return next()
     }
 
     const [page] = await response.json()
 
     if (!page) {
-      next()
+      return next()
     }
 
     await nextjs.render(ctx.request, ctx.res, '/wordpress-proxy', Object.assign({ page }, ctx.query, ctx.params))
 
     ctx.respond = false
+
+    return ctx.status = 200
   })
 
   router.get('*', async ctx => {

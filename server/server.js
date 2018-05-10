@@ -17,9 +17,8 @@ const logger = require('koa-logger')
 const path = require('path')
 const removeTrailingSlashes = require('koa-no-trailing-slash')
 const robotsTxt = require('koa-robots.txt')
-const SitemapGenerator = require('sitemap-generator')
 
-const next = require('next')({
+const nextjs = require('next')({
   dev: process.env.NODE_ENV !== 'production',
   dir: path.resolve('.'),
 })
@@ -37,7 +36,7 @@ const koa = new Koa
   Initialize the app
 \******************************************************************************/
 
-next.prepare().then(() => {
+nextjs.prepare().then(() => {
   // Set up the logger
   koa.use(logger())
 
@@ -56,15 +55,11 @@ next.prepare().then(() => {
   koa.use(robotsTxt(['rollforguild.com']))
 
   // Configure the router
-  router(next, koa, config)
+  router(nextjs, koa, config)
 
   // Leverage ETags to enable browser caching
   koa.use(conditional())
   koa.use(etag())
-
-  if (process.env.NODE_ENV === 'production') {
-    SitemapGenerator('http://rollforguild.com', { filepath: './static/sitemap.xml' }).start()
-  }
 
   // Start the server
   koa.listen(process.env.RFG_APP_PORT || 3000)
