@@ -47,6 +47,7 @@ class WordpressProxy extends Component {
     return (
       <React.Fragment>
         <PageTitle>{title}</PageTitle>
+
         {Boolean(page.acf.page_description) && (
           <PageDescription>{page.acf.page_description}</PageDescription>
         )}

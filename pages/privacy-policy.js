@@ -351,7 +351,7 @@ const PrivacyPolicy = () => (
 
           <ul>
             <li>By email: <a href="mailto:support@rollforguild.com">support@rollforguild.com</a></li>
-            <li>By visiting our support website: <a href="support.rollforguild.com">support.rollforguild.com</a></li>
+            <li>By visiting our support website: <a href="https://support.rollforguild.com">support.rollforguild.com</a></li>
           </ul>
         </section>
       </div>
