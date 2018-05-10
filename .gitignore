@@ -7,8 +7,5 @@ data/characters
 data/users
 logs
 node_modules
-static/compiled
-static/fonts/font-awesome
 static/sitemap.xml
-static/sw.js
 yarn-error.log
