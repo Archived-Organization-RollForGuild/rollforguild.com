@@ -1,5 +1,5 @@
 // Module imports
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import getConfig from 'next/config'
 import React from 'react'
 

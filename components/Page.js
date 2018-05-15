@@ -5,47 +5,8 @@ import getConfig from 'next/config'
 import LocalForage from 'localforage'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
-import fontawesome from '@fortawesome/fontawesome'
-import {
-  faBars,
-  faBook,
-  faBug,
-  faCheck,
-  faCodeBranch,
-  faComments,
-  faCopy,
-  faEnvelope,
-  faExclamationCircle,
-  faExclamationTriangle,
-  faEye,
-  faEyeSlash,
-  faInfoCircle,
-  faKey,
-  faLock,
-  faMapMarker,
-  faPencilAlt,
-  faPlus,
-  faQuestionCircle,
-  faSearch,
-  faSignInAlt,
-  faSignOutAlt,
-  faSpinner,
-  faThumbsUp,
-  faTimes,
-  faUser,
-  faUserCircle,
-  faUsers,
-  faUserSecret,
-} from '@fortawesome/fontawesome-free-solid'
-import {
-  faFacebook,
-  faFacebookSquare,
-  faInstagram,
-  faKickstarter,
-  faTwitter,
-  faTwitterSquare,
-  faYoutube,
-} from '@fortawesome/fontawesome-free-brands'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import * as faIcons from '../helpers/fontAwesomeIconLibrary'
 
 
 
@@ -75,6 +36,11 @@ if (publicRuntimeConfig.environment === 'production') {
   /* eslint-enable */
 }
 
+
+// Populate FontAwesome icon library.
+library.add(faIcons)
+
+// Initialize store
 initStore()
 
 
@@ -133,48 +99,6 @@ export default (Component, reduxOptions = {}, authenticationRequired = false) =>
 
     constructor (props) {
       super(props)
-
-      fontawesome.library.add(
-        // Solids
-        faBars,
-        faBook,
-        faBug,
-        faCheck,
-        faCodeBranch,
-        faComments,
-        faCopy,
-        faEnvelope,
-        faExclamationCircle,
-        faExclamationTriangle,
-        faEye,
-        faEyeSlash,
-        faInfoCircle,
-        faKey,
-        faLock,
-        faMapMarker,
-        faPencilAlt,
-        faPlus,
-        faQuestionCircle,
-        faSpinner,
-        faSearch,
-        faSignInAlt,
-        faSignOutAlt,
-        faThumbsUp,
-        faTimes,
-        faUser,
-        faUserCircle,
-        faUsers,
-        faUserSecret,
-
-        // Brands
-        faFacebook,
-        faFacebookSquare,
-        faInstagram,
-        faKickstarter,
-        faTwitter,
-        faTwitterSquare,
-        faYoutube,
-      )
 
       LocalForage.config({
         name: 'Roll for Guild',
