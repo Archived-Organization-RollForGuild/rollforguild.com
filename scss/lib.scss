@@ -15,7 +15,7 @@
 /******************************************************************************\
   Leaflet
 \******************************************************************************/
-@import '../node_modules/leaflet/dist/leaflet';
+@import 'leaflet/dist/leaflet.css';
 
 
 
@@ -24,8 +24,8 @@
 /******************************************************************************\
   NProgress
 \******************************************************************************/
-@import '../node_modules/nprogress/nprogress';
-@import './lib/nprogress';
+@import 'nprogress/nprogress.css';
+@import 'lib/nprogress';
 
 
 
@@ -34,8 +34,8 @@
 /******************************************************************************\
   React Day Picker
 \******************************************************************************/
-@import '../node_modules/react-day-picker/lib/style';
-@import './lib/react-day-picker';
+@import 'react-day-picker/lib/style.css';
+@import 'lib/react-day-picker';
 
 
 
@@ -43,8 +43,8 @@
 /******************************************************************************\
   React Slider
 \******************************************************************************/
-@import '../node_modules/rc-slider/assets/index';
-@import './lib/rc-slider';
+@import 'rc-slider/assets/index.css';
+@import 'lib/rc-slider';
 
 
 
@@ -53,7 +53,7 @@
 /******************************************************************************\
   React Switch
 \******************************************************************************/
-@import '../node_modules/rc-switch/assets/index';
+@import 'rc-switch/assets/index.css';
 
 
 
@@ -62,7 +62,7 @@
 /******************************************************************************\
   React Table
 \******************************************************************************/
-@import '../node_modules/react-table/react-table';
+@import 'react-table/react-table.css';
 
 
 
@@ -71,4 +71,4 @@
 /******************************************************************************\
   React Image Crop
 \******************************************************************************/
-@import '../node_modules/react-image-crop/dist/ReactCrop';
+@import 'react-image-crop/dist/ReactCrop.css';
