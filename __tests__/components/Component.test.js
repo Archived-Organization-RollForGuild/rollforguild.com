@@ -1,8 +1,7 @@
 /* eslint-env jest */
 
 // Module imports
-import '@fortawesome/fontawesome-free-solid'
-import '@fortawesome/fontawesome-free-brands'
+import { library } from '@fortawesome/fontawesome-svg-core'
 import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
 import Enzyme, { mount } from 'enzyme'
@@ -12,6 +11,7 @@ import Enzyme, { mount } from 'enzyme'
 
 
 // Component imports
+import * as faIcons from '../../helpers/faIconLibrary'
 import Component from '../../components/Component'
 
 
@@ -19,9 +19,12 @@ import Component from '../../components/Component'
 
 
 // Setup
+library.add(faIcons)
+
 Enzyme.configure({ adapter: new Adapter() })
 
 jest.useRealTimers()
+
 
 function setup () {
   const debouncedMethod = jest.fn()
