@@ -1,7 +1,7 @@
 // Module imports
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PropTypes from 'prop-types'
 import React from 'react'
 

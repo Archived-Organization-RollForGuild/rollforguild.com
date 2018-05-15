@@ -1,6 +1,6 @@
 // Module imports
 import Clipboard from 'react-clipboard.js'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PropTypes from 'prop-types'
 import React from 'react'
 

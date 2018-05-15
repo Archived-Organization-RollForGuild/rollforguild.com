@@ -1,8 +1,7 @@
 /* eslint-env jest */
 
 // Module imports
-import '@fortawesome/fontawesome-free-solid'
-import '@fortawesome/fontawesome-free-brands'
+import { library } from '@fortawesome/fontawesome-svg-core'
 import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
@@ -12,12 +11,15 @@ import Enzyme, { shallow } from 'enzyme'
 
 
 // Component imports
+import * as faIcons from '../../helpers/faIconLibrary'
 import Pagination from '../../components/Pagination'
 
 
 
 
 // Setup
+library.add(faIcons)
+
 Enzyme.configure({ adapter: new Adapter() })
 
 function setup (extraProps) {

@@ -1,5 +1,5 @@
 // Module imports
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Head from 'next/head'
 import React from 'react'
 // import Switch from 'rc-switch'
