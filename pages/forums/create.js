@@ -17,13 +17,6 @@ import ValidatedInput from '../../components/ValidatedInput'
 
 
 
-// Component constants
-const pageTitle = 'Create a Thread'
-
-
-
-
-
 class CreateThread extends Component {
   /***************************************************************************\
     Private Methods
@@ -161,4 +154,4 @@ const mapDispatchToProps = ['createForumThread']
 
 
 
-export default Page(CreateThread, pageTitle, { mapDispatchToProps }, true)
+export default Page(CreateThread, { mapDispatchToProps }, true)
