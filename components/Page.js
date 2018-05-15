@@ -6,7 +6,6 @@ import LocalForage from 'localforage'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import * as faIcons from '../helpers/fontAwesomeIconLibrary'
 
 
 
@@ -18,6 +17,7 @@ import {
   initStore,
 } from '../store'
 import { Router } from '../routes'
+import * as faIcons from '../helpers/faIconLibrary'
 import AlertsController from './AlertsController'
 import apiService from '../services/api'
 import Banner from './Banner'
