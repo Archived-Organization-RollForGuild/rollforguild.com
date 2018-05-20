@@ -414,7 +414,10 @@ class GroupProfile extends Component {
     return (
       <React.Fragment>
         <PageTitle>{name}</PageTitle>
-        <PageDescription>{description}</PageDescription>
+
+        {Boolean(description) && (
+          <PageDescription>{description}</PageDescription>
+        )}
 
         <Head>
           <meta property="og:image" content={`https://api.adorable.io/avatars/500/${group.id}`} />
