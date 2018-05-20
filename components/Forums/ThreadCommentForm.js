@@ -1,7 +1,6 @@
 // Module imports
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -11,9 +10,9 @@ import React from 'react'
 
 // Component imports
 import { actions } from '../../store'
-import Button from '../Button'
 import Component from '../Component'
 import EditorHelpDialog from '../EditorHelpDialog'
+import MarkdownHelpButton from '../MarkdownHelpButton'
 
 
 
@@ -93,7 +92,7 @@ class ThreadCommentForm extends Component {
       <form className="thread-comment-form" onSubmit={this._handleSubmit}>
         <fieldset>
           <label htmlFor="group-description">
-            Comment
+            Leave a comment
           </label>
 
           <textarea
@@ -105,13 +104,9 @@ class ThreadCommentForm extends Component {
             value={comment} />
 
           <small>
-            <Button
+            <MarkdownHelpButton
               category="Forums"
-              className="inline link"
-              label="Markdown Help"
-              onClick={() => this.setState({ displayEditorHelp: true })}>
-              <FontAwesomeIcon fixedWidth icon="pencil-alt" /> Styling with Markdown is supported
-            </Button>
+              onClick={() => this.setState({ displayEditorHelp: true })} />
           </small>
         </fieldset>
 
