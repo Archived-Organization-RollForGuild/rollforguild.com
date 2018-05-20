@@ -10,6 +10,7 @@ import React from 'react'
 import Link from '../Link'
 import { convertObjectToQueryParams } from '../../helpers'
 import Component from '../Component'
+import Markdown from '../Markdown'
 import ShareableLink from '../ShareableLink'
 
 
@@ -59,9 +60,9 @@ class GroupDetailsPanel extends Component {
         <section className="description">
           <h4>Description</h4>
 
-          <div className="section-content">
-            <p>{description || 'No description.'}</p>
-          </div>
+          <Markdown
+            className="content"
+            input={description || 'No description.'} />
         </section>
 
         <section className="sharing">
