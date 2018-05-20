@@ -16,7 +16,7 @@ export const createGroupEvent = (groupId, attributes) => createApiAction({
       attributes,
     },
   },
-  onError: 'Failed to create group.\nPlease try again in a few moments.',
+  onError: 'Failed to create event.\nPlease try again in a few moments.',
 })
 
 
@@ -33,7 +33,7 @@ export const updateGroupEvent = (groupId, eventId, attributes) => createApiActio
       attributes,
     },
   },
-  onError: 'Failed to update group.\nPlease try again in a few moments.',
+  onError: 'Failed to update event.\nPlease try again in a few moments.',
 })
 
 
@@ -53,7 +53,7 @@ export const getGroupEvent = (groupId, eventId) => createApiAction({
 export const getGroupEventGames = (groupId, eventId) => createApiAction({
   actionType: actionTypes.GET_GROUP_EVENT_GAMES,
   url: `/api/groups/${groupId}/events/${eventId}/games`,
-  onError: 'failed to get event games.\nPlease try again in a few moments.',
+  onError: 'Failed to get games for event.\nPlease try again in a few moments.',
 })
 
 
@@ -63,7 +63,7 @@ export const getGroupEventGames = (groupId, eventId) => createApiAction({
 export const getGroupEvents = groupId => createApiAction({
   actionType: actionTypes.GET_GROUP_EVENTS,
   url: `/api/groups/${groupId}/events`,
-  onError: 'Failed to get events.\nPlease try again in a few moments.',
+  onError: 'Failed to get group\'s events.\nPlease try again in a few moments.',
 })
 
 
@@ -78,5 +78,5 @@ export const deleteGroupEvent = (groupId, eventId) => createApiAction({
     eventId,
     groupId,
   }),
-  onError: 'Failed to get events.\nPlease try again in a few moments.',
+  onError: 'Failed to delete events.\nPlease try again in a few moments.',
 })
