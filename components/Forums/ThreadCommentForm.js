@@ -11,7 +11,6 @@ import React from 'react'
 // Component imports
 import { actions } from '../../store'
 import Component from '../Component'
-import EditorHelpDialog from '../EditorHelpDialog'
 import MarkdownHelpButton from '../MarkdownHelpButton'
 
 
@@ -76,7 +75,6 @@ class ThreadCommentForm extends Component {
 
     this.state = {
       comment: '',
-      displayEditorHelp: false,
       submitting: false,
     }
   }
@@ -84,7 +82,6 @@ class ThreadCommentForm extends Component {
   render () {
     const {
       comment,
-      displayEditorHelp,
       submitting,
     } = this.state
 
@@ -104,9 +101,7 @@ class ThreadCommentForm extends Component {
             value={comment} />
 
           <small>
-            <MarkdownHelpButton
-              category="Forums"
-              onClick={() => this.setState({ displayEditorHelp: true })} />
+            <MarkdownHelpButton category="Forums" />
           </small>
         </fieldset>
 
@@ -120,12 +115,6 @@ class ThreadCommentForm extends Component {
             </button>
           </div>
         </menu>
-
-        {displayEditorHelp && (
-          <EditorHelpDialog
-            data-t="thread-comment-form:editor-help"
-            onClose={() => this.setState({ displayEditorHelp: false })} />
-        )}
       </form>
     )
   }

@@ -8,7 +8,6 @@ import React from 'react'
 // Component imports
 import { Router } from '../../routes'
 import Component from '../../components/Component'
-import EditorHelpDialog from '../../components/EditorHelpDialog'
 import Main from '../../components/Main'
 import MarkdownHelpButton from '../../components/MarkdownHelpButton'
 import Page from '../../components/Page'
@@ -81,7 +80,6 @@ class CreateThread extends Component {
 
     this.state = {
       body: '',
-      displayEditorHelp: false,
       submitting: false,
       title: '',
     }
@@ -90,7 +88,6 @@ class CreateThread extends Component {
   render () {
     const {
       body,
-      displayEditorHelp,
       submitting,
       title,
     } = this.state
@@ -132,9 +129,7 @@ class CreateThread extends Component {
                 value={body} />
 
               <small>
-                <MarkdownHelpButton
-                  category="Forums"
-                  onClick={() => this.setState({ displayEditorHelp: true })} />
+                <MarkdownHelpButton category="Forums" />
               </small>
             </fieldset>
 
@@ -149,12 +144,6 @@ class CreateThread extends Component {
             </menu>
           </form>
         </Main>
-
-        {displayEditorHelp && (
-          <EditorHelpDialog
-            data-t="create-thread-form:editor-help"
-            onClose={() => this.setState({ displayEditorHelp: false })} />
-        )}
       </React.Fragment>
     )
   }
