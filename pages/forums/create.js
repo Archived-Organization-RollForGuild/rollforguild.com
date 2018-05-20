@@ -8,7 +8,9 @@ import React from 'react'
 // Component imports
 import { Router } from '../../routes'
 import Component from '../../components/Component'
+import EditorHelpDialog from '../../components/EditorHelpDialog'
 import Main from '../../components/Main'
+import MarkdownHelpButton from '../../components/MarkdownHelpButton'
 import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
 import ValidatedInput from '../../components/ValidatedInput'
@@ -78,17 +80,19 @@ class CreateThread extends Component {
     this._bindMethods(['_handleSubmit'])
 
     this.state = {
-      title: '',
       body: '',
+      displayEditorHelp: false,
       submitting: false,
+      title: '',
     }
   }
 
   render () {
     const {
-      title,
       body,
+      displayEditorHelp,
       submitting,
+      title,
     } = this.state
 
     return (
@@ -126,6 +130,12 @@ class CreateThread extends Component {
                 maxLength={8192}
                 onChange={({ target }) => this.setState({ body: target.value })}
                 value={body} />
+
+              <small>
+                <MarkdownHelpButton
+                  category="Forums"
+                  onClick={() => this.setState({ displayEditorHelp: true })} />
+              </small>
             </fieldset>
 
             <menu type="toolbar">
@@ -139,6 +149,12 @@ class CreateThread extends Component {
             </menu>
           </form>
         </Main>
+
+        {displayEditorHelp && (
+          <EditorHelpDialog
+            data-t="create-thread-form:editor-help"
+            onClose={() => this.setState({ displayEditorHelp: false })} />
+        )}
       </React.Fragment>
     )
   }
