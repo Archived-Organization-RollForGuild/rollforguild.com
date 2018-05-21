@@ -7,7 +7,7 @@
   position: relative;
   width: 100%;
 
-  &:after {
+  &.beta:after {
     bottom: 0.2rem;
     color: $green;
     content: 'Beta';
