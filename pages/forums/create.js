@@ -9,6 +9,7 @@ import React from 'react'
 import { Router } from '../../routes'
 import Component from '../../components/Component'
 import Main from '../../components/Main'
+import MarkdownHelpButton from '../../components/MarkdownHelpButton'
 import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
 import ValidatedInput from '../../components/ValidatedInput'
@@ -78,17 +79,17 @@ class CreateThread extends Component {
     this._bindMethods(['_handleSubmit'])
 
     this.state = {
-      title: '',
       body: '',
       submitting: false,
+      title: '',
     }
   }
 
   render () {
     const {
-      title,
       body,
       submitting,
+      title,
     } = this.state
 
     return (
@@ -126,6 +127,10 @@ class CreateThread extends Component {
                 maxLength={8192}
                 onChange={({ target }) => this.setState({ body: target.value })}
                 value={body} />
+
+              <small>
+                <MarkdownHelpButton category="Forums" />
+              </small>
             </fieldset>
 
             <menu type="toolbar">
