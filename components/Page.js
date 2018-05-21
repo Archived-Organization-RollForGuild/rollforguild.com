@@ -1,11 +1,14 @@
 // Module imports
+import {
+  library as faLibrary,
+  config as faConfig,
+} from '@fortawesome/fontawesome-svg-core'
 import { bindActionCreators } from 'redux'
 import Cookies from 'next-cookies'
 import getConfig from 'next/config'
 import LocalForage from 'localforage'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
-import { library } from '@fortawesome/fontawesome-svg-core'
 
 
 
@@ -37,8 +40,16 @@ if (publicRuntimeConfig.environment === 'production') {
 }
 
 
-// Populate FontAwesome icon library.
-library.add(faIcons)
+
+
+
+// Configure and populate FontAweomse library
+faConfig.autoAddCss = false
+faLibrary.add(faIcons)
+
+
+
+
 
 // Initialize store
 initStore()
