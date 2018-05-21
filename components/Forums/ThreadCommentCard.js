@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -164,7 +164,9 @@ class ThreadCommentCard extends Component {
       )
     } else {
       header = (
-        <h3>Unknown</h3>
+        <header>
+          <h3>Unknown</h3>
+        </header>
       )
     }
 

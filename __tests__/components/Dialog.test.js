@@ -1,8 +1,7 @@
 /* eslint-env jest */
 
 // Module imports
-import '@fortawesome/fontawesome-free-solid'
-import '@fortawesome/fontawesome-free-brands'
+import { library } from '@fortawesome/fontawesome-svg-core'
 import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
 import Enzyme, { mount } from 'enzyme'
@@ -13,12 +12,15 @@ import Enzyme, { mount } from 'enzyme'
 
 // Component imports
 import { setupDialogContainer } from '../_testHelpers'
+import * as faIcons from '../../helpers/faIconLibrary'
 import Dialog from '../../components/Dialog'
 
 
 
 
 // Setup
+library.add(faIcons)
+
 Enzyme.configure({ adapter: new Adapter() })
 
 function setup (extraProps) {

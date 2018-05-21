@@ -1,4 +1,5 @@
 // Module imports
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import Switch from 'rc-switch'
 
@@ -10,6 +11,8 @@ import Switch from 'rc-switch'
 import { Router } from '../../routes'
 import { convertStringToSlug } from '../../helpers'
 import AddressInput from '../../components/AddressInput'
+import Button from '../../components/Button'
+import EditorHelpDialog from '../../components/EditorHelpDialog'
 import Form from '../../components/Form'
 import Component from '../../components/Component'
 import Main from '../../components/Main'
@@ -102,6 +105,7 @@ class CreateGroup extends Component {
       address: '',
       description: '',
       discoverable: true,
+      displayEditorHelp: false,
       name: '',
       slug: '',
       submitting: false,
@@ -113,6 +117,7 @@ class CreateGroup extends Component {
       address,
       description,
       discoverable,
+      displayEditorHelp,
       name,
       slug,
       submitting,
@@ -181,7 +186,15 @@ class CreateGroup extends Component {
                 placeholder="Tell your members what you'll be playing, or maybe a bit about your GM style."
                 value={description} />
 
-              <small>Tell your members what you'll be playing, or maybe a bit about your GM style.</small>
+              <small>
+                <Button
+                  category="Groups"
+                  className="inline link"
+                  label="Markdown Help"
+                  onClick={() => this.setState({ displayEditorHelp: true })}>
+                  <FontAwesomeIcon fixedWidth icon="pencil-alt" /> Styling with Markdown is supported.
+                </Button>
+              </small>
             </fieldset>
 
             <fieldset>
@@ -220,6 +233,12 @@ class CreateGroup extends Component {
             </menu>
           </Form>
         </Main>
+
+        {displayEditorHelp && (
+          <EditorHelpDialog
+            data-t="thread-comment-form:editor-help"
+            onClose={() => this.setState({ displayEditorHelp: false })} />
+        )}
       </React.Fragment>
     )
   }

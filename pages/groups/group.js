@@ -1,5 +1,5 @@
 // Module imports
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Head from 'next/head'
 import React from 'react'
 // import Switch from 'rc-switch'
@@ -414,7 +414,10 @@ class GroupProfile extends Component {
     return (
       <React.Fragment>
         <PageTitle>{name}</PageTitle>
-        <PageDescription>{description}</PageDescription>
+
+        {Boolean(description) && (
+          <PageDescription>{description.substr(0, 300)}</PageDescription>
+        )}
 
         <Head>
           <meta property="og:image" content={`https://api.adorable.io/avatars/500/${group.id}`} />
