@@ -61,34 +61,34 @@ class ViewThread extends Component {
       }
     }
 
-    return newState
+    this.setState({
+      ...newState,
+      loaded: true,
+    })
   }
 
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
 
-  async componentDidMount () {
+  componentDidMount () {
     const {
       getForumThread,
-      thread,
       query,
+      thread,
     } = this.props
 
     if (!thread) {
-      await getForumThread(query.id)
+      getForumThread(query.id)
     }
 
-    const newState = await this._getComments(query.page, null)
-
-    this.setState({
-      ...newState,
-      loaded: true,
-    })
+    this._getComments(this.state.page, null)
   }
-  async componentWillReceiveProps (newProps) {
-    const newState = await this._getComments(newProps.page, this.props.page)
-    this.setState(newState)
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.page !== prevState.page) {
+      this._getComments(this.state.page, prevState.page)
+    }
   }
 
   constructor (props) {
@@ -103,13 +103,20 @@ class ViewThread extends Component {
     this.state = {
       comments: [],
       loaded: !!thread,
+      page: 0,
       totalCommentPages: 0,
     }
   }
 
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (nextProps.page !== prevState.page) {
+      return { page: nextProps.page }
+    }
+    return null
+  }
+
   static async getInitialProps ({ query, store }) {
     await actions.getForumThread(query.id)(store.dispatch)
-    return {}
   }
 
   render () {

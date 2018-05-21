@@ -72,12 +72,6 @@ class GameInput extends Component {
     Public Methods
   \***************************************************************************/
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.value !== nextProps.value) {
-      this.setState({ value: nextProps.value })
-    }
-  }
-
   constructor (props) {
     super(props)
 
@@ -92,6 +86,13 @@ class GameInput extends Component {
       options: [],
       valid: false,
     }
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (prevState.value !== nextProps.value) {
+      return { value: nextProps.value }
+    }
+    return null
   }
 
   render () {

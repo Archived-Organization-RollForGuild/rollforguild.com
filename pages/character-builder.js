@@ -310,26 +310,6 @@ class CharacterBuilder extends Component {
     })
   }
 
-  componentWillReceiveProps (nextProps) {
-    const character = { ...this.state.character }
-
-    if (nextProps.ruleset) {
-      if (!character['ability-scores']) {
-        character['ability-scores'] = CharacterBuilder._getBaseAbilityScores(nextProps.ruleset)
-      }
-
-      if (!character.description) {
-        character.description = CharacterBuilder._getBaseDescription(nextProps.ruleset)
-      }
-
-      if (!character.skills) {
-        character.skills = CharacterBuilder._getBaseSkills(nextProps.ruleset)
-      }
-
-      this.setState({ character })
-    }
-  }
-
   constructor (props) {
     super(props)
 
@@ -368,6 +348,27 @@ class CharacterBuilder extends Component {
       loading: !props.ruleset,
       saving: false,
     }
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (nextProps.ruleset) {
+      const character = { ...prevState.character }
+
+      if (!character['ability-scores']) {
+        character['ability-scores'] = CharacterBuilder._getBaseAbilityScores(nextProps.ruleset)
+      }
+
+      if (!character.description) {
+        character.description = CharacterBuilder._getBaseDescription(nextProps.ruleset)
+      }
+
+      if (!character.skills) {
+        character.skills = CharacterBuilder._getBaseSkills(nextProps.ruleset)
+      }
+
+      return { character }
+    }
+    return null
   }
 
   render () {

@@ -65,15 +65,13 @@ class ForumList extends Component {
   \***************************************************************************/
 
   componentDidMount () {
-    const {
-      page,
-    } = this.props
-
-    this._getThreads(page, null)
+    this._getThreads(this.props.page, null)
   }
 
-  componentWillReceiveProps (newProps) {
-    this._getThreads(newProps.page, this.props.page)
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.page !== prevState.page) {
+      this._getThreads(this.state.page, prevState.page)
+    }
   }
 
   constructor (props) {
@@ -88,10 +86,18 @@ class ForumList extends Component {
       limit: 0,
       loaded: false,
       offset: 0,
+      page: 0,
       threads: [],
       total: 0,
       totalPages: 0,
     }
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (nextProps.page !== prevState.page) {
+      return { page: nextProps.page }
+    }
+    return null
   }
 
   render () {

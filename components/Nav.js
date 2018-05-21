@@ -152,7 +152,7 @@ class Nav extends Component {
     Public Methods
   \***************************************************************************/
 
-  async componentWillMount () {
+  async componentDidMount () {
     const {
       getUser,
       loggedIn,

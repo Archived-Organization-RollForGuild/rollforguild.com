@@ -69,7 +69,7 @@ class Register extends Component {
     Public Methods
   \***************************************************************************/
 
-  componentWillMount () {
+  componentDidMount () {
     if (this.props.loggedIn) {
       Router.push('/')
     }

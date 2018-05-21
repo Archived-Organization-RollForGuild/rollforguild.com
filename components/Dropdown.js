@@ -142,12 +142,6 @@ class Dropdown extends Component {
     Public Methods
   \***************************************************************************/
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.value !== nextProps.value) {
-      this.setState({ value: nextProps.value })
-    }
-  }
-
   constructor (props) {
     super(props)
 
@@ -166,6 +160,13 @@ class Dropdown extends Component {
       focused: false,
       value: props.value || props.defaultValue || '',
     }
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (prevState.value !== nextProps.value) {
+      return { value: nextProps.value }
+    }
+    return null
   }
 
   render () {

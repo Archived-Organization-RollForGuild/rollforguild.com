@@ -92,7 +92,21 @@ class Avatar extends Component {
     Public Methods
   \***************************************************************************/
 
-  componentWillReceiveProps (nextProps) {
+  constructor (props) {
+    super(props)
+
+    this._bindMethods(['_handleUploaderComplete'])
+
+    this.state = {
+      id: '',
+      size: {},
+      type: '',
+      avatarUrl: '',
+      displayUploader: false,
+    }
+  }
+
+  static getDerivedStateFromProps (nextProps) {
     if (!nextProps.src) {
       throw new ReferenceError('props.src is not defined')
     }
@@ -106,38 +120,11 @@ class Avatar extends Component {
     const size = { ...avatarSize[nextProps.size] }
     const hasAvatar = srcType[type] && attributes && attributes.avatar
 
-    this.setState({
+    return {
       id,
       type,
       size,
       avatarUrl: hasAvatar ? `/api/${srcType[type]}/${id}/avatar` : `//api.adorable.io/avatars/${size.px}/${id}`,
-    })
-  }
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods(['_handleUploaderComplete'])
-
-    if (!props.src) {
-      throw new ReferenceError('props.src is not defined')
-    }
-
-    const {
-      id,
-      type,
-      attributes,
-    } = props.src
-
-    const size = { ...avatarSize[props.size] }
-    const hasAvatar = srcType[type] && attributes && attributes.avatar
-
-    this.state = {
-      id,
-      size,
-      type,
-      avatarUrl: hasAvatar ? `/api/${srcType[type]}/${id}/avatar` : `//api.adorable.io/avatars/${size.px}/${id}`,
-      displayUploader: false,
     }
   }
 
@@ -195,6 +182,8 @@ Avatar.defaultProps = {
   src: null,
 }
 
+/* disabled due to bug in eslint react plugin https://github.com/yannickcr/eslint-plugin-react/issues/1797 */
+/* eslint-disable react/no-unused-prop-types */
 Avatar.propTypes = {
   cachedAvatar: PropTypes.string,
   updateAvatar: PropTypes.func.isRequired,
