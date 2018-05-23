@@ -126,7 +126,7 @@ const Banner = (props) => (
           Twitch */}
 
           <li>
-            <a href="//facebook.com/RollForGuild">
+            <a href="//kickstarter.com/projects/589540064/roll-for-guild">
               <FontAwesomeIcon
                 fixedWidth
                 icon={['fab', 'kickstarter']}
