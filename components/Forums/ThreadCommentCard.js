@@ -164,7 +164,9 @@ class ThreadCommentCard extends Component {
       )
     } else {
       header = (
-        <h3>Unknown</h3>
+        <header>
+          <h3>Unknown</h3>
+        </header>
       )
     }
 

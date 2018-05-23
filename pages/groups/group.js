@@ -416,7 +416,7 @@ class GroupProfile extends Component {
         <PageTitle>{name}</PageTitle>
 
         {Boolean(description) && (
-          <PageDescription>{description}</PageDescription>
+          <PageDescription>{description.substr(0, 300)}</PageDescription>
         )}
 
         <Head>
