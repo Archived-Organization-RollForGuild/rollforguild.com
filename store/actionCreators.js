@@ -1,4 +1,5 @@
 import { isPlainObject } from 'lodash'
+import UUIDv4 from 'uuid/v4'
 
 // Component imports
 import {
@@ -11,28 +12,27 @@ import apiService from '../services/api'
 
 
 
-const getCleanedPayload = options => {
-  const payload = { ...options }
-
-  delete payload.actionFunction
-  delete payload.actionPayload
-  delete payload.actionType
-  delete payload.onError
-  delete payload.onSuccess
-  delete payload.onUnhandledError
-  delete payload.onUnhandledSuccess
-  delete payload.preDispatch
-  delete payload.postDispatch
-
-  return payload
-}
-
-
 const getActionOptions = (options = isRequired('options')) => {
-  let onError = null
-  switch (typeof options.onError) {
+  /* Use single let statement here to make the rest arg act as intended */
+  /* eslint-disable prefer-const */
+  let {
+    actionArguments,
+    actionFunction,
+    actionPayload,
+    actionShouldRun,
+    actionType,
+    onError,
+    onSuccess,
+    onUnhandledResult: onUnhandledError,
+    onUnhandledResult: onUnhandledSuccess,
+    preDispatch,
+    postDispatch,
+    ...otherOpts
+  } = options
+  /* eslint-enable prefer-const */
+
+  switch (typeof onError) {
     case 'function':
-      ({ onError } = options)
       break
 
     case 'string':
@@ -44,10 +44,8 @@ const getActionOptions = (options = isRequired('options')) => {
       break
   }
 
-  let onSuccess = null
-  switch (typeof options.onSuccess) {
+  switch (typeof onSuccess) {
     case 'function':
-      ({ onSuccess } = options)
       break
 
     case 'string':
@@ -59,25 +57,6 @@ const getActionOptions = (options = isRequired('options')) => {
       break
   }
 
-  const {
-    actionFunction,
-  } = options
-
-  let {
-    onUnhandledResult,
-    onUnhandledResult: onUnhandledError,
-    onUnhandledResult: onUnhandledSuccess,
-    actionPayload,
-  } = options
-
-  if (typeof actionFunction !== 'function') {
-    isRequired('options.actionFunction')
-  }
-
-  if (typeof onUnhandledResult === 'function') {
-    ({ onUnhandledResult } = options)
-  }
-
   if (typeof options.onUnhandledError === 'function') {
     ({ onUnhandledError } = options)
   }
@@ -87,7 +66,7 @@ const getActionOptions = (options = isRequired('options')) => {
   }
 
   if (typeof actionPayload === 'undefined') {
-    actionPayload = getCleanedPayload(options)
+    actionPayload = { ...otherOpts }
   } else if (typeof actionPayload === 'function') {
     actionPayload = actionPayload(options)
   }
@@ -96,9 +75,15 @@ const getActionOptions = (options = isRequired('options')) => {
     actionPayload = [actionPayload]
   }
 
+  if (typeof actionArguments === 'undefined') {
+    actionArguments = [...actionPayload]
+  }
+
   return {
+    actionArguments,
     actionFunction,
     actionPayload,
+    actionShouldRun,
     actionType: options.actionType || isRequired('options.actionType'),
     onError,
     onSuccess,
@@ -116,8 +101,10 @@ const getActionOptions = (options = isRequired('options')) => {
  * Constructs a new redux action function.
  *
  * @param   {Object.<string, *>} options                      Object containing configuration settings for the action.
+ * @param   {*}                  [options.actionArguments]    Arguments to be stored in pending request tracker. Used to determine if poetentially duplicate requests should run.
  * @param   {Function}           options.actionFunction       The main action to perform.
  * @param   {*}                  [options.actionPayload]      Arguments to be sent to the actionFunction.
+ * @param   {Function}           [options.actionShouldRun]    Function which determines if the action should be ran. Passes an object of all currently running actions under the same actionType
  * @param   {String}             options.actionType           Redux action type.
  * @param   {Function}           [options.onError]            Called immediately after catching an error thrown by the action.
  * @param   {Function}           [options.onSuccess]          Called immediately after the action completes.
@@ -131,8 +118,10 @@ const getActionOptions = (options = isRequired('options')) => {
  */
 function createAction (options) {
   const {
+    actionArguments,
     actionFunction,
     actionPayload,
+    actionShouldRun,
     actionType,
     onError,
     onSuccess,
@@ -142,13 +131,29 @@ function createAction (options) {
     postDispatch,
   } = getActionOptions(options)
 
-  return async dispatch => {
+  return async (dispatch, getState) => {
     let response = null
     let success = false
+
+    if (typeof actionShouldRun === 'function') {
+      const shouldRun = actionShouldRun(getState().__pending[actionType] || null)
+
+      if (!shouldRun) {
+        return {
+          payload: null,
+          status: 'pending',
+          type: actionType,
+        }
+      }
+    }
+
+    const __aId = UUIDv4()
 
     dispatch({
       ...preDispatch,
       type: actionType,
+      __aId,
+      __aArg: actionArguments,
     })
 
     try {
@@ -180,6 +185,7 @@ function createAction (options) {
       payload: response || null,
       status: success ? 'success' : 'error',
       type: actionType,
+      __aId,
     })
   }
 }
@@ -216,17 +222,17 @@ const createTimeoutAction = options => createAction({
  */
 /* eslint-disable no-await-in-loop */
 function actionSeries (actions = isRequired('actions'), silentFail, returnLast) {
-  return async dispatch => {
+  return async (...thunkArgs) => {
     const responses = []
 
     if (Array.isArray(actions) && actions.length) {
       for (const action of actions) {
         if (typeof action === 'function') {
-          const response = await action(dispatch)
+          const response = await action(...thunkArgs)
 
           responses.push(response)
 
-          if (!silentFail && response && response.status && response.status !== 'success') {
+          if (!silentFail && response && response.status && response.status === 'error') {
             break
           }
         }
