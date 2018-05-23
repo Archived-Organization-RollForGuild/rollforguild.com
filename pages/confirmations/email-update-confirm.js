@@ -41,7 +41,7 @@ class Confirmation extends Component {
 
     this.setState({
       confirming: false,
-      error: status !== 'success',
+      error: status === 'error',
     })
   }
 
