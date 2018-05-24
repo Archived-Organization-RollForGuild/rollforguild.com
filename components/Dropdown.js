@@ -96,6 +96,11 @@ class Dropdown extends Component {
         }
         break
 
+      case 'escape':
+        event.preventDefault()
+        this._input.blur()
+        break
+
       default:
         break
     }
