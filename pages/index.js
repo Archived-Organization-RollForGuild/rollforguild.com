@@ -32,7 +32,9 @@ const Index = () => (
     </PageHeader>
 
     <Main title={title}>
-      <Hero src="/static/images/dice.jpg">
+      <Hero
+        size="two-thirds"
+        src="/static/images/dice.jpg">
         <img
           alt="blep"
           src="/static/images/logomark.white.full.svg" />

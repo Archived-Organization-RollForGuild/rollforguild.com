@@ -7,34 +7,52 @@
   display: flex;
   flex-shrink: 0;
   float: left;
-  height: 50vh;
-  margin-bottom: calc(-10vh);
+  margin-bottom: 2rem;
   margin-left: -2rem;
   margin-left: calc(-2rem - env(safe-area-inset-left));
   margin-right: -2rem;
   margin-right: calc(-2rem - env(safe-area-inset-right));
   margin-top: -2rem;
+  overflow: hidden;
   position: relative;
   z-index: 1;
 
-  &:after {
-    background-image: linear-gradient(
-      to bottom,
-      rgba($black, 0),
-      rgba(#1a1a1a, 1)
-    );
-    bottom: 0;
-    content: '';
-    display: block;
-    height: 50%;
-    left: 0;
-    position: absolute;
-    right: 0;
+  &.full { height: calc(100% + 4rem) }
+
+  &.half { height: 50% }
+
+  &.one-third { height: 33% }
+
+  &.two-thirds { height: 67% }
+
+  &.half,
+  &.one-third,
+  &.two-thirds {
+    margin-bottom: -10vh;
+
+    &:after {
+      background-image: linear-gradient(
+        to bottom,
+        rgba($black, 0),
+        rgba(#1a1a1a, 1)
+      );
+      bottom: 0;
+      content: '';
+      display: block;
+      height: 10rem;
+      left: 0;
+      position: absolute;
+      right: 0;
+    }
+
+    ~ * {
+      background-color: rgba($black, 0.6);
+      padding: 2rem;
+      z-index: 1;
+    }
   }
 
-  ~ * {
-    background-color: rgba($black, 0.6);
-    padding: 2rem;
-    z-index: 1;
+  video {
+    filter: blur(3px) brightness(50%) grayscale(50%);
   }
 }

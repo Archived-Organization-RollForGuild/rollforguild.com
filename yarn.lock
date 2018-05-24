@@ -7026,6 +7026,10 @@ react-test-renderer@^16.3.2:
     prop-types "^15.6.0"
     react-is "^16.3.2"
 
+react-video-cover@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-video-cover/-/react-video-cover-1.2.0.tgz#3763b67effafaa6659973813cc2f53a90a0f9e1e"
+
 "react@^15.6.2 || ^16.0":
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
