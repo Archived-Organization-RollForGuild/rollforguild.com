@@ -16,7 +16,17 @@ export default class Component extends React.Component {
   }
 
   _debounceMethods (methods) {
-    methods.forEach(method => this[method] = debounce(this[method], this.props.debounceLength || 500))
+    methods.forEach(method => {
+      let methodToDebounce = method
+      let { debounceLength } = this.props
+
+      if (typeof method !== 'string') {
+        methodToDebounce = method.method
+        debounceLength = method.length
+      }
+
+      this[method] = debounce(this[methodToDebounce], debounceLength || 500)
+    })
   }
 
   _handleChange (event) {
