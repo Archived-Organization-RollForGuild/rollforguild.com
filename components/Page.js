@@ -84,7 +84,7 @@ export default (Component, reduxOptions = {}, authenticationRequired = false) =>
       const { payload, status } = await verifySession(accessToken)
 
       // If the API returned in error, double check the reasoning.
-      if (status !== 'success') {
+      if (status === 'error') {
         if (payload && Array.isArray(payload.errors)) {
           const errMsg = payload.errors[0] && payload.errors[0].detail
 
