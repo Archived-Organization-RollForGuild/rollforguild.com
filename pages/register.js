@@ -110,7 +110,7 @@ class Register extends Component {
         </PageHeader>
 
         <Main title={title}>
-          {(!status && status !== 'error') && (
+          {!status && (
             <Form
               action="register"
               category="Authentication"

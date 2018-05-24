@@ -79,7 +79,7 @@ class Avatar extends Component {
 
     const { status } = await updateAvatar(srcType[type], id, fileBlob)
 
-    if (status !== 'success') {
+    if (status === 'error') {
       return 'File Upload Error. Please Try again.'
     }
 
