@@ -42,6 +42,11 @@
     }
   }
 
+  &.dropup ul {
+    bottom: 100%;
+    top: initial;
+  }
+
   &.squishable {
     flex-shrink: 1;
     width: initial;

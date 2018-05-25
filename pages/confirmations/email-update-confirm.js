@@ -6,7 +6,7 @@ import React from 'react'
 
 
 // Component imports
-import { activateZenDesk } from '../../helpers'
+import activateZenDesk from '../../helpers/activateZenDesk'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
 import Main from '../../components/Main'

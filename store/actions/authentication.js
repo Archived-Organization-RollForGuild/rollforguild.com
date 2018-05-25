@@ -9,7 +9,7 @@ import Cookies from 'js-cookie'
 // Component imports
 import { createApiAction } from '../actionCreators'
 import actionTypes from '../actionTypes'
-import { createAlertObject } from '../../helpers'
+import createAlertObject from '../../helpers/createAlertObject'
 
 
 

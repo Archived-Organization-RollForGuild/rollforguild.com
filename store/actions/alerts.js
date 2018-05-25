@@ -1,6 +1,6 @@
 // Component imports
 import { createAction } from '../actionCreators'
-import { createAlertObject } from '../../helpers'
+import createAlertObject from '../../helpers/createAlertObject'
 import actionTypes from '../actionTypes'
 
 
