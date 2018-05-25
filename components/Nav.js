@@ -151,7 +151,7 @@ class Nav extends Component {
   \***************************************************************************/
 
   state = {
-    openSubNav: '',
+    openSubnav: '',
   }
 
 
@@ -160,10 +160,10 @@ class Nav extends Component {
   \***************************************************************************/
 
   _handleSubnavChange = ({ target }) => {
-    const { openSubNav } = this.state
+    const { openSubnav } = this.state
     const { id } = target
 
-    this.setState({ openSubNav: openSubNav === id ? '' : id })
+    this.setState({ openSubnav: openSubnav === id ? '' : id })
   }
 
 
@@ -196,7 +196,7 @@ class Nav extends Component {
 
   renderNavItem = (item) => {
     const { path } = this.props
-    const { openSubNav } = this.state
+    const { openSubnav } = this.state
     const {
       condition,
       subnav,
@@ -239,7 +239,7 @@ class Nav extends Component {
           defaultChecked={subnav.find(({ href }) => href === path)}
           hidden
           id={key}
-          checked={openSubNav === key}
+          checked={openSubnav === key}
           onClick={this._handleSubnavChange}
           name="subnav"
           type="radio" />
