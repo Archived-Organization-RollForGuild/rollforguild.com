@@ -289,7 +289,7 @@ const mapDispatchToProps = [
 ]
 
 const mapStateToProps = (state, ownProps) => {
-  const currentUserId = ownProps.userId || null // User that the displayedUser is being displayed to.
+  const currentUserId = state.authentication.userId // User that the displayedUser is being displayed to.
   const displayedUserId = /^\/my\/profile/.test(ownProps.asPath) ? currentUserId : ownProps.query.id // User that is being displayed
 
   const currentUser = state.users[currentUserId] || null

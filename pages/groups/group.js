@@ -685,7 +685,7 @@ const mapStateToProps = (state, ownProps) => {
     group,
     id,
     members,
-    currentUserId: ownProps.userId || null,
+    currentUserId: state.authentication.userId || null,
   }
 }
 

@@ -19,6 +19,7 @@ export default function (state = initialState.authentication, action) {
       return {
         ...state,
         loggedIn: typeof status === 'string' && status === 'success',
+        userId: typeof status === 'string' && status === 'success' ? payload.data.attributes.user_id : null,
       }
 
     case actionTypes.LOGOUT:
