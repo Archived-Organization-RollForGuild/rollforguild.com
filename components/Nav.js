@@ -1,6 +1,4 @@
 // Module imports
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
@@ -10,7 +8,7 @@ import React from 'react'
 
 
 // Module imports
-import { actions } from '../store'
+import { connect } from '../helpers'
 import Link from './Link'
 import Avatar from './Avatar'
 import Component from './Component'
@@ -78,7 +76,7 @@ const navItems = [
           username,
         } = user.attributes
 
-        if (window.zE) {
+        if (typeof window !== 'undefined' && window.zE) {
           window.zE(() => {
             window.zE.identify({
               email,
@@ -149,6 +147,30 @@ const navItems = [
 
 class Nav extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    openSubNav: '',
+  }
+
+
+  /***************************************************************************\
+    Private Methods
+  \***************************************************************************/
+
+  _handleSubnavChange = ({ target }) => {
+    const { openSubNav } = this.state
+    const { id } = target
+
+    this.setState({ openSubNav: openSubNav === id ? '' : id })
+  }
+
+
+
+
+
+  /***************************************************************************\
     Public Methods
   \***************************************************************************/
 
@@ -164,12 +186,6 @@ class Nav extends Component {
     }
   }
 
-  constructor (props) {
-    super(props)
-
-    this._bindMethods(['renderNavItem'])
-  }
-
   render () {
     return (
       <nav>
@@ -178,8 +194,9 @@ class Nav extends Component {
     )
   }
 
-  renderNavItem (item) {
+  renderNavItem = (item) => {
     const { path } = this.props
+    const { openSubNav } = this.state
     const {
       condition,
       subnav,
@@ -222,6 +239,8 @@ class Nav extends Component {
           defaultChecked={subnav.find(({ href }) => href === path)}
           hidden
           id={key}
+          checked={openSubNav === key}
+          onClick={this._handleSubnavChange}
           name="subnav"
           type="radio" />
       )
@@ -252,13 +271,11 @@ class Nav extends Component {
 
 
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  getUser: actions.getUser,
-}, dispatch)
+const mapDispatchToProps = ['getUser']
 
 const mapStateToProps = state => ({
   ...state.authentication,
-  user: Object.values(state.users).find(({ loggedIn }) => loggedIn),
+  user: state.users[state.authentication.userId],
 })
 
 
