@@ -6,6 +6,7 @@ export default {
   authentication: {
     loggedIn: false,
     verifyError: false,
+    userId: null,
   },
 
   // Avatar image data

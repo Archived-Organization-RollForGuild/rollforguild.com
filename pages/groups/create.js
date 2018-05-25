@@ -9,7 +9,7 @@ import Switch from 'rc-switch'
 
 // Component imports
 import { Router } from '../../routes'
-import { convertStringToSlug } from '../../helpers'
+import convertStringToSlug from '../../helpers/convertStringToSlug'
 import AddressInput from '../../components/AddressInput'
 import Button from '../../components/Button'
 import EditorHelpDialog from '../../components/EditorHelpDialog'

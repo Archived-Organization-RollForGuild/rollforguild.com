@@ -7,7 +7,7 @@ import getConfig from 'next/config'
 
 
 // Component imports
-import { convertObjectToQueryParams } from '../helpers'
+import convertObjectToQueryParams from '../helpers/convertObjectToQueryParams'
 
 
 

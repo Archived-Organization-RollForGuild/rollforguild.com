@@ -13,10 +13,8 @@ import {
   Tab,
   TabPanel,
 } from '../../components/TabPanel'
-import {
-  convertSlugToUUID,
-  isUUID,
-} from '../../helpers'
+import convertSlugToUUID from '../../helpers/convertSlugToUUID'
+import isUUID from '../../helpers/isUUID'
 import { actions } from '../../store'
 import { Router } from '../../routes'
 import Avatar from '../../components/Avatar'
@@ -685,7 +683,7 @@ const mapStateToProps = (state, ownProps) => {
     group,
     id,
     members,
-    currentUserId: ownProps.userId || null,
+    currentUserId: state.authentication.userId || null,
   }
 }
 

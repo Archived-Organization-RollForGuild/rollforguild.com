@@ -7,7 +7,7 @@ import ReactCrop, { makeAspectCrop } from 'react-image-crop'
 
 
 // Component Imports
-import { getBase64FromFileInput } from '../helpers'
+import getBase64FromFileInput from '../helpers/getBase64FromFileInput'
 import Component from './Component'
 import Dialog from './Dialog'
 
