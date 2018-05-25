@@ -2,10 +2,8 @@ import { isPlainObject } from 'lodash'
 import UUIDv4 from 'uuid/v4'
 
 // Component imports
-import {
-  createAlertObject,
-  isRequired,
-} from '../helpers'
+import createAlertObject from '../helpers/createAlertObject'
+import isRequired from '../helpers/isRequired'
 import apiService from '../services/api'
 
 

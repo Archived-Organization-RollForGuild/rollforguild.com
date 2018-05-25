@@ -8,7 +8,7 @@ import React from 'react'
 
 
 // Module imports
-import { connect } from '../helpers'
+import connect from '../helpers/connect'
 import Link from './Link'
 import Avatar from './Avatar'
 import Component from './Component'

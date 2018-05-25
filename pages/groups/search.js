@@ -8,7 +8,7 @@ import React from 'react'
 
 
 // Component imports
-import { convertObjectToQueryParams } from '../../helpers'
+import convertObjectToQueryParams from '../../helpers/convertObjectToQueryParams'
 import AddressInput from '../../components/AddressInput'
 import Button from '../../components/Button'
 import Component from '../../components/Component'

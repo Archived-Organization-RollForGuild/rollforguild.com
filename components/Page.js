@@ -1,5 +1,5 @@
 // Component imports
-import { connect } from '../helpers'
+import connect from '../helpers/connect'
 import Component from './Component'
 
 

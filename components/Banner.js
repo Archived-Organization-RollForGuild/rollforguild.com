@@ -8,7 +8,7 @@ import React from 'react'
 
 
 // Component imports
-import { activateZenDesk } from '../helpers'
+import activateZenDesk from '../helpers/activateZenDesk'
 import Button from './Button'
 import Link from './Link'
 import Nav from './Nav'
