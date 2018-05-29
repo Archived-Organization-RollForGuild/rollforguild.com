@@ -2,15 +2,15 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import React from 'react'
-
+import PropTypes from 'prop-types'
 
 
 
 // Component imports
 import { actions } from '../store'
 import Link from './Link'
-
-
+import Markdown from './Markdown'
+import Avatar from './Avatar'
 
 
 
@@ -27,9 +27,10 @@ const GroupCard = (props) => {
   return (
     <div className="card">
       <header>
+        <Avatar src={group} size="small" />
         <h2 title={name}>
           <Link
-            action="view-result"
+            action="view-group"
             category="Groups"
             label="Search"
             route="group profile"
@@ -39,24 +40,28 @@ const GroupCard = (props) => {
         </h2>
       </header>
 
-      <div className="meta">
-        <small>{members} members</small>
-      </div>
+      {members && (
+        <div className="meta">
+          <small>{members} members</small>
+        </div>
+      )}
 
       <div className="content">
-        {!!description && (
-          <p>{description}</p>
+        {Boolean(description) && (
+          <p>{<Markdown input={description} />}</p>
         )}
 
         {!description && (
-          <p><em>No description</em></p>
+          <p><em>No description available</em></p>
         )}
       </div>
     </div>
   )
 }
 
-
+GroupCard.propTypes = {
+  group: PropTypes.object.isRequired,
+}
 
 
 
