@@ -1,8 +1,18 @@
-const Main = props => (
-  <main className={['fade-in', 'page', props.title.toLowerCase().replace(/\s/g, '-')].join(' ')}>
-    {props.children}
-  </main>
-)
+const Main = ({ children, className, title }) => {
+  const classes = ['fade-in', 'page']
+
+  classes.push(title.toLowerCase().replace(/\s/g, '-'))
+
+  if (className) {
+    classes.push(className)
+  }
+
+  return (
+    <main className={classes.join(' ')}>
+      {children}
+    </main>
+  )
+}
 
 
 
