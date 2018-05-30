@@ -195,7 +195,6 @@ class Nav extends Component {
   }
 
   renderNavItem = (item) => {
-    const { path } = this.props
     const { openSubnav } = this.state
     const {
       condition,
@@ -236,7 +235,6 @@ class Nav extends Component {
       renderedSubnavToggle = (
         <input
           className="subnav-toggle"
-          defaultChecked={subnav.find(({ href }) => href === path)}
           hidden
           id={key}
           checked={openSubnav === key}
