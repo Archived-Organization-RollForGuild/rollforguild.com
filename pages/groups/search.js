@@ -254,6 +254,7 @@ class GroupSearch extends Component {
               </label>
 
               <AddressInput
+                aria-label={waitingForLocation ? 'Retrieving your location...' : 'Enter an address to search for a group'}
                 onChange={this._handleAddressChange}
                 disabled={waitingForLocation}
                 placeholder={waitingForLocation ? 'Retrieving your location...' : 'Enter an address...'}
@@ -261,6 +262,7 @@ class GroupSearch extends Component {
                 value={location ? location.address : ''} />
 
               <button
+                aria-label="Use your current location to search for groups"
                 className="binary"
                 data-on={useCurrentLocation}
                 onClick={this._toggleUseCurrentLocation}
@@ -288,6 +290,7 @@ class GroupSearch extends Component {
             <footer>
               <div className="filters">
                 <Dropdown
+                  aria-label="Select distance from location to search within"
                   className="squishable"
                   onChange={this._handleSearchDistanceChange}
                   options={GroupSearch.searchDistances}
