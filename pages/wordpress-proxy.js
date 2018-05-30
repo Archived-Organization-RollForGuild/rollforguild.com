@@ -1,4 +1,5 @@
 // Module imports
+import Head from 'next/head'
 import React from 'react'
 
 
@@ -46,6 +47,25 @@ class WordpressProxy extends Component {
 
     return (
       <React.Fragment>
+        <Head>
+          <link href="/static/slider-revolution/css/slider-revolution.css" rel="stylesheet" />
+
+          <script src="/static/slider-revolution/js/jquery.js" />
+          <script src="/static/slider-revolution/js/jquery-migrate.min.js" />
+          <script src="/static/slider-revolution/js/jquery.themepunch.tools.min.js" />
+          <script src="/static/slider-revolution/js/jquery.themepunch.revolution.min.js" />
+          <script src="/static/slider-revolution/js/revolution.extension.actions.min.js" />
+          <script src="/static/slider-revolution/js/revolution.extension.carousel.min.js" />
+          <script src="/static/slider-revolution/js/revolution.extension.kenburn.min.js" />
+          <script src="/static/slider-revolution/js/revolution.extension.layeranimation.min.js" />
+          <script src="/static/slider-revolution/js/revolution.extension.migration.min.js" />
+          <script src="/static/slider-revolution/js/revolution.extension.navigation.min.js" />
+          <script src="/static/slider-revolution/js/revolution.extension.parallax.min.js" />
+          <script src="/static/slider-revolution/js/revolution.extension.slideanims.min.js" />
+          <script src="/static/slider-revolution/js/revolution.extension.video.min.js" />
+          <script src="/static/slider-revolution/js/slider-revolution.js" />
+        </Head>
+
         <PageTitle>{title}</PageTitle>
 
         {Boolean(page.acf.page_description) && (
