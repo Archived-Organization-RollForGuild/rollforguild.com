@@ -115,6 +115,7 @@ class PasswordInput extends ValidatedInput {
           {...this.renderProps} />
 
         <button
+          aria-label={showPassword ? 'Hide password from view' : 'Make password visible.'}
           className="show-password"
           data-t="password-input:reveal-button"
           disabled={disabled}
