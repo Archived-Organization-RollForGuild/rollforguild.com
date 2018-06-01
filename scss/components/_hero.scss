@@ -28,8 +28,6 @@
   &.half,
   &.one-third,
   &.two-thirds {
-    margin-bottom: -10vh;
-
     &:after {
       background-image: linear-gradient(
         to bottom,
@@ -46,8 +44,6 @@
     }
 
     ~ * {
-      background-color: rgba($black, 0.6);
-      padding: 2rem;
       z-index: 1;
     }
   }
