@@ -175,7 +175,9 @@ class Dropdown extends Component {
   }
 
   componentWillUnmount () {
-    this._wrapper.offsetParent.removeEventListener('scroll', this._handleScroll)
+    if (this._wrapper && this._wrapper.offsetParent) {
+      this._wrapper.offsetParent.removeEventListener('scroll', this._handleScroll)
+    }
   }
 
   constructor (props) {
