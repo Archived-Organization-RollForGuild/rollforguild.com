@@ -160,7 +160,11 @@ module.exports = function foo (nextjs, koa) {
     Fallthrough routes
   \******************************************************************************/
 
-  router.get('/:slug', async (ctx, next) => {
+  router.get('/:slug?', async (ctx, next) => {
+    if (ctx.req.url === '/') {
+      ctx.params.slug = 'home'
+    }
+
     const response = await fetch(`${process.env.RFG_WORDPRESS_API_URL}/wp-json/wp/v2/pages?slug=${ctx.params.slug}`)
 
     if (!response.ok) {
