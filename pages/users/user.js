@@ -19,7 +19,8 @@ import PageDescription from '../../components/PageDescription'
 import PageHeader from '../../components/PageHeader'
 import PageTitle from '../../components/PageTitle'
 import UserSettingsPanel from '../../components/UserProfilePanels/UserSettingsPanel'
-
+import Markdown from '../../components/Markdown'
+import GroupCard from '../../components/GroupCard'
 
 
 
@@ -207,7 +208,13 @@ class UserProfile extends Component {
                 <section className="bio">
                   <h4>Bio</h4>
                   <div className="section-content">
-                    <p>{bio || `${username} hasn't written their bio yet!`}</p>
+                    {Boolean(bio) && (
+                      <p>{<Markdown input={bio} />}</p>
+                    )}
+
+                    {!bio && (
+                      <p><em>{`${username} hasn't written their bio yet!`}</em></p>
+                    )}
                   </div>
                 </section>
               </Tab>
@@ -223,39 +230,7 @@ class UserProfile extends Component {
 
                     {Boolean(groups.length) && (
                       <ul className="card-list">
-                        {groups.map(group => {
-                          const {
-                            description,
-                            name,
-                            slug,
-                          } = group.attributes
-
-                          return (
-                            <li
-                              className="card"
-                              key={group.id}>
-
-                              <header>
-                                <Avatar src={group} size="small" />
-
-                                <h2>
-                                  <Link
-                                    action="view-group"
-                                    category="Users"
-                                    label="Group"
-                                    route="group profile"
-                                    params={{ id: slug }}>
-                                    <a>{name}</a>
-                                  </Link>
-                                </h2>
-                              </header>
-
-                              <div className="content">
-                                {description || (<em>No description available</em>)}
-                              </div>
-                            </li>
-                          )
-                        })}
+                        {groups.map(group => (<GroupCard key={group.id} group={group} />))}
                       </ul>
                     )}
                   </section>

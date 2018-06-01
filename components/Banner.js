@@ -95,7 +95,9 @@ const Banner = (props) => (
       <nav className="social">
         <ul className="inline">
           <li>
-            <a href="//twitter.com/RollForGuild">
+            <a
+              aria-label="Visit Roll for Guild on Twitter"
+              href="//twitter.com/RollForGuild">
               <FontAwesomeIcon
                 fixedWidth
                 icon={['fab', 'twitter']}
@@ -104,7 +106,9 @@ const Banner = (props) => (
           </li>
 
           <li>
-            <a href="//instagram.com/RollForGuild">
+            <a
+              aria-label="Visit Roll for Guild on Instagram"
+              href="//instagram.com/RollForGuild">
               <FontAwesomeIcon
                 fixedWidth
                 icon={['fab', 'instagram']}
@@ -113,7 +117,9 @@ const Banner = (props) => (
           </li>
 
           <li>
-            <a href="//facebook.com/RollForGuild">
+            <a
+              aria-label="Visit Roll for Guild on Facebook"
+              href="//facebook.com/RollForGuild">
               <FontAwesomeIcon
                 fixedWidth
                 icon={['fab', 'facebook']}
@@ -126,7 +132,9 @@ const Banner = (props) => (
           Twitch */}
 
           <li>
-            <a href="//kickstarter.com/projects/589540064/roll-for-guild">
+            <a
+              aria-label="Visit Roll for Guild on Kickstarter"
+              href="//kickstarter.com/projects/589540064/roll-for-guild">
               <FontAwesomeIcon
                 fixedWidth
                 icon={['fab', 'kickstarter']}
@@ -135,7 +143,9 @@ const Banner = (props) => (
           </li>
 
           <li>
-            <a href="//youtube.com/channel/UCW9fAESWXx9z5nqspxS_DXw">
+            <a
+              aria-label="Visit Roll for Guild on YouTube"
+              href="//youtube.com/channel/UCW9fAESWXx9z5nqspxS_DXw">
               <FontAwesomeIcon
                 fixedWidth
                 icon={['fab', 'youtube']}
