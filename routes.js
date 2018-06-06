@@ -5,8 +5,16 @@ const routes = require('next-routes')()
 
 
 routes
+  // About
+  .add('about jobs', '/about/jobs', '/about/jobs')
+  .add('about team', '/about/team', '/about/team')
+  .add('about roadmap', '/roadmap', '/roadmap')
+
   // Account
   .add('account confirm', '/confirmation/:token', '/confirmations/account-confirm')
+  .add('account login', '/login', '/login')
+  .add('account logout', '/logout', '/logout')
+  .add('account register', '/register', '/register')
 
   // Characters
   .add('character profile', '/my/characters/:id', '/my/character')
@@ -22,6 +30,7 @@ routes
   .add('group profile', '/groups/:id/:tab(details|events|join-requests|members|settings)?', '/groups/group')
 
   // Password reset
+  .add('password forgot', '/forgot-password', '/forgot-password')
   .add('password reset', '/reset(-password)?/:token?', '/reset-password')
 
   // Forums
@@ -36,6 +45,9 @@ routes
   // Administrative Documents
   .add('privacy policy', '/privacy-policy', '/privacy-policy')
   .add('terms and conditions', '/terms-and-conditions', '/terms-and-conditions')
+
+  // Wordpress Fallback
+  .add('wordpress proxy', '/:slug?', '/wordpress-proxy')
 
 
 

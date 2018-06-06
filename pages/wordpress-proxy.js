@@ -5,16 +5,15 @@ import React from 'react'
 
 
 
-
 // Component imports
+import { actions } from '../store'
 import Component from '../components/Component'
+import connect from '../helpers/connect'
 import Hero from '../components/Hero'
 import Main from '../components/Main'
-import Page from '../components/Page'
 import PageDescription from '../components/PageDescription'
 import PageHeader from '../components/PageHeader'
 import PageTitle from '../components/PageTitle'
-import wordpressService from '../services/wordpress'
 import wordpressStylesheet from '../scss/wordpress.scss'
 
 
@@ -26,20 +25,33 @@ class WordpressProxy extends Component {
     Public Methods
   \***************************************************************************/
 
-  static async getInitialProps ({ query }) {
-    const { page } = query
+  static async getInitialProps (ctx) {
+    const {
+      asPath,
+      query,
+      res,
+      store,
+    } = ctx
+    let { slug } = query
 
-    if (page.featured_media) {
-      const imageResponse = await wordpressService.get(`/wp-json/wp/v2/media/${page.featured_media}`)
+    if (asPath === '/') {
+      slug = 'home'
+    }
 
-      page.featured_media = { url: imageResponse.data.source_url }
+    if (!store.getState().wordpress.page[slug]) {
+      const { status } = await actions.getWordpressPage(slug)(store.dispatch)
 
-      if (imageResponse.data.acf.hero_gravity) {
-        page.featured_media.gravity = imageResponse.data.acf.hero_gravity
+      if (status === 'error' && res) {
+        res.statusCode = 404
       }
     }
 
-    return { page }
+    return {
+      query: {
+        ...query,
+        slug,
+      },
+    }
   }
 
   render () {
@@ -99,10 +111,10 @@ class WordpressProxy extends Component {
       </React.Fragment>
     )
   }
+  static mapStateToProps = ({ wordpress }, { query }) => ({
+    page: wordpress.page[query.slug] || null,
+  })
 }
 
 
-
-
-
-export default Page(WordpressProxy)
+export default connect(WordpressProxy)

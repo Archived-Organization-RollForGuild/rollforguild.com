@@ -5,6 +5,7 @@ import UUIDv4 from 'uuid/v4'
 import createAlertObject from '../helpers/createAlertObject'
 import isRequired from '../helpers/isRequired'
 import apiService from '../services/api'
+import wpService from '../services/wordpress'
 
 
 
@@ -157,22 +158,22 @@ function createAction (options) {
     try {
       response = await actionFunction(...actionPayload)
 
-      const eventResponse = onSuccess(response)
+      const eventResponse = await onSuccess(response)
 
       if (typeof eventResponse !== 'undefined') {
         response = eventResponse
       } else if (onUnhandledSuccess) {
-        response = onUnhandledSuccess(response)
+        response = await onUnhandledSuccess(response)
       }
 
       success = true
     } catch (error) {
-      const eventResponse = onError(error)
+      const eventResponse = await onError(error)
 
       if (typeof eventResponse !== 'undefined') {
         response = eventResponse
       } else if (onUnhandledError) {
-        response = onUnhandledError(error)
+        response = await onUnhandledError(error)
       }
 
       success = false
@@ -193,6 +194,13 @@ const createApiAction = options => createAction({
   actionFunction: apiService.request,
   onUnhandledSuccess: res => res.data,
   onUnhandledError: res => res.response.data,
+})
+
+const createWpAction = options => createAction({
+  ...options,
+  actionFunction: wpService.request,
+  onUnhandledSuccess: res => res.data,
+  onUnhandledError: res => res && res.response && res.response.data,
 })
 
 const createTimeoutAction = options => createAction({
@@ -256,4 +264,5 @@ export {
   createAction,
   createApiAction,
   createTimeoutAction,
+  createWpAction,
 }

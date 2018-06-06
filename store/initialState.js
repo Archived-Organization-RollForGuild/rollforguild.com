@@ -39,6 +39,11 @@ export default {
   // User data
   users: {},
 
+  // Wordpress data
+  wordpress: {
+    page: {},
+  },
+
   // Pending request data made by store action creators.
   __pending: {},
 }
