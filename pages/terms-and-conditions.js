@@ -7,7 +7,6 @@ import React from 'react'
 
 // Component imports
 import Main from '../components/Main'
-import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
 import PageTitle from '../components/PageTitle'
 
@@ -308,4 +307,4 @@ const TermsAndConditions = () => (
 
 
 
-export default Page(TermsAndConditions)
+export default TermsAndConditions

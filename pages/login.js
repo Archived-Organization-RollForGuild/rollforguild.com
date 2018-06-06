@@ -9,10 +9,10 @@ import React from 'react'
 // Component imports
 import { Router } from '../routes'
 import Component from '../components/Component'
+import connect from '../helpers/connect'
 import Form from '../components/Form'
 import Link from '../components/Link'
 import Main from '../components/Main'
-import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
 import PageTitle from '../components/PageTitle'
 import PasswordInput from '../components/PasswordInput'
@@ -31,10 +31,37 @@ const title = 'Login'
 
 class Login extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    email: '',
+    loggingIn: false,
+    password: '',
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  async _onSubmit (event) {
+
+  _handleChange = event => {
+    const {
+      name,
+      value,
+    } = event.target
+    const newState = {}
+
+    newState[name] = value
+
+    this.setState(newState)
+  }
+
+  _onSubmit = async event => {
     const { password, email } = this.state
 
     event.preventDefault()
@@ -73,21 +100,6 @@ class Login extends Component {
       /* eslint-enable */
 
       Router.pushRoute(searchParams.destination ? decodeURIComponent(searchParams.destination) : '/')
-    }
-  }
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods([
-      '_handleChange',
-      '_onSubmit',
-    ])
-
-    this.state = {
-      email: '',
-      loggingIn: false,
-      password: '',
     }
   }
 
@@ -182,18 +194,11 @@ class Login extends Component {
       </React.Fragment>
     )
   }
+  static mapDispatchToProps = ['login']
 }
 
 
 
 
 
-const mapDispatchToProps = ['login']
-
-
-
-
-
-export default Page(Login, {
-  mapDispatchToProps,
-})
+export default connect(Login)

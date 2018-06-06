@@ -9,14 +9,14 @@ import Switch from 'rc-switch'
 
 // Component imports
 import { Router } from '../../routes'
-import convertStringToSlug from '../../helpers/convertStringToSlug'
 import AddressInput from '../../components/AddressInput'
 import Button from '../../components/Button'
+import Component from '../../components/Component'
+import connect from '../../helpers/connect'
+import convertStringToSlug from '../../helpers/convertStringToSlug'
 import EditorHelpDialog from '../../components/EditorHelpDialog'
 import Form from '../../components/Form'
-import Component from '../../components/Component'
 import Main from '../../components/Main'
-import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
 import PageTitle from '../../components/PageTitle'
 import ValidatedInput from '../../components/ValidatedInput'
@@ -34,16 +34,34 @@ const title = 'Create a Group'
 
 class CreateGroup extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    address: '',
+    description: '',
+    discoverable: true,
+    displayEditorHelp: false,
+    name: '',
+    slug: '',
+    submitting: false,
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  static _filterDropdownOptions (options, value) {
+  static _filterDropdownOptions = (options, value) => {
     const regex = new RegExp(`${value}.*`, 'gi')
 
     return options.filter(option => regex.test(option))
   }
 
-  async _handleSubmit (event) {
+  _handleSubmit = async (event) => {
     const { createGroup } = this.props
     const {
       address,
@@ -75,7 +93,7 @@ class CreateGroup extends Component {
     return this.setState({ submitting: false })
   }
 
-  _isValid () {
+  _isValid = () => {
     const {
       address,
       name,
@@ -95,22 +113,6 @@ class CreateGroup extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods(['_handleSubmit'])
-
-    this.state = {
-      address: '',
-      description: '',
-      discoverable: true,
-      displayEditorHelp: false,
-      name: '',
-      slug: '',
-      submitting: false,
-    }
-  }
 
   render () {
     const {
@@ -242,16 +244,20 @@ class CreateGroup extends Component {
       </React.Fragment>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['createGroup']
 }
 
 
 
 
 
-const mapDispatchToProps = ['createGroup']
-
-
-
-
-
-export default Page(CreateGroup, { mapDispatchToProps })
+export default connect(CreateGroup)

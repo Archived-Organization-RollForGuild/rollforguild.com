@@ -10,10 +10,10 @@ import React from 'react'
 import activateZenDesk from '../helpers/activateZenDesk'
 import Button from '../components/Button'
 import Component from '../components/Component'
+import connect from '../helpers/connect'
 import Form from '../components/Form'
 import Link from '../components/Link'
 import Main from '../components/Main'
-import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
 import PageTitle from '../components/PageTitle'
 import ValidatedInput from '../components/ValidatedInput'
@@ -31,14 +31,28 @@ const title = 'Forgot Password'
 
 class Login extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    email: '',
+    requestingReset: false,
+    status: null,
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  _handleChange ({ target }) {
+  _handleChange = ({ target }) => {
     this.setState({ email: target.value })
   }
 
-  async _onSubmit (event) {
+  _onSubmit = async event => {
     const { email } = this.state
 
     event.preventDefault()
@@ -60,21 +74,6 @@ class Login extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods([
-      '_handleChange',
-      '_onSubmit',
-    ])
-
-    this.state = {
-      email: '',
-      requestingReset: false,
-      status: null,
-    }
-  }
 
   render () {
     const {
@@ -158,18 +157,16 @@ class Login extends Component {
       </React.Fragment>
     )
   }
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['requestPasswordReset']
 }
 
 
 
 
 
-const mapDispatchToProps = ['requestPasswordReset']
-
-
-
-
-
-export default Page(Login, {
-  mapDispatchToProps,
-})
+export default connect(Login)

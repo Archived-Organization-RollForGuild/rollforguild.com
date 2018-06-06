@@ -11,7 +11,7 @@ import { Router } from '../../routes'
 import Component from '../../components/Component'
 import ForumThreadCard from '../../components/Forums/ForumThreadCard'
 import Main from '../../components/Main'
-import Page from '../../components/Page'
+import connect from '../../helpers/connect'
 import PageHeader from '../../components/PageHeader'
 import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
@@ -31,10 +31,24 @@ const title = 'Public Forums'
 
 class ViewThread extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    comments: [],
+    loaded: !!this.props.thread,
+    totalCommentPages: 0,
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private  Methods
   \***************************************************************************/
 
-  _handleNewComment ({ payload, status }) {
+  _handleNewComment = ({ payload, status }) => {
     if (status === 'success') {
       const newComment = payload.data
 
@@ -44,7 +58,7 @@ class ViewThread extends Component {
     }
   }
 
-  async _getComments (page, oldPage) {
+  _getComments = async (page, oldPage) => {
     let newState = { ...this.state }
     const { getThreadComments, query } = this.props
 
@@ -89,22 +103,6 @@ class ViewThread extends Component {
   async componentWillReceiveProps (newProps) {
     const newState = await this._getComments(newProps.page, this.props.page)
     this.setState(newState)
-  }
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods([
-      '_handleNewComment',
-      '_getComments',
-    ])
-
-    const { thread } = props
-    this.state = {
-      comments: [],
-      loaded: !!thread,
-      totalCommentPages: 0,
-    }
   }
 
   static async getInitialProps ({ query, store }) {
@@ -179,37 +177,36 @@ class ViewThread extends Component {
       </React.Fragment>
     )
   }
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['getForumThread', 'getThreadComments']
+
+  static mapStateToProps = (state, ownProps) => {
+    let page = ownProps.query.page || 1
+
+    if (typeof page !== 'number') {
+      page = Number.parseInt(ownProps.query.page, 10)
+    }
+
+    if (page < 1) {
+      page = 1
+    }
+
+    return {
+      page,
+      thread: state.forums.threads[ownProps.query.id] || null,
+      loggedIn: state.authentication.loggedIn,
+    }
+  }
 }
 
 
 
 
 
-const mapDispatchToProps = ['getForumThread', 'getThreadComments']
-
-const mapStateToProps = (state, ownProps) => {
-  let page = ownProps.query.page || 1
-
-  if (typeof page !== 'number') {
-    page = Number.parseInt(ownProps.query.page, 10)
-  }
-
-  if (page < 1) {
-    page = 1
-  }
-
-  return {
-    page,
-    thread: state.forums.threads[ownProps.query.id] || null,
-    loggedIn: state.authentication.loggedIn,
-  }
-}
-
-
-
-
-
-export default Page(ViewThread, {
-  mapDispatchToProps,
-  mapStateToProps,
-})
+export default connect(ViewThread)

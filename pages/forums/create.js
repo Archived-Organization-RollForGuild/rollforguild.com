@@ -8,9 +8,9 @@ import React from 'react'
 // Component imports
 import { Router } from '../../routes'
 import Component from '../../components/Component'
+import connect from '../../helpers/connect'
 import Main from '../../components/Main'
 import MarkdownHelpButton from '../../components/MarkdownHelpButton'
-import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
 import ValidatedInput from '../../components/ValidatedInput'
 
@@ -20,10 +20,26 @@ import ValidatedInput from '../../components/ValidatedInput'
 
 class CreateThread extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  static authenticationRequired = true
+
+  state = {
+    body: '',
+    submitting: false,
+    title: '',
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  async _handleSubmit (event) {
+  _handleSubmit = async (event) => {
     const { createForumThread } = this.props
     const {
       title,
@@ -52,7 +68,7 @@ class CreateThread extends Component {
     return this.setState({ submitting: false })
   }
 
-  _isValid () {
+  _isValid = () => {
     const {
       title,
       body,
@@ -72,18 +88,6 @@ class CreateThread extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods(['_handleSubmit'])
-
-    this.state = {
-      body: '',
-      submitting: false,
-      title: '',
-    }
-  }
 
   render () {
     const {
@@ -147,16 +151,20 @@ class CreateThread extends Component {
       </React.Fragment>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['createForumThread']
 }
 
 
 
 
 
-const mapDispatchToProps = ['createForumThread']
-
-
-
-
-
-export default Page(CreateThread, { mapDispatchToProps }, true)
+export default connect(CreateThread)
