@@ -298,7 +298,7 @@ class GroupSearch extends Component {
                   className="squishable"
                   onChange={this._handleSearchDistanceChange}
                   options={GroupSearch.searchDistances}
-                  renderValue={value => `Search within ${value} miles`}
+                  renderValue={value => (value === 'global' ? 'Search everywhere' : `Search within ${value} miles`)}
                   value={searchDistance} />
               </div>
             </footer>
@@ -383,13 +383,13 @@ class GroupSearch extends Component {
     } = this.state
 
     return {
-      ...(searchDistance !== 'infinite' ? { distance: searchDistance } : {}),
+      ...(searchDistance !== 'global' ? { distance: searchDistance } : {}),
       itemsPerPage: pagination.itemsPerPage,
     }
   }
 
   static get searchDistances () {
-    return ['infinite', 5, 10, 25, 50, 100]
+    return ['global', 5, 10, 25, 50, 100]
   }
 }
 
