@@ -43,8 +43,8 @@ const GroupCard = (props) => {
 
       {(members || distance) && (
         <div className="meta">
-          {members && <small>{members} member{members > 1 && 's'}</small>}
-          {distance && <small>{Math.round(10 * (distance / 1609.34)) / 10} Miles away</small>}
+          {typeof members === 'number' && (<small>{members} member{members > 1 && 's'}</small>)}
+          {typeof distance === 'number' && (<small>{Math.round(10 * (distance / 1609.34)) / 10} Miles away</small>)}
         </div>
       )}
 
