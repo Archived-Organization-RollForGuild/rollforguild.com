@@ -89,8 +89,8 @@ export const searchForGroups = ({ lat, lng }, { distance, itemsPerPage, page }) 
     lat,
     lng,
     limit: itemsPerPage || 5,
-    meters: (distance || 5) * 1609.34, // Convert distance to meters
     page: page || 1,
+    ...(distance ? { meters: (distance || 5) * 1609.34 } : {}), // Convert distance to meters
   },
   onError: 'Group seardh failed.\nPlease try again in a few moments.',
 })

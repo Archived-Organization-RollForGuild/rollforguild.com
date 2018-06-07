@@ -14,13 +14,13 @@ import Button from '../../components/Button'
 import Component from '../../components/Component'
 import Dropdown from '../../components/Dropdown'
 import GroupCard from '../../components/GroupCard'
+import Link from '../../components/Link'
 import Main from '../../components/Main'
 import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
 import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
 import Tooltip from '../../components/Tooltip'
-
 
 
 
@@ -41,11 +41,15 @@ class GroupSearch extends Component {
 
   _handleAddressChange (location) {
     this.setState({
-      location: {
+      location: location && location.geometry && location.formatted_address ? {
         ...location.geometry.location,
         address: location.formatted_address,
-      },
-    }, () => this._search())
+      } : null,
+    }, () => {
+      if (this.state.location) {
+        this._search()
+      }
+    })
   }
 
   async _handleGeolocationUpdate (position) {
@@ -217,7 +221,7 @@ class GroupSearch extends Component {
         currentPage: 1,
         totalPageCount: 1,
       },
-      searchDistance: 5,
+      searchDistance: 'infinite',
       searching: false,
       useCurrentLocation: false,
       waitingForLocation: false,
@@ -300,9 +304,24 @@ class GroupSearch extends Component {
             </footer>
           </fieldset>
 
-          {(!searching && !!groups.length) && this._renderGroups()}
+          {Boolean(!searching && groups.length && pagination.currentPage === 1 && groups[0].attributes.distance > 16000) && (
+            <p>
+              It looks like there aren't any groups near you. Perhaps you should try&nbsp;
+              <Link
+                action="create-group"
+                category="Groups"
+                label="Search"
+                route="group create">
+                <a className="button inline link">
+                  creating one
+                </a>
+              </Link>!
+            </p>
+          )}
 
-          {(!searching && firstSearchInitiated && !groups.length) && (
+          {Boolean(!searching && groups.length) && this._renderGroups()}
+
+          {Boolean(!searching && firstSearchInitiated && !groups.length) && (
             <p>
               No groups found.
               {searchDistance !== GroupSearch.searchDistances[GroupSearch.searchDistances.length - 1] && (
@@ -318,6 +337,16 @@ class GroupSearch extends Component {
                   </Button>.
                 </React.Fragment>
               )}
+              &nbsp;You could also try&nbsp;
+              <Link
+                action="create-group"
+                category="Groups"
+                label="Search"
+                route="group create">
+                <a className="button inline link">
+                  creating a group
+                </a>
+              </Link>!
             </p>
           )}
 
@@ -354,13 +383,13 @@ class GroupSearch extends Component {
     } = this.state
 
     return {
-      distance: searchDistance,
+      ...(searchDistance !== 'infinite' ? { distance: searchDistance } : {}),
       itemsPerPage: pagination.itemsPerPage,
     }
   }
 
   static get searchDistances () {
-    return [5, 10, 25, 50]
+    return ['infinite', 5, 10, 25, 50, 100]
   }
 }
 
