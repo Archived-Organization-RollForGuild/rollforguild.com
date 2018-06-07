@@ -382,10 +382,15 @@ class GroupSearch extends Component {
       searchDistance,
     } = this.state
 
-    return {
-      ...(searchDistance !== 'global' ? { distance: searchDistance } : {}),
-      itemsPerPage: pagination.itemsPerPage,
+    const options = {
+      itemsPerPage: pagination.itemsPerPage || 5,
     }
+
+    if (searchDistance !== 'global') {
+      options.meters = searchDistance * 1609.34 // Convert distance to meters
+    }
+
+    return options
   }
 
   static get searchDistances () {
