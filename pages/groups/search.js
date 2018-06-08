@@ -144,7 +144,7 @@ class GroupSearch extends Component {
       status,
     } = await this.props.searchForGroups(location, options)
 
-    if (status) {
+    if (status === 'success') {
       const {
         count,
         limit,
@@ -221,7 +221,7 @@ class GroupSearch extends Component {
         currentPage: 1,
         totalPageCount: 1,
       },
-      searchDistance: 'infinite',
+      searchDistance: 'global',
       searching: false,
       useCurrentLocation: false,
       waitingForLocation: false,
