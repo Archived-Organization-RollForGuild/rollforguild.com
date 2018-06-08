@@ -50,7 +50,7 @@ const GroupCard = (props) => {
 
       <div className="content">
         {Boolean(description) && (
-          <p>{<Markdown input={description} />}</p>
+          <Markdown input={description} />
         )}
 
         {!description && (
