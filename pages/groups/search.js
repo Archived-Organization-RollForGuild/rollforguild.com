@@ -36,10 +36,33 @@ const title = 'Search Groups'
 
 class GroupSearch extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    firstSearchInitiated: false,
+    groups: [],
+    location: null,
+    pagination: {
+      currentPage: 1,
+      totalPageCount: 1,
+    },
+    searchDistance: 'global',
+    searching: false,
+    useCurrentLocation: false,
+    waitingForLocation: false,
+    watchingLocation: false,
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  _handleAddressChange (location) {
+  _handleAddressChange = location => {
     this.setState({
       location: location && location.geometry && location.formatted_address ? {
         ...location.geometry.location,
@@ -52,7 +75,7 @@ class GroupSearch extends Component {
     })
   }
 
-  async _handleGeolocationUpdate (position) {
+  _handleGeolocationUpdate = async position => {
     const {
       latitude,
       longitude,
@@ -77,7 +100,7 @@ class GroupSearch extends Component {
     }, () => this._search())
   }
 
-  _handleGeolocationError () {
+  _handleGeolocationError = () => {
     navigator.geolocation.clearWatch(this.wpid)
 
     this.setState({
@@ -86,7 +109,7 @@ class GroupSearch extends Component {
     })
   }
 
-  _handleSearchDistanceChange (distance) {
+  _handleSearchDistanceChange = distance => {
     this.setState({ searchDistance: distance }, () => {
       if (this.state.location) {
         this._search()
@@ -94,13 +117,13 @@ class GroupSearch extends Component {
     })
   }
 
-  _incrementSearchDistance () {
+  _incrementSearchDistance = () => {
     const currentSearchDistanceIndex = GroupSearch.searchDistances.findIndex(searchDistance => searchDistance === this.state.searchDistance)
 
     this._handleSearchDistanceChange(GroupSearch.searchDistances[currentSearchDistanceIndex + 1])
   }
 
-  static _renderGroup (group) {
+  static _renderGroup = group => {
     const { id } = group
 
     return (
@@ -110,7 +133,7 @@ class GroupSearch extends Component {
     )
   }
 
-  _renderGroups () {
+  _renderGroups = () => {
     const { groups } = this.state
 
     return (
@@ -120,7 +143,7 @@ class GroupSearch extends Component {
     )
   }
 
-  async _search (page = 1) {
+  _search = this._debounce(async (page = 1) => {
     const {
       location,
       pagination,
@@ -144,7 +167,7 @@ class GroupSearch extends Component {
       status,
     } = await this.props.searchForGroups(location, options)
 
-    if (status) {
+    if (status === 'success') {
       const {
         count,
         limit,
@@ -161,9 +184,9 @@ class GroupSearch extends Component {
     }
 
     setTimeout(() => this.setState(newState), 500)
-  }
+  })
 
-  async _toggleUseCurrentLocation ({ target }) {
+  _toggleUseCurrentLocation = async ({ target }) => {
     const { useCurrentLocation } = this.state
 
     target.blur()
@@ -196,37 +219,6 @@ class GroupSearch extends Component {
 
   componentWillUnmount () {
     navigator.geolocation.clearWatch(this.wpid)
-  }
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods([
-      '_handleAddressChange',
-      '_handleGeolocationError',
-      '_handleGeolocationUpdate',
-      '_handleSearchDistanceChange',
-      '_incrementSearchDistance',
-      '_search',
-      '_toggleUseCurrentLocation',
-    ])
-
-    this._debounceMethods(['_search'])
-
-    this.state = {
-      firstSearchInitiated: false,
-      groups: [],
-      location: null,
-      pagination: {
-        currentPage: 1,
-        totalPageCount: 1,
-      },
-      searchDistance: 'infinite',
-      searching: false,
-      useCurrentLocation: false,
-      waitingForLocation: false,
-      watchingLocation: false,
-    }
   }
 
   render () {
@@ -359,6 +351,7 @@ class GroupSearch extends Component {
           {(!searching && !!groups.length) && (
             <Pagination
               category="Groups"
+              label="Search"
               currentPage={pagination.currentPage}
               onPageChange={this._search}
               totalPageCount={pagination.totalPageCount} />

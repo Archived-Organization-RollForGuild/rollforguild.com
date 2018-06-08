@@ -90,7 +90,7 @@ export const searchForGroups = ({ lat, lng }, options) => createApiAction({
     lng,
     ...options,
   },
-  onError: 'Group seardh failed.\nPlease try again in a few moments.',
+  onError: 'Group search failed.\nPlease try again in a few moments.',
 })
 
 
