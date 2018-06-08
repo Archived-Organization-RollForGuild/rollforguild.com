@@ -13,9 +13,9 @@ import AbilityScoreEditor from '../components/AbilityScoreEditor'
 import BackgroundChooser from '../components/BackgroundChooser/BackgroundChooser'
 import CharacterDescriptionEditor from '../components/CharacterDescriptionEditor'
 import CharacterReview from '../components/CharacterReview'
-import RaceAndClassChooser from '../components/RaceAndClassChooser'
 import Component from '../components/Component'
-import Page from '../components/Page'
+import connect from '../helpers/connect'
+import RaceAndClassChooser from '../components/RaceAndClassChooser'
 import SkillEditor from '../components/SkillEditor'
 import Wizard from '../components/Wizard'
 
@@ -54,6 +54,16 @@ const SliderWithTooltip = createSliderWithTooltip(Slider)
 
 
 class CharacterBuilder extends Component {
+  /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  static authenticationRequired = true
+
+
+
+
+
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -333,6 +343,7 @@ class CharacterBuilder extends Component {
   constructor (props) {
     super(props)
 
+    // Forget this noise. We'll fix it when we come back to it -Clapton
     this._bindMethods([
       '_handleAbilityScoreChange',
       '_handleBackgroundChange',
@@ -455,21 +466,18 @@ class CharacterBuilder extends Component {
 
     return (<div>Loading...</div>)
   }
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['createCharacter', 'getRuleset']
+
+  static mapStateToProps = state => ({ ruleset: state.rulesets['dnd-5e'] || null })
 }
 
 
 
 
 
-const mapDispatchToProps = ['createCharacter', 'getRuleset']
-
-const mapStateToProps = state => ({ ruleset: state.rulesets['dnd-5e'] || null })
-
-
-
-
-
-export default Page(CharacterBuilder, {
-  mapDispatchToProps,
-  mapStateToProps,
-}, true)
+export default connect(CharacterBuilder)

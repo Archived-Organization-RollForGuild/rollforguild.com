@@ -263,21 +263,25 @@ class Nav extends Component {
       </li>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['getUser']
+
+  static mapStateToProps = state => ({
+    ...state.authentication,
+    user: state.users[state.authentication.userId],
+  })
 }
 
 
 
 
 
-const mapDispatchToProps = ['getUser']
-
-const mapStateToProps = state => ({
-  ...state.authentication,
-  user: state.users[state.authentication.userId],
-})
-
-
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Nav)
+export default connect(Nav)

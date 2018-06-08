@@ -1,9 +1,9 @@
 
 // Module imports
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
 import Cookies from 'next-cookies'
+import ErrorPage from 'next/error'
 
 
 
@@ -13,6 +13,7 @@ import { Router } from '../routes'
 import apiService from '../services/api'
 import AlertsController from './AlertsController'
 import Banner from './Banner'
+import connect from '../helpers/connect'
 import Head from './Head'
 
 
@@ -120,9 +121,16 @@ class AppLayout extends React.Component {
       pageProps = await Component.getInitialProps(ctx)
     }
 
+    let statusCode = 200
+
+    if (ctx.res) {
+      ({ statusCode } = ctx.res)
+    }
+
     return {
       accessToken,
       userId,
+      statusCode,
       pageProps: {
         asPath,
         isServer,
@@ -159,6 +167,7 @@ class AppLayout extends React.Component {
       Component,
       pageProps,
       path,
+      statusCode,
     } = this.props
 
     return (
@@ -172,24 +181,30 @@ class AppLayout extends React.Component {
 
         <Banner path={path} />
 
-        <Component {...pageProps} />
+        {statusCode === 200 ? (
+          <Component {...pageProps} />
+        ) : (
+          <ErrorPage statusCode={statusCode} />
+        )}
 
         <AlertsController />
       </div>
     )
   }
+
+  static mapStateToProps = ({ authentication, users }) => ({
+    loggedIn: authentication.loggedIn,
+    verifyError: authentication.verifyError,
+    user: users[authentication.userId] || null,
+  })
+
+  static mapDispatchToProps = dispatch => bindActionCreators({
+    logout: actions.logout,
+    verifySession: actions.verifySession,
+  }, dispatch)
 }
 
 
-const mapStateToProps = ({ authentication, users }) => ({
-  loggedIn: authentication.loggedIn,
-  verifyError: authentication.verifyError,
-  user: users[authentication.userId] || null,
-})
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  logout: actions.logout,
-  verifySession: actions.verifySession,
-}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppLayout)
+export default connect(AppLayout)

@@ -12,9 +12,9 @@ import {
 import { Router } from '../../routes'
 import Avatar from '../../components/Avatar'
 import Component from '../../components/Component'
+import connect from '../../helpers/connect'
 import Link from '../../components/Link'
 import Main from '../../components/Main'
-import Page from '../../components/Page'
 import PageDescription from '../../components/PageDescription'
 import PageHeader from '../../components/PageHeader'
 import PageTitle from '../../components/PageTitle'
@@ -252,43 +252,48 @@ class UserProfile extends Component {
       </React.Fragment>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = [
+    'getUser',
+    'pushAlert',
+  ]
+
+  static mapStateToProps = (state, ownProps) => {
+    const currentUserId = state.authentication.userId // User that the displayedUser is being displayed to.
+    const displayedUserId = /^\/my\/profile/.test(ownProps.asPath) ? currentUserId : ownProps.query.id // User that is being displayed
+
+    const currentUser = state.users[currentUserId] || null
+    const displayedUser = state.users[displayedUserId] || null
+
+    let groups = null
+    if ((currentUserId === displayedUserId) && currentUser && currentUser.relationships) {
+      groups = currentUser.relationships.groups.data.map(({ id }) => state.groups[id])
+    }
+
+    return {
+      currentUser,
+      currentUserId,
+      displayedUser,
+      initialTab: ownProps.query.tab || 'details',
+      groups,
+      query: {
+        ...ownProps.query,
+        id: displayedUserId,
+      },
+    }
+  }
 }
 
 
 
 
 
-const mapDispatchToProps = [
-  'getUser',
-  'pushAlert',
-]
-
-const mapStateToProps = (state, ownProps) => {
-  const currentUserId = state.authentication.userId // User that the displayedUser is being displayed to.
-  const displayedUserId = /^\/my\/profile/.test(ownProps.asPath) ? currentUserId : ownProps.query.id // User that is being displayed
-
-  const currentUser = state.users[currentUserId] || null
-  const displayedUser = state.users[displayedUserId] || null
-
-  let groups = null
-  if ((currentUserId === displayedUserId) && currentUser && currentUser.relationships) {
-    groups = currentUser.relationships.groups.data.map(({ id }) => state.groups[id])
-  }
-
-  return {
-    currentUser,
-    currentUserId,
-    displayedUser,
-    initialTab: ownProps.query.tab || 'details',
-    groups,
-    query: {
-      ...ownProps.query,
-      id: displayedUserId,
-    },
-  }
-}
-
-export default Page(UserProfile, {
-  mapDispatchToProps,
-  mapStateToProps,
-}, true)
+export default connect(UserProfile)

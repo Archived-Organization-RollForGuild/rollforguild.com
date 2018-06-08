@@ -12,11 +12,11 @@ import convertObjectToQueryParams from '../../helpers/convertObjectToQueryParams
 import AddressInput from '../../components/AddressInput'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
+import connect from '../../helpers/connect'
 import Dropdown from '../../components/Dropdown'
 import GroupCard from '../../components/GroupCard'
 import Link from '../../components/Link'
 import Main from '../../components/Main'
-import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
 import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
@@ -396,24 +396,23 @@ class GroupSearch extends Component {
   static get searchDistances () {
     return ['global', 5, 10, 25, 50, 100]
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = [
+    'requestToJoinGroup',
+    'searchForGroups',
+  ]
 }
 
 
 
 
 
-const mapDispatchToProps = [
-  'requestToJoinGroup',
-  'searchForGroups',
-]
-
-const mapStateToProps = (/*state*/) => ({})
-
-
-
-
-
-export default Page(GroupSearch, {
-  mapDispatchToProps,
-  mapStateToProps,
-})
+export default connect(GroupSearch)

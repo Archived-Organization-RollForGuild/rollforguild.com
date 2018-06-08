@@ -11,7 +11,7 @@ import { Router } from '../../routes'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
 import Main from '../../components/Main'
-import Page from '../../components/Page'
+import connect from '../../helpers/connect'
 import PageTitle from '../../components/PageTitle'
 import PageHeader from '../../components/PageHeader'
 
@@ -28,7 +28,19 @@ const title = 'Account Confirmation'
 
 class Confirmation extends Component {
   /***************************************************************************\
-    Public Methods
+    Properties
+  \***************************************************************************/
+
+  state = {
+    confirming: true,
+  }
+
+
+
+
+
+  /***************************************************************************\
+    Private Methods
   \***************************************************************************/
 
   async _confirmAccount () {
@@ -71,14 +83,6 @@ class Confirmation extends Component {
     }
   }
 
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      confirming: true,
-    }
-  }
-
   render () {
     const { confirming } = this.state
     const { loggedIn } = this.props
@@ -113,18 +117,20 @@ class Confirmation extends Component {
       </React.Fragment>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['confirmAccount']
 }
 
 
 
 
 
-const mapDispatchToProps = ['confirmAccount']
-
-
-
-
-
-export default Page(Confirmation, {
-  mapDispatchToProps,
-})
+export default connect(Confirmation)

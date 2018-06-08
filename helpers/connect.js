@@ -1,32 +1,39 @@
+// Module imports
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 
 
 
-
+// Component imports
 import { actions } from '../store'
 
 
 
 
 
-export default function (mapStateToProps, _mapDispatchToProps, ...rest) {
-  const mapDispatchToProps = (dispatch, ownProps) => {
+export default function (Component) {
+  const {
+    mapDispatchToProps: ComponentMDTP,
+    mapStateToProps,
+    mergeProps,
+  } = Component
+
+  const mapDispatchToProps = ComponentMDTP && ((dispatch, ownProps) => {
     let props = {}
 
-    if (Array.isArray(_mapDispatchToProps)) {
-      props = _mapDispatchToProps.reduce((accumulator, actionName) => ({
+    if (Array.isArray(ComponentMDTP)) {
+      props = ComponentMDTP.reduce((accumulator, actionName) => ({
         ...accumulator,
         [actionName]: actions[actionName],
       }), {})
       props = bindActionCreators(props, dispatch)
-    } else if (typeof pageActions === 'function') {
-      props = _mapDispatchToProps(dispatch, ownProps)
+    } else if (typeof ComponentMDTP === 'function') {
+      props = ComponentMDTP(dispatch, ownProps)
     }
 
     return props
-  }
+  })
 
-  return connect(mapStateToProps, mapDispatchToProps, ...rest)
+  return connect(mapStateToProps, mapDispatchToProps, mergeProps)(Component)
 }
