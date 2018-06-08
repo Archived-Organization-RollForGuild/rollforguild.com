@@ -82,15 +82,13 @@ export const requestToJoinGroup = groupId => createApiAction({
 
 
 
-export const searchForGroups = ({ lat, lng }, { distance, itemsPerPage, page }) => createApiAction({
+export const searchForGroups = ({ lat, lng }, options) => createApiAction({
   actionType: actionTypes.SEARCH_FOR_GROUPS,
   url: '/api/groups',
   params: {
     lat,
     lng,
-    limit: itemsPerPage || 5,
-    meters: (distance || 5) * 1609.34, // Convert distance to meters
-    page: page || 1,
+    ...options,
   },
   onError: 'Group seardh failed.\nPlease try again in a few moments.',
 })
