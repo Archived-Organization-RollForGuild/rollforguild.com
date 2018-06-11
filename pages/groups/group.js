@@ -340,6 +340,7 @@ class GroupProfile extends Component {
     const { group } = this.props
 
     this.state = {
+      ...this.state,
       currentUserIsAdmin: group && adminRoles.includes(group.attributes.member_status),
       currentUserIsMember: group && memberRoles.includes(group.attributes.member_status),
       joinRequestSent: group && (group.attributes.member_status === 'pending'),
