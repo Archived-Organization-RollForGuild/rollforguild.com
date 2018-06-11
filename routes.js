@@ -27,7 +27,9 @@ routes
   .add('group create', '/groups/create', '/groups/create')
   .add('group manage', '/groups/manage', '/groups/manage')
   .add('group search', '/groups/search', '/groups/search')
-  .add('group profile', '/groups/:id/:tab(details|events|join-requests|members|settings)?', '/groups/group')
+  .add('group events', '/groups/:id/events', '/groups/events')
+  .add('group profile', '/groups/:id/(details)?', '/groups/profile')
+  // .add('group profile', '/groups/:id/:tab(events|join-requests|members|settings)?', '/groups/profile')
 
   // Password reset
   .add('password forgot', '/forgot-password', '/forgot-password')

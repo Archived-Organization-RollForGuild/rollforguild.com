@@ -29,6 +29,7 @@ import Link from '../../components/Link'
 import Main from '../../components/Main'
 import Markdown from '../../components/Markdown'
 import PageDescription from '../../components/PageDescription'
+import PageNavigation from '../../components/PageNavigation'
 import PageTitle from '../../components/PageTitle'
 import PageHeader from '../../components/PageHeader'
 import StaticMap from '../../components/StaticMap'
@@ -428,6 +429,46 @@ class GroupProfile extends Component {
           <meta property="og:image" content={`https://api.adorable.io/avatars/500/${group.id}`} />
           <meta property="og:url" content={`https://rfg.group/${slug}`} />
         </Head>
+
+        <PageNavigation>
+          <ul>
+            <li>
+              <Link
+                category="Group Profile Navigation"
+                route={`/groups/${slug}/details`}
+                label="Details">
+                <a>Details</a>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                category="Group Profile Navigation"
+                route={`/groups/${slug}/events`}
+                label="Events">
+                <a>Events</a>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                category="Group Profile Navigation"
+                route={`/groups/${slug}/members`}
+                label="Members">
+                <a>Members</a>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                category="Group Profile Navigation"
+                route={`/groups/${slug}/settings`}
+                label="Settings">
+                <a>Settings</a>
+              </Link>
+            </li>
+          </ul>
+        </PageNavigation>
 
         <PageHeader>
           <h1>{name}</h1>
