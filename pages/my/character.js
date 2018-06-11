@@ -9,13 +9,27 @@ import React from 'react'
 // import AbilityScoreChart from '../components/AbilityScoreChart'
 import CharacterReview from '../../components/CharacterReview'
 import Component from '../../components/Component'
-import Page from '../../components/Page'
+import connect from '../../helpers/connect'
 
 
 
 
 
 class Character extends Component {
+  /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  static authenticationRequired = true
+
+  state = {
+    loading: true,
+  }
+
+
+
+
+
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
@@ -40,12 +54,6 @@ class Character extends Component {
     await Promise.all(promises)
 
     this.setState({ loading: false })
-  }
-
-  constructor (props) {
-    super(props)
-
-    this.state = { loading: true }
   }
 
   render () {
@@ -80,24 +88,25 @@ class Character extends Component {
       </React.Fragment>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['getCharacter', 'getRuleset']
+
+  static mapStateToProps = (state, ownProps) => ({
+    character: state.characters[ownProps.query.id],
+    ruleset: state.rulesets['dnd-5e'],
+  })
 }
 
 
 
 
 
-const mapDispatchToProps = ['getCharacter', 'getRuleset']
-
-const mapStateToProps = (state, ownProps) => ({
-  character: state.characters[ownProps.query.id],
-  ruleset: state.rulesets['dnd-5e'],
-})
-
-
-
-
-
-export default Page(Character, {
-  mapStateToProps,
-  mapDispatchToProps,
-}, true)
+export default connect(Character)

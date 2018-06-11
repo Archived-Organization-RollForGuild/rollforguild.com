@@ -11,7 +11,6 @@ import 'isomorphic-fetch'
 
 // Component imports
 import Component from '../components/Component'
-import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
 import PageTitle from '../components/PageTitle'
 
@@ -27,6 +26,19 @@ const title = 'Roadmap'
 
 
 class Roadmap extends Component {
+  /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    data: null,
+    loading: false,
+  }
+
+
+
+
+
   /***************************************************************************\
     Private Methods
   \***************************************************************************/
@@ -65,15 +77,6 @@ class Roadmap extends Component {
       data: response,
       loading: false,
     })
-  }
-
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      data: null,
-      loading: false,
-    }
   }
 
   render () {
@@ -158,4 +161,4 @@ class Roadmap extends Component {
 
 
 
-export default Page(Roadmap, title)
+export default Roadmap

@@ -26,7 +26,7 @@ class PasswordInput extends ValidatedInput {
     } = this.props
 
     const messages = []
-    const passwordEvaluation = zxcvbn(this._el.value)
+    const passwordEvaluation = zxcvbn(this._input.value)
 
     let isValid = true
 
@@ -62,7 +62,7 @@ class PasswordInput extends ValidatedInput {
   _handleShowPasswordClick (event) {
     event.preventDefault()
     this.setState({ showPassword: !this.state.showPassword })
-    this._el.focus()
+    this._input.focus()
   }
 
 
@@ -115,6 +115,7 @@ class PasswordInput extends ValidatedInput {
           {...this.renderProps} />
 
         <button
+          aria-label={showPassword ? 'Hide password from view' : 'Make password visible.'}
           className="show-password"
           data-t="password-input:reveal-button"
           disabled={disabled}

@@ -8,19 +8,19 @@ import React from 'react'
 
 
 // Component imports
-import { convertObjectToQueryParams } from '../../helpers'
+import convertObjectToQueryParams from '../../helpers/convertObjectToQueryParams'
 import AddressInput from '../../components/AddressInput'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
+import connect from '../../helpers/connect'
 import Dropdown from '../../components/Dropdown'
 import GroupCard from '../../components/GroupCard'
+import Link from '../../components/Link'
 import Main from '../../components/Main'
-import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
 import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
 import Tooltip from '../../components/Tooltip'
-
 
 
 
@@ -36,19 +36,46 @@ const title = 'Search Groups'
 
 class GroupSearch extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    firstSearchInitiated: false,
+    groups: [],
+    location: null,
+    pagination: {
+      currentPage: 1,
+      totalPageCount: 1,
+    },
+    searchDistance: 'global',
+    searching: false,
+    useCurrentLocation: false,
+    waitingForLocation: false,
+    watchingLocation: false,
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  _handleAddressChange (location) {
+  _handleAddressChange = location => {
     this.setState({
-      location: {
+      location: location && location.geometry && location.formatted_address ? {
         ...location.geometry.location,
         address: location.formatted_address,
-      },
-    }, () => this._search())
+      } : null,
+    }, () => {
+      if (this.state.location) {
+        this._search()
+      }
+    })
   }
 
-  async _handleGeolocationUpdate (position) {
+  _handleGeolocationUpdate = async position => {
     const {
       latitude,
       longitude,
@@ -73,7 +100,7 @@ class GroupSearch extends Component {
     }, () => this._search())
   }
 
-  _handleGeolocationError () {
+  _handleGeolocationError = () => {
     navigator.geolocation.clearWatch(this.wpid)
 
     this.setState({
@@ -82,7 +109,7 @@ class GroupSearch extends Component {
     })
   }
 
-  _handleSearchDistanceChange (distance) {
+  _handleSearchDistanceChange = distance => {
     this.setState({ searchDistance: distance }, () => {
       if (this.state.location) {
         this._search()
@@ -90,13 +117,13 @@ class GroupSearch extends Component {
     })
   }
 
-  _incrementSearchDistance () {
+  _incrementSearchDistance = () => {
     const currentSearchDistanceIndex = GroupSearch.searchDistances.findIndex(searchDistance => searchDistance === this.state.searchDistance)
 
     this._handleSearchDistanceChange(GroupSearch.searchDistances[currentSearchDistanceIndex + 1])
   }
 
-  static _renderGroup (group) {
+  static _renderGroup = group => {
     const { id } = group
 
     return (
@@ -106,7 +133,7 @@ class GroupSearch extends Component {
     )
   }
 
-  _renderGroups () {
+  _renderGroups = () => {
     const { groups } = this.state
 
     return (
@@ -116,7 +143,7 @@ class GroupSearch extends Component {
     )
   }
 
-  async _search (page = 1) {
+  _search = this._debounce(async (page = 1) => {
     const {
       location,
       pagination,
@@ -140,7 +167,7 @@ class GroupSearch extends Component {
       status,
     } = await this.props.searchForGroups(location, options)
 
-    if (status) {
+    if (status === 'success') {
       const {
         count,
         limit,
@@ -157,9 +184,9 @@ class GroupSearch extends Component {
     }
 
     setTimeout(() => this.setState(newState), 500)
-  }
+  })
 
-  async _toggleUseCurrentLocation ({ target }) {
+  _toggleUseCurrentLocation = async ({ target }) => {
     const { useCurrentLocation } = this.state
 
     target.blur()
@@ -194,37 +221,6 @@ class GroupSearch extends Component {
     navigator.geolocation.clearWatch(this.wpid)
   }
 
-  constructor (props) {
-    super(props)
-
-    this._bindMethods([
-      '_handleAddressChange',
-      '_handleGeolocationError',
-      '_handleGeolocationUpdate',
-      '_handleSearchDistanceChange',
-      '_incrementSearchDistance',
-      '_search',
-      '_toggleUseCurrentLocation',
-    ])
-
-    this._debounceMethods(['_search'])
-
-    this.state = {
-      firstSearchInitiated: false,
-      groups: [],
-      location: null,
-      pagination: {
-        currentPage: 1,
-        totalPageCount: 1,
-      },
-      searchDistance: 5,
-      searching: false,
-      useCurrentLocation: false,
-      waitingForLocation: false,
-      watchingLocation: false,
-    }
-  }
-
   render () {
     const {
       firstSearchInitiated,
@@ -254,6 +250,7 @@ class GroupSearch extends Component {
               </label>
 
               <AddressInput
+                aria-label={waitingForLocation ? 'Retrieving your location...' : 'Enter an address to search for a group'}
                 onChange={this._handleAddressChange}
                 disabled={waitingForLocation}
                 placeholder={waitingForLocation ? 'Retrieving your location...' : 'Enter an address...'}
@@ -261,6 +258,7 @@ class GroupSearch extends Component {
                 value={location ? location.address : ''} />
 
               <button
+                aria-label="Use your current location to search for groups"
                 className="binary"
                 data-on={useCurrentLocation}
                 onClick={this._toggleUseCurrentLocation}
@@ -288,18 +286,34 @@ class GroupSearch extends Component {
             <footer>
               <div className="filters">
                 <Dropdown
+                  aria-label="Select distance from location to search within"
                   className="squishable"
                   onChange={this._handleSearchDistanceChange}
                   options={GroupSearch.searchDistances}
-                  renderValue={value => `Search within ${value} miles`}
+                  renderValue={value => (value === 'global' ? 'Search everywhere' : `Search within ${value} miles`)}
                   value={searchDistance} />
               </div>
             </footer>
           </fieldset>
 
-          {(!searching && !!groups.length) && this._renderGroups()}
+          {Boolean(!searching && groups.length && pagination.currentPage === 1 && groups[0].attributes.distance > 16000) && (
+            <p>
+              It looks like there aren't any groups near you. Perhaps you should try&nbsp;
+              <Link
+                action="create-group"
+                category="Groups"
+                label="Search"
+                route="group create">
+                <a className="button inline link">
+                  creating one
+                </a>
+              </Link>!
+            </p>
+          )}
 
-          {(!searching && firstSearchInitiated && !groups.length) && (
+          {Boolean(!searching && groups.length) && this._renderGroups()}
+
+          {Boolean(!searching && firstSearchInitiated && !groups.length) && (
             <p>
               No groups found.
               {searchDistance !== GroupSearch.searchDistances[GroupSearch.searchDistances.length - 1] && (
@@ -315,6 +329,16 @@ class GroupSearch extends Component {
                   </Button>.
                 </React.Fragment>
               )}
+              &nbsp;You could also try&nbsp;
+              <Link
+                action="create-group"
+                category="Groups"
+                label="Search"
+                route="group create">
+                <a className="button inline link">
+                  creating a group
+                </a>
+              </Link>!
             </p>
           )}
 
@@ -327,6 +351,7 @@ class GroupSearch extends Component {
           {(!searching && !!groups.length) && (
             <Pagination
               category="Groups"
+              label="Search"
               currentPage={pagination.currentPage}
               onPageChange={this._search}
               totalPageCount={pagination.totalPageCount} />
@@ -350,33 +375,37 @@ class GroupSearch extends Component {
       searchDistance,
     } = this.state
 
-    return {
-      distance: searchDistance,
-      itemsPerPage: pagination.itemsPerPage,
+    const options = {
+      itemsPerPage: pagination.itemsPerPage || 5,
     }
+
+    if (searchDistance !== 'global') {
+      options.meters = searchDistance * 1609.34 // Convert distance to meters
+    }
+
+    return options
   }
 
   static get searchDistances () {
-    return [5, 10, 25, 50]
+    return ['global', 5, 10, 25, 50, 100]
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = [
+    'requestToJoinGroup',
+    'searchForGroups',
+  ]
 }
 
 
 
 
 
-const mapDispatchToProps = [
-  'requestToJoinGroup',
-  'searchForGroups',
-]
-
-const mapStateToProps = (/*state*/) => ({})
-
-
-
-
-
-export default Page(GroupSearch, {
-  mapDispatchToProps,
-  mapStateToProps,
-})
+export default connect(GroupSearch)

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 // Component imports
 import Component from './Component'
-import { pushTrackableEventToDataLayer } from '../helpers'
+import pushTrackableEventToDataLayer from '../helpers/pushTrackableEventToDataLayer'
 
 
 

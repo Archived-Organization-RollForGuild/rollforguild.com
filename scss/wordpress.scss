@@ -1,0 +1,33 @@
+/*****************************************************************************\
+  variables
+\*****************************************************************************/
+
+@import 'variables';
+@import 'colors';
+
+
+
+
+
+/*****************************************************************************\
+  wordpress
+\*****************************************************************************/
+
+.page.wordpress-proxy {
+  align-content: stretch;
+
+  .wordpress-content {
+    flex-grow: 1;
+
+    > .rev_slider_wrapper {
+      margin: -2rem -2rem 2rem !important;
+      width: calc(100% + 4rem);
+    }
+
+    > *:not(.rev_slider_wrapper) {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100rem;
+    }
+  }
+}

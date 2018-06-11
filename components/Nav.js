@@ -1,6 +1,4 @@
 // Module imports
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
@@ -10,7 +8,7 @@ import React from 'react'
 
 
 // Module imports
-import { actions } from '../store'
+import connect from '../helpers/connect'
 import Link from './Link'
 import Avatar from './Avatar'
 import Component from './Component'
@@ -78,7 +76,7 @@ const navItems = [
           username,
         } = user.attributes
 
-        if (window.zE) {
+        if (typeof window !== 'undefined' && window.zE) {
           window.zE(() => {
             window.zE.identify({
               email,
@@ -149,6 +147,30 @@ const navItems = [
 
 class Nav extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    openSubnav: '',
+  }
+
+
+  /***************************************************************************\
+    Private Methods
+  \***************************************************************************/
+
+  _handleSubnavChange = ({ target }) => {
+    const { openSubnav } = this.state
+    const { id } = target
+
+    this.setState({ openSubnav: openSubnav === id ? '' : id })
+  }
+
+
+
+
+
+  /***************************************************************************\
     Public Methods
   \***************************************************************************/
 
@@ -164,12 +186,6 @@ class Nav extends Component {
     }
   }
 
-  constructor (props) {
-    super(props)
-
-    this._bindMethods(['renderNavItem'])
-  }
-
   render () {
     return (
       <nav>
@@ -178,8 +194,8 @@ class Nav extends Component {
     )
   }
 
-  renderNavItem (item) {
-    const { path } = this.props
+  renderNavItem = (item) => {
+    const { openSubnav } = this.state
     const {
       condition,
       subnav,
@@ -219,9 +235,10 @@ class Nav extends Component {
       renderedSubnavToggle = (
         <input
           className="subnav-toggle"
-          defaultChecked={subnav.find(({ href }) => href === path)}
           hidden
           id={key}
+          checked={openSubnav === key}
+          onClick={this._handleSubnavChange}
           name="subnav"
           type="radio" />
       )
@@ -246,23 +263,25 @@ class Nav extends Component {
       </li>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['getUser']
+
+  static mapStateToProps = state => ({
+    ...state.authentication,
+    user: state.users[state.authentication.userId],
+  })
 }
 
 
 
 
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  getUser: actions.getUser,
-}, dispatch)
-
-const mapStateToProps = state => ({
-  ...state.authentication,
-  user: Object.values(state.users).find(({ loggedIn }) => loggedIn),
-})
-
-
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Nav)
+export default connect(Nav)

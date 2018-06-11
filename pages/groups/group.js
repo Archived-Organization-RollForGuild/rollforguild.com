@@ -13,23 +13,21 @@ import {
   Tab,
   TabPanel,
 } from '../../components/TabPanel'
-import {
-  convertSlugToUUID,
-  isUUID,
-} from '../../helpers'
 import { actions } from '../../store'
 import { Router } from '../../routes'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
+import connect from '../../helpers/connect'
+import convertSlugToUUID from '../../helpers/convertSlugToUUID'
 import GroupDetailsPanel from '../../components/Groups/GroupDetailsPanel'
 import GroupEventsPanel from '../../components/Groups/GroupEventsPanel'
 import GroupSettingsPanel from '../../components/Groups/GroupSettingsPanel'
+import isUUID from '../../helpers/isUUID'
 import RegistrationDialog from '../../components/RegistrationDialog'
 import Link from '../../components/Link'
 import Main from '../../components/Main'
 import Markdown from '../../components/Markdown'
-import Page from '../../components/Page'
 import PageDescription from '../../components/PageDescription'
 import PageTitle from '../../components/PageTitle'
 import PageHeader from '../../components/PageHeader'
@@ -50,10 +48,23 @@ const title = 'Group Profile'
 
 class JoinRequestCard extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    accepting: false,
+    ignoring: false,
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  async _accept () {
+  _accept = async () => {
     const {
       accept,
       user,
@@ -66,7 +77,7 @@ class JoinRequestCard extends Component {
     setTimeout(() => this.setState({ accepting: false }), 500)
   }
 
-  async _ignore () {
+  _ignore = async () => {
     const {
       ignore,
       user,
@@ -86,19 +97,6 @@ class JoinRequestCard extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods([
-      '_accept',
-      '_ignore',
-    ])
-    this.state = {
-      accepting: false,
-      ignoring: false,
-    }
-  }
 
   render () {
     const { user } = this.props
@@ -175,15 +173,40 @@ class JoinRequestCard extends Component {
 
 class GroupProfile extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    currentUserIsAdmin: false,
+    currentUserIsMember: false,
+    gettingJoinRequests: false,
+    eventData: {
+      loaded: false,
+      page: 1,
+      totalPages: 1,
+    },
+    joinRequests: [],
+    joinRequestSent: false,
+    leaving: {},
+    loaded: false,
+    requestingToJoin: false,
+    showRegistrationModal: false,
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  async _acceptJoinRequest (userId) {
+  _acceptJoinRequest = async (userId) => {
     await this._handleJoinRequest(userId, 'accepted')
   }
 
 
-  async _handleEventLoad (newPage) {
+  _handleEventLoad = async (newPage) => {
     const {
       getGroupEvents,
       group,
@@ -214,7 +237,7 @@ class GroupProfile extends Component {
     }
   }
 
-  async _handleJoinRequest (userId, status) {
+  _handleJoinRequest = async (userId, status) => {
     const {
       group,
       handleJoinRequest,
@@ -225,11 +248,11 @@ class GroupProfile extends Component {
     window.location.reload()
   }
 
-  async _ignoreJoinRequest (userId) {
+  _ignoreJoinRequest = async (userId) => {
     await this._handleJoinRequest(userId, 'ignored')
   }
 
-  async _removeMember (userId) {
+  _removeMember = async (userId) => {
     const {
       group,
       removeGroupMember,
@@ -248,7 +271,7 @@ class GroupProfile extends Component {
     }
   }
 
-  async _requestToJoin () {
+  _requestToJoin = async () => {
     const {
       group,
       requestToJoinGroup,
@@ -312,34 +335,15 @@ class GroupProfile extends Component {
   }
 
   constructor (props) {
-    const { group } = props
-
     super(props)
 
-    this._bindMethods([
-      '_acceptJoinRequest',
-      '_ignoreJoinRequest',
-      '_handleEventLoad',
-      '_removeMember',
-      '_requestToJoin',
-      '_requestToJoin',
-    ])
+    const { group } = this.props
 
     this.state = {
       currentUserIsAdmin: group && adminRoles.includes(group.attributes.member_status),
       currentUserIsMember: group && memberRoles.includes(group.attributes.member_status),
-      gettingJoinRequests: false,
-      eventData: {
-        loaded: false,
-        page: 1,
-        totalPages: 1,
-      },
-      joinRequests: [],
       joinRequestSent: group && (group.attributes.member_status === 'pending'),
-      leaving: {},
       loaded: group && group.attributes.member_status,
-      requestingToJoin: false,
-      showRegistrationModal: false,
     }
   }
 
@@ -643,57 +647,56 @@ class GroupProfile extends Component {
       </React.Fragment>
     )
   }
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = [
+    'getGroup',
+    'getGroupEvents',
+    'getJoinRequests',
+    'handleJoinRequest',
+    'removeGroupMember',
+    'requestToJoinGroup',
+  ]
+
+  static mapStateToProps = (state, ownProps) => {
+    let { id } = ownProps.query
+    let currentUserIsMember = false
+    let members = []
+
+    if (!isUUID(id)) {
+      id = convertSlugToUUID(id, 'groups')
+    }
+
+    const group = state.groups[id] || null
+
+    if (group) {
+      const memberStatus = group.attributes.member_status
+
+      if (memberStatus) {
+        currentUserIsMember = memberRoles.includes(memberStatus)
+      }
+
+      if (group.relationships && currentUserIsMember) {
+        members = group.relationships.group_members.data.map(member => state.users[member.id])
+      }
+    }
+
+    return {
+      group,
+      id,
+      members,
+      currentUserId: state.authentication.userId || null,
+    }
+  }
 }
 
 
 
 
 
-const mapDispatchToProps = [
-  'getGroup',
-  'getGroupEvents',
-  'getJoinRequests',
-  'handleJoinRequest',
-  'removeGroupMember',
-  'requestToJoinGroup',
-]
-
-const mapStateToProps = (state, ownProps) => {
-  let { id } = ownProps.query
-  let currentUserIsMember = false
-  let members = []
-
-  if (!isUUID(id)) {
-    id = convertSlugToUUID(id, 'groups')
-  }
-
-  const group = state.groups[id] || null
-
-  if (group) {
-    const memberStatus = group.attributes.member_status
-
-    if (memberStatus) {
-      currentUserIsMember = memberRoles.includes(memberStatus)
-    }
-
-    if (group.relationships && currentUserIsMember) {
-      members = group.relationships.group_members.data.map(member => state.users[member.id])
-    }
-  }
-
-  return {
-    group,
-    id,
-    members,
-    currentUserId: ownProps.userId || null,
-  }
-}
-
-
-
-
-
-export default Page(GroupProfile, {
-  mapDispatchToProps,
-  mapStateToProps,
-})
+export default connect(GroupProfile)

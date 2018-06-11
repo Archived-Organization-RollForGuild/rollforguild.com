@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 
 // Component imports
 import { actions } from '../store'
-import { formatGameString } from '../helpers'
+import formatGameString from '../helpers/formatGameString'
 import Component from './Component'
 import Dropdown from './Dropdown'
 

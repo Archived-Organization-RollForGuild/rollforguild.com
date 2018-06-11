@@ -9,7 +9,8 @@ import groups from './groups'
 import rulesets from './rulesets'
 import forums from './forums'
 import users from './users'
-
+import wordpress from './wordpress'
+import __pending from './pending'
 
 
 
@@ -25,4 +26,6 @@ export default combineReducers({
   groups,
   rulesets,
   users,
+  wordpress,
+  __pending,
 })

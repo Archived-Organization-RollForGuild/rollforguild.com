@@ -25,6 +25,11 @@ const srcType = {
   users: 'users',
 }
 
+const renderTypeLabel = {
+  groups: group => group.attributes.name,
+  users: user => user.attributes.username,
+}
+
 const avatarSize = {
   tiny: {
     name: 'tiny',
@@ -79,7 +84,7 @@ class Avatar extends Component {
 
     const { status } = await updateAvatar(srcType[type], id, fileBlob)
 
-    if (status !== 'success') {
+    if (status === 'error') {
       return 'File Upload Error. Please Try again.'
     }
 
@@ -105,8 +110,10 @@ class Avatar extends Component {
 
     const size = { ...avatarSize[nextProps.size] }
     const hasAvatar = srcType[type] && attributes && attributes.avatar
+    const avatarLabel = srcType[type] && renderTypeLabel[srcType[type]] ? renderTypeLabel[srcType[type]](nextProps.src) : id
 
     this.setState({
+      avatarLabel,
       id,
       type,
       size,
@@ -131,8 +138,10 @@ class Avatar extends Component {
 
     const size = { ...avatarSize[props.size] }
     const hasAvatar = srcType[type] && attributes && attributes.avatar
+    const avatarLabel = srcType[type] && renderTypeLabel[srcType[type]] ? renderTypeLabel[srcType[type]](props.src) : id
 
     this.state = {
+      avatarLabel,
       id,
       size,
       type,
@@ -143,9 +152,9 @@ class Avatar extends Component {
 
   render () {
     const {
+      avatarLabel,
       avatarUrl,
       displayUploader,
-      id,
       size,
     } = this.state
 
@@ -160,7 +169,7 @@ class Avatar extends Component {
     return (
       <React.Fragment>
         <div
-          aria-label={`${id}'s avatar`}
+          aria-label={`${avatarLabel}'s avatar`}
           className={`avatar ${size.name} ${className}`}
           data-t="avatar:avatar"
           role="img"

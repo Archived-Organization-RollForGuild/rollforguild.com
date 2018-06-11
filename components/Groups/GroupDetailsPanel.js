@@ -8,7 +8,7 @@ import React from 'react'
 
 // Component imports
 import Link from '../Link'
-import { convertObjectToQueryParams } from '../../helpers'
+import convertObjectToQueryParams from '../../helpers/convertObjectToQueryParams'
 import Component from '../Component'
 import Markdown from '../Markdown'
 import ShareableLink from '../ShareableLink'

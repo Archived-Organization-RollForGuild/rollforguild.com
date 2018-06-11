@@ -2,13 +2,23 @@
 import { Router } from '../routes'
 import apiService from '../services/api'
 import Component from '../components/Component'
-import Page from '../components/Page'
+import connect from '../helpers/connect'
 
 
 
 
 
 class Logout extends Component {
+  /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  static authenticationRequired = true
+
+
+
+
+
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
@@ -28,16 +38,20 @@ class Logout extends Component {
       <p>Logging out...</p>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['logout']
 }
 
 
 
 
 
-const mapDispatchToProps = ['logout']
-
-
-
-
-
-export default Page(Logout, { mapDispatchToProps }, true)
+export default connect(Logout)

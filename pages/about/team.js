@@ -10,7 +10,6 @@ import wordpressService from '../../services/wordpress'
 import Component from '../../components/Component'
 import Main from '../../components/Main'
 import Markdown from '../../components/Markdown'
-import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
 import PageTitle from '../../components/PageTitle'
 
@@ -36,57 +35,53 @@ class Team extends Component {
     return { team: response.data }
   }
 
-  render () {
-    const { team } = this.props
+  render = () => (
+    <React.Fragment>
+      <PageTitle>{title}</PageTitle>
 
-    return (
-      <React.Fragment>
-        <PageTitle>{title}</PageTitle>
+      <PageHeader>
+        <h1>{title}</h1>
+      </PageHeader>
 
-        <PageHeader>
-          <h1>{title}</h1>
-        </PageHeader>
+      <Main title={title}>
+        <ul className="card-list">
+          {this.props.team.map(teamMember => {
+            const {
+              acf,
+              description,
+              id,
+              name,
+            } = teamMember
 
-        <Main title={title}>
-          <ul className="card-list">
-            {team.map(teamMember => {
-              const {
-                acf,
-                description,
-                id,
-                name,
-              } = teamMember
+            return (
+              <li className="card" key={id}>
+                <header>
+                  <div
+                    aria-label={`${name}'s avatar`}
+                    className="avatar small"
+                    style={{ backgroundImage: `url(${teamMember.avatar_urls['96']})` }} />
 
-              return (
-                <li className="card" key={id}>
-                  <header>
-                    <div
-                      aria-label={`${name}'s avatar`}
-                      className="avatar small"
-                      style={{ backgroundImage: `url(${teamMember.avatar_urls['96']})` }} />
+                  <h2>{name}</h2>
 
-                    <h2>{name}</h2>
+                  <aside>
+                    <small>{acf.rfg_title}</small>
+                  </aside>
+                </header>
 
-                    <aside>
-                      <small>{acf.rfg_title}</small>
-                    </aside>
-                  </header>
-
-                  <Markdown
-                    className="content"
-                    input={description} />
-                </li>
-              )
-            })}
-          </ul>
-        </Main>
-      </React.Fragment>
-    )
-  }
+                <Markdown
+                  className="content"
+                  input={description} />
+              </li>
+            )
+          })}
+        </ul>
+      </Main>
+    </React.Fragment>
+  )
 }
 
 
 
 
 
-export default Page(Team)
+export default Team

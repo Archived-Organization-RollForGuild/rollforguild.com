@@ -42,13 +42,14 @@
     }
   }
 
+  &.dropup ul {
+    bottom: 100%;
+    top: initial;
+  }
+
   &.squishable {
     flex-shrink: 1;
     width: initial;
-  }
-
-  &.valid input {
-    background-color: mix($white, $green, 30%);
   }
 
   &:not(.focus) {

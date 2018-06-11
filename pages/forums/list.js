@@ -8,10 +8,10 @@ import React from 'react'
 // Component imports
 import { Router } from '../../routes'
 import Component from '../../components/Component'
+import connect from '../../helpers/connect'
 import ForumThreadCard from '../../components/Forums/ForumThreadCard'
 import Link from '../../components/Link'
 import Main from '../../components/Main'
-import Page from '../../components/Page'
 import PageHeader from '../../components/PageHeader'
 import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
@@ -29,10 +29,28 @@ const title = 'Public Forums'
 
 class ForumList extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    count: 0,
+    limit: 0,
+    loaded: false,
+    offset: 0,
+    threads: [],
+    total: 0,
+    totalPages: 0,
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  async _getThreads (page, oldPage) {
+  _getThreads = async (page, oldPage) => {
     let newState = { ...this.state }
     const { getForumThreads } = this.props
 
@@ -74,24 +92,6 @@ class ForumList extends Component {
 
   componentWillReceiveProps (newProps) {
     this._getThreads(newProps.page, this.props.page)
-  }
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods([
-      '_getThreads',
-    ])
-
-    this.state = {
-      count: 0,
-      limit: 0,
-      loaded: false,
-      offset: 0,
-      threads: [],
-      total: 0,
-      totalPages: 0,
-    }
   }
 
   render () {
@@ -171,29 +171,36 @@ class ForumList extends Component {
       </React.Fragment>
     )
   }
-}
 
-ForumList.defaultProps = {
-  page: 1,
-}
+  /***************************************************************************\
+    PropTypes
+  \***************************************************************************/
 
-
-
-const mapDispatchToProps = ['getForumThreads']
-const mapStateToProps = (state, ownProps) => {
-  let page = ownProps.query.page || 1
-
-  if (typeof page !== 'number') {
-    page = Number.parseInt(ownProps.query.page, 10)
+  static defaultProps = {
+    page: 1,
   }
 
-  if (page < 1) {
-    page = 1
-  }
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
 
-  return {
-    page,
-    loggedIn: state.authentication.loggedIn,
+  static mapDispatchToProps = ['getForumThreads']
+
+  static mapStateToProps = (state, ownProps) => {
+    let page = ownProps.query.page || 1
+
+    if (typeof page !== 'number') {
+      page = Number.parseInt(ownProps.query.page, 10)
+    }
+
+    if (page < 1) {
+      page = 1
+    }
+
+    return {
+      page,
+      loggedIn: state.authentication.loggedIn,
+    }
   }
 }
 
@@ -201,7 +208,4 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default Page(ForumList, {
-  mapDispatchToProps,
-  mapStateToProps,
-})
+export default connect(ForumList)

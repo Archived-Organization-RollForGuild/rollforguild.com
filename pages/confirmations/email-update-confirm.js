@@ -6,11 +6,11 @@ import React from 'react'
 
 
 // Component imports
-import { activateZenDesk } from '../../helpers'
+import activateZenDesk from '../../helpers/activateZenDesk'
 import Button from '../../components/Button'
 import Component from '../../components/Component'
+import connect from '../../helpers/connect'
 import Main from '../../components/Main'
-import Page from '../../components/Page'
 import PageTitle from '../../components/PageTitle'
 import PageHeader from '../../components/PageHeader'
 
@@ -27,6 +27,20 @@ const title = 'Email Update Confirmation'
 
 class Confirmation extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  static authenticationRequired = true
+
+  state = {
+    confirming: true,
+  }
+
+
+
+
+
+  /***************************************************************************\
     Public Methods
   \***************************************************************************/
 
@@ -41,16 +55,8 @@ class Confirmation extends Component {
 
     this.setState({
       confirming: false,
-      error: status !== 'success',
+      error: status === 'error',
     })
-  }
-
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      confirming: true,
-    }
   }
 
   render () {
@@ -102,25 +108,26 @@ class Confirmation extends Component {
       </React.Fragment>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['confirmEmailUpdate']
+
+  static mapStateToProps = (state, ownProps) => {
+    const acceptNewEmail = ownProps.asPath.startsWith('/email-update-confirmation')
+
+    return { acceptNewEmail }
+  }
 }
 
 
 
 
 
-const mapDispatchToProps = ['confirmEmailUpdate']
-
-const mapStateToProps = (state, ownProps) => {
-  const acceptNewEmail = ownProps.asPath.startsWith('/email-update-confirmation')
-
-  return { acceptNewEmail }
-}
-
-
-
-
-
-export default Page(Confirmation, {
-  mapDispatchToProps,
-  mapStateToProps,
-}, true)
+export default connect(Confirmation)

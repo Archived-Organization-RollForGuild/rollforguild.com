@@ -1,9 +1,7 @@
 import actionTypes from '../actionTypes'
 import initialState from '../initialState'
-import {
-  deepMergeJSONAPIObjectCollections,
-  parseJSONAPIResponseForEntityType,
-} from '../../helpers'
+import deepMergeJSONAPIObjectCollections from '../../helpers/deepMergeJSONAPIObjectCollections'
+import parseJSONAPIResponseForEntityType from '../../helpers/parseJSONAPIResponseForEntityType'
 
 
 

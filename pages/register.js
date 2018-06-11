@@ -7,14 +7,14 @@ import React from 'react'
 
 
 // Component imports
-import { activateZenDesk } from '../helpers'
+import activateZenDesk from '../helpers/activateZenDesk'
 import { Router } from '../routes'
 import Button from '../components/Button'
 import Component from '../components/Component'
+import connect from '../helpers/connect'
 import Form from '../components/Form'
 import Link from '../components/Link'
 import Main from '../components/Main'
-import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
 import PageTitle from '../components/PageTitle'
 import PasswordInput from '../components/PasswordInput'
@@ -33,16 +33,32 @@ const title = 'Register'
 
 class Register extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    email: '',
+    registering: false,
+    password: '',
+    status: null,
+    username: '',
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  static _anonymizeEmail (email) {
+  static _anonymizeEmail = email => {
     const [user, host] = email.split('@')
 
     return `${user.split('').fill('*', 1).join('')}@${host}`
   }
 
-  async _onSubmit (event) {
+  _onSubmit = async event => {
     const {
       email,
       password,
@@ -61,6 +77,18 @@ class Register extends Component {
     })
   }
 
+  _handleChange = event => {
+    const {
+      name,
+      value,
+    } = event.target
+    const newState = {}
+
+    newState[name] = value
+
+    this.setState(newState)
+  }
+
 
 
 
@@ -72,23 +100,6 @@ class Register extends Component {
   componentWillMount () {
     if (this.props.loggedIn) {
       Router.push('/')
-    }
-  }
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods([
-      '_handleChange',
-      '_onSubmit',
-    ])
-
-    this.state = {
-      email: '',
-      registering: false,
-      password: '',
-      status: null,
-      username: '',
     }
   }
 
@@ -110,7 +121,7 @@ class Register extends Component {
         </PageHeader>
 
         <Main title={title}>
-          {(!status && status !== 'error') && (
+          {!status && (
             <Form
               action="register"
               category="Authentication"
@@ -217,18 +228,20 @@ class Register extends Component {
       </React.Fragment>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['register']
 }
 
 
 
 
 
-const mapDispatchToProps = ['register']
-
-
-
-
-
-export default Page(Register, {
-  mapDispatchToProps,
-})
+export default connect(Register)

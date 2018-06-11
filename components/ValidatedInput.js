@@ -1,7 +1,8 @@
 // Module imports
-import { orderBy } from 'lodash'
-import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { orderBy } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 
 
@@ -32,9 +33,7 @@ class ValidatedInput extends Component {
 
     this._handleInteraction()
 
-    if (onBlur) {
-      onBlur(event)
-    }
+    onBlur(event)
   }
 
   _handleInput (event) {
@@ -42,9 +41,7 @@ class ValidatedInput extends Component {
 
     this._handleInteraction()
 
-    if (onInput) {
-      onInput(event)
-    }
+    onInput(event)
   }
 
   _handleInteraction () {
@@ -56,6 +53,7 @@ class ValidatedInput extends Component {
   }
 
   _validate (messages = []) {
+    const { onValidate } = this.props
     const {
       badInput,
       patternMismatch,
@@ -64,20 +62,20 @@ class ValidatedInput extends Component {
       typeMismatch,
       valid,
       valueMissing,
-    } = this._el.validity
+    } = this._input.validity
 
     if (!valid) {
       if (badInput || typeMismatch) {
-        const defaultMessage = invalidTypeMessages[this._el.type] || `Doesn't match field type (${this._el.type})`
+        const defaultMessage = invalidTypeMessages[this._input.type] || `Doesn't match field type (${this._input.type})`
 
         messages.push({
           icon: 'exclamation-triangle',
-          message: this._el.getAttribute('data-badinput-explainer') || defaultMessage,
+          message: this._input.getAttribute('data-badinput-explainer') || defaultMessage,
         })
       }
 
       if (patternMismatch) {
-        const message = this._el.getAttribute('data-pattern-explainer')
+        const message = this._input.getAttribute('data-pattern-explainer')
 
         if (message) {
           messages.push({
@@ -90,33 +88,31 @@ class ValidatedInput extends Component {
       if (tooLong) {
         messages.push({
           icon: 'exclamation-triangle',
-          message: this._el.getAttribute('data-maxlength-explainer') || `Must be fewer than ${this._el.getAttribute('maxlength')} characters`,
+          message: this._input.getAttribute('data-maxlength-explainer') || `Must be fewer than ${this._input.getAttribute('maxlength')} characters`,
         })
       }
 
       if (tooShort) {
         messages.push({
           icon: 'exclamation-triangle',
-          message: this._el.getAttribute('data-minlength-explainer') || `Must be longer than ${this._el.getAttribute('minlength')} characters`,
+          message: this._input.getAttribute('data-minlength-explainer') || `Must be longer than ${this._input.getAttribute('minlength')} characters`,
         })
       }
 
       if (valueMissing) {
         messages.push({
           icon: 'exclamation-triangle',
-          message: this._el.getAttribute('data-required-explainer') || 'This field is required',
+          message: this._input.getAttribute('data-required-explainer') || 'This field is required',
         })
       }
     }
 
     this.setState({ messages: orderBy(messages, ['priority'], ['desc']) })
 
-    if (this.props.onValidate) {
-      this.props.onValidate({
-        type: 'validate',
-        target: this._el,
-      })
-    }
+    onValidate({
+      type: 'validate',
+      target: this._input,
+    })
   }
 
 
@@ -128,7 +124,7 @@ class ValidatedInput extends Component {
   \***************************************************************************/
 
   componentDidMount () {
-    if (this._el.value) {
+    if (this._input.value) {
       this._validate()
     }
   }
@@ -166,8 +162,8 @@ class ValidatedInput extends Component {
   }
 
   isValid () {
-    if (this._el) {
-      return this._el.validity.valid
+    if (this._input) {
+      return this._input.validity.valid
     }
 
     return true
@@ -245,14 +241,36 @@ class ValidatedInput extends Component {
       ...this.props,
       onBlur: this._handleBlur,
       onInput: this._handleInput,
-      ref: _el => this._el = _el,
+      ref: _input => {
+        this.props.inputRef(_input)
+        this._input = _input
+      },
     }
 
-    delete renderProps.onValidate
     delete renderProps.className
+    delete renderProps.inputRef
+    delete renderProps.onValidate
 
     return renderProps
   }
+}
+
+
+
+
+
+ValidatedInput.defaultProps = {
+  inputRef: () => {},
+  onBlur: () => {},
+  onInput: () => {},
+  onValidate: () => {},
+}
+
+ValidatedInput.propTypes = {
+  inputRef: PropTypes.func,
+  onBlur: PropTypes.func,
+  onInput: PropTypes.func,
+  onValidate: PropTypes.func,
 }
 
 

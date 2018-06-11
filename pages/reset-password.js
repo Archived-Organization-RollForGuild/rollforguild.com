@@ -7,13 +7,13 @@ import React from 'react'
 
 
 // Component imports
-import { activateZenDesk } from '../helpers'
+import activateZenDesk from '../helpers/activateZenDesk'
 import Button from '../components/Button'
 import Component from '../components/Component'
+import connect from '../helpers/connect'
 import Form from '../components/Form'
 import Link from '../components/Link'
 import Main from '../components/Main'
-import Page from '../components/Page'
 import PageHeader from '../components/PageHeader'
 import PageTitle from '../components/PageTitle'
 import PasswordInput from '../components/PasswordInput'
@@ -32,14 +32,29 @@ const title = 'Reset Password'
 
 class Login extends Component {
   /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  state = {
+    password: '',
+    resetting: false,
+    status: null,
+    token: this.props.query.token || '',
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  _handleChange ({ target }) {
+  _handleChange = ({ target }) => {
     this.setState({ [target.name]: target.value })
   }
 
-  async _onSubmit (event) {
+  _onSubmit = async event => {
     const {
       password,
       token,
@@ -64,22 +79,6 @@ class Login extends Component {
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods([
-      '_handleChange',
-      '_onSubmit',
-    ])
-
-    this.state = {
-      password: '',
-      resetting: false,
-      status: null,
-      token: props.query.token || '',
-    }
-  }
 
   render () {
     const {
@@ -181,18 +180,12 @@ class Login extends Component {
       </React.Fragment>
     )
   }
+
+  static mapDispatchToProps = ['resetPassword']
 }
 
 
 
 
 
-const mapDispatchToProps = ['resetPassword']
-
-
-
-
-
-export default Page(Login, {
-  mapDispatchToProps,
-})
+export default connect(Login)

@@ -9,7 +9,7 @@ import { Fragment } from 'react'
 // Component imports
 import Link from '../../components/Link'
 import Component from '../../components/Component'
-import Page from '../../components/Page'
+import connect from '../../helpers/connect'
 
 
 
@@ -17,16 +17,26 @@ import Page from '../../components/Page'
 
 // style={{ backgroundImage: `url(//via.placeholder.com/500x500?text=${encodeURIComponent(character.name)})` }}
 class MyCharacters extends Component {
+  /***************************************************************************\
+    Properties
+  \***************************************************************************/
+
+  static authenticationRequired = true
+
+  state = { loading: true }
+
+
+
+
+
+  /***************************************************************************\
+    Public Methods
+  \***************************************************************************/
+
   async componentDidMount () {
     this.setState({ loading: true })
     await this.props.getCharactersForUser()
     this.setState({ loading: false })
-  }
-
-  constructor (props) {
-    super(props)
-
-    this.state = { loading: true }
   }
 
   render () {
@@ -81,23 +91,24 @@ class MyCharacters extends Component {
       </Fragment>
     )
   }
+
+
+
+
+
+  /***************************************************************************\
+    Redux Maps
+  \***************************************************************************/
+
+  static mapDispatchToProps = ['getCharactersForUser']
+
+  static mapStateToProps = state => ({
+    characters: state.characters.characters, //.filter(character => character.owner === state.user.id),
+  })
 }
 
 
 
 
 
-const mapDispatchToProps = ['getCharactersForUser']
-
-const mapStateToProps = state => ({
-  characters: state.characters.characters, //.filter(character => character.owner === state.user.id),
-})
-
-
-
-
-
-export default Page(MyCharacters, {
-  mapStateToProps,
-  mapDispatchToProps,
-}, true)
+export default connect(MyCharacters)

@@ -96,13 +96,14 @@ class Dropdown extends Component {
         }
         break
 
+      case 'escape':
+        event.preventDefault()
+        this._input.blur()
+        break
+
       default:
         break
     }
-  }
-
-  _toggleFocus () {
-    this.setState({ focused: !this.state.focused })
   }
 
   _handleOptionMouseOver (option) {
@@ -134,6 +135,25 @@ class Dropdown extends Component {
     }
   }
 
+  _handleScroll () {
+    const {
+      offsetHeight,
+      offsetParent,
+      offsetTop,
+    } = this._wrapper
+
+    const twentyPercentFromBottom = (offsetParent.offsetHeight * 0.8) + offsetParent.scrollTop
+    const dropdownShouldDropUp = (offsetTop + offsetHeight) > twentyPercentFromBottom
+
+    if (dropdownShouldDropUp !== this.state.dropup) {
+      this.setState({ dropup: dropdownShouldDropUp })
+    }
+  }
+
+  _toggleFocus () {
+    this.setState({ focused: !this.state.focused })
+  }
+
 
 
 
@@ -142,9 +162,21 @@ class Dropdown extends Component {
     Public Methods
   \***************************************************************************/
 
+  componentDidMount () {
+    if ((typeof window !== 'undefined') && this._wrapper.offsetParent) {
+      this._wrapper.offsetParent.addEventListener('scroll', this._handleScroll)
+    }
+  }
+
   componentWillReceiveProps (nextProps) {
     if (this.props.value !== nextProps.value) {
       this.setState({ value: nextProps.value })
+    }
+  }
+
+  componentWillUnmount () {
+    if (this._wrapper && this._wrapper.offsetParent) {
+      this._wrapper.offsetParent.removeEventListener('scroll', this._handleScroll)
     }
   }
 
@@ -158,11 +190,18 @@ class Dropdown extends Component {
       '_handleKeyDown',
       '_handleOptionMouseOver',
       '_handleOptionSelect',
+      '_handleScroll',
       '_toggleFocus',
     ])
 
+    this._debounceMethods([{
+      method: '_handleScroll',
+      length: 10,
+    }])
+
     this.state = {
       activeOption: null,
+      dropup: false,
       focused: false,
       value: props.value || props.defaultValue || '',
     }
@@ -179,6 +218,7 @@ class Dropdown extends Component {
     } = this.props
     const {
       activeOption,
+      dropup,
       focused,
       value,
     } = this.state
@@ -186,6 +226,10 @@ class Dropdown extends Component {
     const { filteredOptions } = this
 
     const classes = ['dropdown']
+
+    if (dropup) {
+      classes.push('dropup')
+    }
 
     if (focused) {
       classes.push('focus')
@@ -200,7 +244,9 @@ class Dropdown extends Component {
     }
 
     return (
-      <div className={classes.join(' ')}>
+      <div
+        className={classes.join(' ')}
+        ref={_wrapper => this._wrapper = _wrapper}>
         <ValidatedInput
           {...this.renderProps}
           autoComplete="off"
@@ -209,10 +255,12 @@ class Dropdown extends Component {
           onFocus={this._handleFocus}
           onKeyDown={this._handleKeyDown}
           readOnly={readOnly || !searchable}
-          ref={_input => this._input = _input}
+          inputRef={_input => this._input = _input}
           value={renderValue(value)} />
 
-        <ul className="options">
+        <ul
+          className="options"
+          ref={_optionsEl => this._optionsEl = _optionsEl}>
           {filteredOptions.map(option => {
             const renderedOption = renderOption(option)
 

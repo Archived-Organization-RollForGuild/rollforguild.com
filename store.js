@@ -25,6 +25,7 @@ import * as groupsActions from './store/actions/groups'
 import * as rulesetsActions from './store/actions/rulesets'
 import * as forumsActions from './store/actions/forums'
 import * as usersActions from './store/actions/users'
+import * as wordpressActions from './store/actions/wordpress'
 
 
 
@@ -41,6 +42,7 @@ export const actions = {
   ...rulesetsActions,
   ...forumsActions,
   ...usersActions,
+  ...wordpressActions,
 }
 
 
