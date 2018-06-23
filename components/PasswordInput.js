@@ -43,7 +43,7 @@ class PasswordInput extends ValidatedInput {
     if (showSuggestions && passwordEvaluation.feedback.suggestions.length) {
       for (const suggestion of passwordEvaluation.feedback.suggestions) {
         messages.push({
-          icon: 'exclamation-circle',
+          icon: 'comment',
           type: 'info',
           message: `Suggestion: ${suggestion}`,
           priority: -1,
