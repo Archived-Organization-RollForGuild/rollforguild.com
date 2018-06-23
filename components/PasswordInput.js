@@ -36,6 +36,7 @@ class PasswordInput extends ValidatedInput {
         message: passwordEvaluation.feedback.warning,
         priority: 99,
       })
+
       isValid = false
     }
 
@@ -48,7 +49,6 @@ class PasswordInput extends ValidatedInput {
           priority: -1,
         })
       }
-      isValid = false
     }
 
     this.setState({
