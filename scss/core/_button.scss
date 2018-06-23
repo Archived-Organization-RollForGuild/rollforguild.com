@@ -1,5 +1,3 @@
-$border-color: $green;
-
 button,
 .button {
   align-items: center;
@@ -75,8 +73,8 @@ button,
     color: $white;
 
     &:hover {
-      background-color: #e12e1c;
-      border-color: #d62c1a;
+      background-color: $error-background-color;
+      border-color: $error-border-color;
     }
 
     &:disabled,
@@ -87,19 +85,19 @@ button,
   }
 
   &.info {
-    background-color: #3498db;
-    border-color: #3498db;
+    background-color: $info-background-color;
+    border-color: $info-background-color;
     color: $white;
 
     &:hover {
-      background-color: #2384c6;
-      border-color: #217dbb;
+      background-color: $info-background-color;
+      border-color: $info-background-color;
     }
 
     &:disabled,
     &.disabled {
-      background-color: #3498db;
-      border-color: #3498db;
+      background-color: $info-background-color;
+      border-color: $info-background-color;
     }
   }
 
@@ -143,8 +141,8 @@ button,
   }
 
   &.success {
-    background-color: #00bc8c;
-    color: $white;
+    background-color: $success-background-color;
+    color: $success-text-color;
 
     &:hover {
       background-color: #009670;
@@ -152,7 +150,7 @@ button,
 
     &:disabled,
     &.disabled {
-      background-color: $green;
+      background-color: $success-background-color;
     }
   }
 
@@ -173,8 +171,8 @@ button,
     }
 
     &[data-on=true] {
-      background-color: #3498db;
-      border-color: #3498db;
+      background-color: $info-background-color;
+      border-color: $info-border-color;
       color: $white;
 
       &:hover {
@@ -184,8 +182,8 @@ button,
 
       &:disabled,
       &.disabled {
-        background-color: #3498db;
-        border-color: #3498db;
+        background-color: $info-background-color;
+        border-color: $info-border-color;
       }
     }
   }
