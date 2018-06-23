@@ -139,7 +139,7 @@ class PasswordInput extends ValidatedInput {
         <FontAwesomeIcon
           className="validity-indicator"
           data-t="password-input:validity-icon"
-          hidden={!hasBeenFocused}
+          hidden={!hasBeenFocused || this.isValid()}
           icon="exclamation-triangle"
           fixedWidth />
 
