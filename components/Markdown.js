@@ -30,11 +30,20 @@ class Markdown extends React.Component {
   \***************************************************************************/
 
   get renderProps () {
-    const { input } = this.props
+    const {
+      className,
+      input,
+    } = this.props
+    const classes = ['markdown']
     const renderProps = { ...this.props }
 
     delete renderProps.input
 
+    if (className) {
+      classes.push(className)
+    }
+
+    renderProps.className = classes.join(' ')
     renderProps.dangerouslySetInnerHTML = { __html: marked(input) }
 
     return renderProps
