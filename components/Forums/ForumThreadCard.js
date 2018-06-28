@@ -1,6 +1,5 @@
 // Module imports
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import moment from 'moment'
@@ -14,6 +13,7 @@ import React from 'react'
 import { actions } from '../../store'
 import Avatar from '../Avatar'
 import Component from '../Component'
+import connect from '../../helpers/connect'
 import Link from '../Link'
 import Markdown from '../Markdown'
 
@@ -23,10 +23,24 @@ import Markdown from '../Markdown'
 
 class ForumThreadCard extends Component {
   /***************************************************************************\
+    Class properties
+  \***************************************************************************/
+
+  state = {
+    user: null,
+    removing: false,
+    removed: false,
+  }
+
+
+
+
+
+  /***************************************************************************\
     Private Methods
   \***************************************************************************/
 
-  async _handleRemoveButtonClick (event) {
+  _handleRemoveButtonClick = async event => {
     const {
       name,
     } = event.target
@@ -62,6 +76,10 @@ class ForumThreadCard extends Component {
     }
   }
 
+
+
+
+
   /***************************************************************************\
     Public Methods
   \***************************************************************************/
@@ -79,20 +97,6 @@ class ForumThreadCard extends Component {
     }
 
     this.setState({ user })
-  }
-
-  constructor (props) {
-    super(props)
-
-    this._bindMethods([
-      '_handleRemoveButtonClick',
-    ])
-
-    this.state = {
-      user: null,
-      removing: false,
-      removed: false,
-    }
   }
 
 
@@ -217,6 +221,29 @@ class ForumThreadCard extends Component {
       </div>
     )
   }
+
+  static mapDispatchToProps = dispatch => bindActionCreators({
+    getUser: actions.getUser,
+    deleteForumThread: actions.deleteForumThread,
+  }, dispatch)
+
+  static mapStateToProps = (state, ownProps) => {
+    const {
+      thread,
+    } = ownProps
+
+    const posterId = thread && thread.relationships && thread.relationships.users && thread.relationships.users.id
+    const user = state.users[posterId] || null
+
+    const currentUserId = Cookies.get('userId') || null
+    const currentUserIsPoster = Boolean(posterId && currentUserId && posterId === currentUserId)
+
+    return {
+      currentUserIsPoster,
+      posterId,
+      user,
+    }
+  }
 }
 
 ForumThreadCard.defaultProps = {
@@ -237,33 +264,4 @@ ForumThreadCard.propTypes = {
 
 
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  getUser: actions.getUser,
-  deleteForumThread: actions.deleteForumThread,
-}, dispatch)
-
-const mapStateToProps = (state, ownProps) => {
-  const {
-    thread,
-  } = ownProps
-
-  const posterId = thread && thread.relationships && thread.relationships.users && thread.relationships.users.id
-  const user = state.users[posterId] || null
-
-  const currentUserId = Cookies.get('userId') || null
-
-
-  const currentUserIsPoster = Boolean(posterId && currentUserId && posterId === currentUserId)
-
-  return {
-    currentUserIsPoster,
-    posterId,
-    user,
-  }
-}
-
-
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(ForumThreadCard)
+export default connect(ForumThreadCard)
