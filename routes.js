@@ -28,8 +28,10 @@ routes
   .add('group manage', '/groups/manage', '/groups/manage')
   .add('group search', '/groups/search', '/groups/search')
   .add('group events', '/groups/:id/events', '/groups/events')
-  .add('group profile', '/groups/:id/(details)?', '/groups/profile')
-  // .add('group profile', '/groups/:id/:tab(events|join-requests|members|settings)?', '/groups/profile')
+  .add('group join-requests', '/groups/:id/join-requests', '/groups/join-requests')
+  .add('group members', '/groups/:id/members', '/groups/members')
+  .add('group settings', '/groups/:id/settings', '/groups/settings')
+  .add('group profile', '/groups/:id', '/groups/profile')
 
   // Password reset
   .add('password forgot', '/forgot-password', '/forgot-password')
