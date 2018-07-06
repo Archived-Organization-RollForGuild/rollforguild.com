@@ -5,7 +5,8 @@ import parseJSONAPIResponseForEntityType from '../../helpers/parseJSONAPIRespons
 
 
 
-
+const adminRoles = ['owner', 'admin']
+const memberRoles = ['owner', 'admin', 'member']
 
 export default function (state = initialState.groups, action) {
   const {
@@ -20,6 +21,13 @@ export default function (state = initialState.groups, action) {
     case actionTypes.GET_USER:
       if (status === 'success') {
         const newGroups = parseJSONAPIResponseForEntityType(payload, 'groups', true)
+
+        for (const [key, group] of Object.entries(newGroups)) {
+          newGroups[key].attributes.currentUserIsAdmin = adminRoles.includes(group.attributes.member_status)
+          newGroups[key].attributes.currentUserIsMember = memberRoles.includes(group.attributes.member_status)
+        }
+
+
         return deepMergeJSONAPIObjectCollections(state, newGroups)
       }
       return { ...state }
