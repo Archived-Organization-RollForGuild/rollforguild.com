@@ -114,6 +114,7 @@ class GroupPage extends Component {
       group,
       id,
       members,
+      slug: id,
       currentUserId: state.authentication.userId || null,
     }
   }
