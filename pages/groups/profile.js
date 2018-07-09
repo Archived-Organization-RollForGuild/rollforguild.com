@@ -44,7 +44,6 @@ class GroupProfile extends GroupPage {
       currentUserIsMember,
       geo,
       name,
-      slug,
     } = group.attributes
 
     return (
@@ -53,7 +52,6 @@ class GroupProfile extends GroupPage {
           currentUserId={currentUserId}
           currentPage="details"
           group={group}
-          slug={slug}
           title={name} />
 
         <Main title={title}>

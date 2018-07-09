@@ -95,11 +95,8 @@ class GroupEvents extends GroupPage {
     const {
       currentUserId,
       group,
-      slug,
     } = this.props
-    const {
-      eventData,
-    } = this.state
+    const { eventData } = this.state
 
     return (
       <React.Fragment>
@@ -107,7 +104,6 @@ class GroupEvents extends GroupPage {
           currentUserId={currentUserId}
           currentPage="events"
           group={group}
-          slug={slug}
           title={title} />
         <Main title={title}>
           <GroupEventsPanel

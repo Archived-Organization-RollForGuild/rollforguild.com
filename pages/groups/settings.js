@@ -32,7 +32,6 @@ class GroupEvents extends GroupPage {
     const {
       currentUserId,
       group,
-      slug,
     } = this.props
 
     return (
@@ -41,7 +40,6 @@ class GroupEvents extends GroupPage {
           currentPage="settings"
           currentUserId={currentUserId}
           group={group}
-          slug={slug}
           title={title} />
         <Main title={title}>
           <div className="profile">

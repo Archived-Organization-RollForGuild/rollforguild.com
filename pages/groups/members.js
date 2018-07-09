@@ -76,23 +76,19 @@ class GroupEvents extends GroupPage {
       currentUserId,
       group,
       members,
-      slug,
     } = this.props
 
     const {
       leaving,
     } = this.state
 
-    const {
-      currentUserIsAdmin,
-    } = group.attributes
+    const { currentUserIsAdmin } = group.attributes
 
     return (
       <React.Fragment>
         <GroupHeader
           currentUserId={currentUserId}
           group={group}
-          slug={slug}
           title={title} />
         <Main title={title}>
           <div className="profile">

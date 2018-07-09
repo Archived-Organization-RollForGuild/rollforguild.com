@@ -73,7 +73,6 @@ class GroupHeader extends Component {
     const {
       currentUserId,
       group,
-      slug,
       title,
     } = this.props
 
@@ -88,6 +87,7 @@ class GroupHeader extends Component {
       description,
       currentUserIsAdmin,
       currentUserIsMember,
+      slug,
     } = group.attributes
 
     return (
