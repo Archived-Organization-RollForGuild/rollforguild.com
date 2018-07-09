@@ -16,7 +16,6 @@ import Avatar from './Avatar'
 
 const GroupCard = (props) => {
   const { group } = props
-
   const {
     description,
     distance,
@@ -61,9 +60,15 @@ const GroupCard = (props) => {
   )
 }
 
+
+
+
+
 GroupCard.propTypes = {
   group: PropTypes.object.isRequired,
 }
+
+
 
 
 

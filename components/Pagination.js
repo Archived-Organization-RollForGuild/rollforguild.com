@@ -104,10 +104,10 @@ class Pagination extends Component {
           category={category}
           className="previous secondary"
           data-t="pagination:button:previous"
-          disabled={currentPage === 1}
+          disabled={!totalPageCount || (currentPage === 1)}
           label={label}
           onClick={() => onPageChange(currentPage - 1)}
-          value={currentPage - 1}>
+          value={currentPage ? currentPage - 1 : null}>
           Previous
         </Button>
 
@@ -124,10 +124,10 @@ class Pagination extends Component {
           category={category}
           className="next secondary"
           data-t="pagination:button:next"
-          disabled={currentPage === totalPageCount}
+          disabled={!totalPageCount || (currentPage === totalPageCount)}
           label={label}
           onClick={() => onPageChange(currentPage + 1)}
-          value={currentPage + 1}>
+          value={currentPage ? currentPage + 1 : null}>
           Next
         </Button>
       </nav>
@@ -142,7 +142,7 @@ class Pagination extends Component {
 Pagination.defaultProps = {
   pagesToRender: 5,
   showPageLinks: true,
-  totalPageCount: 1,
+  totalPageCount: 0,
 }
 
 Pagination.propTypes = {

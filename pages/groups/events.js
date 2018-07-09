@@ -62,7 +62,10 @@ class GroupEvents extends GroupPage {
       return
     }
 
-    const { payload, status } = await getGroupEvents(group.id, newPage)
+    const {
+      payload,
+      status,
+    } = await getGroupEvents(group.id, newPage)
 
     if (status === 'success') {
       this.setState({
@@ -107,12 +110,10 @@ class GroupEvents extends GroupPage {
           slug={slug}
           title={title} />
         <Main title={title}>
-          <div className="profile">
-            <GroupEventsPanel
-              {...eventData}
-              onPageChange={this._loadEvents}
-              group={group} />
-          </div>
+          <GroupEventsPanel
+            {...eventData}
+            onPageChange={this._loadEvents}
+            group={group} />
         </Main>
       </React.Fragment>
     )

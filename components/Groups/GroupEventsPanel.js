@@ -92,6 +92,8 @@ class GroupEventsPanel extends Component {
             </ul>
           )}
 
+          {console.log('totalPages', totalPages)}
+          {console.log('page', page)}
           {loaded && (
             <Pagination
               category="Groups"
