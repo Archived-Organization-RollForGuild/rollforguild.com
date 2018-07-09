@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 
 import Link from './Link'
 
@@ -7,8 +6,8 @@ import Link from './Link'
 
 
 
-const PageNavigation = props => ReactDOM.createPortal(
-  (
+const PageNavigation = props => (
+  <nav className="page" id="page-navigation">
     <ul>
       {props.pages.map(page => {
         const {
@@ -28,8 +27,7 @@ const PageNavigation = props => ReactDOM.createPortal(
         )
       })}
     </ul>
-  ),
-  document.getElementById('page-navigation')
+  </nav>
 )
 
 

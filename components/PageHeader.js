@@ -15,7 +15,6 @@ const PageHeader = props => (
     </label>
 
     {props.children}
-    <nav id="page-navigation" />
   </header>
 )
 

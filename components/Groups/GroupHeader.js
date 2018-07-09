@@ -105,8 +105,6 @@ class GroupHeader extends Component {
           <meta property="og:url" content={`https://rfg.group/${slug}`} />
         </Head>
 
-        <GroupNavigation activePage="details" slug={slug} />
-
         <PageHeader>
           <h1>{title}</h1>
 
@@ -149,6 +147,8 @@ class GroupHeader extends Component {
               )}
             </menu>
           </aside>
+
+          <GroupNavigation activePage="details" slug={slug} />
         </PageHeader>
 
         {showRegistrationModal && (
