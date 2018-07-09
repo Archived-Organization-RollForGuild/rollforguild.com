@@ -36,19 +36,19 @@ class PasswordInput extends ValidatedInput {
         message: passwordEvaluation.feedback.warning,
         priority: 99,
       })
+
       isValid = false
     }
 
     if (showSuggestions && passwordEvaluation.feedback.suggestions.length) {
       for (const suggestion of passwordEvaluation.feedback.suggestions) {
         messages.push({
-          icon: 'exclamation-circle',
+          icon: 'comment',
           type: 'info',
           message: `Suggestion: ${suggestion}`,
           priority: -1,
         })
       }
-      isValid = false
     }
 
     this.setState({
@@ -139,7 +139,7 @@ class PasswordInput extends ValidatedInput {
         <FontAwesomeIcon
           className="validity-indicator"
           data-t="password-input:validity-icon"
-          hidden={!hasBeenFocused}
+          hidden={!hasBeenFocused || this.isValid()}
           icon="exclamation-triangle"
           fixedWidth />
 

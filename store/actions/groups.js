@@ -88,6 +88,7 @@ export const searchForGroups = ({ lat, lng }, options) => createApiAction({
   params: {
     lat,
     lng,
+    limit: 10,
     ...options,
   },
   onError: 'Group search failed.\nPlease try again in a few moments.',

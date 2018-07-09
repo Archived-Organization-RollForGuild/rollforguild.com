@@ -18,11 +18,9 @@ import reducer from './store/reducers/index'
 import * as alertsActions from './store/actions/alerts'
 import * as authenticationActions from './store/actions/authentication'
 import * as avatarsActions from './store/actions/avatars'
-import * as charactersActions from './store/actions/characters'
 import * as eventsActions from './store/actions/events'
 import * as gamesActions from './store/actions/games'
 import * as groupsActions from './store/actions/groups'
-import * as rulesetsActions from './store/actions/rulesets'
 import * as forumsActions from './store/actions/forums'
 import * as usersActions from './store/actions/users'
 import * as wordpressActions from './store/actions/wordpress'
@@ -35,11 +33,9 @@ export const actions = {
   ...alertsActions,
   ...authenticationActions,
   ...avatarsActions,
-  ...charactersActions,
   ...eventsActions,
   ...gamesActions,
   ...groupsActions,
-  ...rulesetsActions,
   ...forumsActions,
   ...usersActions,
   ...wordpressActions,

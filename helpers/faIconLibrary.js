@@ -4,6 +4,7 @@ export {
   faBug,
   faCheck,
   faCodeBranch,
+  faComment,
   faComments,
   faCopy,
   faEnvelope,
