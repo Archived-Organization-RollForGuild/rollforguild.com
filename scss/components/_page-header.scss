@@ -2,7 +2,9 @@ header.page {
   background-color: $black;
   display: grid;
   grid-area: page-header;
-  grid-template-areas: 'title aside';
+  grid-template-areas:
+    'title aside'
+    'navigation navigation';
   grid-template-columns: 1fr max-content;
   height: min-content;
   padding: 1rem 2rem;
@@ -11,6 +13,10 @@ header.page {
   position: sticky;
   top: 0;
   z-index: 1;
+
+  aside {
+    grid-area: aside;
+  }
 
   label[for=application-banner-control] {
     display: none;
@@ -22,8 +28,30 @@ header.page {
     margin-bottom: 0;
   }
 
-  aside {
-    grid-area: aside;
+  nav {
+    font-family: Montserrat, sans-serif;
+    grid-area: navigation;
+
+    &:empty {
+      display: none;
+    }
+
+    a {
+      text-decoration-color: $transparent;
+      transition: text-decoration-color 0.2s;
+
+      &:hover {
+        text-decoration-color: $green;
+      }
+    }
+
+    li:not(:last-child) {
+      margin-right: 1rem;
+    }
+
+    ul {
+      display: flex;
+    }
   }
 
   @media (max-width: 1000px) {

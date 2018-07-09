@@ -150,6 +150,7 @@ class GroupHeader extends Component {
             </menu>
           </aside>
         </PageHeader>
+
         {showRegistrationModal && (
           <RegistrationDialog
             onClose={() => this.setState({ showRegistrationModal: false })}
