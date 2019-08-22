@@ -6,6 +6,9 @@ const routes = require('next-routes')()
 
 routes
   // About
+  .add('home', '/', '/index')
+
+  // About
   .add('about jobs', '/about/jobs', '/about/jobs')
   .add('about team', '/about/team', '/about/team')
   .add('about roadmap', '/roadmap', '/roadmap')
