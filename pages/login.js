@@ -99,7 +99,7 @@ class Login extends Component {
       }
       /* eslint-enable */
 
-      Router.pushRoute(searchParams.destination ? decodeURIComponent(searchParams.destination) : '/')
+      Router.pushRoute(searchParams.destination ? decodeURIComponent(searchParams.destination) : '/my/profile')
     }
   }
 
@@ -194,7 +194,10 @@ class Login extends Component {
       </React.Fragment>
     )
   }
+
   static mapDispatchToProps = ['login']
+
+  static mapStateToProps = ({ authentication }) => ({ loggedIn: authentication.loggedIn })
 }
 
 

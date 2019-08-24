@@ -1,18 +1,18 @@
 /*****************************************************************************\
-  variables
+  colors
 \*****************************************************************************/
 
-@import 'variables';
+@import 'colors';
 
 
 
 
 
 /*****************************************************************************\
-  colors
+  variables
 \*****************************************************************************/
 
-@import 'colors';
+@import 'variables';
 
 
 
@@ -78,18 +78,17 @@
 
 @import 'components/ability-score';
 @import 'components/ability-score-editor';
+@import 'components/alert-card';
 @import 'components/address-input';
 @import 'components/application-banner-control';
-@import 'components/avatar-uploader-dialog';
 @import 'components/avatar';
+@import 'components/avatar-uploader-dialog';
 @import 'components/background-chooser';
 @import 'components/brand';
 @import 'components/card';
-@import 'components/alert-card';
 @import 'components/card-list';
 @import 'components/character-list';
 @import 'components/character-review';
-@import 'components/chooser';
 @import 'components/date-time-picker';
 @import 'components/dropdown';
 @import 'components/error-box';
@@ -101,6 +100,7 @@
 @import 'components/leaflet';
 @import 'components/map';
 @import 'components/map-marker-label';
+@import 'components/markdown';
 @import 'components/page-header';
 @import 'components/pagination';
 @import 'components/profile';
