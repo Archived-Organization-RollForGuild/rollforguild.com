@@ -27,7 +27,7 @@
     "@fortawesome/react-fontawesome": "^0.1.0-11",
     "@zeit/next-sass": "^0.2.0",
     "autoprefixer": "^8.5.1",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^8.2.3",
     "babel-jest": "^23.0.0",
