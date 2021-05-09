@@ -71,7 +71,7 @@
     "leaflet-edgebuffer": "^1.0.6",
     "leaflet-geosearch": "^2.6.0",
     "localforage": "^1.7.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.21",
     "marked": "^0.4.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.22.1",
